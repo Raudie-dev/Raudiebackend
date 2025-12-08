@@ -1,31 +1,35 @@
 import os
 import django
-from tkinter import *
-from tkinter import messagebox
-from django.contrib.auth.hashers import make_password
+import getpass
 
 # Configura Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'proyecto.settings')
 django.setup()
 
 from app2.models import User_admin
+from django.contrib.auth.hashers import make_password
 
-def registrar_usuario():
-    nombre = entry_nombre.get()
-    password = entry_password.get()
-    email = entry_email.get()
-    telefono = entry_telefono.get()
-
-    if not nombre or not password:
-        messagebox.showerror("Error", "Nombre y contraseña son obligatorios.")
+def registrar_usuario_console():
+    # Solicita datos por consola en lugar de usar Tkinter
+    nombre = input("Nombre: ").strip()
+    if not nombre:
+        print("Error: Nombre es obligatorio.")
         return
 
+    password = getpass.getpass("Contraseña: ").strip()
+    if not password:
+        print("Error: Contraseña es obligatoria.")
+        return
+
+    email = input("Email (opcional): ").strip()
+    telefono = input("Teléfono (opcional): ").strip()
+
     if User_admin.objects.filter(nombre=nombre).exists():
-        messagebox.showerror("Error", "El nombre de usuario ya existe.")
+        print("Error: El nombre de usuario ya existe.")
         return
 
     if email and User_admin.objects.filter(email=email).exists():
-        messagebox.showerror("Error", "El email ya está registrado.")
+        print("Error: El email ya está registrado.")
         return
 
     hashed_password = make_password(password)
@@ -36,39 +40,14 @@ def registrar_usuario():
         telefono=telefono if telefono else None
     )
     user.save()
-    messagebox.showinfo("Éxito", "Usuario registrado correctamente.")
-    entry_nombre.delete(0, END)
-    entry_password.delete(0, END)
-    entry_email.delete(0, END)
-    entry_telefono.delete(0, END)
+    print("Usuario registrado correctamente.")
 
-# Interfaz Tkinter
-root = Tk()
-root.title("Registro de Usuario Admin")
-root.geometry("350x300")
-root.resizable(False, False)
+def main():
+    while True:
+        registrar_usuario_console()
+        again = input("Registrar otro usuario? [y/N]: ").strip().lower()
+        if again != 'y':
+            break
 
-Label(root, text="Registro de Usuario", font=("Arial", 16)).pack(pady=10)
-
-frame = Frame(root)
-frame.pack(pady=10)
-
-Label(frame, text="Nombre:").grid(row=0, column=0, sticky=E, pady=5)
-entry_nombre = Entry(frame, width=25)
-entry_nombre.grid(row=0, column=1, pady=5)
-
-Label(frame, text="Contraseña:").grid(row=1, column=0, sticky=E, pady=5)
-entry_password = Entry(frame, show="*", width=25)
-entry_password.grid(row=1, column=1, pady=5)
-
-Label(frame, text="Email:").grid(row=2, column=0, sticky=E, pady=5)
-entry_email = Entry(frame, width=25)
-entry_email.grid(row=2, column=1, pady=5)
-
-Label(frame, text="Teléfono:").grid(row=3, column=0, sticky=E, pady=5)
-entry_telefono = Entry(frame, width=25)
-entry_telefono.grid(row=3, column=1, pady=5)
-
-Button(root, text="Registrar", command=registrar_usuario, width=15, bg="#4CAF50", fg="white").pack(pady=15)
-
-root.mainloop()
+if __name__ == '__main__':
+    main()

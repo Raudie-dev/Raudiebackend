@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .models import Prueba
+from django.shortcuts import render, get_object_or_404
+from .models import Prueba, Servicios, Proyecto
 
 # Create your views here.
 def index(request):
@@ -14,8 +14,31 @@ def index(request):
     if socio in ['si', 'no']:
         pruebas = pruebas.filter(socio=(socio == 'si'))
 
+    # Obtener servicios recientes para mostrar en tarjetas (últimos 6)
+    servicios = Servicios.objects.all().order_by('-id')[:6]
+
+    # NUEVO: obtener últimos 4 proyectos
+    proyectos = Proyecto.objects.all().order_by('-fecha', '-id')[:4]
+
     return render(request, 'index.html', {
         'pruebas': pruebas,
         'busqueda': busqueda,
         'socio': socio,
+        'servicios': servicios,
+        'proyectos': proyectos,  # agregado
     })
+
+# Nueva vista: detalle de un servicio
+def servicios_detalle(request, servicio_id):
+    servicio = get_object_or_404(Servicios, id=servicio_id)
+    return render(request, 'servicio_detalle.html', {'servicio': servicio})
+
+# Nueva vista: listado de proyectos con modal por proyecto
+def proyectos(request):
+    proyectos = Proyecto.objects.all().order_by('-fecha', '-id')
+    return render(request, 'proyectos.html', {'proyectos': proyectos})
+
+# Vista estática tipo "linktree" con enlaces fijos
+def enlaces(request):
+
+    return render(request, 'enlaces.html')

@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Proyectos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <style>
+    .card-proy { cursor: pointer; }
+    .card-proy .card-body { min-height: 90px; }
+    .carousel-item img { width:100%; height:400px; object-fit:cover; }
+    body { padding-top: 80px; }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="header">
+    <div class="container header-wrapper d-flex justify-content-between align-items-center">
+      <a href="{% url 'index' %}" class="logo">
+        <i class="fas fa-flask-vial me-2"></i>PruebasApp
+      </a>
+      <nav>
+        <ul class="nav-list d-flex gap-3 mb-0">
+          <li><a href="{% url 'index' %}" class="active nav-link"><i class="fas fa-table"></i> Registros</a></li>
+          <li><a href="#" class="nav-link"><i class="fas fa-info-circle"></i> Acerca</a></li>
+          <li><a href="#" class="nav-link"><i class="fas fa-envelope"></i> Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Proyectos</h2>
+      <a href="{% url 'control_proyectos' %}" class="btn btn-sm btn-outline-primary">Administrar proyectos</a>
+    </div>
+
+    <div class="row g-3">
+      {% for p in proyectos %}
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card card-proy h-100" >
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title mb-1">{{ p.titulo }}</h5>
+            <p class="card-subtitle text-muted mb-2">{{ p.cliente|default:"Cliente" }}</p>
+            <p class="small text-muted mb-2">{{ p.fecha }}</p>
+
+            <!-- NUEVO: badges de categorías y tecnologías en la tarjeta -->
+            <div class="mb-2">
+              {% for cat in p.categorias.all %}
+                <span class="badge bg-secondary me-1">{{ cat.nombre }}</span>
+              {% endfor %}
+              {% for tech in p.tecnologias.all %}
+                <span class="badge bg-info text-dark me-1">{{ tech.nombre }}</span>
+              {% endfor %}
+            </div>
+
+            <div class="mt-auto text-center">
+              <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalProyecto{{ p.id }}">
+                Ver detalle
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal detalle por proyecto -->
+      <div class="modal fade" id="modalProyecto{{ p.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">{{ p.titulo }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row g-3">
+                <div class="col-md-7">
+                  {% if p.fotos %}
+                  <div id="carouselProyecto{{ p.id }}" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                      {% for url in p.fotos %}
+                      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ url }}" class="d-block w-100" alt="foto {{ forloop.counter }}">
+                      </div>
+                      {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselProyecto{{ p.id }}" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Anterior</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselProyecto{{ p.id }}" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Siguiente</span>
+                    </button>
+                  </div>
+                  {% else %}
+                  <div class="bg-light text-center p-5">
+                    <i class="fas fa-image fa-3x text-muted"></i>
+                    <p class="mt-2 text-muted">No hay imágenes</p>
+                  </div>
+                  {% endif %}
+                </div>
+
+                <div class="col-md-5">
+                  <p class="text-muted mb-1"><strong>Cliente:</strong> {{ p.cliente|default:"-" }}</p>
+                  <p class="text-muted mb-3"><strong>Fecha:</strong> {{ p.fecha }}</p>
+
+                  <!-- NUEVO: mostrar categorías y tecnologías en detalle -->
+                  <p class="mb-2"><strong>Categorías:</strong>
+                    {% for cat in p.categorias.all %}
+                      <span class="badge bg-secondary me-1">{{ cat.nombre }}</span>
+                    {% empty %}
+                      <span class="text-muted">-</span>
+                    {% endfor %}
+                  </p>
+
+                  <p class="mb-3"><strong>Tecnologías:</strong>
+                    {% for tech in p.tecnologias.all %}
+                      <span class="badge bg-info text-dark me-1">{{ tech.nombre }}</span>
+                    {% empty %}
+                      <span class="text-muted">-</span>
+                    {% endfor %}
+                  </p>
+
+                  <h6>Descripción</h6>
+                  <p>{{ p.descripcion|linebreaks }}</p>
+
+                  <h6>Características</h6>
+                  <ul>
+                    {% for c in p.caracteristicas %}
+                      <li>{{ c }}</li>
+                    {% empty %}
+                      <li class="text-muted">No especificadas</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="{% url 'control_proyectos' %}" class="btn btn-secondary">Administrar</a>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <footer class="footer mt-5">
+    <div class="container footer-content text-center py-3">
+      <a href="{% url 'index' %}" class="footer-logo"><i class="fas fa-flask-vial"></i> PruebasApp</a>
+      <p class="mb-0">&copy; {{ now|date:"Y" }} PruebasApp</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
