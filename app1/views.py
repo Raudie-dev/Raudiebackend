@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Prueba, Servicios, Proyecto
+from .models import Prueba, Servicios, Proyecto, Categoria
 
 # Create your views here.
 def index(request):
@@ -36,7 +36,8 @@ def servicios_detalle(request, servicio_id):
 # Nueva vista: listado de proyectos con modal por proyecto
 def proyectos(request):
     proyectos = Proyecto.objects.all().order_by('-fecha', '-id')
-    return render(request, 'proyectos.html', {'proyectos': proyectos})
+    categorias = Categoria.objects.all()
+    return render(request, 'proyectos.html', {'proyectos': proyectos, 'categorias': categorias})
 
 # Vista estática tipo "linktree" con enlaces fijos
 def enlaces(request):

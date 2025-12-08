@@ -1,123 +1,310 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Registros de Prueba</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-</head>
-<body>
-    <!-- Navbar -->
-    <header class="header">
-        <div class="container header-wrapper">
-            <a href="{% url 'index' %}" class="logo">
-                <i class="fas fa-flask-vial me-2"></i>PruebasApp
-            </a>
-            <nav>
-                <ul class="nav-list">
-                    <li><a href="{% url 'index' %}" class="active"><i class="fas fa-table"></i> Registros</a></li>
-                    <li><a href="#"><i class="fas fa-info-circle"></i> Acerca</a></li>
-                    <li><a href="#"><i class="fas fa-envelope"></i> Contacto</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="welcome-area" style="padding-top: 120px;">
-        <div class="container">
-            <div class="welcome-content">
-                <div class="welcome-text">
-                    <h1><i class="fas fa-database"></i> Consulta de Registros</h1>
-                    <p>
-                        Visualiza y filtra los registros de pruebas de manera sencilla y dinámica.<br>
-                        Utiliza el buscador y los filtros para encontrar la información que necesitas.
-                    </p>
+        {% extends 'base_index.html' %}
+        {% load static %}
+
+        {% block title %}RauDie Web Developers - Transformando Ideas en Realidad Digital{% endblock %}
+
+        {% block content %}
+        <main>
+          <!-- Hero Section -->
+          <section id="hero" class="hero">
+            <div class="container">
+              <div class="hero-content">
+                <div class="hero-text">
+                  <div class="hero-badge">
+                    <i class="fas fa-rocket"></i>
+                    <span>Transformando Ideas en Realidad Digital</span>
+                  </div>
+                  <h1>RauDie <span class="text-gradient">Web</span> Developers</h1>
+                  <p>Desarrollamos sitios web modernos, eficientes y orientados a resultados para impulsar el crecimiento y la presencia digital de tu negocio.</p>
+                  <div class="hero-buttons">
+                    <a href="#contact" class="btn-primary">
+                      <span>Empezar ahora</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="{% url 'proyectos' %}" class="btn-secondary">
+                      <i class="fas fa-play"></i>
+                      <span>Ver nuestro trabajo</span>
+                    </a>
+                  </div>
                 </div>
-                <div class="welcome-image">
-                    <img src="{% static 'images/data_hero.png' %}" alt="Registros" style="max-width:350px;">
+                <div class="hero-visual">
+                  <div class="hero-video-container">
+                      <div class="gif-placeholder">
+                         <img src="{% static 'img/animacion-logo.gif' %}" alt="Animación Logo RauDie" class="hero-gif-img">
+                      </div>
+                    <!-- Elementos flotantes -->
+                    <div class="floating-element element-1">
+                      <i class="fas fa-code"></i>
+                    </div>
+                    <div class="floating-element element-2">
+                      <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="floating-element element-3">
+                      <i class="fas fa-database"></i>
+                    </div>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-
-
-    <section class="section section-dark" style="padding-top: 40px;">
-      <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 class="section-title" style="font-size:1.75rem;"><i class="fas fa-concierge-bell"></i> Servicios</h2>
-        </div>
-
-        <div class="row g-3">
-          {% for s in servicios %}
-          <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100 bg-dark text-white d-flex align-items-center justify-content-center" style="padding:1rem;">
-              <div class="card-body text-center">
-                <h5 class="card-title mb-2">{{ s.nombre }}</h5>
-                <p class="card-text h5 text-success mb-3">${{ s.precio }}</p>
-                <a href="{% url 'servicio_detalle' s.id %}" class="btn btn-sm btn-outline-light">Ver detalle</a>
               </div>
             </div>
-          </div>
-          {% empty %}
-          <div class="col-12">
-            <p class="text-muted">No hay servicios para mostrar.</p>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </section>
+            <div class="hero-bg"></div>
+          </section>
 
-    <!-- NUEVA SECCIÓN: ÚLTIMOS PROYECTOS -->
-<section class="section section-light" style="padding-top: 40px;">
-  <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="section-title" style="font-size:1.75rem;"><i class="fas fa-briefcase"></i> Últimos proyectos</h2>
-      <a href="{% url 'proyectos' %}" class="btn btn-sm btn-outline-primary">Ver más proyectos</a>
-    </div>
-
-    <div class="row g-3">
-      {% for p in proyectos %}
-      <div class="col-sm-6 col-md-3">
-        <div class="card h-100">
-          <div class="card-body text-center">
-            <h6 class="card-title mb-2">{{ p.titulo }}</h6>
-            <p class="card-subtitle text-muted mb-1">{{ p.cliente|default:"Cliente" }}</p>
-            <p class="small text-muted mb-2">{{ p.fecha }}</p>
-
-            <!-- NUEVO: badges de categorías y tecnologías -->
-            <div class="mb-2">
-              {% for cat in p.categorias.all %}
-                <span class="badge bg-secondary me-1">{{ cat.nombre }}</span>
-              {% endfor %}
-              {% for tech in p.tecnologias.all %}
-                <span class="badge bg-info text-dark me-1">{{ tech.nombre }}</span>
-              {% endfor %}
+          <!-- About Section -->
+          <section id="about" class="about section">
+            <div class="container">
+              <div class="about-content">
+                <div class="about-text">
+                  <div class="section-badge">
+                    <i class="fas fa-users"></i>
+                    <span>¿Quiénes Somos?</span>
+                  </div>
+                  <h2>Transformando Ideas en <span class="text-gradient">Realidad Digital</span></h2>
+                  <p class="about-description">
+                    En RauDie Software, somos un equipo apasionado por la tecnología y el desarrollo de software. 
+                    Nos especializamos en soluciones front-end y back-end, ofreciendo innovación y eficiencia en cada proyecto.
+                  </p>
+                  <div class="features-grid">
+                    <div class="feature-item">
+                      <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                      </div>
+                      <div class="feature-content">
+                        <h3>Innovación</h3>
+                        <p>Expertos en desarrollo front-end y back-end, ofreciendo soluciones personalizadas para empresas en crecimiento.</p>
+                      </div>
+                    </div>
+                    <div class="feature-item">
+                      <div class="feature-icon">
+                        <i class="fas fa-handshake"></i>
+                      </div>
+                      <div class="feature-content">
+                        <h3>Colaboración</h3>
+                        <p>Trabajamos de la mano con nuestros clientes, entendiendo sus necesidades y objetivos.</p>
+                      </div>
+                    </div>
+                    <div class="feature-item">
+                      <div class="feature-icon">
+                        <i class="fas fa-award"></i>
+                      </div>
+                      <div class="feature-content">
+                        <h3>Calidad</h3>
+                        <p>Nos comprometemos a entregar productos robustos y escalables que superen las expectativas.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="about-visual">
+                  <div class="about-image">
+                    <img src="https://online.usc.edu/wp-content/uploads/2025/03/Software-Engineer.png" alt="Equipo de desarrollo">
+                    <div class="floating-stats">
+                      <div class="floating-stat">
+                        <span class="stat-number">3+</span>
+                        <span class="stat-label">Años de Experiencia</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </section>
 
-          </div>
-        </div>
-      </div>
-      {% empty %}
-      <div class="col-12">
-        <p class="text-muted">No hay proyectos recientes.</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
+          <!-- TikTok Section -->
+          <section class="tiktok-section section">
+            <div class="container">
+              <div class="tiktok-content">
+                <div class="tiktok-embed">
+                  <div class="tiktok-placeholder">
+                     <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@raudie.dev" data-unique-id="raudie.dev" data-embed-type="creator" style="max-width: 780px; min-width: 288px;" > <section> <a target="_blank" href="https://www.tiktok.com/@raudie.dev?refer=creator_embed">@raudie.dev</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>
+                  </div>
+                </div>
+                <div class="tiktok-info">
+                  <div class="section-badge">
+                    <i class="fab fa-tiktok"></i>
+                    <span>Conócenos</span>
+                  </div>
+                  <h2>Síguenos en <span class="text-gradient">TikTok</span></h2>
+                  <p>Síguenos en TikTok para descubrir tutoriales, consejos de programación y un vistazo exclusivo a nuestros
+                     proyectos más innovadores. ¡Aprende y diviértete con nuestro contenido tecnológico!</p>
 
-    <!-- Footer -->
-    <footer class="footer mt-5">
-        <div class="container footer-content">
-            <a href="{% url 'index' %}" class="footer-logo">
-                <i class="fas fa-flask-vial"></i> PruebasApp
-            </a>
-            <p>&copy; {{ now|date:"Y" }} PruebasApp. Todos los derechos reservados.</p>
-        </div>
-    </footer>
-</body>
-</html>
+                  <a href="https://www.tiktok.com/@raudie.dev" target="_blank" class="btn-primary">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>Visitar nuestro TikTok</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Services Section -->
+          <section id="services" class="services section">
+            <div class="container">
+              <div class="section-header">
+                <div class="section-badge">
+                  <i class="fas fa-cogs"></i>
+                  <span>Servicios</span>
+                </div>
+                <h2>¡Consulta Ya! <span class="text-gradient">Nuestros Servicios</span></h2>
+              </div>
+      
+              <!-- Services Carousel Container (dynamic from DB) -->
+              <div class="services-carousel-container">
+                <div class="services-carousel">
+                  {% if servicios and servicios.count %}
+                    {% for s in servicios %}
+                      <div class="service-card">
+                        <a href="{% url 'servicio_detalle' s.id %}">
+                          <div class="service-icon">
+                            {% if s.foto %}
+                              <img src="{{ s.foto.url }}" alt="{{ s.nombre }}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">
+                            {% else %}
+                              <i class="fas fa-cog"></i>
+                            {% endif %}
+                          </div>
+                          <h3>{{ s.nombre }}</h3>
+                          <p>{{ s.descripcion }}</p>
+                          <div class="service-price">{% if s.precio %}${{ s.precio }}{% else %}Consultar{% endif %}</div>
+                          <span class="service-link">Ver detalles <i class="fas fa-arrow-right"></i></span>
+                        </a>
+                      </div>
+                    {% endfor %}
+                  {% else %}
+                    <!-- fallback static cards -->
+                    <div class="service-card">
+                      <a href="servicios/enlaces.html" >
+                      <div class="service-icon">
+                        <i class="fas fa-link"></i>
+                      </div>
+                      <h3>Enlaces Personalizados</h3>
+                      <p>Solución práctica para agrupar y compartir todos tus enlaces importantes en un solo lugar. Perfecto para maximizar tu presencia digital.</p>
+                      <div class="service-price">$25</div>
+                        <span class="service-link">Ver detalles <i class="fas fa-arrow-right"></i></span>
+                      </a>
+                    </div>
+                    <!-- ... other fallback cards omitted for brevity ... -->
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Projects Section -->
+          <section id="projects" class="projects-section">
+            <div class="container">
+              <div class="section-header">
+                <div class="section-badge">
+                  <i class="fas fa-briefcase"></i>
+                  <span>Proyectos</span>
+                </div>
+                <h2>Nuestros <span class="text-gradient">Proyectos Destacados</span></h2>
+              </div>
+
+              <div class="projects-grid">
+                {% for p in proyectos %}
+                  <div class="project-card" data-category="{% if p.categorias.all %}{% for c in p.categorias.all %}{{ c.nombre|slugify }}{% if not forloop.last %} {% endif %}{% endfor %}{% else %}uncategorized{% endif %}">
+                    <div class="project-image">
+                      {% if p.fotos %}
+                        {% with p.fotos.0 as foto %}
+                          <img src="{{ foto }}" alt="{{ p.titulo }}">
+                        {% endwith %}
+                      {% else %}
+                        <img src="{% static 'assets/img/proyectos/proyecto-1.png' %}" alt="{{ p.titulo }}">
+                      {% endif %}
+                      <div class="project-overlay">
+                        {% for cat in p.categorias.all %}
+                          {% if forloop.first %}
+                            <div class="project-category">{{ cat.nombre }}</div>
+                          {% endif %}
+                        {% empty %}
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <div class="project-content">
+                      <h3>{{ p.titulo }}</h3>
+                      <p>{{ p.descripcion|truncatechars:150 }}</p>
+                      <div class="project-tags">
+                        {% for t in p.tecnologias.all %}
+                          <span>{{ t.nombre }}</span>
+                        {% empty %}
+                          <span>Proyecto</span>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                {% empty %}
+                  <p>No hay proyectos disponibles en este momento.</p>
+                {% endfor %}
+              </div>
+              <div class="view-more-container">
+                <a href="{% url 'proyectos' %}" class="btn-primary">
+                  <span>Ver más proyectos</span>
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <!-- Contact Section -->
+          <section id="contact" class="contact section">
+            <div class="container">
+              <div class="contact-content">
+                <div class="contact-info">
+                  <div class="section-badge">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contacto</span>
+                  </div>
+                  <h2>¿Necesitas ayuda? <span class="text-gradient">Contáctanos</span></h2>
+          
+                  <div class="contact-methods">
+                    <div class="contact-method">
+                      <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                      </div>
+                      <div class="contact-details">
+                        <h3>Correo Electrónico</h3>
+                        <a href="mailto:raudie@raudie.net">raudie@raudie.net</a>
+                      </div>
+                    </div>
+
+                    <div class="contact-method">
+                      <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                      </div>
+                      <div class="contact-details">
+                        <h3>WhatsApp</h3>
+                        <a href="https://wa.me/+584243736030">Envíanos un mensaje</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="contact-form-container">
+                  <form class="contact-form" id="contactForm">
+                    <div class="form-row">
+                      <div class="form-group">
+                        <input type="text" name="name" placeholder="Tu Nombre" required>
+                      </div>
+                      <div class="form-group">
+                        <input type="email" name="email" placeholder="Tu Email" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" name="subject" placeholder="Asunto" required>
+                    </div>
+                    <div class="form-group">
+                      <textarea placeholder="Mensaje" name="message" rows="6" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                      <span>Enviar Mensaje</span>
+                      <i class="fas fa-paper-plane"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+        {% endblock %}
+
+        {% block extra_js %}{% endblock %}
+                </div>
