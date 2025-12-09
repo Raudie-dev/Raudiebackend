@@ -4,6 +4,7 @@
             {% block title %}Proyectos | RauDie Software Company{% endblock %}
 
             {% block content %}
+
             <!-- Projects Page Header -->
             <section class="projects-hero">
               <div class="container">
@@ -54,18 +55,23 @@
                 <div class="projects-grid">
                   {% if proyectos %}
                     {% for p in proyectos %}
-                      <div class="project-card" data-category="{% if p.categorias.all %}{% for c in p.categorias.all %}{{ c.nombre|slugify }}{% if not forloop.last %} {% endif %}{% endfor %}{% else %}uncategorized{% endif %}">
+                      <div class="project-card" data-project="{{ p.id }}" data-modal-target="#projectModal{{ p.id }}" data-target="#projectModal{{ p.id }}" role="button" tabindex="0" data-category="{% if p.categorias.all %}{% for c in p.categorias.all %}{{ c.nombre|slugify }}{% if not forloop.last %} {% endif %}{% endfor %}{% else %}uncategorized{% endif %}">
                         <div class="project-image">
-                          {% if p.fotos %}
-                            <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}">
-                          {% else %}
-                            <img src="{% static 'assets/img/proyectos/proyecto-1.png' %}" alt="{{ p.titulo }}">
-                          {% endif %}
-                          <div class="project-overlay">
-                            <!-- overlay content preserved -->
+                            {% if p.fotos %}
+                              <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}">
+                            {% else %}
+                              <img src="{% static 'assets/img/proyectos/proyecto-1.png' %}" alt="{{ p.titulo }}">
+                            {% endif %}
+                            <div class="project-overlay">
+                              <div class="project-actions">
+                                <button type="button" class="action-btn view-details" data-project="{{ p.id }}" aria-label="Ver detalles">
+                                  <i class="fas fa-eye"></i>
+                                  <span class="action-text">Ver detalles</span>
+                                </button>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="project-content">
+                          <div class="project-content">
                           <div class="project-category">{% for c in p.categorias.all %}{% if forloop.first %}{{ c.nombre }}{% endif %}{% endfor %}</div>
                           <h3>{{ p.titulo }}</h3>
                           <p>{{ p.descripcion|truncatechars:150 }}</p>
@@ -77,7 +83,14 @@
                             {% endfor %}
                           </div>
                           <div class="project-footer">
-                            <!-- footer preserved -->
+                            <div class="project-date">
+                              <i class="fas fa-calendar"></i>
+                              <span>{% if p.fecha %}{{ p.fecha|date:"M Y" }}{% else %}—{% endif %}</span>
+                            </div>
+                            <button type="button" class="btn-details view-details" data-project="{{ p.id }}">
+                              Ver detalles
+                              <i class="fas fa-arrow-right"></i>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -125,11 +138,13 @@
                         <div class="gallery-thumbnails">
                           {% if p.fotos %}
                             {% for foto in p.fotos %}
-                              <div class="thumbnail{% if forloop.first %} active{% endif %}" data-image="{{ foto }}"></div>
+                              <div class="thumbnail{% if forloop.first %} active{% endif %}" data-image="{{ foto }}">
+                                <img src="{{ foto }}" alt="{{ p.titulo }} mini">
+                              </div>
                             {% endfor %}
                           {% else %}
                             <div class="thumbnail active" data-image="{% static 'assets/img/proyectos/proyecto-1.png' %}">
-                              <!-- fallback thumbnail -->
+                              <img src="{% static 'assets/img/proyectos/proyecto-1.png' %}" alt="{{ p.titulo }} mini">
                             </div>
                           {% endif %}
                         </div>
@@ -140,14 +155,55 @@
                           <h3>Descripción del Proyecto</h3>
                           <p>{{ p.descripcion }}</p>
 
-                          <div class="project-features">
-                            <!-- features -->
-                          </div>
+                          {% if p.caracteristicas %}
+                            <div class="project-features">
+                              <h4>Características principales:</h4>
+                              <ul>
+                                {% for feat in p.caracteristicas %}
+                                  <li><i class="fas fa-check"></i> {{ feat }}</li>
+                                {% endfor %}
+                              </ul>
+                            </div>
+                          {% endif %}
                         </div>
 
                         <div class="project-meta">
                           <div class="meta-item">
-                            <!-- meta -->
+                            <i class="fas fa-user"></i>
+                            <div>
+                              <span class="meta-label">Cliente</span>
+                              <span class="meta-value">{% if p.cliente %}{{ p.cliente }}{% else %}—{% endif %}</span>
+                            </div>
+                          </div>
+
+                          <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <div>
+                              <span class="meta-label">Fecha</span>
+                              <span class="meta-value">{% if p.fecha %}{{ p.fecha|date:"F Y" }}{% else %}—{% endif %}</span>
+                            </div>
+                          </div>
+
+                          <div class="meta-item">
+                            <i class="fas fa-tag"></i>
+                            <div>
+                              <span class="meta-label">Categoría</span>
+                              <span class="meta-value">{% for c in p.categorias.all %}{% if forloop.first %}{{ c.nombre }}{% endif %}{% endfor %}</span>
+                            </div>
+                          </div>
+
+                          <div class="meta-item">
+                            <i class="fas fa-code"></i>
+                            <div>
+                              <span class="meta-label">Tecnologías</span>
+                              <div class="tech-tags">
+                                {% for t in p.tecnologias.all %}
+                                  <span>{{ t.nombre }}</span>
+                                {% empty %}
+                                  <span>—</span>
+                                {% endfor %}
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -171,3 +227,171 @@
             </a>
 
             {% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  function setupOptimizedModals(){
+    const modals = new Map();
+
+    function createModal(modalId){
+      if(modals.has(modalId)) return modals.get(modalId);
+      const modalEl = document.querySelector(modalId);
+      if(!modalEl) return null;
+      const modalData = {
+        element: modalEl,
+        thumbnails: Array.from(modalEl.querySelectorAll('.thumbnail')),
+        mainImage: modalEl.querySelector('.gallery-main img'),
+        prevBtn: modalEl.querySelector('.prev-btn'),
+        nextBtn: modalEl.querySelector('.next-btn'),
+        currentSlide: modalEl.querySelector('.current-slide'),
+        totalSlides: modalEl.querySelector('.total-slides'),
+        currentIndex: 0,
+        _listenersAttached: false
+      };
+      modals.set(modalId, modalData);
+      return modalData;
+    }
+
+    function openModal(modalId){
+      const modalData = createModal(modalId);
+      if(!modalData) return;
+      // ensure the element is visible even if it has inline display:none
+      try{ modalData.element.style.display = 'block'; }catch(_){ }
+      modalData.element.classList.add('active','open');
+      document.body.style.overflow = 'hidden';
+      setupModalGallery(modalData);
+    }
+
+    function closeModal(modalEl){
+      if(!modalEl) return;
+      modalEl.classList.remove('active','open');
+      try{ modalEl.style.display = 'none'; }catch(_){ }
+      document.body.style.overflow = '';
+    }
+
+    function setupModalGallery(modalData){
+      const { thumbnails, mainImage, prevBtn, nextBtn, currentSlide, totalSlides } = modalData;
+      if(totalSlides) totalSlides.textContent = thumbnails.length || 1;
+
+      function updateImage(index){
+        if(!thumbnails || !thumbnails[index] || !mainImage) return;
+        const thumbnail = thumbnails[index];
+        const imageUrl = thumbnail.dataset.image;
+        if(imageUrl && imageUrl !== mainImage.src){
+          const img = new Image();
+          img.onload = () => { mainImage.src = imageUrl; };
+          img.src = imageUrl;
+        }
+        thumbnails.forEach((t,i)=> t.classList.toggle('active', i===index));
+        if(currentSlide) currentSlide.textContent = index+1;
+        modalData.currentIndex = index;
+      }
+
+      // Bind explicit listeners to button triggers as a fallback for delegation
+      function bindDirectTriggers(){
+        const triggers = Array.from(document.querySelectorAll('.view-details, .action-btn, .btn-details, .open-modal-btn'));
+        triggers.forEach(btn => {
+          // avoid attaching twice
+          if(btn._boundToModal) return;
+          btn.addEventListener('click', function(ev){
+            ev.preventDefault();
+            const project = btn.dataset && btn.dataset.project || (btn.closest && btn.closest('.project-card') && btn.closest('.project-card').dataset.project);
+            if(project){
+              openModal(`#projectModal${project}`);
+              return;
+            }
+            const modalId = btn.dataset && (btn.dataset.modalTarget || btn.getAttribute('data-modal-target'));
+            if(modalId) openModal(modalId);
+          });
+          btn._boundToModal = true;
+        });
+
+        // Make clicking the card itself open the modal (but ignore clicks on inner buttons/links)
+        document.querySelectorAll('.project-card').forEach(card => {
+          if(card._boundCard) return;
+          card.addEventListener('click', function(ev){
+            // don't open when clicking a button or link inside the card
+            if(ev.target.closest && ev.target.closest('button, a')) return;
+            const project = card.dataset && card.dataset.project;
+            if(project) openModal(`#projectModal${project}`);
+          });
+          card._boundCard = true;
+        });
+      }
+
+      // call binding once after DOM is ready
+      bindDirectTriggers();
+
+      // Attach listeners only once per modal
+      if(!modalData._listenersAttached){
+        thumbnails.forEach((thumb, index)=>{
+          thumb.addEventListener('click', ()=> updateImage(index));
+        });
+
+        if(prevBtn) prevBtn.addEventListener('click', ()=>{
+          const newIndex = (modalData.currentIndex - 1 + thumbnails.length) % thumbnails.length;
+          updateImage(newIndex);
+        });
+        if(nextBtn) nextBtn.addEventListener('click', ()=>{
+          const newIndex = (modalData.currentIndex + 1) % thumbnails.length;
+          updateImage(newIndex);
+        });
+
+        modalData._listenersAttached = true;
+      }
+
+      if(thumbnails.length>0) updateImage(0);
+    }
+
+    document.addEventListener('click', function(e){
+      // Find the nearest actionable trigger: button, card, or overlay action
+      const trigger = e.target.closest('.view-details, .open-modal-btn, .btn-details, .action-btn, .project-card');
+      if(trigger){
+        e.preventDefault();
+        // Prefer direct data-project, otherwise search up to the .project-card
+        let project = trigger.dataset && trigger.dataset.project;
+        if(!project){
+          const card = trigger.closest('.project-card');
+          if(card) project = card.dataset && card.dataset.project;
+        }
+        if(project){
+          openModal(`#projectModal${project}`);
+          return;
+        }
+        const modalId = trigger.dataset && (trigger.dataset.modalTarget || trigger.getAttribute('data-modal-target'));
+        if(modalId){
+          openModal(modalId);
+          return;
+        }
+      }
+
+      // Close modal by close button
+      const closeBtn = e.target.closest('.modal-close');
+      if(closeBtn){
+        e.preventDefault();
+        const modal = closeBtn.closest('.modern-modal');
+        closeModal(modal);
+        return;
+      }
+
+      // Close when clicking backdrop
+      const backdrop = e.target.closest('.modal-backdrop');
+      if(backdrop){
+        const modal = backdrop.closest('.modern-modal');
+        closeModal(modal);
+        return;
+      }
+    });
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){
+        document.querySelectorAll('.modern-modal.active').forEach(closeModal);
+      }
+    });
+  }
+
+  setupOptimizedModals();
+});
+</script>
+{% endblock %}

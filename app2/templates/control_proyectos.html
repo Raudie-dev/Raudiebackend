@@ -4,11 +4,13 @@
 
 {% block extra_head %}
 <style>
-body { background-color: #000 !important; color: #fff !important; }
-.content-area, .container-fluid { background: transparent; color: #fff !important; }
-.form-control, .form-select, textarea { background-color: #111 !important; color:#fff !important; border:1px solid #333 !important; }
-.table, .table th, .table td { color: #fff !important; border-color: rgba(255,255,255,0.05) !important; }
-.card.bg-dark { background: #0b0b0b; }
+/* Light dashboard overrides */
+body { background-color: #ffffff !important; color: #212529 !important; }
+.content-area, .container-fluid { background: transparent; color: #212529 !important; }
+.form-control, .form-select, textarea { background-color: #ffffff !important; color:#212529 !important; border:1px solid #dee2e6 !important; }
+.table, .table th, .table td { color: #212529 !important; border-color: rgba(0,0,0,0.06) !important; }
+.card.bg-dark { background: #ffffff !important; color: #212529 !important; }
+.btn-close-white { filter: none; }
 </style>
 {% endblock %}
 

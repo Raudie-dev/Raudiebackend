@@ -303,3 +303,110 @@
             border: 1px solid #dee2e6;
             border-radius: 0.25rem;
         }
+
+                /* Simple layout tweaks to ensure sidebar + content spacing */
+        /* Compensate for the fixed header to avoid overlap with sidebar/content */
+
+
+        @media (max-width: 768px) {
+            body { padding-top: 70px; }
+        }
+
+        /* Sidebar + Header: use primary red to match main site */
+        .header {
+          background: linear-gradient(90deg, var(--color-primary, #c0131e), var(--color-primary-dark, #9a0e18));
+          color: #ffffff;
+          height: 88px; /* navbar más grueso */
+          padding: 12px 0; /* espacio interno vertical */
+          box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+          display: flex;
+          align-items: center;
+          position: sticky;
+          top: 0;
+          z-index: 1100;
+        }
+
+        /* Asegura que el contenido dentro del header se alinee correctamente */
+        .header .header-wrapper,
+        .header .header-content {
+          display: flex;
+          align-items: center;
+          width: 100%;
+        }
+
+        .header .logo {
+          color: #ffffff;
+          font-weight: 700;
+          font-size: 1.15rem;
+        }
+
+        .header .nav-list a {
+          color: #ffffff;
+          padding: 10px 12px;
+          line-height: 1;
+          display: inline-flex;
+          align-items: center;
+        }
+
+        /* Reduce la altura en pantallas pequeñas para evitar ocupar demasiado espacio */
+        @media (max-width: 768px) {
+          .header { height: 64px; padding: 8px 0; }
+          .header .logo { font-size: 1rem; }
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background: var(--color-primary, #c0131e);
+            color: #ffffff;
+            border-right: 1px solid rgba(255,255,255,0.04);
+            padding-top: 1rem;
+        }
+
+        .sidebar .nav-link {
+            color: #ffffff;
+        }
+
+        .sidebar .nav-link.active {
+            background: rgba(255,255,255,0.08);
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* Main content area should use the page background and readable text color */
+        .content-area {
+            padding: 2rem;
+            background: transparent;
+            color: var(--text-color, #333);
+        }
+
+        /* Ensure tables and form controls inside content are readable */
+        .content-area table,
+        .content-area th,
+        .content-area td {
+            color: var(--text-color, #333) !important;
+        }
+
+        .content-area .form-control,
+        .content-area .form-select {
+            background-color: #fff;
+            color: var(--text-color, #333);
+            border: 1px solid var(--border-color, #dee2e6);
+        }
+        /* Force header and sidebar links to white to override external styles */
+        .nav-list a,
+        .nav-list a:hover,
+        .nav-list a:focus,
+        .nav-list a:active,
+        .nav-link,
+        .sidebar .nav-link,
+        .header .nav-list a,
+        .nav-menu a {
+            color: #ffffff !important;
+        }
+
+        .nav-list a:hover,
+        .sidebar .nav-link:hover,
+        .nav-menu a:hover {
+            color: rgba(255,255,255,0.95) !important;
+            text-decoration: none;
+        }

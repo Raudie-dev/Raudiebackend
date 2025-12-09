@@ -23,7 +23,7 @@ def login(request):
                 messages.error(request, 'Usuario bloqueado')
             elif user.password == password or check_password(password, user.password):
                 request.session['user_admin_id'] = user.id
-                return redirect('control')
+                return redirect('control_servicios')
             else:
                 messages.error(request, 'Contraseña incorrecta')
             return render(request, 'login.html')

@@ -98,59 +98,7 @@
 
   <!-- Scripts -->
   <script src="{% static 'js/script.js' %}"></script>
-  <script>
-        // Minimal modal open/close and thumbnail handling for dynamically generated modals
-    document.addEventListener('click', function (e) {
-      // open modal
-      var openBtn = e.target.closest('.open-project-modal');
-      if (openBtn) {
-        var target = openBtn.dataset.target;
-        var modal = document.querySelector(target);
-        if (modal) {
-          modal.style.display = 'block';
-          modal.classList.add('open');
-          document.body.style.overflow = 'hidden';
-        }
-        return;
-      }
-
-      // close modal via close button
-      var closeBtn = e.target.closest('.modal-close');
-      if (closeBtn) {
-        var modal = closeBtn.closest('.modern-modal');
-        if (modal) {
-          modal.style.display = 'none';
-          modal.classList.remove('open');
-          document.body.style.overflow = '';
-        }
-        return;
-      }
-
-      // close when clicking backdrop
-      if (e.target.classList && e.target.classList.contains('modal-backdrop')) {
-        var modal = e.target.closest('.modern-modal');
-        if (modal) {
-          modal.style.display = 'none';
-          modal.classList.remove('open');
-          document.body.style.overflow = '';
-        }
-      }
-    });
-
-    // thumbnails: change main image when clicking thumbnail
-    document.addEventListener('click', function (e) {
-      var thumb = e.target.closest('.thumbnail');
-      if (!thumb) return;
-      var modal = thumb.closest('.modern-modal');
-      if (!modal) return;
-      var mainImg = modal.querySelector('.gallery-main img');
-      if (!mainImg) return;
-      var src = thumb.dataset.image;
-      if (src) mainImg.src = src;
-      modal.querySelectorAll('.thumbnail').forEach(function (t) { t.classList.remove('active'); });
-      thumb.classList.add('active');
-    });
-  </script>
+  {% block extra_scripts %}{% endblock %}
 </body>
 
 </html>
