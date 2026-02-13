@@ -129,6 +129,16 @@ STATICFILES_DIRS = [
     BASE_DIR / "assets",  # Carpeta estática existente
 ]
 
+# Email (Gmail SMTP) - usado para envío desde formulario de contacto
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'reaudie.dev@gmail.com'
+# app password (proporcionada por el usuario) - sin espacios
+EMAIL_HOST_PASSWORD = 'zldrlomwuuzjszkw'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

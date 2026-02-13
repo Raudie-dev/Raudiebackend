@@ -220,3 +220,8 @@ def control_proyectos(request):
 
     proyectos = obtener_proyectos()
     return render(request, 'control_proyectos.html', {'proyectos': proyectos, 'categorias': categorias, 'tecnologias': tecnologias})
+
+def logout(request):
+    request.session.flush()
+    messages.success(request, 'Sesión cerrada')
+    return redirect('login')

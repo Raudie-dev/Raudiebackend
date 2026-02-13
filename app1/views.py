@@ -1,4 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.conf import settings
+from django.core.mail import send_mail
 from .models import Prueba, Servicios, Proyecto, Categoria
 
 # Create your views here.
@@ -19,6 +22,24 @@ def index(request):
 
     # NUEVO: obtener últimos 4 proyectos
     proyectos = Proyecto.objects.all().order_by('-fecha', '-id')[:4]
+
+    # Manejo de formulario de contacto (envía correo a la cuenta admin)
+    if request.method == 'POST' and 'contact_message' in request.POST:
+        contact_name = request.POST.get('contact_name', '').strip()
+        contact_email = request.POST.get('contact_email', '').strip()
+        contact_message = request.POST.get('contact_message', '').strip()
+
+        if not contact_message:
+            messages.error(request, 'El mensaje es obligatorio')
+        else:
+            subject = f'Contacto web: {contact_name or "(sin nombre)"}'
+            body = f'Nombre: {contact_name}\nEmail: {contact_email}\n\nMensaje:\n{contact_message}'
+            try:
+                send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, ['raudie.dev@gmail.com'], fail_silently=False)
+                messages.success(request, 'Mensaje enviado correctamente. Gracias por contactarnos.')
+                return redirect('index')
+            except Exception as e:
+                messages.error(request, f'Error enviando correo: {e}')
 
     return render(request, 'index.html', {
         'pruebas': pruebas,

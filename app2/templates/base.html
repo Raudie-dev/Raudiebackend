@@ -1,66 +1,95 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Panel - Pruebas{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Project styles: reuse same styles as index -->
-    <link rel="stylesheet" href="{% static 'css/paneles-style.css' %}">
-    {% block extra_head %}{% endblock %}
-    
-</head>
-<body>
-    <!-- Reusable navbar (based on index.html) -->
-    <header class="header">
-        <div class="container header-wrapper d-flex justify-content-between align-items-center">
-            <nav>
-                <a href="{% url 'index' %}" class="logo d-flex align-items-center">
-                    <img src="{% static 'img/nav-img.png' %}" alt="RauDie Logo" style="height:40px; margin-right:8px;">
-                    <h1 class="mb-0">RAUDIE</h1>
-                </a>
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="es">
+      <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Panel de Administración - RAUDIE{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Panel de administración - RAUDIE" />
 
-            </nav>
-        </div>
-    </header>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="icon" type="image/png" href="{% static 'img/nav-img.png' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
 
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <aside class="col-md-3 col-lg-2 sidebar d-none d-md-block">
-                <div class="px-3">
-                    <h5 href="{% url 'index' %}" class="logo">
-                        <i class="fas fa-flask-vial me-2"></i>PruebasApp
-                    </h5>
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'control_servicios' %}"><i class="fas fa-list me-2"></i>Control de Servicios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'control_proyectos' %}"><i class="fas fa-list me-2"></i>Control de Proyectos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'index' %}"><i class="fas fa-home me-2"></i>Inicio</a>
-                        </li>
-                    </ul>
-                </div>
+        {% block extra_head %}{% endblock %}
+
+        <style>
+          .content-area { min-height: calc(100vh - 60px); }
+          .sidebar, .sidebar-mobile { background-color: #5b0e2d; color: #fff; }
+          .sidebar .nav-link, .sidebar-mobile .nav-link { color: rgba(255,255,255,0.95); }
+          .sidebar .nav-link.active, .sidebar .nav-link:hover, .sidebar-mobile .nav-link.active, .sidebar-mobile .nav-link:hover { background: rgba(255,255,255,0.06); color:#fff; }
+          .sidebar .sidebar-header h5, .sidebar-mobile .sidebar-header h5 { color:#fff; }
+        </style>
+      </head>
+      <body>
+        <header class="admin-header bg-dark text-white py-2">
+          <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+              <button class="mobile-menu-btn btn btn-outline-light d-md-none" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+              <a href="{% url 'login' %}" class="brand d-flex align-items-center text-decoration-none text-white">
+                <img src="{% static 'img/nav-img.png' %}" alt="Logo" style="height:40px; margin-right:8px;"> <strong>RAUDIE</strong>
+              </a>
+            </div>
+            <div>
+              <form action="{% url 'logout' %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-light rounded-pill"><i class="fas fa-power-off"></i> Salir</button>
+              </form>
+            </div>
+          </div>
+        </header>
+
+        <div class="container-fluid">
+          <div class="row">
+            <aside class="col-md-3 col-lg-2 sidebar d-none d-md-block" id="sidebar">
+              <div class="sidebar-header p-3"><h5 class="mb-0">Panel de Control</h5></div>
+              <ul class="nav flex-column p-2">
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'control_servicios' %}active{% endif %}" href="{% url 'control_servicios' %}"><i class="fas fa-list me-2"></i>Control de Servicios</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'control_proyectos' %}active{% endif %}" href="{% url 'control_proyectos' %}"><i class="fas fa-project-diagram me-2"></i>Control de Proyectos</a></li>
+              </ul>
             </aside>
 
-            <!-- Main content area -->
-            <main class="col-12 col-md-9 col-lg-10 content-area">
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
+            <aside class="sidebar-mobile d-md-none" id="sidebarMobile" style="display:none; position:fixed; z-index:1050; top:0; left:0; bottom:0; width:260px; background:#5b0e2d; overflow:auto; padding:1rem;">
+              <div class="sidebar-header p-2"><h5 class="mb-0">Panel de Control</h5></div>
+              <ul class="nav flex-column p-2">
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'control_servicios' %}"><i class="fas fa-list me-2"></i>Control de Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'control_proyectos' %}"><i class="fas fa-project-diagram me-2"></i>Control de Proyectos</a></li>
+              </ul>
+            </aside>
 
-                {% block content %}{% endblock %}
+            <div class="sidebar-overlay" id="sidebarOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1040;"></div>
+
+            <main class="col-12 col-md-9 col-lg-10 content-area d-flex flex-column" id="contentArea">
+              <div class="flex-grow-1 container-fluid pt-3">
+                {% if messages %}{% for message in messages %}
+                  <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show mt-2" role="alert">{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+                {% endfor %}{% endif %}
+
+                <div class="fade-in">{% block content %}{% endblock %}</div>
+              </div>
             </main>
+          </div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    {% block extra_scripts %}{% endblock %}
-</body>
-</html>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script>
+          document.addEventListener('DOMContentLoaded', function(){
+            const sidebarMobile = document.getElementById('sidebarMobile');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            mobileMenuBtn && mobileMenuBtn.addEventListener('click', function(){ sidebarMobile.style.display = 'block'; sidebarOverlay.style.display = 'block'; });
+            sidebarOverlay && sidebarOverlay.addEventListener('click', function(){ sidebarMobile.style.display = 'none'; sidebarOverlay.style.display = 'none'; });
+          });
+        </script>
+
+        {% block extra_scripts %}{% endblock %}
+        {% block modals %}{% endblock %}
+      </body>
+    </html>

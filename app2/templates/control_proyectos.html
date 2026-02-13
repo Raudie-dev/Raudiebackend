@@ -21,6 +21,7 @@ body { background-color: #ffffff !important; color: #212529 !important; }
     <div class="d-flex gap-2">
       <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalNuevaCategoria">Nueva categoría</button>
       <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalNuevaTecnologia">Nueva tecnología</button>
+      <button id="btnAgregarProyecto" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalProyecto">Agregar proyecto</button>
     </div>
   </div>
 
@@ -72,197 +73,218 @@ body { background-color: #ffffff !important; color: #212529 !important; }
     </div>
   </div>
 
-  <!-- FORM: Crear Proyecto -->
-  <div class="card mb-4 bg-dark text-white">
-    <div class="card-body">
-      <form method="post" enctype="multipart/form-data" class="row g-2">
+  <!-- El formulario de crear/editar ahora está en el modal único abajo (#modalProyecto) -->
+
+  <!-- Grid de tarjetas de proyectos -->
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for p in proyectos %}
+    <div class="col">
+      <div class="card h-100">
+        {% if p.fotos and p.fotos.0 %}
+          <img src="{{ p.fotos.0 }}" class="card-img-top" alt="{{ p.titulo }}" style="height:160px; object-fit:cover;">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ p.titulo }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ p.cliente }} · {{ p.fecha }}</h6>
+          <p class="card-text">{{ p.descripcion|truncatechars:120 }}</p>
+          <div class="mb-2">
+            {% for c in p.caracteristicas %}
+              <span class="badge bg-secondary me-1">{{ c }}</span>
+            {% empty %}
+              <span class="text-muted">-</span>
+            {% endfor %}
+          </div>
+          <div class="mb-2">
+            {% for cat in p.categorias.all %}
+              <span class="badge bg-secondary me-1">{{ cat.nombre }}</span>
+            {% endfor %}
+          </div>
+          <div class="mb-2">
+            {% for tech in p.tecnologias.all %}
+              <span class="badge bg-info text-dark me-1">{{ tech.nombre }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+          <div>
+            <button class="btn btn-sm btn-outline-primary btnEditarProyecto" 
+              data-bs-toggle="modal" data-bs-target="#modalProyecto"
+              data-id="{{ p.id }}"
+              data-titulo="{{ p.titulo|escapejs }}"
+              data-cliente="{{ p.cliente|escapejs }}"
+              data-fecha="{{ p.fecha }}"
+              data-descripcion="{{ p.descripcion|escapejs }}"
+              data-caracteristicas="{% for c in p.caracteristicas %}{% if not forloop.first %},{% endif %}{{ c|escapejs }}{% endfor %}"
+              data-categorias="{% for cat in p.categorias.all %}{% if not forloop.first %},{% endif %}{{ cat.id }}{% endfor %}"
+              data-tecnologias="{% for tech in p.tecnologias.all %}{% if not forloop.first %},{% endif %}{{ tech.id }}{% endfor %}"
+              data-fotos="{% for url in p.fotos %}{% if not forloop.first %}||{% endif %}{{ url }}{% endfor %}"
+            >Editar</button>
+
+            <form method="post" style="display:inline" onsubmit="return confirm('Eliminar proyecto?');">
+              {% csrf_token %}
+              <button type="submit" name="eliminar_proyecto" value="{{ p.id }}" class="btn btn-sm btn-danger">Eliminar</button>
+            </form>
+          </div>
+          <small class="text-muted">#{{ p.id }}</small>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  </div>
+
+
+<!-- Modal único para crear/editar proyecto -->
+<div class="modal fade" id="modalProyecto" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalProyectoTitle">Crear proyecto</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" enctype="multipart/form-data" id="formProyecto">
         {% csrf_token %}
-        <input type="hidden" name="crear_proyecto" value="1">
-        <div class="col-md-4">
-          <input type="text" name="titulo" class="form-control" placeholder="Título" required>
-        </div>
-        <div class="col-md-3">
-          <input type="text" name="cliente" class="form-control" placeholder="Cliente">
-        </div>
-        <div class="col-md-2">
-          <input type="date" name="fecha" class="form-control" placeholder="Fecha" required>
-        </div>
+        <input type="hidden" name="crear_proyecto" id="input_crear_proyecto" value="1">
+        <input type="hidden" name="editar_proyecto" id="input_editar_proyecto" value="">
+        <input type="hidden" name="editar_proyecto_id" id="input_editar_proyecto_id" value="">
+        <div class="modal-body">
+          <div class="row g-2">
+            <div class="col-md-6">
+              <label class="form-label">Título</label>
+              <input type="text" name="titulo" id="input_titulo" class="form-control" placeholder="Título" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Cliente</label>
+              <input type="text" name="cliente" id="input_cliente" class="form-control" placeholder="Cliente">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Fecha</label>
+              <input type="date" name="fecha" id="input_fecha" class="form-control" required>
+            </div>
+            <div class="col-md-8">
+              <label class="form-label">Fotos (subir para reemplazar)</label>
+              <input type="file" name="fotos" id="input_fotos" accept="image/*" class="form-control" multiple>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Descripción</label>
+              <textarea name="descripcion" id="input_descripcion" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Características (coma separadas)</label>
+              <input type="text" name="caracteristicas" id="input_caracteristicas" class="form-control" placeholder="ej: responsive, e-commerce">
+            </div>
 
-        <!-- SELECT: Categorías -->
-        <div class="col-md-3">
-          <select name="categoria_ids" class="form-select" multiple>
-            {% for cat in categorias %}
-              <option value="{{ cat.id }}">{{ cat.nombre }}</option>
-            {% endfor %}
-          </select>
-          <small class="text-muted">Mantén Ctrl/Cmd para seleccionar varias</small>
-        </div>
+            <div class="col-12">
+              <label class="form-label">Categoría</label>
+              <div class="btn-group d-flex flex-wrap" role="group" aria-label="Categorías">
+                {% for cat in categorias %}
+                  <input type="radio" class="btn-check categoria-radio" name="categoria_id" id="cat_radio_{{ cat.id }}" autocomplete="off" value="{{ cat.id }}">
+                  <label class="btn btn-outline-secondary me-1 mb-1" for="cat_radio_{{ cat.id }}">{{ cat.nombre }}</label>
+                {% endfor %}
+              </div>
+            </div>
 
-        <!-- SELECT: Tecnologías -->
-        <div class="col-md-12">
-          <select name="tecnologia_ids" class="form-select" multiple>
-            {% for tech in tecnologias %}
-              <option value="{{ tech.id }}">{{ tech.nombre }}</option>
-            {% endfor %}
-          </select>
-          <small class="text-muted">Selecciona tecnologías asociadas (múltiple)</small>
-        </div>
+            <div class="col-12">
+              <label class="form-label">Tecnologías</label>
+              <div class="d-flex flex-wrap gap-1">
+                {% for tech in tecnologias %}
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input tecnologia-checkbox" type="checkbox" id="tech_chk_{{ tech.id }}" name="tecnologia_ids" value="{{ tech.id }}">
+                    <label class="btn btn-outline-info btn-sm mb-1" for="tech_chk_{{ tech.id }}">{{ tech.nombre }}</label>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
 
-        <div class="col-md-3">
-          <input type="file" name="fotos" accept="image/*" class="form-control" multiple>
+            <div class="col-12 mt-2">
+              <label class="form-label">Fotos actuales</label>
+              <div id="fotos_actuales" class="d-flex gap-2 flex-wrap"></div>
+            </div>
+          </div>
         </div>
-        <div class="col-12">
-          <textarea name="descripcion" class="form-control" rows="2" placeholder="Descripción"></textarea>
-        </div>
-        <div class="col-12">
-          <input type="text" name="caracteristicas" class="form-control" placeholder="Características (separadas por comas)">
-        </div>
-        <div class="col-12 text-end">
-          <button class="btn btn-success">Crear Proyecto</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btnGuardarProyecto">Guardar</button>
         </div>
       </form>
     </div>
   </div>
+</div>
 
-  <!-- Tabla: Proyectos -->
-  <table class="table table-dark table-striped">
-    <thead>
-      <tr>
-        <th>Imagen</th>
-        <th>Título</th>
-        <th>Cliente</th>
-        <th>Fecha</th>
-        <th>Descripción</th>
-        <th>Características</th>
-        <th>Categorías</th>
-        <th>Tecnologías</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for p in proyectos %}
-      <tr>
-        <td style="width:120px;">
-          {% if p.fotos and p.fotos.0 %}
-            <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}" style="max-width:100px; max-height:80px; object-fit:cover;">
-          {% else %}
-            <span class="text-muted">-</span>
-          {% endif %}
-        </td>
-        <td>{{ p.titulo }}</td>
-        <td>{{ p.cliente }}</td>
-        <td>{{ p.fecha }}</td>
-        <td>{{ p.descripcion|truncatechars:60 }}</td>
-        <td>
-          {% for c in p.caracteristicas %}
-            <span class="badge bg-secondary me-1">{{ c }}</span>
-          {% empty %}
-            <span class="text-muted">-</span>
-          {% endfor %}
-        </td>
-        <td>
-          {% if p.categorias.all %}
-            {% for cat in p.categorias.all %}
-              <span class="badge bg-secondary me-1">{{ cat.nombre }}</span>
-            {% endfor %}
-          {% else %}
-            <span class="text-muted">-</span>
-          {% endif %}
-        </td>
-        <td>
-          {% if p.tecnologias.all %}
-            {% for tech in p.tecnologias.all %}
-              <span class="badge bg-info text-dark me-1">{{ tech.nombre }}</span>
-            {% endfor %}
-          {% else %}
-            <span class="text-muted">-</span>
-          {% endif %}
-        </td>
-        <td>
-          <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEdit{{ p.id }}">Editar</button>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var modalTitle = document.getElementById('modalProyectoTitle');
+  var inputCrear = document.getElementById('input_crear_proyecto');
+  var inputEditar = document.getElementById('input_editar_proyecto');
+  var inputEditarId = document.getElementById('input_editar_proyecto_id');
 
-          <form method="post" style="display:inline" onsubmit="return confirm('Eliminar proyecto?');">
-            {% csrf_token %}
-            <button type="submit" name="eliminar_proyecto" value="{{ p.id }}" class="btn btn-sm btn-danger">Eliminar</button>
-          </form>
-        </td>
-      </tr>
+  var clearForm = function(){
+    document.getElementById('input_titulo').value = '';
+    document.getElementById('input_cliente').value = '';
+    document.getElementById('input_fecha').value = '';
+    document.getElementById('input_descripcion').value = '';
+    document.getElementById('input_caracteristicas').value = '';
+    document.getElementById('input_fotos').value = '';
+    inputCrear.value = '1';
+    inputEditar.value = '';
+    inputEditarId.value = '';
+    document.getElementById('fotos_actuales').innerHTML = '';
+    // clear categories
+    document.querySelectorAll('.categoria-radio').forEach(function(r){ r.checked = false; });
+    // clear tecnologias
+    document.querySelectorAll('.tecnologia-checkbox').forEach(function(c){ c.checked = false; });
+  };
 
-      <!-- Edit modal -->
-      <div class="modal fade" id="modalEdit{{ p.id }}" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content bg-dark text-white">
-            <div class="modal-header">
-              <h5 class="modal-title">Editar proyecto - {{ p.titulo }}</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="post" enctype="multipart/form-data">
-              {% csrf_token %}
-              <input type="hidden" name="editar_proyecto" value="1">
-              <input type="hidden" name="editar_proyecto_id" value="{{ p.id }}">
-              <div class="modal-body">
-                <div class="row g-2">
-                  <div class="col-md-6">
-                    <label class="form-label">Título</label>
-                    <input type="text" name="titulo" class="form-control" value="{{ p.titulo }}" required>
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label">Cliente</label>
-                    <input type="text" name="cliente" class="form-control" value="{{ p.cliente }}">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-label">Fecha</label>
-                    <input type="date" name="fecha" class="form-control" value="{{ p.fecha }}">
-                  </div>
-                  <div class="col-md-8">
-                    <label class="form-label">Fotos (subir para reemplazar)</label>
-                    <input type="file" name="fotos" accept="image/*" class="form-control" multiple>
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label">Descripción</label>
-                    <textarea name="descripcion" class="form-control" rows="3">{{ p.descripcion }}</textarea>
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label">Características (coma separadas)</label>
-                    <input type="text" name="caracteristicas" class="form-control" value="{{ p.caracteristicas|join:', ' }}">
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label">Categorías</label>
-                    <select name="categoria_ids" class="form-select" multiple>
-                      {% for cat in categorias %}
-                        <option value="{{ cat.id }}" {% if cat in p.categorias.all %}selected{% endif %}>{{ cat.nombre }}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label">Tecnologías</label>
-                    <select name="tecnologia_ids" class="form-select" multiple>
-                      {% for tech in tecnologias %}
-                        <option value="{{ tech.id }}" {% if tech in p.tecnologias.all %}selected{% endif %}>{{ tech.nombre }}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                  <div class="col-12 mt-2">
-                    <label class="form-label">Fotos actuales</label>
-                    <div class="d-flex gap-2 flex-wrap">
-                      {% for url in p.fotos %}
-                        <img src="{{ url }}" style="width:80px; height:60px; object-fit:cover; border-radius:4px;">
-                      {% endfor %}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Guardar cambios</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+  // Abrir modal para crear
+  document.getElementById('btnAgregarProyecto').addEventListener('click', function(){
+    modalTitle.textContent = 'Crear proyecto';
+    clearForm();
+  });
 
-      {% endfor %}
-    </tbody>
-  </table>
+  // Edit buttons
+  document.querySelectorAll('.btnEditarProyecto').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      modalTitle.textContent = 'Editar proyecto - ' + btn.dataset.titulo;
+      // set flags
+      inputCrear.value = '';
+      inputEditar.value = '1';
+      inputEditarId.value = btn.dataset.id;
+      // fill fields
+      document.getElementById('input_titulo').value = btn.dataset.titulo || '';
+      document.getElementById('input_cliente').value = btn.dataset.cliente || '';
+      document.getElementById('input_fecha').value = btn.dataset.fecha || '';
+      document.getElementById('input_descripcion').value = btn.dataset.descripcion || '';
+      document.getElementById('input_caracteristicas').value = btn.dataset.caracteristicas || '';
+      // categorias
+      var catStr = btn.dataset.categorias || '';
+      var cats = catStr ? catStr.split(',') : [];
+      document.querySelectorAll('.categoria-radio').forEach(function(r){
+        r.checked = cats.indexOf(r.value) !== -1;
+      });
+      // tecnologias
+      var techStr = btn.dataset.tecnologias || '';
+      var techs = techStr ? techStr.split(',') : [];
+      document.querySelectorAll('.tecnologia-checkbox').forEach(function(c){
+        c.checked = techs.indexOf(c.value) !== -1;
+      });
+      // fotos actuales
+      var fotosDiv = document.getElementById('fotos_actuales');
+      fotosDiv.innerHTML = '';
+      var fotosRaw = btn.dataset.fotos || '';
+      if(fotosRaw){
+        var fotos = fotosRaw.split('||');
+        fotos.forEach(function(u){
+          if(!u) return;
+          var img = document.createElement('img');
+          img.src = u;
+          img.style.width = '80px'; img.style.height = '60px'; img.style.objectFit = 'cover'; img.style.borderRadius = '4px'; img.className = 'me-1';
+          fotosDiv.appendChild(img);
+        });
+      }
+    });
+  });
+});
+</script>
+
 </div>
 {% endblock %}
