@@ -3,71 +3,86 @@
 {% block title %}Control de Proyectos{% endblock %}
 
 {% block extra_head %}
-<style>
-/* Light dashboard overrides */
-body { background-color: #ffffff !important; color: #212529 !important; }
-.content-area, .container-fluid { background: transparent; color: #212529 !important; }
-.form-control, .form-select, textarea { background-color: #ffffff !important; color:#212529 !important; border:1px solid #dee2e6 !important; }
-.table, .table th, .table td { color: #212529 !important; border-color: rgba(0,0,0,0.06) !important; }
-.card.bg-dark { background: #ffffff !important; color: #212529 !important; }
-.btn-close-white { filter: none; }
-</style>
 {% endblock %}
 
 {% block content %}
 <div class="container-fluid">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="mb-0">Control de Proyectos</h1>
-    <div class="d-flex gap-2">
-      <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalNuevaCategoria">Nueva categoría</button>
-      <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalNuevaTecnologia">Nueva tecnología</button>
-      <button id="btnAgregarProyecto" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalProyecto">Agregar proyecto</button>
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+    <div>
+      <h1 class="mb-2" style="color: var(--primary-color); font-size: 2.5rem;">
+        <i class="fas fa-folder-open me-3" style="color: var(--primary-color);"></i>Control de Proyectos
+      </h1>
+      <p class="text-muted mb-0">Gestiona tus proyectos, categorías y tecnologías</p>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+      <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalNuevaCategoria" title="Agregar nueva categoría">
+        <i class="fas fa-layer-group me-2"></i>Nueva Categoría
+      </button>
+      <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalNuevaTecnologia" title="Agregar nueva tecnología">
+        <i class="fas fa-code me-2"></i>Nueva Tecnología
+      </button>
+      <button id="btnAgregarProyecto" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalProyecto" style="padding: 0.75rem 1.75rem; font-size: 1rem;">
+        <i class="fas fa-plus me-2"></i>Nuevo Proyecto
+      </button>
     </div>
   </div>
 
   <!-- Modal: Crear Categoría -->
-  <div class="modal fade" id="modalNuevaCategoria" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+  <div class="modal fade" id="modalNuevaCategoria" tabindex="-1" aria-labelledby="categoriaTitleModal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <form method="post" class="modal-content">
         {% csrf_token %}
         <input type="hidden" name="crear_categoria" value="1">
         <div class="modal-header">
-          <h5 class="modal-title">Crear categoría</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          <h5 class="modal-title" id="categoriaTitleModal">
+            <i class="fas fa-layer-group me-2"></i>Crear Nueva Categoría
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body">
-          <div class="mb-2">
-            <label class="form-label">Nombre</label>
-            <input type="text" name="categoria_nombre" class="form-control" required>
+          <div class="mb-3">
+            <label class="form-label" for="categoriaNombre">Nombre de la categoría</label>
+            <input type="text" id="categoriaNombre" name="categoria_nombre" class="form-control" placeholder="Ej: Desarrollo Web" required>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Crear</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fas fa-times me-2"></i>Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-check me-2"></i>Crear
+          </button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- Modal: Crear Tecnología -->
-  <div class="modal fade" id="modalNuevaTecnologia" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+  <div class="modal fade" id="modalNuevaTecnologia" tabindex="-1" aria-labelledby="tecnologiaTitleModal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <form method="post" class="modal-content">
         {% csrf_token %}
         <input type="hidden" name="crear_tecnologia" value="1">
         <div class="modal-header">
-          <h5 class="modal-title">Crear tecnología</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          <h5 class="modal-title" id="tecnologiaTitleModal">
+            <i class="fas fa-code me-2"></i>Crear Nueva Tecnología
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body">
-          <div class="mb-2">
-            <label class="form-label">Nombre</label>
-            <input type="text" name="tecnologia_nombre" class="form-control" required>
+          <div class="mb-3">
+            <label class="form-label" for="tecnologiaNombre">Nombre de la tecnología</label>
+            <input type="text" id="tecnologiaNombre" name="tecnologia_nombre" class="form-control" placeholder="Ej: React, Django, etc." required>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Crear</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fas fa-times me-2"></i>Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-check me-2"></i>Crear
+          </button>
         </div>
       </form>
     </div>
@@ -76,56 +91,87 @@ body { background-color: #ffffff !important; color: #212529 !important; }
   <!-- El formulario de crear/editar ahora está en el modal único abajo (#modalProyecto) -->
 
   <!-- Grid de tarjetas de proyectos -->
-  <div class="row row-cols-1 row-cols-md-3 g-4">
+  <div class="row row-cols-1 row-cols-md-2 g-4">
     {% for p in proyectos %}
     <div class="col">
-      <div class="card h-100">
+      <div class="card h-100" style="border-left: 2px solid var(--primary-color); overflow: hidden;">
         {% if p.fotos and p.fotos.0 %}
-          <img src="{{ p.fotos.0 }}" class="card-img-top" alt="{{ p.titulo }}" style="height:160px; object-fit:cover;">
+          <div class="card-image-container">
+            <img src="{{ p.fotos.0 }}" class="card-img-top" alt="{{ p.titulo }}">
+          </div>
+        {% else %}
+          <div class="card-image-placeholder">
+            <i class="fas fa-image"></i>
+          </div>
         {% endif %}
         <div class="card-body">
-          <h5 class="card-title">{{ p.titulo }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{ p.cliente }} · {{ p.fecha }}</h6>
-          <p class="card-text">{{ p.descripcion|truncatechars:120 }}</p>
-          <div class="mb-2">
-            {% for c in p.caracteristicas %}
-              <span class="badge bg-secondary me-1">{{ c }}</span>
-            {% empty %}
-              <span class="text-muted">-</span>
-            {% endfor %}
+          <h5 class="card-title" style="color: var(--primary-color); font-weight: 700;">{{ p.titulo }}</h5>
+          <h6 class="card-subtitle mb-3" style="font-size: 0.85rem;">
+            <i class="fas fa-building me-1" style="color: var(--primary-color);"></i>{{ p.cliente }} 
+            <i class="fas fa-calendar ms-2 me-1" style="color: var(--primary-color);"></i>{{ p.fecha }}
+          </h6>
+          <p class="card-text" style="color: var(--text-muted); min-height: 20px;">{{ p.descripcion|truncatechars:120 }}</p>
+          
+          {% if p.caracteristicas %}
+          <div class="mb-3">
+            <small style="color: var(--text-muted); font-weight: 600;">Características:</small>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+              {% for c in p.caracteristicas %}
+                <span class="badge" style="background: var(--primary-ultra-light); color: var(--primary-dark);">{{ c }}</span>
+              {% endfor %}
+            </div>
           </div>
-          <div class="mb-2">
-            {% for cat in p.categorias.all %}
-              <span class="badge bg-secondary me-1">{{ cat.nombre }}</span>
-            {% endfor %}
-          </div>
-          <div class="mb-2">
-            {% for tech in p.tecnologias.all %}
-              <span class="badge bg-info text-dark me-1">{{ tech.nombre }}</span>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="card-footer d-flex justify-content-between">
-          <div>
-            <button class="btn btn-sm btn-outline-primary btnEditarProyecto" 
-              data-bs-toggle="modal" data-bs-target="#modalProyecto"
-              data-id="{{ p.id }}"
-              data-titulo="{{ p.titulo|escapejs }}"
-              data-cliente="{{ p.cliente|escapejs }}"
-              data-fecha="{{ p.fecha }}"
-              data-descripcion="{{ p.descripcion|escapejs }}"
-              data-caracteristicas="{% for c in p.caracteristicas %}{% if not forloop.first %},{% endif %}{{ c|escapejs }}{% endfor %}"
-              data-categorias="{% for cat in p.categorias.all %}{% if not forloop.first %},{% endif %}{{ cat.id }}{% endfor %}"
-              data-tecnologias="{% for tech in p.tecnologias.all %}{% if not forloop.first %},{% endif %}{{ tech.id }}{% endfor %}"
-              data-fotos="{% for url in p.fotos %}{% if not forloop.first %}||{% endif %}{{ url }}{% endfor %}"
-            >Editar</button>
+          {% endif %}
 
-            <form method="post" style="display:inline" onsubmit="return confirm('Eliminar proyecto?');">
-              {% csrf_token %}
-              <button type="submit" name="eliminar_proyecto" value="{{ p.id }}" class="btn btn-sm btn-danger">Eliminar</button>
-            </form>
+          {% if p.categorias.all %}
+          <div class="mb-3">
+            <small style="color: var(--text-muted); font-weight: 600;">Categorías:</small>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+              {% for cat in p.categorias.all %}
+                <span class="badge" style="background: var(--info-light); color: var(--info-color);">{{ cat.nombre }}</span>
+              {% endfor %}
+            </div>
           </div>
-          <small class="text-muted">#{{ p.id }}</small>
+          {% endif %}
+
+          {% if p.tecnologias.all %}
+          <div class="mb-3">
+            <small style="color: var(--text-muted); font-weight: 600;">Tecnologías:</small>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+              {% for tech in p.tecnologias.all %}
+                <span class="badge" style="background: var(--success-light); color: var(--success-color);">{{ tech.nombre }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <div class="card-footer" style="background: var(--gray-50); border-top: 1px solid var(--border-color);">
+          <div class="d-flex justify-content-between align-items-center gap-2">
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-outline-primary btnEditarProyecto" 
+                data-bs-toggle="modal" data-bs-target="#modalProyecto"
+                data-id="{{ p.id }}"
+                data-titulo="{{ p.titulo|escapejs }}"
+                data-cliente="{{ p.cliente|escapejs }}"
+                data-fecha="{{ p.fecha }}"
+                data-descripcion="{{ p.descripcion|escapejs }}"
+                data-caracteristicas="{% for c in p.caracteristicas %}{% if not forloop.first %},{% endif %}{{ c|escapejs }}{% endfor %}"
+                data-categorias="{% for cat in p.categorias.all %}{% if not forloop.first %},{% endif %}{{ cat.id }}{% endfor %}"
+                data-tecnologias="{% for tech in p.tecnologias.all %}{% if not forloop.first %},{% endif %}{{ tech.id }}{% endfor %}"
+                data-fotos="{% for url in p.fotos %}{% if not forloop.first %}||{% endif %}{{ url }}{% endfor %}"
+                title="Editar proyecto"
+              >
+                <i class="fas fa-edit me-1"></i>Editar
+              </button>
+
+              <form method="post" style="display:inline;" onsubmit="return confirm('¿Eliminar proyecto &quot;{{ p.titulo }}&quot;?');">
+                {% csrf_token %}
+                <button type="submit" name="eliminar_proyecto" value="{{ p.id }}" class="btn btn-sm btn-outline-danger" title="Eliminar proyecto">
+                  <i class="fas fa-trash me-1"></i>Eliminar
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -135,11 +181,13 @@ body { background-color: #ffffff !important; color: #212529 !important; }
 
 
 <!-- Modal único para crear/editar proyecto -->
-<div class="modal fade" id="modalProyecto" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content bg-dark text-white">
+<div class="modal fade" id="modalProyecto" tabindex="-1" aria-hidden="true" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalProyectoTitle">Crear proyecto</h5>
+        <h5 class="modal-title" id="modalProyectoTitle">
+          <i class="fas fa-plus-circle me-2"></i>Crear Proyecto
+        </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form method="post" enctype="multipart/form-data" id="formProyecto">

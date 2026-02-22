@@ -3,13 +3,7 @@
 {% block title %}Control de Servicios{% endblock %}
 
 {% block extra_head %}
-<style>
-/* Light dashboard overrides */
-body { background-color: #ffffff !important; color: #212529 !important; }
-.content-area, .container-fluid { background: transparent; color: #212529 !important; }
-.form-control, .form-select, textarea { background-color: #ffffff !important; color:#212529 !important; border:1px solid #dee2e6 !important; }
-.table, .table th, .table td { color: #212529 !important; border-color: rgba(0,0,0,0.06) !important; }
-</style>
+
 {% endblock %}
 
 {% block extra_scripts %}
@@ -62,156 +56,166 @@ document.addEventListener('DOMContentLoaded', function(){
 
 {% block content %}
 <div class="container-fluid">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="mb-0">Control de Servicios</h1>
-  </div>
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="mb-0">Control de Servicios</h1>
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
     <div>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearServicio">
-        <i class="fas fa-plus me-2"></i>Nuevo Servicio
-      </button>
+      <h1 class="mb-2" style="color: var(--primary-color); font-size: 2.5rem;">
+        <i class="fas fa-wrench me-3" style="color: var(--primary-color);"></i>Control de Servicios
+      </h1>
+      <p class="text-muted mb-0">Gestiona todos tus servicios y características</p>
     </div>
+    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalCrearServicio" style="padding: 0.75rem 1.75rem; font-size: 1rem;">
+      <i class="fas fa-plus me-2"></i>Nuevo Servicio
+    </button>
   </div>
 
-  <!-- Tabla: Servicios -->
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Foto</th>
-        <th>Nombre</th>
-        <th>Título</th>
-        <th>Precio</th>
-        <th>Descripción</th>
-        <th>Características</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for s in servicios %}
-      <tr>
-        <td style="width:100px;">
-          {% if s.foto %}
-            <img src="{{ s.foto.url }}" alt="{{ s.nombre }}" style="max-width:80px; max-height:80px; object-fit:cover;">
-          {% else %}
-            <span class="text-muted">-</span>
-          {% endif %}
-        </td>
-        <td>{{ s.nombre }}</td>
-        <td>{{ s.titulo }}</td>
-        <td>${{ s.precio }}</td>
-        <td>{{ s.descripcion|truncatechars:60 }}</td>
-        <td>
-          {% for c in s.caracteristicas %}
-            <span class="badge bg-secondary me-1">{{ c }}</span>
-          {% empty %}
-            <span class="text-muted">-</span>
-          {% endfor %}
-        </td>
-        <td>
-          <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEdit{{ s.id }}">Editar</button>
-
-          <form method="post" style="display:inline" onsubmit="return confirm('Eliminar servicio?');">
-            {% csrf_token %}
-            <button type="submit" name="eliminar_servicio" value="{{ s.id }}" class="btn btn-sm btn-danger">Eliminar</button>
-          </form>
-        </td>
-      </tr>
-
-      <!-- Edit modal -->
-      <div class="modal fade" id="modalEdit{{ s.id }}" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content ">
-            <div class="modal-header">
-              <h5 class="modal-title">Editar servicio - {{ s.nombre }}</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+  <!-- Grid de tarjetas de servicios -->
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for s in servicios %}
+    <div class="col">
+      <div class="card h-100" style="border-left: 2px solid var(--primary-color); overflow: hidden;">
+        {% if s.foto %}
+          <div class="card-image-container">
+            <img src="{{ s.foto.url }}" class="card-img-top" alt="{{ s.nombre }}">
+          </div>
+        {% else %}
+          <div class="card-image-placeholder">
+            <i class="fas fa-image"></i>
+          </div>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title" style="color: var(--primary-color); font-weight: 700;">{{ s.nombre }}</h5>
+          <h6 class="card-subtitle mb-3" style="font-size: 0.85rem;">
+            <i class="fas fa-tag me-1" style="color: var(--primary-color);"></i>{{ s.titulo }}
+            <i class="fas fa-dollar-sign ms-2 me-1" style="color: var(--primary-color);"></i>${{ s.precio }}
+          </h6>
+          <p class="card-text" style="color: var(--text-muted); min-height: 40px;">{{ s.descripcion|truncatechars:100 }}</p>
+          
+          {% if s.caracteristicas %}
+          <div class="mb-3">
+            <small style="color: var(--text-muted); font-weight: 600;">Características:</small>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+              {% for c in s.caracteristicas %}
+                <span class="badge" style="background: var(--primary-ultra-light); color: var(--primary-dark);">{{ c }}</span>
+              {% endfor %}
             </div>
-            <form method="post" enctype="multipart/form-data">
+          </div>
+          {% endif %}
+        </div>
+        <div class="card-footer" style="background: var(--gray-50); border-top: 1px solid var(--border-color);">
+          <div class="d-flex justify-content-between align-items-center gap-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalEdit{{ s.id }}" title="Editar servicio">
+              <i class="fas fa-edit me-1"></i>Editar
+            </button>
+
+            <form method="post" style="display:inline;" onsubmit="return confirm('¿Eliminar servicio &quot;{{ s.nombre }}&quot;?');">
               {% csrf_token %}
-              <input type="hidden" name="editar_servicio" value="1">
-              <input type="hidden" name="editar_servicio_id" value="{{ s.id }}">
-              <div class="modal-body">
-                <div class="row g-2">
-                  <div class="col-md-6">
-                    <label class="form-label">Nombre</label>
-                    <input type="text" name="nombre" class="form-control" value="{{ s.nombre }}" required>
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label">Título</label>
-                    <input type="text" name="titulo" class="form-control" value="{{ s.titulo }}">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-label">Precio</label>
-                    <input type="number" step="0.01" name="precio" class="form-control" value="{{ s.precio }}">
-                  </div>
-                  <div class="col-md-8">
-                    <label class="form-label">Foto (opcional)</label>
-                    <input type="file" name="foto" accept="image/*" class="form-control">
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label">Descripción</label>
-                    <textarea name="descripcion" class="form-control" rows="3">{{ s.descripcion }}</textarea>
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label">Características</label>
-                    <div class="features-widget">
-                      <div class="features-list" id="features-list-{{ s.id }}">
-                        {% for c in s.caracteristicas %}
-                          <div class="input-group mb-2 feature-item">
-                            <input type="text" class="form-control feature-input" value="{{ c }}">
-                            <button class="btn btn-outline-danger remove-feature" type="button">&times;</button>
-                          </div>
-                        {% empty %}
-                          <div class="input-group mb-2 feature-item">
-                            <input type="text" class="form-control feature-input" placeholder="Agregar característica">
-                            <button class="btn btn-outline-danger remove-feature" type="button">&times;</button>
-                          </div>
-                        {% endfor %}
-                      </div>
-                      <div class="mt-2">
-                        <button type="button" class="btn btn-sm btn-outline-primary add-feature">+ Añadir</button>
-                      </div>
-                      <input type="hidden" name="caracteristicas" id="caracteristicas-hidden-{{ s.id }}">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Guardar cambios</button>
-              </div>
+              <button type="submit" name="eliminar_servicio" value="{{ s.id }}" class="btn btn-sm btn-outline-danger" title="Eliminar servicio">
+                <i class="fas fa-trash me-1"></i>Eliminar
+              </button>
             </form>
           </div>
         </div>
       </div>
+    </div>
 
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-    <!-- Modal: Crear Servicio -->
-    <div class="modal fade" id="modalCrearServicio" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
+    <!-- Edit modal -->
+    <div class="modal fade" id="modalEdit{{ s.id }}" tabindex="-1" aria-hidden="true" role="dialog">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Crear Servicio</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            <h5 class="modal-title">
+              <i class="fas fa-edit me-2"></i>Editar Servicio: {{ s.nombre }}
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="editar_servicio" value="1">
+            <input type="hidden" name="editar_servicio_id" value="{{ s.id }}">
+            <div class="modal-body">
+              <div class="row g-2">
+                <div class="col-md-6">
+                  <label class="form-label">Nombre</label>
+                  <input type="text" name="nombre" class="form-control" value="{{ s.nombre }}" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Título</label>
+                  <input type="text" name="titulo" class="form-control" value="{{ s.titulo }}">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Precio</label>
+                  <input type="number" step="0.01" name="precio" class="form-control" value="{{ s.precio }}">
+                </div>
+                <div class="col-md-8">
+                  <label class="form-label">Foto (opcional)</label>
+                  <input type="file" name="foto" accept="image/*" class="form-control">
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Descripción</label>
+                  <textarea name="descripcion" class="form-control" rows="3">{{ s.descripcion }}</textarea>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Características</label>
+                  <div class="features-widget">
+                    <div class="features-list" id="features-list-{{ s.id }}">
+                      {% for c in s.caracteristicas %}
+                        <div class="input-group mb-2 feature-item">
+                          <input type="text" class="form-control feature-input" value="{{ c }}">
+                          <button class="btn btn-outline-danger remove-feature" type="button">&times;</button>
+                        </div>
+                      {% empty %}
+                        <div class="input-group mb-2 feature-item">
+                          <input type="text" class="form-control feature-input" placeholder="Agregar característica">
+                          <button class="btn btn-outline-danger remove-feature" type="button">&times;</button>
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <div class="mt-2">
+                      <button type="button" class="btn btn-sm btn-outline-primary add-feature">+ Añadir</button>
+                    </div>
+                    <input type="hidden" name="caracteristicas" id="caracteristicas-hidden-{{ s.id }}">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+  </div>
+</div>
+    <!-- Modal: Crear Servicio -->
+    <div class="modal fade" id="modalCrearServicio" tabindex="-1" aria-hidden="true" role="dialog">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="fas fa-plus-circle me-2"></i>Crear Nuevo Servicio
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="crear_servicio" value="1">
             <div class="modal-body">
               <div class="row g-2">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <input type="text" name="titulo" class="form-control" placeholder="Título">
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-6">
                   <input type="number" step="0.01" name="precio" class="form-control" placeholder="Precio" required>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <input type="file" name="foto" accept="image/*" class="form-control">
                 </div>
                 <div class="col-12">
@@ -224,10 +228,8 @@ document.addEventListener('DOMContentLoaded', function(){
                       <div class="input-group mb-2 feature-item">
                         <input type="text" class="form-control feature-input" placeholder="Agregar característica">
                         <button class="btn btn-outline-danger remove-feature" type="button">&times;</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary add-feature">+ Añadir</button>
                       </div>
-                    </div>
-                    <div class="mt-2">
-                      <button type="button" class="btn btn-sm btn-outline-primary add-feature">+ Añadir</button>
                     </div>
                     <input type="hidden" name="caracteristicas" id="caracteristicas-hidden-create">
                   </div>

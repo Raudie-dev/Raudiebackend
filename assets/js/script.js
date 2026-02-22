@@ -93,54 +93,56 @@ document.addEventListener("DOMContentLoaded", () => {
   // FORMULARIO DE CONTACTO OPTIMIZADO
   // =============================================
 
-document.addEventListener("DOMContentLoaded", () => {
-  const contactForm = document.querySelector(".contact-form");
+  if (elements.contactForm) {
+    elements.contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault()
 
-  if (contactForm) {
-    contactForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+      const submitBtn = elements.contactForm.querySelector('button[type="submit"]')
+      const originalText = submitBtn.innerHTML
 
-      const form = e.target;
-      const formData = new FormData(form);
-      const submitBtn = form.querySelector('button[type="submit"]');
-      const originalText = submitBtn.innerHTML;
-
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...'
+      submitBtn.disabled = true
 
       try {
+        const formData = new FormData(elements.contactForm)
+
         const response = await fetch("send_email.php", {
           method: "POST",
           body: formData,
-        });
+        })
 
         if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
+          throw new Error(`HTTP error ${response.status}`)
         }
 
-        const result = await response.json();
+        const result = await response.json()
 
         if (result.success) {
-          submitBtn.innerHTML = '<i class="fas fa-check"></i> ¡Enviado!';
-          submitBtn.style.background = "#10b981";
-          form.reset();
+          submitBtn.innerHTML = '<i class="fas fa-check"></i> ¡Enviado!'
+          submitBtn.style.background = "#10b981"
+          elements.contactForm.reset()
+
+          setTimeout(() => {
+            submitBtn.innerHTML = originalText
+            submitBtn.disabled = false
+            submitBtn.style.background = ""
+          }, 2000)
         } else {
-          throw new Error(result.message || "Error desconocido en el servidor.");
+          throw new Error(result.message || "Error desconocido en el servidor.")
         }
       } catch (error) {
-        submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
-        submitBtn.style.background = "#ef4444";
-        alert("Error al enviar el mensaje: " + error.message);
-      } finally {
+        submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error'
+        submitBtn.style.background = "#ef4444"
+        console.error("Error en formulario:", error)
+
         setTimeout(() => {
-          submitBtn.innerHTML = originalText;
-          submitBtn.disabled = false;
-          submitBtn.style.background = "";
-        }, 2000);
+          submitBtn.innerHTML = originalText
+          submitBtn.disabled = false
+          submitBtn.style.background = ""
+        }, 2000)
       }
-    });
+    })
   }
-});
 
   // =============================================
   // SCROLL TO TOP OPTIMIZADO
@@ -166,8 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (elements.filterBtns.length && elements.projects.length) {
     function filterProjects(filter) {
-      const fragment = document.createDocumentFragment()
-
       elements.projects.forEach((project) => {
         const categories = project.dataset.category?.split(" ") || []
         const shouldShow = filter === "all" || categories.includes(filter)
@@ -184,19 +184,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     elements.filterBtns.forEach((btn) => {
       btn.addEventListener("click", function () {
-        // Remover clase active de todos los botones
         elements.filterBtns.forEach((b) => b.classList.remove("active"))
         this.classList.add("active")
         filterProjects(this.dataset.filter)
       })
     })
 
-    // Inicializar con todos los proyectos visibles
     filterProjects("all")
   }
 
   // =============================================
-  // MODALES OPTIMIZADOS CON LAZY LOADING
+  // MODALES OPTIMIZADOS
   // =============================================
 
   function setupOptimizedModals() {
@@ -251,7 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const imageUrl = thumbnail.dataset.image
 
         if (imageUrl && imageUrl !== mainImage.src) {
-          // Lazy loading de imágenes
           const img = new Image()
           img.onload = () => {
             mainImage.src = imageUrl
@@ -267,7 +264,6 @@ document.addEventListener("DOMContentLoaded", () => {
         modalData.currentIndex = index
       }
 
-      // Event listeners optimizados
       thumbnails.forEach((thumb, index) => {
         thumb.addEventListener("click", () => updateImage(index))
       })
@@ -286,11 +282,10 @@ document.addEventListener("DOMContentLoaded", () => {
         })
       }
 
-      // Inicializar con la primera imagen
       if (thumbnails.length > 0) updateImage(0)
     }
 
-    // Event delegation para mejor rendimiento
+    // Event delegation para modales
     document.addEventListener("click", (e) => {
       if (e.target.matches(".view-details") || e.target.closest(".view-details")) {
         e.preventDefault()
@@ -309,9 +304,42 @@ document.addEventListener("DOMContentLoaded", () => {
         const modal = e.target.closest(".modern-modal")
         closeModal(modal)
       }
+
+      // Abrir modales dinámicos
+      if (e.target.matches(".open-project-modal") || e.target.closest(".open-project-modal")) {
+        e.preventDefault()
+        const btn = e.target.matches(".open-project-modal") ? e.target : e.target.closest(".open-project-modal")
+        const target = btn.dataset.target
+        const modal = document.querySelector(target)
+        if (modal) {
+          modal.style.display = "block"
+          modal.classList.add("open")
+          document.body.style.overflow = "hidden"
+        }
+      }
+
+      // Cerrar mediante close button
+      if (e.target.matches(".modal-close") || e.target.closest(".modal-close")) {
+        const modal = e.target.closest(".modern-modal")
+        if (modal) {
+          modal.style.display = "none"
+          modal.classList.remove("open")
+          document.body.style.overflow = ""
+        }
+      }
+
+      // Cerrar mediante backdrop
+      if (e.target.classList && e.target.classList.contains("modal-backdrop")) {
+        const modal = e.target.closest(".modern-modal")
+        if (modal) {
+          modal.style.display = "none"
+          modal.classList.remove("open")
+          document.body.style.overflow = ""
+        }
+      }
     })
 
-    // Cerrar con tecla Escape
+    // Cerrar con Escape
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         document.querySelectorAll(".modern-modal.active").forEach(closeModal)
@@ -320,6 +348,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   setupOptimizedModals()
+
+  // =============================================
+  // THUMBNAILS EN MODALES
+  // =============================================
+
+  document.addEventListener("click", (e) => {
+    const thumb = e.target.closest(".thumbnail")
+    if (!thumb) return
+
+    const modal = thumb.closest(".modern-modal")
+    if (!modal) return
+
+    const mainImg = modal.querySelector(".gallery-main img")
+    if (!mainImg) return
+
+    const src = thumb.dataset.image
+    if (src) mainImg.src = src
+
+    modal.querySelectorAll(".thumbnail").forEach((t) => {
+      t.classList.remove("active")
+    })
+    thumb.classList.add("active")
+  })
 
   // =============================================
   // WHATSAPP OPTIMIZADO
@@ -358,7 +409,6 @@ document.addEventListener("DOMContentLoaded", () => {
     notification.addEventListener("mouseenter", showNotification)
     notification.addEventListener("mouseleave", hideNotification)
 
-    // Mostrar notificación inicial
     setTimeout(() => {
       showNotification()
       setTimeout(hideNotification, 3000)
@@ -390,46 +440,6 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   // =============================================
-  // FORMULARIO OPTIMIZADO
-  // =============================================
-
-  if (elements.contactForm) {
-    elements.contactForm.addEventListener("submit", async (e) => {
-      e.preventDefault()
-
-      const submitBtn = elements.contactForm.querySelector('button[type="submit"]')
-      const originalText = submitBtn.innerHTML
-
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...'
-      submitBtn.disabled = true
-
-      try {
-        // Simular envío (aquí irían las validaciones reales)
-        await new Promise((resolve) => setTimeout(resolve, 1500))
-
-        submitBtn.innerHTML = '<i class="fas fa-check"></i> ¡Enviado!'
-        submitBtn.style.background = "#10b981"
-
-        setTimeout(() => {
-          submitBtn.innerHTML = originalText
-          submitBtn.disabled = false
-          submitBtn.style.background = ""
-          elements.contactForm.reset()
-        }, 2000)
-      } catch (error) {
-        submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error'
-        submitBtn.style.background = "#ef4444"
-
-        setTimeout(() => {
-          submitBtn.innerHTML = originalText
-          submitBtn.disabled = false
-          submitBtn.style.background = ""
-        }, 2000)
-      }
-    })
-  }
-
-  // =============================================
   // ANIMACIONES DE SCROLL OPTIMIZADAS
   // =============================================
 
@@ -442,68 +452,14 @@ document.addEventListener("DOMContentLoaded", () => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add("visible")
-        observer.unobserve(entry.target) // Dejar de observar una vez visible
+        observer.unobserve(entry.target)
       }
     })
   }, observerOptions)
 
-  // Observar elementos que necesitan animación
   document.querySelectorAll(".project-card, .service-card").forEach((el) => {
     observer.observe(el)
   })
 
   console.log("RauDie Website - Optimización completada ✅")
 })
-
-
-    // Minimal modal open/close and thumbnail handling for dynamically generated modals
-    document.addEventListener('click', function (e) {
-      // open modal
-      var openBtn = e.target.closest('.open-project-modal');
-      if (openBtn) {
-        var target = openBtn.dataset.target;
-        var modal = document.querySelector(target);
-        if (modal) {
-          modal.style.display = 'block';
-          modal.classList.add('open');
-          document.body.style.overflow = 'hidden';
-        }
-        return;
-      }
-
-      // close modal via close button
-      var closeBtn = e.target.closest('.modal-close');
-      if (closeBtn) {
-        var modal = closeBtn.closest('.modern-modal');
-        if (modal) {
-          modal.style.display = 'none';
-          modal.classList.remove('open');
-          document.body.style.overflow = '';
-        }
-        return;
-      }
-
-      // close when clicking backdrop
-      if (e.target.classList && e.target.classList.contains('modal-backdrop')) {
-        var modal = e.target.closest('.modern-modal');
-        if (modal) {
-          modal.style.display = 'none';
-          modal.classList.remove('open');
-          document.body.style.overflow = '';
-        }
-      }
-    });
-
-    // thumbnails: change main image when clicking thumbnail
-    document.addEventListener('click', function (e) {
-      var thumb = e.target.closest('.thumbnail');
-      if (!thumb) return;
-      var modal = thumb.closest('.modern-modal');
-      if (!modal) return;
-      var mainImg = modal.querySelector('.gallery-main img');
-      if (!mainImg) return;
-      var src = thumb.dataset.image;
-      if (src) mainImg.src = src;
-      modal.querySelectorAll('.thumbnail').forEach(function (t) { t.classList.remove('active'); });
-      thumb.classList.add('active');
-    });

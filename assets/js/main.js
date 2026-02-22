@@ -1,5 +1,52 @@
+// Utility: Add smooth scrolling and animations
 document.addEventListener("DOMContentLoaded", () => {
-    // Mobile Menu Toggle
+    // ========== NAVBAR MOBILE TOGGLE ==========
+    const navbarToggle = document.querySelector(".navbar-toggle")
+    const navbarNav = document.querySelector(".navbar-nav")
+    
+    if (navbarToggle && navbarNav) {
+      navbarToggle.addEventListener("click", (e) => {
+        e.stopPropagation()
+        navbarNav.classList.toggle("show")
+        navbarToggle.classList.toggle("active")
+      })
+    }
+  
+    // ========== DROPDOWN MENU MOBILE ==========
+    const dropdownItems = document.querySelectorAll(".nav-item.has-dropdown")
+    dropdownItems.forEach((item) => {
+      const link = item.querySelector(".nav-link")
+      if (link) {
+        link.addEventListener("click", (e) => {
+          if (window.innerWidth <= 768) {
+            e.preventDefault()
+            item.classList.toggle("show")
+          }
+        })
+      }
+    })
+  
+    // ========== CLOSE MENU ON LINK CLICK ==========
+    const navLinks = document.querySelectorAll(".navbar-nav .nav-link")
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (!link.parentElement.classList.contains("has-dropdown")) {
+          navbarNav.classList.remove("show")
+          navbarToggle.classList.remove("active")
+        }
+      })
+    })
+  
+    // ========== CLOSE MENU WHEN CLICKING OUTSIDE ==========
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".admin-header")) {
+        navbarNav.classList.remove("show")
+        if (navbarToggle) navbarToggle.classList.remove("active")
+        dropdownItems.forEach((item) => item.classList.remove("show"))
+      }
+    })
+
+    // ========== IMPROVED MOBILE MENU TOGGLE (LEGACY) ==========
     const menuToggle = document.querySelector(".menu-toggle")
     const navList = document.querySelector(".nav-list")
   
@@ -303,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           }
   
-          // Auto-advance slides every 6 seconds
+      // Auto-advance slides every 6 seconds
           let slideInterval = setInterval(() => {
             nextBtn.click()
           }, 6000)
@@ -321,5 +368,98 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     }
+  
+    // ========== TABLE ROW HOVER EFFECTS ==========
+    const tableRows = document.querySelectorAll("table tbody tr")
+    tableRows.forEach((row) => {
+      row.addEventListener("mouseenter", () => {
+        row.style.transform = "scale(1.01)"
+        row.style.boxShadow = "inset 3px 0 0 rgba(192, 19, 30, 0.5)"
+      })
+      row.addEventListener("mouseleave", () => {
+        row.style.transform = "scale(1)"
+        row.style.boxShadow = "none"
+      })
+    })
+  
+    // ========== MODAL ANIMATION IMPROVEMENTS ==========
+    const modals = document.querySelectorAll(".modal")
+    modals.forEach((modal) => {
+      modal.addEventListener("show.bs.modal", () => {
+        modal.style.animation = "fadeIn 0.3s ease-out"
+      })
+    })
+  
+    // ========== FORM INPUT FOCUS EFFECTS ==========
+    const formControls = document.querySelectorAll(".form-control, .form-select")
+    formControls.forEach((input) => {
+      input.addEventListener("focus", () => {
+        input.parentElement.classList.add("focused")
+        input.style.boxShadow =
+          "0 0 0 4px rgba(192, 19, 30, 0.1), 0 0 0 1px rgba(192, 19, 30, 1)"
+      })
+      input.addEventListener("blur", () => {
+        input.parentElement.classList.remove("focused")
+        input.style.boxShadow = "none"
+      })
+    })
+  
+    // ========== BUTTON RIPPLE EFFECT ==========
+    const buttons = document.querySelectorAll(".btn")
+    buttons.forEach((button) => {
+      button.addEventListener("click", function (e) {
+        const ripple = document.createElement("span")
+        const rect = this.getBoundingClientRect()
+        const size = Math.max(rect.width, rect.height)
+        const x = e.clientX - rect.left - size / 2
+        const y = e.clientY - rect.top - size / 2
+  
+        ripple.style.width = ripple.style.height = size + "px"
+        ripple.style.left = x + "px"
+        ripple.style.top = y + "px"
+        ripple.classList.add("ripple")
+  
+        this.appendChild(ripple)
+  
+        setTimeout(() => ripple.remove(), 600)
+      })
+    })
+  
+    // ========== BADGE ANIMATIONS ==========
+    const badges = document.querySelectorAll(".badge")
+    badges.forEach((badge, index) => {
+      badge.style.animation = `fadeIn 0.4s ease-out ${index * 0.05}s both`
+    })
+  
+    // ========== TOOLTIP INITIALIZATION ==========
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      if (typeof bootstrap !== "undefined" && bootstrap.Tooltip) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      }
+    })
+  
+    // ========== SCROLL ANIMATIONS ==========
+    const scrollElements = document.querySelectorAll(".card, .table-responsive")
+    const elementInView = (el, dividend = 1) => {
+      const elementTop = el.getBoundingClientRect().top
+      return elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+    }
+  
+    const displayScrollElement = (element) => {
+      element.classList.add("fade-in")
+    }
+  
+    const hideScrollElement = (element) => {
+      element.classList.remove("fade-in")
+    }
+  
+    window.addEventListener("scroll", () => {
+      scrollElements.forEach((el) => {
+        if (elementInView(el, 1.25)) {
+          displayScrollElement(el)
+        }
+      })
+    })
   })
   
