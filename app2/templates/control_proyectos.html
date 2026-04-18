@@ -2,257 +2,304 @@
 
 {% block title %}Control de Proyectos{% endblock %}
 
-{% block extra_head %}
-{% endblock %}
-
 {% block content %}
 <div class="container-fluid">
-  <!-- Header Section -->
-  <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
-    <div>
-      <h1 class="mb-2" style="color: var(--primary-color); font-size: 2.5rem;">
-        <i class="fas fa-folder-open me-3" style="color: var(--primary-color);"></i>Control de Proyectos
-      </h1>
-      <p class="text-muted mb-0">Gestiona tus proyectos, categorías y tecnologías</p>
+
+  <!-- ── PAGE HEADER ── -->
+  <div class="page-header">
+    <div class="page-header__left">
+      <div class="page-header__icon">
+        <i class="fas fa-folder-open"></i>
+      </div>
+      <div>
+        <h1 class="page-header__title">Control de Proyectos</h1>
+        <p class="page-header__subtitle">Gestiona tus proyectos, categorías y tecnologías</p>
+      </div>
     </div>
-    <div class="d-flex gap-2 flex-wrap">
-      <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalNuevaCategoria" title="Agregar nueva categoría">
+    <div class="page-header__actions">
+      <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevaCategoria">
         <i class="fas fa-layer-group me-2"></i>Nueva Categoría
       </button>
-      <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalNuevaTecnologia" title="Agregar nueva tecnología">
+      <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevaTecnologia">
         <i class="fas fa-code me-2"></i>Nueva Tecnología
       </button>
-      <button id="btnAgregarProyecto" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalProyecto" style="padding: 0.75rem 1.75rem; font-size: 1rem;">
+      <button id="btnAgregarProyecto" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalProyecto">
         <i class="fas fa-plus me-2"></i>Nuevo Proyecto
       </button>
     </div>
   </div>
 
-  <!-- Modal: Crear Categoría -->
-  <div class="modal fade" id="modalNuevaCategoria" tabindex="-1" aria-labelledby="categoriaTitleModal" aria-hidden="true" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-      <form method="post" class="modal-content">
-        {% csrf_token %}
-        <input type="hidden" name="crear_categoria" value="1">
-        <div class="modal-header">
-          <h5 class="modal-title" id="categoriaTitleModal">
-            <i class="fas fa-layer-group me-2"></i>Crear Nueva Categoría
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label" for="categoriaNombre">Nombre de la categoría</label>
-            <input type="text" id="categoriaNombre" name="categoria_nombre" class="form-control" placeholder="Ej: Desarrollo Web" required>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            <i class="fas fa-times me-2"></i>Cancelar
-          </button>
-          <button type="submit" class="btn btn-primary">
-            <i class="fas fa-check me-2"></i>Crear
-          </button>
-        </div>
-      </form>
+  <!-- ── STATS BAR ── -->
+  <div class="stats-bar">
+    <div class="stat-pill">
+      <i class="fas fa-folder"></i>
+      <span><strong>{{ proyectos|length }}</strong> proyecto{{ proyectos|length|pluralize:",s" }}</span>
     </div>
+    {% if categorias %}
+    <div class="stat-pill">
+      <i class="fas fa-layer-group"></i>
+      <span><strong>{{ categorias|length }}</strong> categoría{{ categorias|length|pluralize:",s" }}</span>
+    </div>
+    {% endif %}
+    {% if tecnologias %}
+    <div class="stat-pill">
+      <i class="fas fa-code"></i>
+      <span><strong>{{ tecnologias|length }}</strong> tecnología{{ tecnologias|length|pluralize:",s" }}</span>
+    </div>
+    {% endif %}
   </div>
 
-  <!-- Modal: Crear Tecnología -->
-  <div class="modal fade" id="modalNuevaTecnologia" tabindex="-1" aria-labelledby="tecnologiaTitleModal" aria-hidden="true" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-      <form method="post" class="modal-content">
-        {% csrf_token %}
-        <input type="hidden" name="crear_tecnologia" value="1">
-        <div class="modal-header">
-          <h5 class="modal-title" id="tecnologiaTitleModal">
-            <i class="fas fa-code me-2"></i>Crear Nueva Tecnología
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label" for="tecnologiaNombre">Nombre de la tecnología</label>
-            <input type="text" id="tecnologiaNombre" name="tecnologia_nombre" class="form-control" placeholder="Ej: React, Django, etc." required>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            <i class="fas fa-times me-2"></i>Cancelar
-          </button>
-          <button type="submit" class="btn btn-primary">
-            <i class="fas fa-check me-2"></i>Crear
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- El formulario de crear/editar ahora está en el modal único abajo (#modalProyecto) -->
-
-  <!-- Grid de tarjetas de proyectos -->
-  <div class="row row-cols-1 row-cols-md-2 g-4">
+  <!-- ── GRID DE PROYECTOS ── -->
+  {% if proyectos %}
+  <div class="proyectos-grid">
     {% for p in proyectos %}
-    <div class="col">
-      <div class="card h-100" style="border-left: 2px solid var(--primary-color); overflow: hidden;">
-        {% if p.fotos and p.fotos.0 %}
-          <div class="card-image-container">
-            <img src="{{ p.fotos.0 }}" class="card-img-top" alt="{{ p.titulo }}">
-          </div>
-        {% else %}
-          <div class="card-image-placeholder">
-            <i class="fas fa-image"></i>
-          </div>
+    <div class="proyecto-card">
+
+      <!-- Imagen / Placeholder -->
+      {% if p.fotos and p.fotos.0 %}
+        <div class="proyecto-card__image">
+          <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}">
+          {% if p.fotos|length > 1 %}
+            <span class="foto-count"><i class="fas fa-images me-1"></i>{{ p.fotos|length }}</span>
+          {% endif %}
+        </div>
+      {% else %}
+        <div class="proyecto-card__image proyecto-card__image--empty">
+          <i class="fas fa-folder-open"></i>
+          <span>Sin imagen</span>
+        </div>
+      {% endif %}
+
+      <!-- Cuerpo -->
+      <div class="proyecto-card__body">
+        <div class="proyecto-card__meta">
+          <span class="proyecto-card__client">
+            <i class="fas fa-building me-1"></i>{{ p.cliente }}
+          </span>
+          <span class="proyecto-card__date">
+            <i class="fas fa-calendar me-1"></i>{{ p.fecha }}
+          </span>
+        </div>
+
+        <h2 class="proyecto-card__title">{{ p.titulo }}</h2>
+
+        {% if p.descripcion %}
+          <p class="proyecto-card__desc">{{ p.descripcion|truncatechars:110 }}</p>
         {% endif %}
-        <div class="card-body">
-          <h5 class="card-title" style="color: var(--primary-color); font-weight: 700;">{{ p.titulo }}</h5>
-          <h6 class="card-subtitle mb-3" style="font-size: 0.85rem;">
-            <i class="fas fa-building me-1" style="color: var(--primary-color);"></i>{{ p.cliente }} 
-            <i class="fas fa-calendar ms-2 me-1" style="color: var(--primary-color);"></i>{{ p.fecha }}
-          </h6>
-          <p class="card-text" style="color: var(--text-muted); min-height: 20px;">{{ p.descripcion|truncatechars:120 }}</p>
-          
-          {% if p.caracteristicas %}
-          <div class="mb-3">
-            <small style="color: var(--text-muted); font-weight: 600;">Características:</small>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
-              {% for c in p.caracteristicas %}
-                <span class="badge" style="background: var(--primary-ultra-light); color: var(--primary-dark);">{{ c }}</span>
-              {% endfor %}
-            </div>
-          </div>
-          {% endif %}
 
+        <!-- Badges agrupados -->
+        <div class="proyecto-card__tags">
           {% if p.categorias.all %}
-          <div class="mb-3">
-            <small style="color: var(--text-muted); font-weight: 600;">Categorías:</small>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
-              {% for cat in p.categorias.all %}
-                <span class="badge" style="background: var(--info-light); color: var(--info-color);">{{ cat.nombre }}</span>
-              {% endfor %}
-            </div>
-          </div>
+            {% for cat in p.categorias.all %}
+              <span class="tag-badge tag-badge--categoria">{{ cat.nombre }}</span>
+            {% endfor %}
           {% endif %}
-
           {% if p.tecnologias.all %}
-          <div class="mb-3">
-            <small style="color: var(--text-muted); font-weight: 600;">Tecnologías:</small>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
-              {% for tech in p.tecnologias.all %}
-                <span class="badge" style="background: var(--success-light); color: var(--success-color);">{{ tech.nombre }}</span>
-              {% endfor %}
-            </div>
-          </div>
+            {% for tech in p.tecnologias.all %}
+              <span class="tag-badge tag-badge--tech">{{ tech.nombre }}</span>
+            {% endfor %}
+          {% endif %}
+          {% if p.caracteristicas %}
+            {% for c in p.caracteristicas %}
+              <span class="tag-badge tag-badge--feature">{{ c }}</span>
+            {% endfor %}
           {% endif %}
         </div>
-        <div class="card-footer" style="background: var(--gray-50); border-top: 1px solid var(--border-color);">
-          <div class="d-flex justify-content-between align-items-center gap-2">
-            <div class="d-flex gap-2">
-              <button class="btn btn-sm btn-outline-primary btnEditarProyecto" 
-                data-bs-toggle="modal" data-bs-target="#modalProyecto"
-                data-id="{{ p.id }}"
-                data-titulo="{{ p.titulo|escapejs }}"
-                data-cliente="{{ p.cliente|escapejs }}"
-                data-fecha="{{ p.fecha }}"
-                data-descripcion="{{ p.descripcion|escapejs }}"
-                data-caracteristicas="{% for c in p.caracteristicas %}{% if not forloop.first %},{% endif %}{{ c|escapejs }}{% endfor %}"
-                data-categorias="{% for cat in p.categorias.all %}{% if not forloop.first %},{% endif %}{{ cat.id }}{% endfor %}"
-                data-tecnologias="{% for tech in p.tecnologias.all %}{% if not forloop.first %},{% endif %}{{ tech.id }}{% endfor %}"
-                data-fotos="{% for url in p.fotos %}{% if not forloop.first %}||{% endif %}{{ url }}{% endfor %}"
-                title="Editar proyecto"
-              >
-                <i class="fas fa-edit me-1"></i>Editar
-              </button>
+      </div>
 
-              <form method="post" style="display:inline;" onsubmit="return confirm('¿Eliminar proyecto &quot;{{ p.titulo }}&quot;?');">
-                {% csrf_token %}
-                <button type="submit" name="eliminar_proyecto" value="{{ p.id }}" class="btn btn-sm btn-outline-danger" title="Eliminar proyecto">
-                  <i class="fas fa-trash me-1"></i>Eliminar
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
+      <!-- Footer -->
+      <div class="proyecto-card__footer">
+        <button class="btn btn-sm btn-outline-primary btnEditarProyecto"
+          data-bs-toggle="modal" data-bs-target="#modalProyecto"
+          data-id="{{ p.id }}"
+          data-titulo="{{ p.titulo|escapejs }}"
+          data-cliente="{{ p.cliente|escapejs }}"
+          data-fecha="{{ p.fecha }}"
+          data-descripcion="{{ p.descripcion|escapejs }}"
+          data-caracteristicas="{% for c in p.caracteristicas %}{% if not forloop.first %},{% endif %}{{ c|escapejs }}{% endfor %}"
+          data-categorias="{% for cat in p.categorias.all %}{% if not forloop.first %},{% endif %}{{ cat.id }}{% endfor %}"
+          data-tecnologias="{% for tech in p.tecnologias.all %}{% if not forloop.first %},{% endif %}{{ tech.id }}{% endfor %}"
+          data-fotos="{% for url in p.fotos %}{% if not forloop.first %}||{% endif %}{{ url }}{% endfor %}"
+        >
+          <i class="fas fa-pen me-1"></i>Editar
+        </button>
+        <form method="post" style="display:inline; margin-left:auto;"
+              onsubmit="return confirm('¿Eliminar proyecto «{{ p.titulo }}»?');">
+          {% csrf_token %}
+          <button type="submit" name="eliminar_proyecto" value="{{ p.id }}"
+                  class="btn btn-sm btn-outline-danger">
+            <i class="fas fa-trash me-1"></i>Eliminar
+          </button>
+        </form>
       </div>
     </div>
     {% endfor %}
   </div>
+
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state__icon"><i class="fas fa-folder-open"></i></div>
+    <h3>Sin proyectos aún</h3>
+    <p>Crea tu primer proyecto para comenzar a gestionarlos desde aquí.</p>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalProyecto" id="btnAgregarProyectoEmpty">
+      <i class="fas fa-plus me-2"></i>Crear primer proyecto
+    </button>
   </div>
+  {% endif %}
 
+</div>
 
-<!-- Modal único para crear/editar proyecto -->
-<div class="modal fade" id="modalProyecto" tabindex="-1" aria-hidden="true" role="dialog">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+<!-- ── MODAL: CREAR CATEGORÍA ── -->
+<div class="modal fade" id="modalNuevaCategoria" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <form method="post" class="modal-content">
+      {% csrf_token %}
+      <input type="hidden" name="crear_categoria" value="1">
+      <div class="modal-header">
+        <div class="modal-header__icon"><i class="fas fa-layer-group"></i></div>
+        <h5 class="modal-title">Nueva Categoría</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Nombre de la categoría</label>
+        <input type="text" name="categoria_nombre" class="form-control"
+               placeholder="Ej: Desarrollo Web" required>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-check me-1"></i>Crear
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── MODAL: CREAR TECNOLOGÍA ── -->
+<div class="modal fade" id="modalNuevaTecnologia" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <form method="post" class="modal-content">
+      {% csrf_token %}
+      <input type="hidden" name="crear_tecnologia" value="1">
+      <div class="modal-header">
+        <div class="modal-header__icon"><i class="fas fa-code"></i></div>
+        <h5 class="modal-title">Nueva Tecnología</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Nombre de la tecnología</label>
+        <input type="text" name="tecnologia_nombre" class="form-control"
+               placeholder="Ej: React, Django..." required>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-check me-1"></i>Crear
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── MODAL: CREAR / EDITAR PROYECTO ── -->
+<div class="modal fade" id="modalProyecto" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalProyectoTitle">
-          <i class="fas fa-plus-circle me-2"></i>Crear Proyecto
-        </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header__icon"><i class="fas fa-folder-open"></i></div>
+        <h5 class="modal-title" id="modalProyectoTitle">Nuevo Proyecto</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <form method="post" enctype="multipart/form-data" id="formProyecto">
         {% csrf_token %}
-        <input type="hidden" name="crear_proyecto" id="input_crear_proyecto" value="1">
-        <input type="hidden" name="editar_proyecto" id="input_editar_proyecto" value="">
+        <input type="hidden" name="crear_proyecto"    id="input_crear_proyecto"    value="1">
+        <input type="hidden" name="editar_proyecto"   id="input_editar_proyecto"   value="">
         <input type="hidden" name="editar_proyecto_id" id="input_editar_proyecto_id" value="">
         <div class="modal-body">
-          <div class="row g-2">
-            <div class="col-md-6">
-              <label class="form-label">Título</label>
-              <input type="text" name="titulo" id="input_titulo" class="form-control" placeholder="Título" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Cliente</label>
-              <input type="text" name="cliente" id="input_cliente" class="form-control" placeholder="Cliente">
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Fecha</label>
-              <input type="date" name="fecha" id="input_fecha" class="form-control" required>
-            </div>
-            <div class="col-md-8">
-              <label class="form-label">Fotos (subir para reemplazar)</label>
-              <input type="file" name="fotos" id="input_fotos" accept="image/*" class="form-control" multiple>
-            </div>
-            <div class="col-12">
-              <label class="form-label">Descripción</label>
-              <textarea name="descripcion" id="input_descripcion" class="form-control" rows="3"></textarea>
-            </div>
-            <div class="col-12">
-              <label class="form-label">Características (coma separadas)</label>
-              <input type="text" name="caracteristicas" id="input_caracteristicas" class="form-control" placeholder="ej: responsive, e-commerce">
-            </div>
 
-            <div class="col-12">
-              <label class="form-label">Categoría</label>
-              <div class="btn-group d-flex flex-wrap" role="group" aria-label="Categorías">
-                {% for cat in categorias %}
-                  <input type="radio" class="btn-check categoria-radio" name="categoria_id" id="cat_radio_{{ cat.id }}" autocomplete="off" value="{{ cat.id }}">
-                  <label class="btn btn-outline-secondary me-1 mb-1" for="cat_radio_{{ cat.id }}">{{ cat.nombre }}</label>
-                {% endfor %}
+          <!-- Sección: Info básica -->
+          <div class="form-section">
+            <h6 class="form-section__label"><i class="fas fa-info-circle me-2"></i>Información básica</h6>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Título <span class="text-danger">*</span></label>
+                <input type="text" name="titulo" id="input_titulo" class="form-control"
+                       placeholder="Ej: Plataforma E-commerce" required>
               </div>
-            </div>
-
-            <div class="col-12">
-              <label class="form-label">Tecnologías</label>
-              <div class="d-flex flex-wrap gap-1">
-                {% for tech in tecnologias %}
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input tecnologia-checkbox" type="checkbox" id="tech_chk_{{ tech.id }}" name="tecnologia_ids" value="{{ tech.id }}">
-                    <label class="btn btn-outline-info btn-sm mb-1" for="tech_chk_{{ tech.id }}">{{ tech.nombre }}</label>
-                  </div>
-                {% endfor %}
+              <div class="col-md-6">
+                <label class="form-label">Cliente</label>
+                <input type="text" name="cliente" id="input_cliente" class="form-control"
+                       placeholder="Nombre del cliente">
               </div>
-            </div>
-
-            <div class="col-12 mt-2">
-              <label class="form-label">Fotos actuales</label>
-              <div id="fotos_actuales" class="d-flex gap-2 flex-wrap"></div>
+              <div class="col-md-4">
+                <label class="form-label">Fecha <span class="text-danger">*</span></label>
+                <input type="date" name="fecha" id="input_fecha" class="form-control" required>
+              </div>
+              <div class="col-md-8">
+                <label class="form-label">Fotos</label>
+                <input type="file" name="fotos" id="input_fotos" accept="image/*"
+                       class="form-control" multiple>
+                <small class="form-text">Subir nuevas fotos reemplaza las existentes.</small>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Descripción</label>
+                <textarea name="descripcion" id="input_descripcion" class="form-control"
+                          rows="3" placeholder="Describe brevemente este proyecto..."></textarea>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Características</label>
+                <input type="text" name="caracteristicas" id="input_caracteristicas"
+                       class="form-control" placeholder="Ej: responsive, e-commerce, multi-idioma">
+                <small class="form-text">Separadas por coma.</small>
+              </div>
             </div>
           </div>
+
+          <!-- Sección: Clasificación -->
+          <div class="form-section mt-4">
+            <h6 class="form-section__label"><i class="fas fa-tags me-2"></i>Clasificación</h6>
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label">Categoría</label>
+                <div class="tag-selector" role="group">
+                  {% for cat in categorias %}
+                    <input type="radio" class="btn-check categoria-radio"
+                           name="categoria_id" id="cat_radio_{{ cat.id }}"
+                           autocomplete="off" value="{{ cat.id }}">
+                    <label class="tag-selector__btn" for="cat_radio_{{ cat.id }}">
+                      {{ cat.nombre }}
+                    </label>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Tecnologías</label>
+                <div class="tag-selector">
+                  {% for tech in tecnologias %}
+                    <div class="form-check form-check-inline p-0">
+                      <input class="btn-check tecnologia-checkbox" type="checkbox"
+                             id="tech_chk_{{ tech.id }}" name="tecnologia_ids" value="{{ tech.id }}">
+                      <label class="tag-selector__btn tag-selector__btn--tech"
+                             for="tech_chk_{{ tech.id }}">{{ tech.nombre }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección: Fotos actuales -->
+          <div class="form-section mt-4" id="seccion_fotos_actuales" style="display:none;">
+            <h6 class="form-section__label"><i class="fas fa-images me-2"></i>Fotos actuales</h6>
+            <div id="fotos_actuales" class="fotos-preview"></div>
+          </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary" id="btnGuardarProyecto">Guardar</button>
+          <button type="submit" class="btn btn-primary" id="btnGuardarProyecto">
+            <i class="fas fa-save me-2"></i>Guardar
+          </button>
         </div>
       </form>
     </div>
@@ -261,78 +308,79 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-  var modalTitle = document.getElementById('modalProyectoTitle');
-  var inputCrear = document.getElementById('input_crear_proyecto');
-  var inputEditar = document.getElementById('input_editar_proyecto');
+  var modalTitle    = document.getElementById('modalProyectoTitle');
+  var inputCrear    = document.getElementById('input_crear_proyecto');
+  var inputEditar   = document.getElementById('input_editar_proyecto');
   var inputEditarId = document.getElementById('input_editar_proyecto_id');
 
-  var clearForm = function(){
-    document.getElementById('input_titulo').value = '';
-    document.getElementById('input_cliente').value = '';
-    document.getElementById('input_fecha').value = '';
-    document.getElementById('input_descripcion').value = '';
+  function clearForm(){
+    document.getElementById('input_titulo').value        = '';
+    document.getElementById('input_cliente').value       = '';
+    document.getElementById('input_fecha').value         = '';
+    document.getElementById('input_descripcion').value   = '';
     document.getElementById('input_caracteristicas').value = '';
-    document.getElementById('input_fotos').value = '';
-    inputCrear.value = '1';
-    inputEditar.value = '';
+    document.getElementById('input_fotos').value         = '';
+    inputCrear.value    = '1';
+    inputEditar.value   = '';
     inputEditarId.value = '';
-    document.getElementById('fotos_actuales').innerHTML = '';
-    // clear categories
-    document.querySelectorAll('.categoria-radio').forEach(function(r){ r.checked = false; });
-    // clear tecnologias
-    document.querySelectorAll('.tecnologia-checkbox').forEach(function(c){ c.checked = false; });
-  };
+    document.getElementById('fotos_actuales').innerHTML  = '';
+    document.getElementById('seccion_fotos_actuales').style.display = 'none';
+    document.querySelectorAll('.categoria-radio').forEach(r => r.checked = false);
+    document.querySelectorAll('.tecnologia-checkbox').forEach(c => c.checked = false);
+  }
 
-  // Abrir modal para crear
   document.getElementById('btnAgregarProyecto').addEventListener('click', function(){
-    modalTitle.textContent = 'Crear proyecto';
+    modalTitle.innerHTML = '<i class="fas fa-plus-circle me-2"></i>Nuevo Proyecto';
     clearForm();
   });
 
-  // Edit buttons
+  var emptyBtn = document.getElementById('btnAgregarProyectoEmpty');
+  if(emptyBtn) emptyBtn.addEventListener('click', function(){
+    modalTitle.innerHTML = '<i class="fas fa-plus-circle me-2"></i>Nuevo Proyecto';
+    clearForm();
+  });
+
   document.querySelectorAll('.btnEditarProyecto').forEach(function(btn){
     btn.addEventListener('click', function(){
-      modalTitle.textContent = 'Editar proyecto - ' + btn.dataset.titulo;
-      // set flags
-      inputCrear.value = '';
-      inputEditar.value = '1';
+      modalTitle.innerHTML = '<i class="fas fa-pen me-2"></i>Editar: ' + btn.dataset.titulo;
+      inputCrear.value    = '';
+      inputEditar.value   = '1';
       inputEditarId.value = btn.dataset.id;
-      // fill fields
-      document.getElementById('input_titulo').value = btn.dataset.titulo || '';
-      document.getElementById('input_cliente').value = btn.dataset.cliente || '';
-      document.getElementById('input_fecha').value = btn.dataset.fecha || '';
-      document.getElementById('input_descripcion').value = btn.dataset.descripcion || '';
+
+      document.getElementById('input_titulo').value          = btn.dataset.titulo        || '';
+      document.getElementById('input_cliente').value         = btn.dataset.cliente       || '';
+      document.getElementById('input_fecha').value           = btn.dataset.fecha         || '';
+      document.getElementById('input_descripcion').value     = btn.dataset.descripcion   || '';
       document.getElementById('input_caracteristicas').value = btn.dataset.caracteristicas || '';
-      // categorias
-      var catStr = btn.dataset.categorias || '';
-      var cats = catStr ? catStr.split(',') : [];
-      document.querySelectorAll('.categoria-radio').forEach(function(r){
-        r.checked = cats.indexOf(r.value) !== -1;
-      });
-      // tecnologias
-      var techStr = btn.dataset.tecnologias || '';
-      var techs = techStr ? techStr.split(',') : [];
-      document.querySelectorAll('.tecnologia-checkbox').forEach(function(c){
-        c.checked = techs.indexOf(c.value) !== -1;
-      });
-      // fotos actuales
+
+      var cats  = (btn.dataset.categorias  || '').split(',').filter(Boolean);
+      var techs = (btn.dataset.tecnologias || '').split(',').filter(Boolean);
+      document.querySelectorAll('.categoria-radio').forEach(r  => r.checked = cats.includes(r.value));
+      document.querySelectorAll('.tecnologia-checkbox').forEach(c => c.checked = techs.includes(c.value));
+
       var fotosDiv = document.getElementById('fotos_actuales');
+      var seccion  = document.getElementById('seccion_fotos_actuales');
       fotosDiv.innerHTML = '';
       var fotosRaw = btn.dataset.fotos || '';
       if(fotosRaw){
-        var fotos = fotosRaw.split('||');
-        fotos.forEach(function(u){
-          if(!u) return;
+        fotosRaw.split('||').filter(Boolean).forEach(function(u){
           var img = document.createElement('img');
           img.src = u;
-          img.style.width = '80px'; img.style.height = '60px'; img.style.objectFit = 'cover'; img.style.borderRadius = '4px'; img.className = 'me-1';
+          img.className = 'fotos-preview__img';
           fotosDiv.appendChild(img);
         });
+        seccion.style.display = 'block';
+      } else {
+        seccion.style.display = 'none';
       }
     });
   });
+
+  // Animate cards
+  document.querySelectorAll('.proyecto-card').forEach(function(card, i){
+    card.style.animationDelay = (i * 60) + 'ms';
+    card.classList.add('fade-in');
+  });
 });
 </script>
-
-</div>
 {% endblock %}

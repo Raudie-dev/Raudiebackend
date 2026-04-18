@@ -2,25 +2,20 @@
 
 {% block title %}Control de Servicios{% endblock %}
 
-{% block extra_head %}
-
-{% endblock %}
-
 {% block extra_scripts %}
 <script>
 document.addEventListener('click', function(e){
-  // add feature
   const addBtn = e.target.closest('.add-feature');
   if(addBtn){
     const widget = addBtn.closest('.features-widget');
     const list = widget.querySelector('.features-list');
     const item = document.createElement('div');
     item.className = 'input-group mb-2 feature-item';
-    item.innerHTML = '<input type="text" class="form-control feature-input" placeholder="Agregar característica">'<%//%> + '<button class="btn btn-outline-danger remove-feature" type="button">&times;</button>';
+    item.innerHTML = '<input type="text" class="form-control feature-input" placeholder="Agregar característica">'
+      + '<button class="btn btn-outline-danger remove-feature" type="button"><i class="fas fa-times"></i></button>';
     list.appendChild(item);
+    list.lastElementChild.querySelector('input').focus();
   }
-
-  // remove feature
   const removeBtn = e.target.closest('.remove-feature');
   if(removeBtn){
     const item = removeBtn.closest('.feature-item');
@@ -28,27 +23,27 @@ document.addEventListener('click', function(e){
   }
 });
 
-// On submit: gather feature inputs into hidden field (comma-separated)
 document.addEventListener('submit', function(e){
-  const form = e.target;
-  // find all features-widget inside the form
-  const widgets = form.querySelectorAll('.features-widget');
-  widgets.forEach(widget => {
+  e.target.querySelectorAll('.features-widget').forEach(widget => {
     const inputs = Array.from(widget.querySelectorAll('.feature-input')).map(i=>i.value.trim()).filter(Boolean);
     const hidden = widget.querySelector('input[type="hidden"][name="caracteristicas"]');
     if(hidden) hidden.value = inputs.join(', ');
   });
 });
 
-// Small helper: ensure edit modals that started with no features have one empty input
 document.addEventListener('DOMContentLoaded', function(){
   document.querySelectorAll('.features-list').forEach(list => {
-    if(list.children.length === 0){
+    if(!list.children.length){
       const item = document.createElement('div');
       item.className = 'input-group mb-2 feature-item';
-      item.innerHTML = '<input type="text" class="form-control feature-input" placeholder="Agregar característica">'<%//%> + '<button class="btn btn-outline-danger remove-feature" type="button">&times;</button>';
+      item.innerHTML = '<input type="text" class="form-control feature-input" placeholder="Agregar característica">'
+        + '<button class="btn btn-outline-danger remove-feature" type="button"><i class="fas fa-times"></i></button>';
       list.appendChild(item);
     }
+  });
+  document.querySelectorAll('.servicio-card').forEach((card, i) => {
+    card.style.animationDelay = `${i * 60}ms`;
+    card.classList.add('fade-in');
   });
 });
 </script>
@@ -56,192 +51,249 @@ document.addEventListener('DOMContentLoaded', function(){
 
 {% block content %}
 <div class="container-fluid">
-  <!-- Header Section -->
-  <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
-    <div>
-      <h1 class="mb-2" style="color: var(--primary-color); font-size: 2.5rem;">
-        <i class="fas fa-wrench me-3" style="color: var(--primary-color);"></i>Control de Servicios
-      </h1>
-      <p class="text-muted mb-0">Gestiona todos tus servicios y características</p>
+
+  <!-- ── PAGE HEADER ── -->
+  <div class="page-header">
+    <div class="page-header__left">
+      <div class="page-header__icon">
+        <i class="fas fa-wrench"></i>
+      </div>
+      <div>
+        <h1 class="page-header__title">Control de Servicios</h1>
+        <p class="page-header__subtitle">Gestiona y administra todos tus servicios</p>
+      </div>
     </div>
-    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalCrearServicio" style="padding: 0.75rem 1.75rem; font-size: 1rem;">
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearServicio">
       <i class="fas fa-plus me-2"></i>Nuevo Servicio
     </button>
   </div>
 
-  <!-- Grid de tarjetas de servicios -->
-  <div class="row row-cols-1 row-cols-md-2 g-4">
-    {% for s in servicios %}
-    <div class="col">
-      <div class="card h-100" style="border-left: 2px solid var(--primary-color); overflow: hidden;">
-        {% if s.foto %}
-          <div class="card-image-container">
-            <img src="{{ s.foto.url }}" class="card-img-top" alt="{{ s.nombre }}">
-          </div>
-        {% else %}
-          <div class="card-image-placeholder">
-            <i class="fas fa-image"></i>
-          </div>
-        {% endif %}
-        <div class="card-body">
-          <h5 class="card-title" style="color: var(--primary-color); font-weight: 700;">{{ s.nombre }}</h5>
-          <h6 class="card-subtitle mb-3" style="font-size: 0.85rem;">
-            <i class="fas fa-tag me-1" style="color: var(--primary-color);"></i>{{ s.titulo }}
-            <i class="fas fa-dollar-sign ms-2 me-1" style="color: var(--primary-color);"></i>${{ s.precio }}
-          </h6>
-          <p class="card-text" style="color: var(--text-muted); min-height: 40px;">{{ s.descripcion|truncatechars:100 }}</p>
-          
-          {% if s.caracteristicas %}
-          <div class="mb-3">
-            <small style="color: var(--text-muted); font-weight: 600;">Características:</small>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
-              {% for c in s.caracteristicas %}
-                <span class="badge" style="background: var(--primary-ultra-light); color: var(--primary-dark);">{{ c }}</span>
-              {% endfor %}
-            </div>
-          </div>
-          {% endif %}
-        </div>
-        <div class="card-footer" style="background: var(--gray-50); border-top: 1px solid var(--border-color);">
-          <div class="d-flex justify-content-between align-items-center gap-2">
-            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalEdit{{ s.id }}" title="Editar servicio">
-              <i class="fas fa-edit me-1"></i>Editar
-            </button>
+  <!-- ── STATS BAR ── -->
+  <div class="stats-bar">
+    <div class="stat-pill">
+      <i class="fas fa-layer-group"></i>
+      <span><strong>{{ servicios|length }}</strong> servicio{{ servicios|length|pluralize:",s" }} activo{{ servicios|length|pluralize:",s" }}</span>
+    </div>
+  </div>
 
-            <form method="post" style="display:inline;" onsubmit="return confirm('¿Eliminar servicio &quot;{{ s.nombre }}&quot;?');">
-              {% csrf_token %}
-              <button type="submit" name="eliminar_servicio" value="{{ s.id }}" class="btn btn-sm btn-outline-danger" title="Eliminar servicio">
-                <i class="fas fa-trash me-1"></i>Eliminar
-              </button>
-            </form>
-          </div>
+  <!-- ── GRID DE SERVICIOS ── -->
+  {% if servicios %}
+  <div class="servicios-grid">
+    {% for s in servicios %}
+    <div class="servicio-card">
+
+      {% if s.foto %}
+        <div class="servicio-card__image">
+          <img src="{{ s.foto.url }}" alt="{{ s.nombre }}">
         </div>
+      {% else %}
+        <div class="servicio-card__image servicio-card__image--empty">
+          <i class="fas fa-image"></i>
+          <span>Sin imagen</span>
+        </div>
+      {% endif %}
+
+      <div class="servicio-card__body">
+        <div class="servicio-card__meta">
+          {% if s.titulo %}
+            <span class="servicio-card__tag">
+              <i class="fas fa-tag me-1"></i>{{ s.titulo }}
+            </span>
+          {% endif %}
+          <span class="servicio-card__price">${{ s.precio }}</span>
+        </div>
+        <h2 class="servicio-card__name">{{ s.nombre }}</h2>
+        {% if s.descripcion %}
+          <p class="servicio-card__desc">{{ s.descripcion|truncatechars:110 }}</p>
+        {% endif %}
+        {% if s.caracteristicas %}
+        <div class="servicio-card__features">
+          {% for c in s.caracteristicas %}
+            <span class="feature-badge">{{ c }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="servicio-card__footer">
+        <button class="btn btn-sm btn-outline-primary"
+                data-bs-toggle="modal" data-bs-target="#modalEdit{{ s.id }}">
+          <i class="fas fa-pen me-1"></i>Editar
+        </button>
+        <form method="post" style="display:inline; margin-left:auto;"
+              onsubmit="return confirm('¿Eliminar servicio «{{ s.nombre }}»?');">
+          {% csrf_token %}
+          <button type="submit" name="eliminar_servicio" value="{{ s.id }}"
+                  class="btn btn-sm btn-outline-danger">
+            <i class="fas fa-trash me-1"></i>Eliminar
+          </button>
+        </form>
       </div>
     </div>
 
-    <!-- Edit modal -->
-    <div class="modal fade" id="modalEdit{{ s.id }}" tabindex="-1" aria-hidden="true" role="dialog">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
+    <!-- ── MODAL EDITAR ── -->
+    <div class="modal fade" id="modalEdit{{ s.id }}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">
-              <i class="fas fa-edit me-2"></i>Editar Servicio: {{ s.nombre }}
-            </h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header__icon"><i class="fas fa-pen"></i></div>
+            <h5 class="modal-title">Editar: {{ s.nombre }}</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
           </div>
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="editar_servicio" value="1">
             <input type="hidden" name="editar_servicio_id" value="{{ s.id }}">
             <div class="modal-body">
-              <div class="row g-2">
-                <div class="col-md-6">
-                  <label class="form-label">Nombre</label>
-                  <input type="text" name="nombre" class="form-control" value="{{ s.nombre }}" required>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Título</label>
-                  <input type="text" name="titulo" class="form-control" value="{{ s.titulo }}">
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label">Precio</label>
-                  <input type="number" step="0.01" name="precio" class="form-control" value="{{ s.precio }}">
-                </div>
-                <div class="col-md-8">
-                  <label class="form-label">Foto (opcional)</label>
-                  <input type="file" name="foto" accept="image/*" class="form-control">
-                </div>
-                <div class="col-12">
-                  <label class="form-label">Descripción</label>
-                  <textarea name="descripcion" class="form-control" rows="3">{{ s.descripcion }}</textarea>
-                </div>
-                <div class="col-12">
-                  <label class="form-label">Características</label>
-                  <div class="features-widget">
-                    <div class="features-list" id="features-list-{{ s.id }}">
-                      {% for c in s.caracteristicas %}
-                        <div class="input-group mb-2 feature-item">
-                          <input type="text" class="form-control feature-input" value="{{ c }}">
-                          <button class="btn btn-outline-danger remove-feature" type="button">&times;</button>
-                        </div>
-                      {% empty %}
-                        <div class="input-group mb-2 feature-item">
-                          <input type="text" class="form-control feature-input" placeholder="Agregar característica">
-                          <button class="btn btn-outline-danger remove-feature" type="button">&times;</button>
-                        </div>
-                      {% endfor %}
+              <div class="form-section">
+                <h6 class="form-section__label"><i class="fas fa-info-circle me-2"></i>Información básica</h6>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" name="nombre" class="form-control" value="{{ s.nombre }}" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Título / Categoría</label>
+                    <input type="text" name="titulo" class="form-control" value="{{ s.titulo }}">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Precio <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input type="number" step="0.01" name="precio" class="form-control" value="{{ s.precio }}">
                     </div>
-                    <div class="mt-2">
-                      <button type="button" class="btn btn-sm btn-outline-primary add-feature">+ Añadir</button>
-                    </div>
-                    <input type="hidden" name="caracteristicas" id="caracteristicas-hidden-{{ s.id }}">
+                  </div>
+                  <div class="col-md-8">
+                    <label class="form-label">Foto</label>
+                    {% if s.foto %}
+                      <div class="current-photo mb-1">
+                        <img src="{{ s.foto.url }}" alt="Foto actual">
+                        <small class="text-muted ms-2">Foto actual</small>
+                      </div>
+                    {% endif %}
+                    <input type="file" name="foto" accept="image/*" class="form-control">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Descripción</label>
+                    <textarea name="descripcion" class="form-control" rows="3">{{ s.descripcion }}</textarea>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary">Guardar cambios</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    {% endfor %}
-  </div>
-</div>
-    <!-- Modal: Crear Servicio -->
-    <div class="modal fade" id="modalCrearServicio" tabindex="-1" aria-hidden="true" role="dialog">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">
-              <i class="fas fa-plus-circle me-2"></i>Crear Nuevo Servicio
-            </h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-          </div>
-          <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="hidden" name="crear_servicio" value="1">
-            <div class="modal-body">
-              <div class="row g-2">
-                <div class="col-md-6">
-                  <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
-                </div>
-                <div class="col-md-6">
-                  <input type="text" name="titulo" class="form-control" placeholder="Título">
-                </div>
-                <div class="col-md-6">
-                  <input type="number" step="0.01" name="precio" class="form-control" placeholder="Precio" required>
-                </div>
-                <div class="col-md-6">
-                  <input type="file" name="foto" accept="image/*" class="form-control">
-                </div>
-                <div class="col-12">
-                  <textarea name="descripcion" class="form-control" rows="2" placeholder="Descripción"></textarea>
-                </div>
-                <div class="col-12">
-                  <label class="form-label">Características</label>
-                  <div class="features-widget">
-                    <div class="features-list" id="features-list-create">
+              <div class="form-section mt-4">
+                <h6 class="form-section__label"><i class="fas fa-list-check me-2"></i>Características</h6>
+                <div class="features-widget">
+                  <div class="features-list">
+                    {% for c in s.caracteristicas %}
+                      <div class="input-group mb-2 feature-item">
+                        <input type="text" class="form-control feature-input" value="{{ c }}">
+                        <button class="btn btn-outline-danger remove-feature" type="button"><i class="fas fa-times"></i></button>
+                      </div>
+                    {% empty %}
                       <div class="input-group mb-2 feature-item">
                         <input type="text" class="form-control feature-input" placeholder="Agregar característica">
-                        <button class="btn btn-outline-danger remove-feature" type="button">&times;</button>
-                        <button type="button" class="btn btn-sm btn-outline-primary add-feature">+ Añadir</button>
+                        <button class="btn btn-outline-danger remove-feature" type="button"><i class="fas fa-times"></i></button>
                       </div>
-                    </div>
-                    <input type="hidden" name="caracteristicas" id="caracteristicas-hidden-create">
+                    {% endfor %}
                   </div>
+                  <button type="button" class="btn btn-sm btn-outline-primary add-feature mt-1">
+                    <i class="fas fa-plus me-1"></i>Añadir característica
+                  </button>
+                  <input type="hidden" name="caracteristicas">
                 </div>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-success">Crear Servicio</button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>Guardar cambios
+              </button>
             </div>
           </form>
         </div>
       </div>
     </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state__icon"><i class="fas fa-wrench"></i></div>
+    <h3>Sin servicios aún</h3>
+    <p>Comienza creando tu primer servicio para gestionarlo desde aquí.</p>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearServicio">
+      <i class="fas fa-plus me-2"></i>Crear primer servicio
+    </button>
+  </div>
+  {% endif %}
+
+</div>
+
+<!-- ── MODAL CREAR SERVICIO ── -->
+<div class="modal fade" id="modalCrearServicio" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-header__icon"><i class="fas fa-plus-circle"></i></div>
+        <h5 class="modal-title">Nuevo Servicio</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crear_servicio" value="1">
+        <div class="modal-body">
+          <div class="form-section">
+            <h6 class="form-section__label"><i class="fas fa-info-circle me-2"></i>Información básica</h6>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Nombre <span class="text-danger">*</span></label>
+                <input type="text" name="nombre" class="form-control" placeholder="Ej: Mantenimiento preventivo" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Título / Categoría</label>
+                <input type="text" name="titulo" class="form-control" placeholder="Ej: Industrial">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Precio <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input type="number" step="0.01" name="precio" class="form-control" placeholder="0.00" required>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <label class="form-label">Foto</label>
+                <input type="file" name="foto" accept="image/*" class="form-control">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Descripción</label>
+                <textarea name="descripcion" class="form-control" rows="3"
+                          placeholder="Describe brevemente este servicio..."></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="form-section mt-4">
+            <h6 class="form-section__label"><i class="fas fa-list-check me-2"></i>Características</h6>
+            <div class="features-widget">
+              <div class="features-list">
+                <div class="input-group mb-2 feature-item">
+                  <input type="text" class="form-control feature-input" placeholder="Ej: Incluye diagnóstico">
+                  <button class="btn btn-outline-danger remove-feature" type="button"><i class="fas fa-times"></i></button>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline-primary add-feature mt-1">
+                <i class="fas fa-plus me-1"></i>Añadir característica
+              </button>
+              <input type="hidden" name="caracteristicas">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-plus-circle me-2"></i>Crear Servicio
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
