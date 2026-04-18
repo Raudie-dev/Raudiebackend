@@ -450,6 +450,7 @@ h4 { font-weight:500; letter-spacing:.02em; }
 
 .section-header h2 {
   font-size:clamp(26px, 3.5vw, 46px); letter-spacing:-.025em;
+  text-align: center;
 }
 /* Primer texto antes del span de acento va ligero */
 .section-header h2 > span.light-prefix {
@@ -701,7 +702,7 @@ h4 { font-weight:500; letter-spacing:.02em; }
 
 .projects-filter {
   display:flex; align-items:center; flex-wrap:wrap; gap:10px;
-  margin-bottom:40px;
+  margin-bottom:40px; justify-content: center;
 }
 .filter-btn {
   display:inline-flex; align-items:center; gap:6px;
