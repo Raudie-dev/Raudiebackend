@@ -2,14 +2,40 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from django.conf import settings
+from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+from io import BytesIO
 import uuid, os
+from PIL import Image, UnidentifiedImageError
 from .models import User_admin
 from app1.models import Categoria, Tecnologia
 from .crud import (
     crear_servicio, obtener_servicios, eliminar_servicio, actualizar_servicio,
     crear_proyecto, obtener_proyectos, eliminar_proyecto, actualizar_proyecto
 )
+
+
+def save_image_as_webp(uploaded_file, folder):
+    webp_name = f"{folder}/{uuid.uuid4().hex}.webp"
+    original_ext = os.path.splitext(uploaded_file.name)[1] or '.webp'
+    fallback_name = f"{folder}/{uuid.uuid4().hex}{original_ext}"
+    try:
+        uploaded_file.seek(0)
+        image = Image.open(uploaded_file)
+        if image.mode in ('RGBA', 'LA', 'P'):
+            image = image.convert('RGBA')
+        else:
+            image = image.convert('RGB')
+
+        buffer = BytesIO()
+        image.save(buffer, format='WEBP', quality=80, method=6)
+        buffer.seek(0)
+        content = ContentFile(buffer.read(), name=webp_name)
+        saved_path = default_storage.save(webp_name, content)
+        return saved_path
+    except (UnidentifiedImageError, OSError):
+        uploaded_file.seek(0)
+        return default_storage.save(fallback_name, uploaded_file)
 
 
 def login(request):
@@ -60,7 +86,10 @@ def control_servicios(request):
             try:
                 precio_val = float(precio)
                 caracteristicas = [c.strip() for c in caracteristicas_txt.split(',') if c.strip()]
-                crear_servicio(nombre, titulo, precio_val, descripcion, caracteristicas, foto)
+                foto_path = None
+                if foto:
+                    foto_path = save_image_as_webp(foto, 'servicios')
+                crear_servicio(nombre, titulo, precio_val, descripcion, caracteristicas, foto_path)
                 messages.success(request, 'Servicio creado correctamente')
                 return redirect('control_servicios')
             except ValueError:
@@ -82,7 +111,10 @@ def control_servicios(request):
             try:
                 precio_val = float(precio) if precio else None
                 caracteristicas = [c.strip() for c in caracteristicas_txt.split(',') if c.strip()] if caracteristicas_txt != '' else None
-                actualizar_servicio(servicio_id, nombre=nombre or None, titulo=titulo or None, precio=precio_val, descripcion=descripcion or None, caracteristicas=caracteristicas, foto=foto)
+                foto_path = None
+                if foto:
+                    foto_path = save_image_as_webp(foto, 'servicios')
+                actualizar_servicio(servicio_id, nombre=nombre or None, titulo=titulo or None, precio=precio_val, descripcion=descripcion or None, caracteristicas=caracteristicas, foto=foto_path)
                 messages.success(request, 'Servicio actualizado correctamente')
                 return redirect('control_servicios')
             except ValueError:
@@ -159,9 +191,7 @@ def control_proyectos(request):
                 caracteristicas = [c.strip() for c in caracteristicas_txt.split(',') if c.strip()]
                 fotos_urls = []
                 for f in archivos:
-                    ext = os.path.splitext(f.name)[1]
-                    name = f"proyectos/{uuid.uuid4().hex}{ext}"
-                    saved_path = default_storage.save(name, f)
+                    saved_path = save_image_as_webp(f, 'proyectos')
                     try:
                         url = default_storage.url(saved_path)
                     except Exception:
@@ -197,9 +227,7 @@ def control_proyectos(request):
                 if archivos:
                     fotos_urls = []
                     for f in archivos:
-                        ext = os.path.splitext(f.name)[1]
-                        name = f"proyectos/{uuid.uuid4().hex}{ext}"
-                        saved_path = default_storage.save(name, f)
+                        saved_path = save_image_as_webp(f, 'proyectos')
                         try:
                             url = default_storage.url(saved_path)
                         except Exception:
