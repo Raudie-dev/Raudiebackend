@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Cotización - RAUDIE</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm;
+      @bottom-right {
+        content: "Pág. " counter(page) " de " counter(pages);
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 8pt;
+        color: #777;
+      }
+    }
+    
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      font-size: 10.5pt;
+      line-height: 1.5;
+    }
+
+    /* Grid layout for Header */
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12mm;
+    }
+    
+    .header-logo-cell {
+      width: 60%;
+      vertical-align: top;
+    }
+    
+    .header-logo-title {
+      font-size: 28pt;
+      font-weight: bold;
+      color: #1a1a1a;
+      letter-spacing: 1px;
+      line-height: 1;
+      margin: 0;
+    }
+    
+    .header-logo-subtitle {
+      font-size: 10pt;
+      color: #c0131e;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 600;
+      margin-top: 1mm;
+      margin-bottom: 4mm;
+    }
+    
+    .header-contact-info {
+      font-size: 9pt;
+      color: #555;
+      line-height: 1.4;
+    }
+    
+    .header-meta-cell {
+      width: 40%;
+      vertical-align: top;
+      text-align: right;
+    }
+    
+    .quote-title {
+      font-size: 24pt;
+      font-weight: bold;
+      color: #c0131e;
+      margin: 0 0 6mm 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .meta-box {
+      display: inline-block;
+      text-align: left;
+      font-size: 9.5pt;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    .meta-box table {
+      border-collapse: collapse;
+    }
+
+    .meta-box td {
+      padding: 1px 4px;
+    }
+
+    .meta-label {
+      font-weight: bold;
+      color: #1a1a1a;
+      padding-right: 4mm !important;
+    }
+
+    /* Table styling */
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8mm;
+      margin-bottom: 8mm;
+    }
+    
+    .items-table th {
+      background-color: #f8f9fa;
+      border-bottom: 2px solid #c0131e;
+      color: #1a1a1a;
+      font-size: 9pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    
+    .items-table td {
+      border-bottom: 1px solid #e9ecef;
+      padding: 12px;
+      vertical-align: top;
+      font-size: 10pt;
+    }
+    
+    .items-table tr:nth-child(even) td {
+      background-color: #fafafa;
+    }
+
+    .col-description {
+      width: 65%;
+    }
+
+    .col-hours {
+      width: 15%;
+      text-align: center;
+    }
+
+    .col-total {
+      width: 20%;
+      text-align: right;
+      font-weight: bold;
+    }
+    
+    .total-row td {
+      border-top: 2px solid #dee2e6;
+      border-bottom: none;
+      font-size: 12pt;
+      font-weight: bold;
+      padding-top: 15px;
+    }
+
+    .total-label {
+      text-align: right;
+      color: #555;
+    }
+
+    .total-value {
+      text-align: right;
+      color: #c0131e;
+      font-size: 14pt;
+    }
+
+    /* Footer / Conditions */
+    .conditions-container {
+      margin-top: 15mm;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-left: 4px solid #c0131e;
+      border-radius: 4px;
+      page-break-inside: avoid;
+    }
+
+    .conditions-title {
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin-bottom: 2mm;
+      text-transform: uppercase;
+    }
+
+    .conditions-text {
+      font-size: 9pt;
+      color: #555;
+      white-space: pre-wrap;
+      line-height: 1.4;
+    }
+
+    .thanks-message {
+      margin-top: 15mm;
+      text-align: center;
+      font-size: 11pt;
+      font-weight: bold;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <table class="header-table">
+    <tr>
+      <!-- Left side: Brand Info -->
+      <td class="header-logo-cell">
+        {% if logo_path %}
+          <img src="{{ logo_path }}" style="height: 50px; margin-bottom: 3mm;" />
+        {% else %}
+          <div class="header-logo-title">RAUDIE</div>
+        {% endif %}
+        <div class="header-logo-subtitle" style="margin-top: 1mm;">web developers</div>
+        <div class="header-contact-info">
+          Venezuela, Estado Aragua.<br>
+          <strong>Teléfono:</strong> +58 424-3736030<br>
+          <strong>Email:</strong> raudie@raudie.net
+        </div>
+      </td>
+      <!-- Right side: Quote Metadata -->
+      <td class="header-meta-cell">
+        <div class="quote-title">Cotización</div>
+        <div class="meta-box">
+          <table>
+            <tr>
+              <td class="meta-label">REFERENCIA</td>
+              <td>#{{ referencia }}</td>
+            </tr>
+            <tr>
+              <td class="meta-label">FECHA</td>
+              <td>{{ fecha }}</td>
+            </tr>
+            <tr>
+              <td class="meta-label">CLIENTE</td>
+              <td>{{ cliente }}</td>
+            </tr>
+            {% if rif %}
+            <tr>
+              <td class="meta-label">C.I / RIF</td>
+              <td>{{ rif }}</td>
+            </tr>
+            {% endif %}
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Items Table -->
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th class="col-description">Descripción</th>
+        <th class="col-hours" style="text-align: center;">Cantidad Horas</th>
+        <th class="col-total" style="text-align: right;">Importe</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td class="col-description">{{ item.descripcion }}</td>
+        <td class="col-hours">{{ item.horas|stringformat:".0f" }}</td>
+        <td class="col-total">{{ item.importe_formatted }}</td>
+      </tr>
+      {% endfor %}
+      
+      <!-- Total row -->
+      <tr class="total-row">
+        <td></td>
+        <td class="total-label">TOTAL</td>
+        <td class="total-value">{{ total_importe_formatted }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Conditions & Payment Terms -->
+  {% if condiciones %}
+  <div class="conditions-container">
+    <div class="conditions-title">Condiciones de Pago</div>
+    <div class="conditions-text">{{ condiciones }}</div>
+  </div>
+  {% endif %}
+
+  <div class="thanks-message">
+    ¡Gracias por su confianza!
+  </div>
+
+</body>
+</html>

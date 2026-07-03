@@ -188,7 +188,7 @@
 
               <div class="projects-grid">
                 {% for p in proyectos %}
-                  <div class="project-card" data-category="{% if p.categorias.all %}{% for c in p.categorias.all %}{{ c.nombre|slugify }}{% if not forloop.last %} {% endif %}{% endfor %}{% else %}uncategorized{% endif %}">
+                  <div class="project-card" data-project="{{ p.id }}" data-category="{% if p.categorias.all %}{% for c in p.categorias.all %}{{ c.nombre|slugify }}{% if not forloop.last %} {% endif %}{% endfor %}{% else %}uncategorized{% endif %}">
                     <div class="project-image">
                       {% if p.fotos %}
                         {% with p.fotos.0 as foto %}
@@ -293,5 +293,632 @@
         </main>
         {% endblock %}
 
-        {% block extra_js %}{% endblock %}
+{% block extra_scripts %}
+<!-- Chatbot Widget Flotante -->
+<div id="raudie-chatbot" class="chatbot-wrapper">
+  <!-- Botón Flotante -->
+  <button id="chatbot-toggle-btn" class="chatbot-trigger" aria-label="Abrir Chat de Soporte">
+    <i class="fas fa-comments"></i>
+    <span class="pulse-ring"></span>
+  </button>
+
+  <!-- Ventana de Chat -->
+  <div id="chatbot-window" class="chatbot-window hidden">
+    <!-- Cabecera -->
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div>
+          <h4 class="chatbot-title">Asistente RauDie</h4>
+          <span class="chatbot-subtitle">En línea • Inteligencia Artificial</span>
+        </div>
+      </div>
+      <div class="chatbot-header-actions">
+        <button id="chatbot-reset-btn" title="Reiniciar chat" class="chatbot-header-btn">
+          <i class="fas fa-sync-alt"></i>
+        </button>
+        <button id="chatbot-close-btn" title="Cerrar" class="chatbot-header-btn">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Cuerpo del Chat (Mensajes) -->
+    <div id="chatbot-messages" class="chatbot-messages">
+      <!-- Los mensajes se cargarán dinámicamente aquí -->
+    </div>
+
+    <!-- Indicador de Escribiendo (Loader) -->
+    <div id="chatbot-typing" class="chatbot-typing hidden">
+      <div class="typing-bubble">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <!-- Formulario de Entrada -->
+    <form id="chatbot-form" class="chatbot-input-area">
+      {% csrf_token %}
+      <input type="text" id="chatbot-input" placeholder="Escribe tu mensaje..." required autocomplete="off">
+      <button type="submit" id="chatbot-send-btn" class="chatbot-send-btn" aria-label="Enviar">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Estilos CSS del Chatbot -->
+<style>
+  .chatbot-wrapper {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+    font-family: 'Poppins', 'Roboto', sans-serif;
+  }
+
+  /* Botón de Activación */
+  .chatbot-trigger {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--red-light) 0%, var(--red) 100%);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(192, 19, 30, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    outline: none;
+  }
+
+  .chatbot-trigger:hover {
+    box-shadow: 0 10px 28px rgba(192, 19, 30, 0.5);
+  }
+
+  .chatbot-trigger:active {
+    transform: scale(0.95);
+  }
+
+  /* Anillo de pulso */
+  .pulse-ring {
+    display: none;
+  }
+
+  @keyframes chatbot-pulse {
+    0% { transform: scale(0.95); opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { transform: scale(1.15); opacity: 0; }
+  }
+
+  /* Ventana de Chat */
+  .chatbot-window {
+    position: absolute;
+    bottom: 75px;
+    right: 0;
+    width: 370px;
+    height: 520px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transform-origin: bottom right;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .chatbot-window.hidden {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+    pointer-events: none;
+  }
+
+  /* Cabecera */
+  .chatbot-header {
+    background: linear-gradient(135deg, var(--red-light) 0%, var(--red) 100%);
+    padding: 16px;
+    color: white;
+    display: flex;
+    justify-content: justify;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .chatbot-header-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .chatbot-avatar {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    position: relative;
+  }
+
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    background: #28a745;
+    border: 2px solid var(--red);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .status-dot.online {
+    animation: status-pulse 1.5s infinite;
+  }
+
+  @keyframes status-pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { transform: scale(1.2); opacity: 0; }
+  }
+
+  .chatbot-title {
+    font-size: 15px;
+    margin: 0;
+    font-weight: 600;
+    color: var(--white) !important;
+  }
+
+  .chatbot-subtitle {
+    font-size: 11px;
+    opacity: 0.8;
+    display: block;
+    color: var(--white) !important;
+  }
+
+  .chatbot-header-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .chatbot-header-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    padding: 4px;
+  }
+
+  .chatbot-header-btn:hover {
+    opacity: 1;
+  }
+
+  /* Cuerpo */
+  .chatbot-messages {
+    flex-grow: 1;
+    padding: 16px;
+    overflow-y: auto;
+    background: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-behavior: smooth;
+  }
+
+  /* Burbujas de Mensaje */
+  .chat-bubble {
+    padding: 10px 14px;
+    border-radius: 16px;
+    max-width: 80%;
+    font-size: 13.5px;
+    line-height: 1.45;
+    animation: bubble-appear 0.25s ease-out forwards;
+    word-break: break-word;
+  }
+
+  @keyframes bubble-appear {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .chat-bubble.bot {
+    background: var(--ink-2);
+    color: var(--white);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: none;
+  }
+
+  .chat-bubble.user {
+    background: linear-gradient(135deg, var(--red-light) 0%, var(--red) 100%);
+    color: #ffffff;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 4px 10px rgba(192, 19, 30, 0.15);
+  }
+
+  /* Indicador de Escribiendo */
+  .chatbot-typing {
+    padding: 8px 16px;
+    background: #f8f9fa;
+    align-self: flex-start;
+  }
+
+  .typing-bubble {
+    background: #ffffff;
+    padding: 10px 16px;
+    border-radius: 16px;
+    border-bottom-left-radius: 4px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .typing-bubble span {
+    width: 6px;
+    height: 6px;
+    background: #888888;
+    border-radius: 50%;
+    animation: typing-dots 1s infinite alternate;
+  }
+
+  .typing-bubble span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-bubble span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typing-dots {
+    from { transform: translateY(0); opacity: 0.4; }
+    to { transform: translateY(-5px); opacity: 1; }
+  }
+
+  /* Formulario de Entrada */
+  .chatbot-input-area {
+    padding: 12px 16px;
+    background: #ffffff;
+    border-top: 1px solid #eeeeee;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .chatbot-input-area input {
+    flex-grow: 1;
+    border: 1px solid #dddddd;
+    padding: 10px 16px;
+    border-radius: 24px;
+    font-size: 13.5px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .chatbot-input-area input:focus {
+    border-color: var(--red);
+  }
+
+  .chatbot-send-btn {
+    background: var(--red);
+    border: none;
+    color: white;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .chatbot-send-btn:hover {
+    background: var(--ink);
+  }
+
+  .chatbot-send-btn:active {
+    transform: scale(0.9);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Ajustes Mobile */
+  @media (max-width: 480px) {
+    .chatbot-wrapper {
+      bottom: 16px;
+      right: 16px;
+    }
+    .chatbot-window {
+      width: calc(100vw - 32px);
+      height: 480px;
+      bottom: 70px;
+    }
+  }
+</style>
+
+<!-- Lógica JavaScript del Chatbot -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const chatToggleBtn = document.getElementById('chatbot-toggle-btn');
+    const chatWindow = document.getElementById('chatbot-window');
+    const chatCloseBtn = document.getElementById('chatbot-close-btn');
+    const chatResetBtn = document.getElementById('chatbot-reset-btn');
+    const chatForm = document.getElementById('chatbot-form');
+    const chatInput = document.getElementById('chatbot-input');
+    const chatMessages = document.getElementById('chatbot-messages');
+    const chatTyping = document.getElementById('chatbot-typing');
+    const chatSendBtn = document.getElementById('chatbot-send-btn');
+
+    const STORAGE_KEY = 'raudie_chat_history';
+    const welcomeMessage = "{{ mensaje_bienvenida|escapejs }}";
+
+    // Cargar historial local o inicializar
+    let history = [];
+    try {
+      history = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch(e) {
+      history = [];
+    }
+
+    // Toggle Chat Window
+    chatToggleBtn.addEventListener('click', () => {
+      chatWindow.classList.toggle('hidden');
+      if (!chatWindow.classList.contains('hidden')) {
+        chatInput.focus();
+        scrollToBottom();
+      }
+    });
+
+    chatCloseBtn.addEventListener('click', () => {
+      chatWindow.classList.add('hidden');
+    });
+
+    // Renderizar un mensaje en la ventana de chat
+    function appendMessage(sender, text) {
+      const bubble = document.createElement('div');
+      bubble.className = `chat-bubble ${sender}`;
+      bubble.textContent = text;
+      chatMessages.appendChild(bubble);
+      scrollToBottom();
+    }
+
+    // Scroll al final
+    function scrollToBottom() {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Inicializar Chat
+    function initChat() {
+      chatMessages.innerHTML = '';
+      if (history.length === 0) {
+        // Mensaje de bienvenida por defecto
+        appendMessage('bot', welcomeMessage);
+        history.push({ sender: 'bot', text: welcomeMessage });
+        saveHistory();
+      } else {
+        history.forEach(msg => {
+          appendMessage(msg.sender, msg.text);
+        });
+      }
+    }
+
+    // Guardar historial en LocalStorage
+    function saveHistory() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    }
+
+    // Enviar mensaje al backend
+    chatForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const text = chatInput.value.trim();
+      if (!text) return;
+
+      // Desactivar entrada
+      chatInput.value = '';
+      chatInput.disabled = true;
+      chatSendBtn.disabled = true;
+
+      // Añadir mensaje de usuario al DOM e historial
+      appendMessage('user', text);
+      history.push({ sender: 'user', text: text });
+      saveHistory();
+
+      // Mostrar indicador de escribiendo
+      chatTyping.classList.remove('hidden');
+      scrollToBottom();
+
+      // Crear FormData con el CSRF Token y el mensaje
+      const formData = new FormData();
+      formData.append('message', text);
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+      // Hacer petición POST a public_chat
+      fetch('/app2/bot/chat/', {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrfToken
+        },
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Servicio no disponible.');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Ocultar cargador
+        chatTyping.classList.add('hidden');
+        
+        if (data.ok) {
+          appendMessage('bot', data.reply);
+          history.push({ sender: 'bot', text: data.reply });
+          saveHistory();
+        } else {
+          const errorMsg = data.error || 'Ocurrió un inconveniente al procesar tu solicitud.';
+          appendMessage('bot', errorMsg);
+        }
+      })
+      .catch(error => {
+        chatTyping.classList.add('hidden');
+        appendMessage('bot', 'El servicio de atención no está disponible en este momento. Inténtalo más tarde.');
+        console.error('[ChatBot Error]', error);
+      })
+      .finally(() => {
+        // Reactivar controles
+        chatInput.disabled = false;
+        chatSendBtn.disabled = false;
+        chatInput.focus();
+      });
+    });
+
+    // Acción para reiniciar conversación
+    chatResetBtn.addEventListener('click', function() {
+      if (confirm('¿Deseas reiniciar la conversación? Se borrará el historial.')) {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+        // Petición al backend para limpiar sesión de BD
+        fetch('/app2/bot/reset_chat/', {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': csrfToken
+          }
+        })
+        .then(() => {
+          history = [];
+          localStorage.removeItem(STORAGE_KEY);
+          initChat();
+        })
+        .catch(err => {
+          console.error('[Reset Error]', err);
+          history = [];
+          localStorage.removeItem(STORAGE_KEY);
+          initChat();
+        });
+      }
+    });
+
+    // Iniciar
+    initChat();
+  });
+</script>
+{% if proyectos %}
+  {% for p in proyectos %}
+    <div id="projectModal{{ p.id }}" class="modern-modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-container">
+        <div class="modal-header">
+          <div class="modal-title">
+            <h2>{{ p.titulo }}{% if p.cliente %} | {{ p.cliente }}{% endif %}</h2>
+            <div class="modal-subtitle">{% for c in p.categorias.all %}{% if forloop.first %}{{ c.nombre }}{% endif %}{% endfor %}</div>
+          </div>
+          <button class="modal-close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-content">
+          <div class="modal-gallery">
+            <div class="gallery-main">
+              {% if p.fotos %}
+                <img id="mainImage{{ p.id }}" src="{{ p.fotos.0 }}" alt="{{ p.titulo }}">
+              {% else %}
+                <img id="mainImage{{ p.id }}" src="{% static 'assets/img/proyectos/proyecto-1.png' %}" alt="{{ p.titulo }}">
+              {% endif %}
+              <div class="gallery-controls">
+                <button class="gallery-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="gallery-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+              </div>
+              <div class="gallery-counter">
+                <span class="current-slide">1</span> / <span class="total-slides">{% if p.fotos %}{{ p.fotos|length }}{% else %}1{% endif %}</span>
+              </div>
+            </div>
+            <div class="gallery-thumbnails">
+              {% if p.fotos %}
+                {% for foto in p.fotos %}
+                  <div class="thumbnail{% if forloop.first %} active{% endif %}" data-image="{{ foto }}">
+                    <img src="{{ foto }}" alt="{{ p.titulo }} mini">
+                  </div>
+                {% endfor %}
+              {% else %}
+                <div class="thumbnail active" data-image="{% static 'assets/img/proyectos/proyecto-1.png' %}">
+                  <img src="{% static 'assets/img/proyectos/proyecto-1.png' %}" alt="{{ p.titulo }} mini">
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="modal-info">
+            <div class="project-details">
+              <h3>Descripción del Proyecto</h3>
+              <p>{{ p.descripcion }}</p>
+              {% if p.caracteristicas %}
+                <div class="project-features">
+                  <h4>Características principales:</h4>
+                  <ul>
+                    {% for feat in p.caracteristicas %}
+                      <li><i class="fas fa-check"></i> {{ feat }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+            </div>
+            <div class="project-meta">
+              <div class="meta-item">
+                <i class="fas fa-user"></i>
+                <div>
+                  <span class="meta-label">Cliente</span>
+                  <span class="meta-value">{% if p.cliente %}{{ p.cliente }}{% else %}—{% endif %}</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <i class="fas fa-calendar"></i>
+                <div>
+                  <span class="meta-label">Fecha</span>
+                  <span class="meta-value">{% if p.fecha %}{{ p.fecha|date:"F Y" }}{% else %}—{% endif %}</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <i class="fas fa-tag"></i>
+                <div>
+                  <span class="meta-label">Categoría</span>
+                  <span class="meta-value">{% for c in p.categorias.all %}{% if forloop.first %}{{ c.nombre }}{% endif %}{% endfor %}</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <i class="fas fa-code"></i>
+                <div>
+                  <span class="meta-label">Tecnologías</span>
+                  <div class="tech-tags">
+                    {% for t in p.tecnologias.all %}
+                      <span>{{ t.nombre }}</span>
+                    {% empty %}
+                      <span>—</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endif %}
+
+{% endblock %}
+
                 </div>

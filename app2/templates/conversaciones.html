@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% block title %}Bandeja de Conversaciones - RAUDIE{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+  <!-- Page Header -->
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1 class="h3 mb-1 text-gray-800" style="font-weight: 700;">Bandeja de Conversaciones</h1>
+      <p class="text-muted mb-0">Monitorea y revisa las conversaciones del chatbot en tiempo real.</p>
+    </div>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="row mb-4" id="stats-row">
+    <div class="col-md-4 mb-3 mb-md-0">
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="bg-primary-subtle text-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 48px; height: 48px;">
+            <i class="fas fa-comments fa-lg"></i>
+          </div>
+          <div>
+            <h5 class="mb-0 font-weight-bold" style="font-weight: 600;" id="stat-activas">—</h5>
+            <small class="text-muted">Chats Activos</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3 mb-md-0">
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="bg-warning-subtle text-warning rounded-circle d-flex justify-content-center align-items-center" style="width: 48px; height: 48px;">
+            <i class="fas fa-arrow-right-arrow-left fa-lg"></i>
+          </div>
+          <div>
+            <h5 class="mb-0 font-weight-bold" style="font-weight: 600;" id="stat-transferidas">—</h5>
+            <small class="text-muted">Transferidos a Asesor</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="bg-success-subtle text-success rounded-circle d-flex justify-content-center align-items-center" style="width: 48px; height: 48px;">
+            <i class="fas fa-calendar-day fa-lg"></i>
+          </div>
+          <div>
+            <h5 class="mb-0 font-weight-bold" style="font-weight: 600;" id="stat-mensajes-hoy">—</h5>
+            <small class="text-muted">Mensajes Recibidos Hoy</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conversations List Panel -->
+  <div class="card border-0 shadow-sm rounded-4 bg-white">
+    <div class="card-body p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="mb-0" style="font-weight: 600;">Listado de Chats</h5>
+        <span class="badge bg-light text-dark border rounded-pill px-3 py-2 font-weight-medium">
+          {{ conversaciones|length }} chat{{ conversaciones|length|pluralize:"s" }}
+        </span>
+      </div>
+
+      {% if conversaciones %}
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light text-muted small text-uppercase">
+            <tr>
+              <th scope="col" class="border-0 px-3 py-3">Contacto</th>
+              <th scope="col" class="border-0 py-3">Sesión / ID</th>
+              <th scope="col" class="border-0 text-center py-3">Total Mensajes</th>
+              <th scope="col" class="border-0 text-center py-3">Estado</th>
+              <th scope="col" class="border-0 py-3">Último Mensaje</th>
+              <th scope="col" class="border-0 py-3 text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for conv in conversaciones %}
+            <tr style="cursor: pointer;" onclick="window.location='{% url 'conversacion_detalle' conv.chat_id %}'">
+              <td class="px-3 py-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="bg-primary-subtle text-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px; flex-shrink: 0;">
+                    {% if conv.push_name == 'Web' %}
+                      <i class="fas fa-desktop"></i>
+                    {% else %}
+                      <i class="fab fa-telegram"></i>
+                    {% endif %}
+                  </div>
+                  <div>
+                    <span class="d-block text-dark font-weight-semibold" style="font-weight: 500;">
+                      {{ conv.push_name|default:"Sin nombre" }}
+                    </span>
+                  </div>
+                </div>
+              </td>
+              <td class="text-muted small py-3">
+                {% if conv.push_name == 'Web' %}
+                  <span class="badge bg-light text-dark border px-2 py-1">Web</span>
+                  <span class="ms-1 text-muted">{{ conv.chat_id|truncatechars:12 }}</span>
+                {% else %}
+                  <span class="badge bg-info-subtle text-info px-2 py-1"><i class="fab fa-telegram me-1"></i>Telegram</span>
+                  <span class="ms-1 text-muted">{{ conv.chat_id }}</span>
+                {% endif %}
+              </td>
+              <td class="text-center py-3">
+                <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill">
+                  {{ conv.total_mensajes }}
+                </span>
+              </td>
+              <td class="text-center py-3">
+                {% if conv.transferido %}
+                  <span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill">
+                    <i class="fas fa-arrow-right-arrow-left me-1"></i>Transferido
+                  </span>
+                {% else %}
+                  <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
+                    <i class="fas fa-circle me-1 small"></i>Activo
+                  </span>
+                {% endif %}
+              </td>
+              <td class="text-muted small py-3">
+                {{ conv.ultimo_mensaje|date:"d/m/Y H:i" }}
+              </td>
+              <td class="text-end py-3">
+                <a href="{% url 'conversacion_detalle' conv.chat_id %}" class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="event.stopPropagation();">
+                  <i class="fas fa-eye me-1"></i>Ver
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="text-center py-5 text-muted">
+        <i class="fas fa-comments fa-4x mb-3 opacity-25"></i>
+        <h5>No hay conversaciones registradas</h5>
+        <p class="small mb-0">Los chats de los clientes con el bot aparecerán en esta bandeja automáticamente.</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function loadStats() {
+      fetch('?json=1')
+        .then(r => r.json())
+        .then(d => {
+          document.getElementById('stat-activas').textContent = d.activas || 0;
+          document.getElementById('stat-transferidas').textContent = d.transferidas || 0;
+          document.getElementById('stat-mensajes-hoy').textContent = d.mensajes_hoy || 0;
+        })
+        .catch(e => console.error('[Stats load] error:', e));
+    }
+    loadStats();
+    // Refresh stats every 15 seconds
+    setInterval(loadStats, 15000);
+  });
+</script>
+{% endblock %}

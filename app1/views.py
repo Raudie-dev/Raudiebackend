@@ -41,12 +41,17 @@ def index(request):
             except Exception as e:
                 messages.error(request, f'Error enviando correo: {e}')
 
+    from app2.models import ConfigBot
+    bot = ConfigBot.objects.first()
+    mensaje_bienvenida = bot.mensaje_bienvenida if (bot and bot.mensaje_bienvenida) else '¡Hola! ¿En qué te puedo ayudar hoy?'
+
     return render(request, 'index.html', {
         'pruebas': pruebas,
         'busqueda': busqueda,
         'socio': socio,
         'servicios': servicios,
-        'proyectos': proyectos,  # agregado
+        'proyectos': proyectos,
+        'mensaje_bienvenida': mensaje_bienvenida,
     })
 
 # Nueva vista: detalle de un servicio

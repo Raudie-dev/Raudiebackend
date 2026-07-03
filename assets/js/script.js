@@ -287,11 +287,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Event delegation para modales
     document.addEventListener("click", (e) => {
-      if (e.target.matches(".view-details") || e.target.closest(".view-details")) {
+      const trigger = e.target.closest(".view-details, .project-card")
+      if (trigger) {
+        const isCardChild = e.target.closest('a, button'); // ignore links/buttons inside card
+        if (trigger.matches('.project-card') && isCardChild && isCardChild !== trigger) {
+            return;
+        }
         e.preventDefault()
-        const btn = e.target.matches(".view-details") ? e.target : e.target.closest(".view-details")
-        const modalId = `#projectModal${btn.dataset.project}`
-        openModal(modalId)
+        let project = trigger.dataset.project;
+        if (!project && trigger.closest('.project-card')) {
+             project = trigger.closest('.project-card').dataset.project;
+        }
+        if (project) {
+             const modalId = `#projectModal${project}`
+             openModal(modalId)
+        }
       }
 
       if (e.target.matches(".modal-close") || e.target.closest(".modal-close")) {

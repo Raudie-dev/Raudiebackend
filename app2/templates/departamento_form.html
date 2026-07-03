@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}{% if dpto %}Editar{% else %}Crear{% endif %} Departamento - RAUDIE{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1 class="h3 mb-1 text-gray-800" style="font-weight: 700;">{% if dpto %}Editar{% else %}Crear{% endif %} Departamento</h1>
+      <p class="text-muted mb-0">{% if dpto %}Modifica los detalles del departamento existente.{% else %}Registra una nueva área de atención en tu plataforma.{% endif %}</p>
+    </div>
+    <div class="col-auto">
+      <a href="{% url 'departamentos' %}" class="btn btn-outline-secondary rounded-pill">
+        <i class="fas fa-arrow-left me-2"></i>Cancelar
+      </a>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm rounded-4 bg-white">
+        <div class="card-body p-4">
+          <form method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label class="form-label font-weight-bold small text-muted">Nombre del Departamento</label>
+              <input type="text" name="nombre" class="form-control rounded-3" value="{{ dpto.nombre|default:'' }}" placeholder="Ej: ventas, soporte, reclamos" required>
+              <div class="form-text font-size-xs text-muted">Intenta usar nombres simples, ya que la IA los identificará por este nombre.</div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label font-weight-bold small text-muted">Descripción (Opcional)</label>
+              <textarea name="descripcion" class="form-control rounded-3" rows="4" placeholder="Describe brevemente de qué se encarga este departamento o qué tipo de consultas resuelve...">{{ dpto.descripcion|default:'' }}</textarea>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary rounded-pill py-2 shadow-sm font-weight-semibold">
+                <i class="fas fa-save me-2"></i>Guardar Departamento
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

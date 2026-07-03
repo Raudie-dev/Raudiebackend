@@ -17,7 +17,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-        <link rel="stylesheet" href="{% static 'css/paneles.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/paneles.css' %}?v={% now 'U' %}" />
 
         {% block extra_head %}{% endblock %}
 
@@ -30,12 +30,12 @@
               <button class="mobile-menu-btn btn btn-outline-dark d-md-none" id="mobileMenuBtn" title="Menú"><i class="fas fa-bars"></i></button>
               <a href="/" class="brand d-flex align-items-center text-decoration-none">
                 <img src="{% static 'img/navbar-logo.png' %}" alt="Logo" style="height:32px;"> 
-                <span style="font-size: 1.8rem; font-weight: 700; color: #000;">RAUDIE</span>
+                <span style="font-size: 1.8rem; font-weight: 800; color: var(--dark-color); letter-spacing: -0.5px;">RAU<span style="color: var(--primary-color);">DIE</span></span>
               </a>
             </div>
             <nav class="d-none d-md-flex align-items-center gap-2">
               <span style="color: var(--text-muted); font-size: 0.95rem;" title="Usuario">
-                <i class="fas fa-user-circle me-2" style="color: var(--primary-color);"></i>{{ user.username }}
+                <i class="fas fa-user-circle me-2" style="color: var(--primary-color);"></i>{{ user.nombre }}
               </span>
               <form action="{% url 'logout' %}" method="post" class="d-inline">
                 {% csrf_token %}
@@ -47,55 +47,291 @@
           </div>
         </header>
 
-        <div class="container-fluid">
-          <div class="row">
-            <aside class="col-md-3 col-lg-2 sidebar d-none d-md-block" id="sidebar" style="background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 100%); border-right: 1px solid var(--border-color);">
-              <div class="sidebar-header p-4" style="border-bottom: 2px solid var(--border-color);">
-                <h5 class="mb-0" style="color: var(--text-color); font-weight: 700;">
+        <div class="container-fluid px-0" style="max-width: none;">
+          <div class="row g-0">
+            <aside class="col-md-3 col-lg-2 sidebar d-none d-md-block" id="sidebar">
+              <div class="sidebar-header">
+                <h5 class="mb-0">
                   Panel de Control
                 </h5>
               </div>
-              <ul class="nav flex-column p-2" style="gap: 0.5rem;">
-                <li class="nav-item">
-                  <a class="nav-link {% if request.resolver_match.url_name == 'control_servicios' %}active{% endif %}" href="{% url 'control_servicios' %}" style="padding: 0.875rem 1rem; border-radius: 8px; transition: all var(--transition);">
-                    <i class="fas fa-wrench me-2" style="width: 20px;"></i>Servicios
-                  </a>
+              <ul class="nav flex-column p-4" style="gap: 0.25rem;">
+                <!-- General Section -->
+                {% if user.nombre == 'admin' or 'control_servicios' in user.permisos or 'control_proyectos' in user.permisos %}
+                  {% if user.nombre == 'admin' or 'control_servicios' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'control_servicios' %}active{% endif %}" href="{% url 'control_servicios' %}">
+                      <i class="fas fa-wrench me-2" style="width: 20px;"></i>Servicios
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'control_proyectos' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'control_proyectos' %}active{% endif %}" href="{% url 'control_proyectos' %}">
+                      <i class="fas fa-folder-open me-2" style="width: 20px;"></i>Proyectos
+                    </a>
+                  </li>
+                  {% endif %}
+                {% endif %}
+
+                <!-- Marketing Section -->
+                {% if user.nombre == 'admin' or 'marketing' in user.permisos %}
+                <li class="sidebar-header-section">
+                  Marketing
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link {% if request.resolver_match.url_name == 'control_proyectos' %}active{% endif %}" href="{% url 'control_proyectos' %}" style="padding: 0.875rem 1rem; border-radius: 8px; transition: all var(--transition);">
-                    <i class="fas fa-folder-open me-2" style="width: 20px;"></i>Proyectos
+                  <a class="nav-link {% if request.resolver_match.url_name == 'marketing' %}active{% endif %}" href="{% url 'marketing' %}">
+                    <i class="fas fa-calendar-alt me-2" style="width: 20px;"></i>Planeación
+                  </a>
+                </li>
+                {% endif %}
+
+                <!-- Chatbot IA Section -->
+                {% if user.nombre == 'admin' or 'estado' in user.permisos or 'conversaciones' in user.permisos or 'configuracion' in user.permisos or 'telegram_configuracion' in user.permisos or 'departamentos' in user.permisos or 'agentes' in user.permisos %}
+                <li class="sidebar-header-section">
+                  Chatbot IA
+                </li>
+                  {% if user.nombre == 'admin' or 'estado' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'estado' %}active{% endif %}" href="{% url 'estado' %}">
+                      <i class="fas fa-robot me-2" style="width: 20px;"></i>Estado Bot
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'conversaciones' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'conversaciones' or request.resolver_match.url_name == 'conversacion_detalle' %}active{% endif %}" href="{% url 'conversaciones' %}">
+                      <i class="fas fa-comments me-2" style="width: 20px;"></i>Conversaciones
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'configuracion' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}" href="{% url 'configuracion' %}">
+                      <i class="fas fa-sliders-h me-2" style="width: 20px;"></i>Configuración IA
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'telegram_configuracion' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'telegram_configuracion' %}active{% endif %}" href="{% url 'telegram_configuracion' %}">
+                      <i class="fab fa-telegram me-2" style="width: 20px;"></i>Telegram Bot
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'departamentos' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'departamentos' %}active{% endif %}" href="{% url 'departamentos' %}">
+                      <i class="fas fa-building me-2" style="width: 20px;"></i>Departamentos
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'agentes' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'agentes' %}active{% endif %}" href="{% url 'agentes' %}">
+                      <i class="fas fa-user-tie me-2" style="width: 20px;"></i>Agentes
+                    </a>
+                  </li>
+                  {% endif %}
+                {% endif %}
+
+                <!-- Contabilidad Section -->
+                {% if user.nombre == 'admin' or 'contabilidad_costos' in user.permisos or 'contabilidad_finanzas' in user.permisos or 'generar_cotizacion' in user.permisos %}
+                <li class="sidebar-header-section">
+                  Contabilidad
+                </li>
+                  {% if user.nombre == 'admin' or 'contabilidad_costos' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'contabilidad_costos' %}active{% endif %}" href="{% url 'contabilidad_costos' %}">
+                      <i class="fas fa-calculator me-2" style="width: 20px;"></i>Estructura Costos
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'contabilidad_finanzas' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'contabilidad_finanzas' %}active{% endif %}" href="{% url 'contabilidad_finanzas' %}">
+                      <i class="fas fa-chart-line me-2" style="width: 20px;"></i>Finanzas y Balances
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'generar_cotizacion' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'generar_cotizacion' %}active{% endif %}" href="{% url 'generar_cotizacion' %}">
+                      <i class="fas fa-file-invoice-dollar me-2" style="width: 20px;"></i>Cotizaciones
+                    </a>
+                  </li>
+                  {% endif %}
+                {% endif %}
+
+                <!-- Administración Section -->
+                {% if user.nombre == 'admin' or 'control_usuarios' in user.permisos %}
+                <li class="sidebar-header-section">
+                  Administración
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if request.resolver_match.url_name == 'control_usuarios' %}active{% endif %}" href="{% url 'control_usuarios' %}">
+                    <i class="fas fa-users-cog me-2" style="width: 20px;"></i>Usuarios
+                  </a>
+                </li>
+                {% endif %}
+
+                <!-- Mi Cuenta Section -->
+                <li class="sidebar-header-section">
+                  Mi Cuenta
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if request.resolver_match.url_name == 'perfil' %}active{% endif %}" href="{% url 'perfil' %}">
+                    <i class="fas fa-user-cog me-2" style="width: 20px;"></i>Mi Perfil
                   </a>
                 </li>
               </ul>
             </aside>
 
-            <aside class="sidebar-mobile d-md-none" id="sidebarMobile" style="display:none; position:fixed; z-index:1050; top:0; left:0; bottom:0; width:280px; background:var(--white); overflow:auto; box-shadow: var(--shadow-xl);">
-              <div class="sidebar-header p-4" style="border-bottom: 2px solid var(--border-color); background: linear-gradient(135deg, var(--gray-50), var(--white));">
+            <aside class="sidebar-mobile d-md-none" id="sidebarMobile" style="display:none; position:fixed; z-index:1050; top:0; left:0; bottom:0; width:280px; overflow:auto; box-shadow: var(--shadow-xl);">
+              <div class="sidebar-header p-4">
                 <div class="d-flex justify-content-between align-items-center">
-                  <h5 class="mb-0" style="color: var(--text-color); font-weight: 700;">
-                    <i class="fas fa-th-large me-2" style="color: var(--primary-color);"></i>Menú
+                  <h5 class="mb-0">
+                    <i class="fas fa-th-large me-2" style="color: var(--primary-light);"></i>Menú
                   </h5>
                   <button class="btn btn-sm btn-outline-danger" onclick="document.getElementById('sidebarMobile').style.display='none'; document.getElementById('sidebarOverlay').style.display='none';">
                     <i class="fas fa-times"></i>
                   </button>
                 </div>
               </div>
-              <ul class="nav flex-column p-3" style="gap: 0.75rem;">
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'control_servicios' %}" style="padding: 1rem; border-radius: 8px; transition: all var(--transition); color: var(--text-color);">
-                    <i class="fas fa-wrench me-2" style="width: 20px; color: var(--primary-color);"></i>Servicios
-                  </a>
+              <ul class="nav flex-column p-3" style="gap: 0.25rem;">
+                <!-- General Section -->
+                {% if user.nombre == 'admin' or 'control_servicios' in user.permisos or 'control_proyectos' in user.permisos %}
+                  {% if user.nombre == 'admin' or 'control_servicios' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'control_servicios' %}active{% endif %}" href="{% url 'control_servicios' %}">
+                      <i class="fas fa-wrench me-2" style="width: 20px;"></i>Servicios
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'control_proyectos' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'control_proyectos' %}active{% endif %}" href="{% url 'control_proyectos' %}">
+                      <i class="fas fa-folder-open me-2" style="width: 20px;"></i>Proyectos
+                    </a>
+                  </li>
+                  {% endif %}
+                {% endif %}
+
+                <!-- Marketing Section -->
+                {% if user.nombre == 'admin' or 'marketing' in user.permisos %}
+                <li class="sidebar-header-section">
+                  Marketing
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'control_proyectos' %}" style="padding: 1rem; border-radius: 8px; transition: all var(--transition); color: var(--text-color);">
-                    <i class="fas fa-folder-open me-2" style="width: 20px; color: var(--primary-color);"></i>Proyectos
+                  <a class="nav-link {% if request.resolver_match.url_name == 'marketing' %}active{% endif %}" href="{% url 'marketing' %}">
+                    <i class="fas fa-calendar-alt me-2" style="width: 20px;"></i>Planeación
                   </a>
                 </li>
-                <hr style="margin: 1rem 0; border-top: 1px solid var(--border-color);">
+                {% endif %}
+
+                <!-- Chatbot IA Section -->
+                {% if user.nombre == 'admin' or 'estado' in user.permisos or 'conversaciones' in user.permisos or 'configuracion' in user.permisos or 'telegram_configuracion' in user.permisos or 'departamentos' in user.permisos or 'agentes' in user.permisos %}
+                <li class="sidebar-header-section">
+                  Chatbot IA
+                </li>
+                  {% if user.nombre == 'admin' or 'estado' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'estado' %}active{% endif %}" href="{% url 'estado' %}">
+                      <i class="fas fa-robot me-2" style="width: 20px;"></i>Estado Bot
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'conversaciones' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'conversaciones' or request.resolver_match.url_name == 'conversacion_detalle' %}active{% endif %}" href="{% url 'conversaciones' %}">
+                      <i class="fas fa-comments me-2" style="width: 20px;"></i>Conversaciones
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'configuracion' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}" href="{% url 'configuracion' %}">
+                      <i class="fas fa-sliders-h me-2" style="width: 20px;"></i>Configuración IA
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'telegram_configuracion' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'telegram_configuracion' %}active{% endif %}" href="{% url 'telegram_configuracion' %}">
+                      <i class="fab fa-telegram me-2" style="width: 20px;"></i>Telegram Bot
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'departamentos' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'departamentos' %}active{% endif %}" href="{% url 'departamentos' %}">
+                      <i class="fas fa-building me-2" style="width: 20px;"></i>Departamentos
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'agentes' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'agentes' %}active{% endif %}" href="{% url 'agentes' %}">
+                      <i class="fas fa-user-tie me-2" style="width: 20px;"></i>Agentes
+                    </a>
+                  </li>
+                  {% endif %}
+                {% endif %}
+
+                <!-- Contabilidad Section -->
+                {% if user.nombre == 'admin' or 'contabilidad_costos' in user.permisos or 'contabilidad_finanzas' in user.permisos or 'generar_cotizacion' in user.permisos %}
+                <li class="sidebar-header-section">
+                  Contabilidad
+                </li>
+                  {% if user.nombre == 'admin' or 'contabilidad_costos' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'contabilidad_costos' %}active{% endif %}" href="{% url 'contabilidad_costos' %}">
+                      <i class="fas fa-calculator me-2" style="width: 20px;"></i>Estructura Costos
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'contabilidad_finanzas' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'contabilidad_finanzas' %}active{% endif %}" href="{% url 'contabilidad_finanzas' %}">
+                      <i class="fas fa-chart-line me-2" style="width: 20px;"></i>Finanzas y Balances
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.nombre == 'admin' or 'generar_cotizacion' in user.permisos %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'generar_cotizacion' %}active{% endif %}" href="{% url 'generar_cotizacion' %}">
+                      <i class="fas fa-file-invoice-dollar me-2" style="width: 20px;"></i>Cotizaciones
+                    </a>
+                  </li>
+                  {% endif %}
+                {% endif %}
+
+                <!-- Administración Section -->
+                {% if user.nombre == 'admin' or 'control_usuarios' in user.permisos %}
+                <li class="sidebar-header-section">
+                  Administración
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if request.resolver_match.url_name == 'control_usuarios' %}active{% endif %}" href="{% url 'control_usuarios' %}">
+                    <i class="fas fa-users-cog me-2" style="width: 20px;"></i>Usuarios
+                  </a>
+                </li>
+                {% endif %}
+
+                <!-- Mi Cuenta Section -->
+                <li class="sidebar-header-section">
+                  Mi Cuenta
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if request.resolver_match.url_name == 'perfil' %}active{% endif %}" href="{% url 'perfil' %}">
+                    <i class="fas fa-user-cog me-2" style="width: 20px;"></i>Mi Perfil
+                  </a>
+                </li>
+                <hr style="margin: 1rem 0; border-top: 1px solid #1c1d24;">
                 <li class="nav-item mt-2">
                   <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-outline-danger w-100">
+                    <button type="submit" class="btn btn-sm btn-outline-danger w-100 rounded-pill py-2">
                       <i class="fas fa-power-off me-1"></i>Salir
                     </button>
                   </form>
@@ -105,7 +341,7 @@
 
             <div class="sidebar-overlay" id="sidebarOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1040;"></div>
 
-            <main class="col-12 col-md-9 col-lg-10 content-area d-flex flex-column" id="contentArea" style="background: linear-gradient(180deg, var(--light-color) 0%, var(--gray-50) 100%);">
+            <main class="col-12 col-md-9 col-lg-10 content-area d-flex flex-column" id="contentArea">
               <div class="flex-grow-1 container-fluid pt-4 pb-4">
                 {% if messages %}
                   {% for message in messages %}

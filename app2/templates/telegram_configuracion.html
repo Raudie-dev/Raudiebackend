@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block title %}Configurar Telegram - RAUDIE{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1 class="h3 mb-1 text-gray-800" style="font-weight: 700;">Conectar Telegram</h1>
+      <p class="text-muted mb-0">Vincula tu bot de Telegram ingresando el Token de la API para automatizar las respuestas con IA.</p>
+    </div>
+    <div class="col-auto">
+      <a href="{% url 'estado' %}" class="btn btn-outline-secondary rounded-pill">
+        <i class="fas fa-arrow-left me-2"></i>Volver al Estado
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Panel Principal: Configuración y Webhook -->
+    <div class="col-lg-7 d-flex flex-column gap-4">
+      <!-- Configuración del Token -->
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
+        <div class="card-body p-0">
+          <h5 class="card-title mb-3" style="font-weight: 600;">Configuración del Token del Bot</h5>
+          <p class="text-muted small mb-4">Introduce el token HTTP API que te entregó @BotFather para habilitar la integración.</p>
+
+          {% if bot.telegram_bot_token %}
+            <!-- Estado de Conexión del Bot -->
+            <div class="text-center p-4 bg-light rounded-4 mb-4" style="border: 1px solid var(--border-color);">
+              {% if bot_info %}
+                <div class="text-success mb-3">
+                  <i class="fab fa-telegram fa-4x mb-2" style="color: #0088cc;"></i>
+                  <h5 class="font-weight-bold mt-2 mb-0">¡Bot Conectado y Activo!</h5>
+                </div>
+                <div class="text-start mt-4">
+                  <div class="mb-2 pb-2 border-bottom d-flex justify-content-between align-items-center">
+                    <span class="text-muted small">Nombre del Bot:</span>
+                    <strong class="text-dark small">{{ bot_info.first_name }}</strong>
+                  </div>
+                  <div class="mb-2 pb-2 border-bottom d-flex justify-content-between align-items-center">
+                    <span class="text-muted small">Username:</span>
+                    <a href="https://t.me/{{ bot_info.username }}" target="_blank" class="text-decoration-none small font-weight-bold">
+                      @{{ bot_info.username }} <i class="fas fa-external-link-alt fa-xs ms-1"></i>
+                    </a>
+                  </div>
+                  <div class="mb-2 pb-2 border-bottom d-flex justify-content-between align-items-center">
+                    <span class="text-muted small">Webhook URL:</span>
+                    <span class="text-muted small text-truncate ms-2" style="max-width: 250px;" title="{{ webhook_info.url|default:'No registrado' }}">
+                      {{ webhook_info.url|default:'No registrado' }}
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted small">Mensajes en cola:</span>
+                    <span class="badge bg-secondary rounded-pill">{{ webhook_info.pending_update_count|default:0 }}</span>
+                  </div>
+                </div>
+              {% else %}
+                <div class="text-warning mb-3">
+                  <i class="fas fa-exclamation-triangle fa-3x mb-2"></i>
+                  <h5 class="font-weight-bold mt-2">Error de Conexión</h5>
+                  <p class="text-muted small mt-2 mb-0">{{ error_msg|default:"Token guardado pero no se pudo verificar con Telegram." }}</p>
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          <!-- Formulario de Configuración -->
+          <form method="POST">
+            {% csrf_token %}
+            <div class="mb-4">
+              <label class="form-label font-weight-bold small text-muted">Telegram Bot API Token</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted rounded-start-3"><i class="fas fa-key"></i></span>
+                <input type="password" name="telegram_bot_token" class="form-control border-start-0 rounded-end-3" 
+                       value="{{ bot.telegram_bot_token|default:'' }}" 
+                       placeholder="Ej: 123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ" required>
+              </div>
+              <div class="form-text font-size-xs text-muted mt-2">
+                Nunca compartas este token. Permite el control total sobre los mensajes del bot.
+              </div>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+              <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm flex-grow-1">
+                <i class="fas fa-save me-2"></i>Guardar y Activar
+              </button>
+              {% if bot.telegram_bot_token %}
+                <button type="submit" name="unlink" class="btn btn-outline-danger rounded-pill px-4">
+                  <i class="fas fa-unlink me-2"></i>Desvincular
+                </button>
+              {% endif %}
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Webhook Info Box -->
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
+        <h5 class="card-title mb-3" style="font-weight: 600;">Configurar Webhook</h5>
+        <p class="text-muted small mb-3">Para que el bot procese los mensajes en tiempo real, registra la URL HTTPS de tu servidor. Si estás en local con ngrok, introduce la URL del túnel aquí.</p>
+        
+        <form method="POST" class="mb-3">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label small text-muted font-weight-bold">URL del Webhook</label>
+            <input type="text" name="webhook_url" class="form-control rounded-3" 
+                   value="{{ webhook_info.url|default:suggested_webhook_url }}" 
+                   placeholder="Ej: https://midominio.com/app2/bot/telegram_webhook/{{ bot.id }}/" 
+                   {% if not bot.telegram_bot_token %}disabled{% endif %}>
+            <div class="form-text font-size-xs text-muted mt-2">
+              Deja el campo vacío para desactivar y eliminar el webhook actual en Telegram.
+            </div>
+          </div>
+          <button type="submit" name="update_webhook" class="btn btn-outline-primary w-100 rounded-pill" {% if not bot.telegram_bot_token %}disabled{% endif %}>
+            <i class="fas fa-sync-alt me-1"></i>Actualizar Webhook
+          </button>
+        </form>
+
+        <div class="bg-light p-3 rounded-3 border">
+          <span class="d-block small font-weight-bold text-muted mb-1">URL Sugerida (Actual):</span>
+          <code class="small text-break">{{ suggested_webhook_url }}</code>
+        </div>
+        <small class="text-muted d-block mt-2">
+          <i class="fas fa-shield-alt me-1 text-success"></i> Telegram requiere obligatoriamente que la URL comience con <strong>https://</strong>.
+        </small>
+      </div>
+    </div>
+
+    <!-- Panel Lateral: Instrucciones -->
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-4 sticky-top" style="top: 85px;">
+        <h5 class="card-title mb-4" style="font-weight: 600;">¿Cómo crear un bot de Telegram?</h5>
+        
+        <div class="d-flex mb-3">
+          <div class="bg-light text-primary rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 32px; height: 32px; flex-shrink: 0; font-weight: bold;">1</div>
+          <p class="text-muted small mb-0">Busca a <strong>@BotFather</strong> en Telegram (el bot oficial para crear otros bots).</p>
+        </div>
+
+        <div class="d-flex mb-3">
+          <div class="bg-light text-primary rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 32px; height: 32px; flex-shrink: 0; font-weight: bold;">2</div>
+          <p class="text-muted small mb-0">Envía el comando <code>/newbot</code> y sigue las instrucciones para asignarle un nombre y un usuario.</p>
+        </div>
+
+        <div class="d-flex mb-3">
+          <div class="bg-light text-primary rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 32px; height: 32px; flex-shrink: 0; font-weight: bold;">3</div>
+          <p class="text-muted small mb-0">Copia el <strong>HTTP API Token</strong> que te dará (ej: <code>123456789:AA...</code>).</p>
+        </div>
+
+        <div class="d-flex mb-4">
+          <div class="bg-light text-primary rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 32px; height: 32px; flex-shrink: 0; font-weight: bold;">4</div>
+          <p class="text-muted small mb-0">Pégalo aquí y presiona <strong>Guardar y Activar</strong>. Registraremos el webhook para recibir los mensajes al instante.</p>
+        </div>
+
+        <div class="alert alert-info rounded-3 mb-0 border-0" role="alert">
+          <i class="fas fa-info-circle me-2"></i>
+          <strong>¿Cómo obtienen los agentes su Chat ID?</strong><br>
+          Cada agente debe buscar tu bot en Telegram e iniciar conversación enviando <code>/start</code>. El bot responderá inmediatamente con su Chat ID para que lo agregues en la pestaña de Agentes.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

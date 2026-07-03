@@ -143,3 +143,8 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# WhatsApp Bot Configurations
+WHATSAPP_GATEWAY_URL = 'http://127.0.0.1:3000'
+WEBHOOK_SECRET = 'super-secret-webhook-key-raudie-2026'
+

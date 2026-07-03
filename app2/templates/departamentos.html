@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Departamentos - RAUDIE{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1 class="h3 mb-1 text-gray-800" style="font-weight: 700;">Departamentos</h1>
+      <p class="text-muted mb-0">Gestiona las áreas de tu organización a las que la IA derivará a los clientes.</p>
+    </div>
+    <div class="col-auto">
+      <a href="{% url 'departamento_crear' %}" class="btn btn-primary rounded-pill shadow-sm">
+        <i class="fas fa-plus me-2"></i>Nuevo Departamento
+      </a>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4 bg-white">
+    <div class="card-body p-0">
+      {% if departamentos %}
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0" style="border-collapse: separate;">
+            <thead class="bg-light text-muted font-size-xs text-uppercase" style="letter-spacing: 0.5px;">
+              <tr>
+                <th class="ps-4 py-3 border-0">Nombre del Departamento</th>
+                <th class="py-3 border-0">Descripción</th>
+                <th class="pe-4 py-3 border-0 text-end" style="width: 150px;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for dpto in departamentos %}
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td class="ps-4 py-3 font-weight-bold text-dark">
+                    <i class="fas fa-building text-primary me-2"></i>{{ dpto.nombre }}
+                  </td>
+                  <td class="py-3 text-muted small">
+                    {{ dpto.descripcion|default:'Sin descripción adicional.' }}
+                  </td>
+                  <td class="pe-4 py-3 text-end">
+                    <a href="{% url 'departamento_editar' dpto.id %}" class="btn btn-sm btn-outline-primary rounded-pill me-1" title="Editar">
+                      <i class="fas fa-pencil-alt"></i>
+                    </a>
+                    <button class="btn btn-sm btn-outline-danger rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteDptoModal-{{ dpto.id }}" title="Eliminar">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+
+                    <!-- Modal de eliminación -->
+                    <div class="modal fade text-start" id="deleteDptoModal-{{ dpto.id }}" tabindex="-1" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content rounded-4 border-0 shadow">
+                          <div class="modal-header border-0 pb-0">
+                            <h5 class="modal-title font-weight-bold text-dark" style="font-weight: 700;">Eliminar Departamento</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body py-3">
+                            <p class="text-muted mb-0">¿Estás seguro de que deseas eliminar el departamento <strong>{{ dpto.nombre }}</strong>? Esta acción podría afectar las transferencias automáticas del bot.</p>
+                          </div>
+                          <div class="modal-footer border-0 pt-0">
+                            <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="{% url 'departamento_eliminar' dpto.id %}" class="btn btn-danger rounded-pill px-4">
+                              <i class="fas fa-trash me-1"></i>Sí, Eliminar
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="p-5 text-center">
+          <div class="mb-4">
+            <i class="fas fa-building fa-4x text-muted opacity-25"></i>
+          </div>
+          <h5 class="font-weight-bold">No hay departamentos registrados</h5>
+          <p class="text-muted small mx-auto" style="max-width: 400px;">Crea áreas como "ventas", "soporte" o "administración" para que tu bot pueda derivar a los usuarios con los agentes correctos.</p>
+          <a href="{% url 'departamento_crear' %}" class="btn btn-primary rounded-pill px-4 mt-3">
+            <i class="fas fa-plus me-2"></i>Crear Primer Departamento
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

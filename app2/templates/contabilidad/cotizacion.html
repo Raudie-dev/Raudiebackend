@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% block title %}Generador de Cotizaciones - RAUDIE{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+  <!-- Header -->
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1 class="h3 mb-1 text-gray-800" style="font-weight: 700;">Generador de Cotizaciones</h1>
+      <p class="text-muted mb-0">Crea presupuestos en PDF con membrete corporativo y cálculos automáticos en base a la tarifa de venta.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
+        <!-- Form to generate PDF. target="_blank" allows opening the PDF directly in a new tab -->
+        <form method="POST" action="{% url 'generar_cotizacion' %}" target="_blank">
+          {% csrf_token %}
+
+          <h5 class="card-title mb-4 font-weight-bold" style="font-weight: 600;">Información del Cliente</h5>
+          <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+              <label class="form-label font-weight-bold text-muted small">Nombre del Cliente / Empresa</label>
+              <input type="text" name="cliente" class="form-control rounded-3" placeholder="Ej: Universal diamond" required>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label font-weight-bold text-muted small">RIF o C.I.</label>
+              <input type="text" name="rif" class="form-control rounded-3" placeholder="Ej: J-12345678-9 (opcional)">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label font-weight-bold text-muted small">Fecha</label>
+              <input type="date" name="fecha" class="form-control rounded-3" value="{{ today }}" required>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="card-title mb-0 font-weight-bold" style="font-weight: 600;">Conceptos del Presupuesto</h5>
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="addRow()">
+                <i class="fas fa-plus me-1"></i>Añadir Línea
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive mb-4">
+            <table class="table table-hover align-middle mb-0" id="invoice-table">
+              <thead class="table-light text-muted small text-uppercase">
+                <tr>
+                  <th scope="col" class="border-0 px-3 py-3" style="width: 25%;">Servicio Predefinido</th>
+                  <th scope="col" class="border-0 py-3" style="width: 45%;">Descripción Detallada</th>
+                  <th scope="col" class="border-0 text-center py-3" style="width: 10%;">Horas</th>
+                  <th scope="col" class="border-0 text-end py-3" style="width: 15%;">Importe (USD)</th>
+                  <th scope="col" class="border-0 py-3 text-end" style="width: 5%;"></th>
+                </tr>
+              </thead>
+              <tbody id="invoice-tbody">
+                <!-- Rows will be injected here by JS. We will start with 1 row -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="row justify-content-end mb-4">
+            <div class="col-md-4">
+              <div class="bg-light rounded-3 p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="font-weight-bold text-muted small">TOTAL COTIZADO</span>
+                  <span class="h4 font-weight-bold text-primary mb-0" id="grand-total">$0.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h5 class="card-title mb-3 font-weight-bold" style="font-weight: 600;">Condiciones y Notas</h5>
+          <div class="mb-4">
+            <textarea name="condiciones_pago" class="form-control rounded-3" rows="3" required>{{ default_conditions }}</textarea>
+            <div class="form-text font-size-xs text-muted">Aparecerá impreso al pie del PDF.</div>
+          </div>
+
+          <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 font-weight-semibold shadow-sm">
+            <i class="fas fa-file-pdf me-2"></i>Generar y Ver PDF
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  const hourlyRate = parseFloat("{{ rate }}");
+  const catalog = [
+    {% for c in catalog %}
+      { id: "{{ c.id }}", desc: "{{ c.descripcion|escapejs }}", horas: parseFloat("{{ c.horas }}"), precio: parseFloat("{{ c.precio }}") },
+    {% endfor %}
+  ];
+
+  function addRow() {
+    const tbody = document.getElementById('invoice-tbody');
+    const index = tbody.children.length;
+    const tr = document.createElement('tr');
+
+    // Predefined service options
+    let optionsHtml = `<option value="">-- Personalizado --</option>`;
+    catalog.forEach(item => {
+      optionsHtml += `<option value="${item.id}">${item.desc} (${item.horas}h)</option>`;
+    });
+
+    tr.innerHTML = `
+      <td class="px-3 py-2">
+        <select class="form-select rounded-3" onchange="onCatalogSelect(this, ${index})">
+          ${optionsHtml}
+        </select>
+      </td>
+      <td class="py-2">
+        <input type="text" name="conceptos[]" id="desc-${index}" class="form-control rounded-3" placeholder="Detalle del servicio..." required>
+      </td>
+      <td class="py-2">
+        <input type="number" name="horas[]" id="hours-${index}" class="form-control rounded-3 text-center" value="0" min="0" step="0.5" oninput="calculateRowImport(${index})">
+      </td>
+      <td class="py-2">
+        <input type="number" name="importes[]" id="import-${index}" class="form-control rounded-3 text-end" value="0" min="0" step="0.01" oninput="recalculateGrandTotal()">
+      </td>
+      <td class="text-end py-2">
+        <button type="button" class="btn btn-sm btn-outline-danger rounded-circle" onclick="deleteRow(this)">
+          <i class="fas fa-times"></i>
+        </button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  function deleteRow(button) {
+    const tbody = document.getElementById('invoice-tbody');
+    if (tbody.children.length > 1) {
+      button.closest('tr').remove();
+      recalculateGrandTotal();
+    } else {
+      alert("Debes tener al menos un concepto en la cotización.");
+    }
+  }
+
+  function onCatalogSelect(select, index) {
+    const val = select.value;
+    const descInput = document.getElementById(`desc-${index}`);
+    const hoursInput = document.getElementById(`hours-${index}`);
+    const importInput = document.getElementById(`import-${index}`);
+
+    if (val === "") {
+      descInput.value = "";
+      hoursInput.value = 0;
+      importInput.value = 0;
+    } else {
+      const match = catalog.find(item => item.id == val);
+      if (match) {
+        descInput.value = match.desc;
+        hoursInput.value = match.horas;
+        if (match.precio > 0) {
+          importInput.value = match.precio.toFixed(2);
+          recalculateGrandTotal();
+        } else {
+          calculateRowImport(index);
+        }
+      }
+    }
+  }
+
+  function calculateRowImport(index) {
+    const hours = parseFloat(document.getElementById(`hours-${index}`).value) || 0;
+    const importInput = document.getElementById(`import-${index}`);
+    importInput.value = (hours * hourlyRate).toFixed(2);
+    recalculateGrandTotal();
+  }
+
+  function recalculateGrandTotal() {
+    const imports = document.getElementsByName('importes[]');
+    let total = 0.0;
+    imports.forEach(inp => {
+      total += parseFloat(inp.value) || 0.0;
+    });
+    document.getElementById('grand-total').textContent = "$" + total.toFixed(2);
+  }
+
+  // Load the first row on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    addRow();
+  });
+</script>
+{% endblock %}

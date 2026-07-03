@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% block title %}Configuración del Chatbot - RAUDIE{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1 class="h3 mb-1 text-gray-800" style="font-weight: 700;">Configuración de IA</h1>
+      <p class="text-muted mb-0">Define la personalidad del asistente virtual, la clave de API y sube documentos de conocimiento.</p>
+    </div>
+    <div class="col-auto">
+      <a href="{% url 'estado' %}" class="btn btn-outline-secondary rounded-pill">
+        <i class="fas fa-arrow-left me-2"></i>Volver al Estado
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4 mb-4 bg-white">
+        <div class="card-body p-4">
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <h5 class="card-title mb-4" style="font-weight: 600;">Ajustes Generales</h5>
+            
+            <div class="mb-3">
+              <label class="form-label font-weight-bold small text-muted">Nombre del Bot</label>
+              <input type="text" name="nombre" class="form-control rounded-3" value="{{ bot.nombre|default:'' }}" placeholder="Ej: RauDie Asistente" required>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label font-weight-bold small text-muted">Proveedor de API</label>
+                <select name="api_provider" class="form-select rounded-3">
+                  <option value="deepseek" {% if bot.api_provider == 'deepseek' %}selected{% endif %}>DeepSeek (Model Chat)</option>
+                  <option value="openai" {% if bot.api_provider == 'openai' %}selected{% endif %}>OpenAI (GPT-4o)</option>
+                  <option value="gemini" {% if bot.api_provider == 'gemini' %}selected{% endif %}>Google Gemini</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label font-weight-bold small text-muted">API Key</label>
+                <input type="password" name="api_key" class="form-control rounded-3" value="{{ api_key_plain|default:'' }}" placeholder="Ingrese su clave secreta de API">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label font-weight-bold small text-muted">Mensaje de Bienvenida</label>
+              <textarea name="mensaje_bienvenida" class="form-control rounded-3" rows="2" placeholder="Escribe el mensaje inicial que enviará el bot..." required>{{ bot.mensaje_bienvenida|default:'' }}</textarea>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label font-weight-bold small text-muted">Instrucciones de la IA (System Prompt)</label>
+              <textarea name="instrucciones_ia" class="form-control rounded-3" rows="6" placeholder="Define el rol del asistente, qué información dar y qué tono usar..." required>{{ bot.instrucciones_ia|default:'' }}</textarea>
+              <div class="form-text font-size-xs text-muted">Explica claramente el comportamiento esperado. Ejem: "Eres un asistente amable de RauDie Software. Tu objetivo es recopilar el nombre, correo y número del cliente..."</div>
+            </div>
+
+            <hr class="my-4" style="border-top: 1px solid var(--border-color);">
+
+            <h5 class="card-title mb-4" style="font-weight: 600;">Comportamiento e Inactividad</h5>
+
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label class="form-label font-weight-bold small text-muted">Límite de caracteres</label>
+                <input type="number" name="max_response_chars" class="form-control rounded-3" value="{{ bot.max_response_chars|default:1000 }}" min="100" max="4000" step="100">
+                <div class="form-text font-size-xs text-muted">Límite en respuestas del bot.</div>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label font-weight-bold small text-muted">Minutos de inactividad</label>
+                <input type="number" name="inactividad_minutos" class="form-control rounded-3" value="{{ bot.inactividad_minutos|default:0 }}" min="0" max="1440" step="5">
+                <div class="form-text font-size-xs text-muted">Cierra el chat tras este tiempo. 0 = inactivo.</div>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label font-weight-bold small text-muted">Mensaje al cerrar chat</label>
+                <input type="text" name="mensaje_cierre" class="form-control rounded-3" value="{{ bot.mensaje_cierre|default:'' }}" placeholder="Tu conversación fue cerrada por inactividad.">
+                <div class="form-text font-size-xs text-muted">Se envía al expirar por inactividad.</div>
+              </div>
+            </div>
+
+            <hr class="my-4" style="border-top: 1px solid var(--border-color);">
+
+            <h5 class="card-title mb-3" style="font-weight: 600;">Base de Conocimiento (Archivos de Contexto)</h5>
+            <p class="text-muted small mb-4">Sube archivos PDF, Word o Excel. El chatbot leerá esta información para responder consultas complejas.</p>
+
+            <div class="mb-4">
+              <label class="form-label font-weight-bold small text-muted">Subir nuevos archivos</label>
+              <input type="file" name="context_files" class="form-control rounded-3" multiple accept=".pdf,.doc,.docx,.xls,.xlsx">
+              <div class="form-text font-size-xs text-muted">Formatos permitidos: PDF, Word (doc/docx), Excel (xls/xlsx). Puedes seleccionar múltiples archivos.</div>
+            </div>
+
+            {% if context_files %}
+              <div class="mb-4">
+                <label class="form-label font-weight-bold small text-muted mb-2">Archivos Cargados Actualmente</label>
+                <div class="list-group rounded-3">
+                  {% for file in context_files %}
+                    <div class="list-group-item d-flex justify-content-between align-items-center bg-light border-0 mb-2 rounded-3 py-3">
+                      <div class="d-flex align-items-center">
+                        <div class="text-primary me-3">
+                          {% if '.pdf' in file.file.name|lower %}
+                            <i class="far fa-file-pdf fa-lg"></i>
+                          {% elif '.xls' in file.file.name|lower or '.xlsx' in file.file.name|lower %}
+                            <i class="far fa-file-excel fa-lg"></i>
+                          {% else %}
+                            <i class="far fa-file-word fa-lg"></i>
+                          {% endif %}
+                        </div>
+                        <div>
+                          <span class="d-block text-truncate text-dark font-weight-medium" style="max-width: 350px;">{{ file.file.name }}</span>
+                          <small class="text-muted font-size-xs">Subido el {{ file.uploaded_at|date:"d/m/Y H:i" }}</small>
+                        </div>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input border-danger" type="checkbox" name="delete_files" value="{{ file.id }}" id="delete-{{ file.id }}">
+                        <label class="form-check-label text-danger small font-weight-semibold" for="delete-{{ file.id }}">
+                          <i class="fas fa-trash-alt me-1"></i>Eliminar
+                        </label>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-primary rounded-pill py-2 shadow-sm font-weight-semibold">
+                <i class="fas fa-save me-2"></i>Guardar Cambios
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4">
+        <h5 class="card-title mb-3" style="font-weight: 600;">¿Cómo funciona?</h5>
+        <ul class="text-muted small ps-3 mb-0" style="gap: 0.5rem; display: flex; flex-direction: column;">
+          <li>El bot utiliza la API del proveedor seleccionado (recomendado: <strong>DeepSeek</strong>) para responder consultas.</li>
+          <li>En las <strong>Instrucciones</strong>, especifica las reglas de negocio, precios y el flujo que debe seguir.</li>
+          <li>Carga tus documentos en la <strong>Base de Conocimiento</strong>. El bot analizará dinámicamente el contenido de tus PDFs y Excel para responder con precisión sobre tus servicios.</li>
+          <li>Usa palabras clave de transferencia para derivar de forma automática a tus asesores humanos cuando sea necesario.</li>
+        </ul>
+      </div>
+      
+      {% if bot %}
+      <div class="card border-0 shadow-sm rounded-4 bg-danger-subtle p-4 border border-danger-subtle">
+        <h5 class="text-danger mb-2 font-weight-bold" style="font-weight: 600;">Zona de Peligro</h5>
+        <p class="text-danger small mb-3">Si eliminas el bot, perderás las configuraciones de prompt, API keys e historial de mensajes vinculados permanentemente.</p>
+        <button class="btn btn-danger w-100 rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteBotModal">
+          <i class="fas fa-trash me-2"></i>Eliminar Bot
+        </button>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% if bot %}
+<!-- Modal de eliminación -->
+<div class="modal fade" id="deleteBotModal" tabindex="-1" aria-labelledby="deleteBotModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title font-weight-bold text-dark" id="deleteBotModalLabel" style="font-weight: 700;">¿Estás completamente seguro?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body py-3">
+        <p class="text-muted mb-0">Esta acción no se puede deshacer. Se eliminarán el bot <strong>{{ bot.nombre }}</strong> y todos sus archivos asociados.</p>
+      </div>
+      <div class="modal-footer border-0 pt-0">
+        <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Cancelar</button>
+        <form action="{% url 'delete_bot' bot.id %}" method="POST" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger rounded-pill px-4">
+            <i class="fas fa-trash me-1"></i>Sí, Eliminar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

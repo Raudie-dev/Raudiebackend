@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Mi Perfil - RAUDIE{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+  <!-- Header -->
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1 class="h3 mb-1 text-gray-800" style="font-weight: 700;">Mi Perfil</h1>
+      <p class="text-muted mb-0">Actualiza tus datos de acceso al panel de administración.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Cambiar Nombre de Usuario -->
+    <div class="col-lg-6 mb-4">
+      <div class="card border-0 shadow-sm rounded-4 bg-white">
+        <div class="card-body p-4">
+          <h5 class="card-title mb-4" style="font-weight: 600;">Nombre de Usuario</h5>
+          <form method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label class="form-label font-weight-bold small text-muted">Nombre actual</label>
+              <input type="text" class="form-control rounded-3 bg-light text-muted" value="{{ user.nombre }}" disabled style="cursor: not-allowed;">
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label font-weight-bold small text-muted">Nuevo nombre de usuario</label>
+              <input type="text" name="nombre" class="form-control rounded-3" placeholder="Ingresa tu nuevo nombre" required autocomplete="off">
+              <div class="form-text font-size-xs text-muted">Este nombre se usará para iniciar sesión en el panel.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 shadow-sm font-weight-semibold">
+              <i class="fas fa-user-edit me-2"></i>Actualizar Nombre
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cambiar Contraseña -->
+    <div class="col-lg-6 mb-4">
+      <div class="card border-0 shadow-sm rounded-4 bg-white">
+        <div class="card-body p-4">
+          <h5 class="card-title mb-4" style="font-weight: 600;">Cambiar Contraseña</h5>
+          <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label class="form-label font-weight-bold small text-muted">Contraseña actual</label>
+              <input type="password" name="password_actual" class="form-control rounded-3" placeholder="••••••••" required autocomplete="current-password">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label font-weight-bold small text-muted">Nueva contraseña</label>
+              <input type="password" name="nuevo_password" class="form-control rounded-3" placeholder="••••••••" required autocomplete="new-password">
+              <div class="form-text font-size-xs text-muted">Mínimo 6 caracteres de longitud.</div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label font-weight-bold small text-muted">Confirmar nueva contraseña</label>
+              <input type="password" name="confirmar_password" class="form-control rounded-3" placeholder="••••••••" required autocomplete="new-password">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 shadow-sm font-weight-semibold">
+              <i class="fas fa-lock me-2"></i>Cambiar Contraseña
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

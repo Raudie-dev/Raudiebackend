@@ -18,7 +18,7 @@
   <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png" sizes="48x48">
   <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png" media="(prefers-color-scheme: light)">
   <link rel="icon" href="{% static 'img/favicon-white.png' %}" type="image/png" media="(prefers-color-scheme: dark)">
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}?v={% now 'U' %}">
 
   {% block extra_head %}{% endblock %}
 </head>
@@ -97,7 +97,7 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="{% static 'js/script.js' %}"></script>
+  <script src="{% static 'js/script.js' %}?v={% now 'U' %}"></script>
   {% block extra_scripts %}{% endblock %}
 </body>
 

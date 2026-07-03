@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}{% if agente %}Editar{% else %}Crear{% endif %} Agente - RAUDIE{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1 class="h3 mb-1 text-gray-800" style="font-weight: 700;">{% if agente %}Editar{% else %}Crear{% endif %} Agente</h1>
+      <p class="text-muted mb-0">{% if agente %}Modifica los detalles del agente de atención.{% else %}Registra un nuevo asesor para la recepción de prospectos.{% endif %}</p>
+    </div>
+    <div class="col-auto">
+      <a href="{% url 'agentes' %}" class="btn btn-outline-secondary rounded-pill">
+        <i class="fas fa-arrow-left me-2"></i>Cancelar
+      </a>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm rounded-4 bg-white">
+        <div class="card-body p-4">
+          <form method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label class="form-label font-weight-bold small text-muted">Nombre Completo</label>
+              <input type="text" name="nombre" class="form-control rounded-3" value="{{ agente.nombre|default:'' }}" placeholder="Ej: Juan Pérez" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label font-weight-bold small text-muted">Telegram Chat ID o Usuario</label>
+              <input type="text" name="telegram_id" class="form-control rounded-3" value="{{ agente.telegram_id|default:'' }}" placeholder="Ej: 123456789 o @usuario_agente" required>
+              <div class="form-text font-size-xs text-muted">Coloca el ID numérico de chat del agente o su username de Telegram. El agente puede enviar /start al bot para conocer su Chat ID.</div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label font-weight-bold small text-muted mb-2">Departamentos Asignados</label>
+              <div class="bg-light p-3 rounded-3 border">
+                {% if departamentos %}
+                  {% for dpto in departamentos %}
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" name="departamentos" value="{{ dpto.id }}" id="dpto-{{ dpto.id }}"
+                        {% if agente and dpto in agente.departamentos.all %}checked{% endif %}>
+                      <label class="form-check-label text-dark font-weight-medium small" for="dpto-{{ dpto.id }}">
+                        {{ dpto.nombre }}
+                      </label>
+                      {% if dpto.descripcion %}
+                        <div class="form-text font-size-xs text-muted mt-0 ms-1">{{ dpto.descripcion }}</div>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  <div class="text-muted small py-2">
+                    <i class="fas fa-info-circle me-1"></i>No hay departamentos creados. El agente se considerará como general de ventas.
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-check form-switch mb-4">
+              <input class="form-check-input" type="checkbox" name="activo" id="activo" {% if agente %}{% if agente.activo %}checked{% endif %}{% else %}checked{% endif %}>
+              <label class="form-check-label font-weight-bold small text-muted" for="activo">Agente Activo para Notificaciones</label>
+              <div class="form-text font-size-xs text-muted">Si se desactiva, el bot no le transferirá conversaciones ni enviará archivos.</div>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary rounded-pill py-2 shadow-sm font-weight-semibold">
+                <i class="fas fa-save me-2"></i>Guardar Agente
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,296 @@
+{% extends 'base.html' %}
+{% block title %}Gestión de Usuarios - RAUDIE{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+  <!-- Header -->
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1 class="h3 mb-1 text-gray-800" style="font-weight: 700;">Gestión de Usuarios</h1>
+      <p class="text-muted mb-0">Crea nuevos usuarios administradores y asigna de manera visual los accesos específicos a las distintas secciones del panel.</p>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addUserModal">
+        <i class="fas fa-user-plus me-1"></i>Crear Usuario
+      </button>
+    </div>
+  </div>
+
+  <!-- Users Table Card -->
+  <div class="card border-0 shadow-sm rounded-4 bg-white mb-4">
+    <div class="card-body p-4">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light text-muted small text-uppercase">
+            <tr>
+              <th scope="col" class="border-0 px-3 py-3">Usuario</th>
+              <th scope="col" class="border-0 py-3">Contacto</th>
+              <th scope="col" class="border-0 py-3">Estado</th>
+              <th scope="col" class="border-0 py-3">Vistas Permitidas</th>
+              <th scope="col" class="border-0 py-3 text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u in usuarios %}
+            <tr>
+              <!-- Usuario Info -->
+              <td class="px-3 py-3">
+                <div class="d-flex align-items-center">
+                  <div class="avatar me-3 bg-light-primary text-primary rounded-circle d-flex align-items-center justify-content-center font-weight-bold" style="width: 40px; height: 40px; font-size: 1.1rem; background-color: #e7f1ff; color: #0d6efd;">
+                    {{ u.nombre|slice:":1"|upper }}
+                  </div>
+                  <div>
+                    <span class="font-weight-semibold text-dark d-block" style="font-weight: 600;">{{ u.nombre }}</span>
+                    {% if u.nombre == 'admin' %}
+                      <span class="badge bg-dark-subtle text-dark px-2 py-0.5 rounded-pill small" style="font-size: 0.75rem;">Superadmin</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </td>
+              <!-- Contacto -->
+              <td class="py-3">
+                <span class="d-block text-dark small"><i class="fas fa-envelope text-muted me-1"></i>{{ u.email|default:"—" }}</span>
+                <span class="d-block text-muted small"><i class="fas fa-phone text-muted me-1"></i>{{ u.telefono|default:"—" }}</span>
+              </td>
+              <!-- Estado -->
+              <td class="py-3">
+                {% if u.bloqueado %}
+                  <span class="badge bg-danger-subtle text-danger px-2 py-1 rounded-pill"><i class="fas fa-ban me-1"></i>Bloqueado</span>
+                {% else %}
+                  <span class="badge bg-success-subtle text-success px-2 py-1 rounded-pill"><i class="fas fa-check-circle me-1"></i>Activo</span>
+                {% endif %}
+              </td>
+              <!-- Permisos list -->
+              <td class="py-3" style="max-width: 350px;">
+                <div class="d-flex flex-wrap gap-1">
+                  {% if u.nombre == 'admin' %}
+                    <span class="badge bg-primary text-white rounded-pill px-2 py-1 small">Acceso Total</span>
+                  {% else %}
+                    {% for p in u.permisos %}
+                      {% if p == 'control_servicios' %}<span class="badge bg-light text-dark border px-2 py-1">Servicios</span>{% endif %}
+                      {% if p == 'control_proyectos' %}<span class="badge bg-light text-dark border px-2 py-1">Proyectos</span>{% endif %}
+                      {% if p == 'marketing' %}<span class="badge bg-light text-dark border px-2 py-1">Marketing</span>{% endif %}
+                      {% if p == 'estado' %}<span class="badge bg-light text-dark border px-2 py-1">Estado Bot</span>{% endif %}
+                      {% if p == 'conversaciones' %}<span class="badge bg-light text-dark border px-2 py-1">Conversaciones</span>{% endif %}
+                      {% if p == 'configuracion' %}<span class="badge bg-light text-dark border px-2 py-1">Config IA</span>{% endif %}
+                      {% if p == 'telegram_configuracion' %}<span class="badge bg-light text-dark border px-2 py-1">Telegram Bot</span>{% endif %}
+                      {% if p == 'departamentos' %}<span class="badge bg-light text-dark border px-2 py-1">Departamentos</span>{% endif %}
+                      {% if p == 'agentes' %}<span class="badge bg-light text-dark border px-2 py-1">Agentes</span>{% endif %}
+                      {% if p == 'contabilidad_costos' %}<span class="badge bg-light text-dark border px-2 py-1">Costos</span>{% endif %}
+                      {% if p == 'contabilidad_finanzas' %}<span class="badge bg-light text-dark border px-2 py-1">Finanzas</span>{% endif %}
+                      {% if p == 'generar_cotizacion' %}<span class="badge bg-light text-dark border px-2 py-1">Cotizaciones</span>{% endif %}
+                      {% if p == 'control_usuarios' %}<span class="badge bg-light text-dark border px-2 py-1">Usuarios</span>{% endif %}
+                    {% empty %}
+                      <span class="text-muted small">Sin accesos permitidos</span>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </td>
+              <!-- Acciones -->
+              <td class="text-end py-3 px-3">
+                <button class="btn btn-sm btn-outline-secondary rounded-circle me-1" data-bs-toggle="modal" data-bs-target="#editUserModal{{ u.id }}" title="Editar">
+                  <i class="fas fa-pen"></i>
+                </button>
+                {% if u.nombre != 'admin' and u.id != user.id %}
+                <form action="" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro de eliminar este usuario?');">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="delete_user">
+                  <input type="hidden" name="user_id" value="{{ u.id }}">
+                  <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </form>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALES: Editar Usuario (Renderizados fuera de la tabla para evitar HTML inválido) -->
+{% for u in usuarios %}
+<div class="modal fade" id="editUserModal{{ u.id }}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="edit_user">
+        <input type="hidden" name="user_id" value="{{ u.id }}">
+        
+        <div class="modal-header border-0 p-4 pb-0">
+          <h5 class="modal-title font-weight-bold" style="font-weight: 700;">Editar Usuario: {{ u.nombre }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-body p-4">
+          <div class="row">
+            <!-- Datos de Usuario -->
+            <div class="col-md-6 border-end">
+              <h6 class="font-weight-bold mb-3 text-primary"><i class="fas fa-user-circle me-2"></i>Datos Generales</h6>
+              
+              <div class="mb-3">
+                <label class="form-label font-weight-bold text-muted small">Nombre de Usuario</label>
+                <input type="text" name="nombre" class="form-control rounded-3" value="{{ u.nombre }}" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-weight-bold text-muted small">Correo Electrónico</label>
+                <input type="email" name="email" class="form-control rounded-3" value="{{ u.email|default:'' }}">
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-weight-bold text-muted small">Teléfono</label>
+                <input type="text" name="telefono" class="form-control rounded-3" value="{{ u.telefono|default:'' }}">
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-weight-bold text-muted small">Nueva Contraseña</label>
+                <input type="password" name="password" class="form-control rounded-3" placeholder="Dejar vacío para no cambiar">
+              </div>
+              <div class="mb-3 form-check form-switch mt-4">
+                <input class="form-check-input" type="checkbox" name="bloqueado" id="edit-bloqueado{{ u.id }}" {% if u.bloqueado %}checked{% endif %}>
+                <label class="form-check-label font-weight-semibold text-muted small" for="edit-bloqueado{{ u.id }}">Bloquear acceso de este usuario</label>
+              </div>
+            </div>
+
+            <!-- Accesos a Vistas -->
+            <div class="col-md-6 ps-md-4">
+              <h6 class="font-weight-bold mb-3 text-success"><i class="fas fa-shield-alt me-2"></i>Accesos del Panel</h6>
+              <p class="text-muted small mb-3">Selecciona las vistas a las que este usuario tendrá acceso (usa Ctrl/Cmd para elegir varias):</p>
+              
+              <div class="mb-3">
+                <select name="permisos" class="form-select rounded-3 text-dark" multiple size="12" style="font-weight: 500;">
+                  <optgroup label="General" class="font-weight-bold text-muted">
+                    <option value="control_servicios" {% if 'control_servicios' in u.permisos %}selected{% endif %}>Servicios</option>
+                    <option value="control_proyectos" {% if 'control_proyectos' in u.permisos %}selected{% endif %}>Proyectos</option>
+                  </optgroup>
+                  <optgroup label="Marketing" class="font-weight-bold text-muted mt-2">
+                    <option value="marketing" {% if 'marketing' in u.permisos %}selected{% endif %}>Planeación (Marketing)</option>
+                  </optgroup>
+                  <optgroup label="Chatbot IA" class="font-weight-bold text-muted mt-2">
+                    <option value="estado" {% if 'estado' in u.permisos %}selected{% endif %}>Estado Bot</option>
+                    <option value="conversaciones" {% if 'conversaciones' in u.permisos %}selected{% endif %}>Conversaciones</option>
+                    <option value="configuracion" {% if 'configuracion' in u.permisos %}selected{% endif %}>Configuración IA</option>
+                    <option value="telegram_configuracion" {% if 'telegram_configuracion' in u.permisos %}selected{% endif %}>Telegram Bot</option>
+                    <option value="departamentos" {% if 'departamentos' in u.permisos %}selected{% endif %}>Departamentos</option>
+                    <option value="agentes" {% if 'agentes' in u.permisos %}selected{% endif %}>Agentes</option>
+                  </optgroup>
+                  <optgroup label="Contabilidad" class="font-weight-bold text-muted mt-2">
+                    <option value="contabilidad_costos" {% if 'contabilidad_costos' in u.permisos %}selected{% endif %}>Estructura Costos</option>
+                    <option value="contabilidad_finanzas" {% if 'contabilidad_finanzas' in u.permisos %}selected{% endif %}>Finanzas y Balances</option>
+                    <option value="generar_cotizacion" {% if 'generar_cotizacion' in u.permisos %}selected{% endif %}>Cotizaciones</option>
+                  </optgroup>
+                  <optgroup label="Administración" class="font-weight-bold text-muted mt-2">
+                    <option value="control_usuarios" {% if 'control_usuarios' in u.permisos %}selected{% endif %}>Gestión de Usuarios</option>
+                  </optgroup>
+                </select>
+                <div class="form-text font-size-xs text-muted mt-2">
+                  <i class="fas fa-info-circle me-1"></i>Mantén presionado <kbd class="bg-light text-dark border px-1">Ctrl</kbd> (Windows/Linux) o <kbd class="bg-light text-dark border px-1">Cmd</kbd> (Mac) para seleccionar o deseleccionar múltiples vistas.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-footer border-0 p-4 pt-0">
+          <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary rounded-pill px-4">Actualizar Usuario</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<!-- MODAL: Crear Usuario -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_user">
+        
+        <div class="modal-header border-0 p-4 pb-0">
+          <h5 class="modal-title font-weight-bold" style="font-weight: 700;">Crear Nuevo Usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-body p-4">
+          <div class="row">
+            <!-- Datos de Usuario -->
+            <div class="col-md-6 border-end">
+              <h6 class="font-weight-bold mb-3 text-primary"><i class="fas fa-user-circle me-2"></i>Datos Generales</h6>
+              
+              <div class="mb-3">
+                <label class="form-label font-weight-bold text-muted small">Nombre de Usuario</label>
+                <input type="text" name="nombre" class="form-control rounded-3" placeholder="Ej: maria.lopez" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-weight-bold text-muted small">Correo Electrónico</label>
+                <input type="email" name="email" class="form-control rounded-3" placeholder="Ej: maria@correo.com">
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-weight-bold text-muted small">Teléfono</label>
+                <input type="text" name="telefono" class="form-control rounded-3" placeholder="Ej: +584120000000">
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-weight-bold text-muted small">Contraseña</label>
+                <input type="password" name="password" class="form-control rounded-3" placeholder="Mínimo 6 caracteres" required>
+              </div>
+              <div class="mb-3 form-check form-switch mt-4">
+                <input class="form-check-input" type="checkbox" name="bloqueado" id="add-bloqueado">
+                <label class="form-check-label font-weight-semibold text-muted small" for="add-bloqueado">Bloquear acceso de este usuario</label>
+              </div>
+            </div>
+
+            <!-- Accesos a Vistas -->
+            <div class="col-md-6 ps-md-4">
+              <h6 class="font-weight-bold mb-3 text-success"><i class="fas fa-shield-alt me-2"></i>Accesos del Panel</h6>
+              <p class="text-muted small mb-3">Selecciona las vistas a las que este usuario tendrá acceso (usa Ctrl/Cmd para elegir varias):</p>
+              
+              <div class="mb-3">
+                <select name="permisos" class="form-select rounded-3 text-dark" multiple size="12" style="font-weight: 500;">
+                  <optgroup label="General" class="font-weight-bold text-muted">
+                    <option value="control_servicios">Servicios</option>
+                    <option value="control_proyectos">Proyectos</option>
+                  </optgroup>
+                  <optgroup label="Marketing" class="font-weight-bold text-muted mt-2">
+                    <option value="marketing">Planeación (Marketing)</option>
+                  </optgroup>
+                  <optgroup label="Chatbot IA" class="font-weight-bold text-muted mt-2">
+                    <option value="estado">Estado Bot</option>
+                    <option value="conversaciones">Conversaciones</option>
+                    <option value="configuracion">Configuración IA</option>
+                    <option value="telegram_configuracion">Telegram Bot</option>
+                    <option value="departamentos">Departamentos</option>
+                    <option value="agentes">Agentes</option>
+                  </optgroup>
+                  <optgroup label="Contabilidad" class="font-weight-bold text-muted mt-2">
+                    <option value="contabilidad_costos">Estructura Costos</option>
+                    <option value="contabilidad_finanzas">Finanzas y Balances</option>
+                    <option value="generar_cotizacion">Cotizaciones</option>
+                  </optgroup>
+                  <optgroup label="Administración" class="font-weight-bold text-muted mt-2">
+                    <option value="control_usuarios">Gestión de Usuarios</option>
+                  </optgroup>
+                </select>
+                <div class="form-text font-size-xs text-muted mt-2">
+                  <i class="fas fa-info-circle me-1"></i>Mantén presionado <kbd class="bg-light text-dark border px-1">Ctrl</kbd> (Windows/Linux) o <kbd class="bg-light text-dark border px-1">Cmd</kbd> (Mac) para seleccionar o deseleccionar múltiples vistas.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-footer border-0 p-4 pt-0">
+          <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary rounded-pill px-4">Guardar Usuario</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

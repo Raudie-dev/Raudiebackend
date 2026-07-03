@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}Agentes - RAUDIE{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1 class="h3 mb-1 text-gray-800" style="font-weight: 700;">Agentes de Atención</h1>
+      <p class="text-muted mb-0">Gestiona al personal humano que recibirá los prospectos y consultas derivadas por la IA.</p>
+    </div>
+    <div class="col-auto">
+      <a href="{% url 'agente_crear' %}" class="btn btn-primary rounded-pill shadow-sm">
+        <i class="fas fa-plus me-2"></i>Nuevo Agente
+      </a>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4 bg-white">
+    <div class="card-body p-0">
+      {% if agentes %}
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0" style="border-collapse: separate;">
+            <thead class="bg-light text-muted font-size-xs text-uppercase" style="letter-spacing: 0.5px;">
+              <tr>
+                <th class="ps-4 py-3 border-0">Nombre</th>
+                <th class="py-3 border-0">Telegram</th>
+                <th class="py-3 border-0">Estado</th>
+                <th class="py-3 border-0">Departamentos</th>
+                <th class="pe-4 py-3 border-0 text-end" style="width: 150px;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for agente in agentes %}
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td class="ps-4 py-3 font-weight-bold text-dark">
+                    <i class="fas fa-user-circle text-primary me-2"></i>{{ agente.nombre }}
+                  </td>
+                  <td class="py-3 text-muted">
+                    {% if agente.telegram_id %}
+                      {% if agente.telegram_id|slice:":1" == "@" %}
+                        <a href="https://t.me/{{ agente.telegram_id|slice:'1:' }}" target="_blank" class="text-decoration-none">
+                          <i class="fab fa-telegram text-info me-1"></i>{{ agente.telegram_id }}
+                        </a>
+                      {% else %}
+                        <span><i class="fab fa-telegram text-info me-1"></i>{{ agente.telegram_id }}</span>
+                      {% endif %}
+                    {% else %}
+                      <span class="text-muted small">No configurado</span>
+                    {% endif %}
+                  </td>
+                  <td class="py-3">
+                    {% if agente.activo %}
+                      <span class="badge bg-success-subtle text-success px-2 py-1 rounded-pill">Activo</span>
+                    {% else %}
+                      <span class="badge bg-secondary-subtle text-secondary px-2 py-1 rounded-pill">Inactivo</span>
+                    {% endif %}
+                  </td>
+                  <td class="py-3">
+                    {% for dpto in agente.departamentos.all %}
+                      <span class="badge bg-primary-subtle text-primary me-1">{{ dpto.nombre }}</span>
+                    {% empty %}
+                      <span class="badge bg-light text-muted">Ninguno (General)</span>
+                    {% endfor %}
+                  </td>
+                  <td class="pe-4 py-3 text-end">
+                    <a href="{% url 'agente_editar' agente.id %}" class="btn btn-sm btn-outline-primary rounded-pill me-1" title="Editar">
+                      <i class="fas fa-pencil-alt"></i>
+                    </a>
+                    <button class="btn btn-sm btn-outline-danger rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteAgenteModal-{{ agente.id }}" title="Eliminar">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+
+                    <!-- Modal de eliminación -->
+                    <div class="modal fade text-start" id="deleteAgenteModal-{{ agente.id }}" tabindex="-1" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content rounded-4 border-0 shadow">
+                          <div class="modal-header border-0 pb-0">
+                            <h5 class="modal-title font-weight-bold text-dark" style="font-weight: 700;">Eliminar Agente</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body py-3">
+                            <p class="text-muted mb-0">¿Estás seguro de que deseas eliminar a <strong>{{ agente.nombre }}</strong>? Dejará de recibir notificaciones de transferencias.</p>
+                          </div>
+                          <div class="modal-footer border-0 pt-0">
+                            <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="{% url 'agente_eliminar' agente.id %}" class="btn btn-danger rounded-pill px-4">
+                              <i class="fas fa-trash me-1"></i>Sí, Eliminar
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="p-5 text-center">
+          <div class="mb-4">
+            <i class="fas fa-user-tie fa-4x text-muted opacity-25"></i>
+          </div>
+          <h5 class="font-weight-bold">No hay agentes registrados</h5>
+          <p class="text-muted small mx-auto" style="max-width: 400px;">Registra a los asesores o técnicos de tu empresa para que la IA les pueda notificar directamente los datos del cliente por Telegram.</p>
+          <a href="{% url 'agente_crear' %}" class="btn btn-primary rounded-pill px-4 mt-3">
+            <i class="fas fa-plus me-2"></i>Registrar Primer Agente
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
