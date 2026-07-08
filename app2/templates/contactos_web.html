@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contactos Web | RauDie Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row mb-4 animate-fade-in-up">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm rounded-4 bg-white">
+        <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center border-bottom">
+          <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-users text-primary me-2"></i>Contactos Web Recientes</h5>
+        </div>
+        <div class="card-body p-0">
+          {% if contactos_web %}
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="bg-light text-muted small text-uppercase">
+                <tr>
+                  <th class="ps-4 border-0">Nombre</th>
+                  <th class="border-0">WhatsApp</th>
+                  <th class="border-0">Email</th>
+                  <th class="border-0">Mensaje</th>
+                  <th class="pe-4 text-end border-0">Fecha</th>
+                </tr>
+              </thead>
+              <tbody class="border-top-0">
+                {% for contacto in contactos_web %}
+                <tr>
+                  <td class="ps-4 fw-semibold text-dark">{{ contacto.nombre }}</td>
+                  <td>
+                    <a href="https://wa.me/{{ contacto.whatsapp|urlencode }}" target="_blank" class="text-decoration-none text-success">
+                      <i class="fab fa-whatsapp me-1"></i>{{ contacto.whatsapp }}
+                    </a>
+                  </td>
+                  <td><a href="mailto:{{ contacto.email }}" class="text-muted text-decoration-none">{{ contacto.email }}</a></td>
+                  <td class="text-muted text-ellipsis-250" title="{{ contacto.mensaje }}">{{ contacto.mensaje }}</td>
+                  <td class="pe-4 text-end text-muted small">{{ contacto.fecha_creacion|date:"d M Y, H:i" }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="p-5 text-center">
+            <i class="fas fa-inbox fa-3x text-muted opacity-25 mb-3"></i>
+            <p class="text-muted mb-0">No hay contactos de la web registrados aún.</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

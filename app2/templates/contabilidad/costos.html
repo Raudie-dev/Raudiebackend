@@ -7,7 +7,7 @@
   <!-- Header -->
   <div class="row align-items-center mb-4">
     <div class="col">
-      <h1 class="h3 mb-1 text-gray-800" style="font-weight: 700;">Estructura de Costos</h1>
+      <h1 class="h3 mb-1 text-gray-800 fw-bold">Estructura de Costos</h1>
       <p class="text-muted mb-0">Administra los gastos operativos fijos y evalúa el costo por hora interno frente a las tarifas de venta.</p>
     </div>
   </div>
@@ -15,43 +15,43 @@
   <!-- KPI Cards -->
   <div class="row mb-4">
     <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+      <div class="card kpi-card shadow-sm border-0 p-4">
         <div class="d-flex align-items-center gap-3">
-          <div class="bg-danger-subtle text-danger rounded-circle d-flex justify-content-center align-items-center" style="width: 48px; height: 48px;">
+          <div class="kpi-icon-wrapper bg-danger-subtle text-danger rounded-circle">
             <i class="fas fa-file-invoice-dollar fa-lg"></i>
           </div>
           <div>
-            <h5 class="mb-0 font-weight-bold" style="font-weight: 600;">${{ total_costos|stringformat:".2f" }}</h5>
-            <small class="text-muted">Costo Mensual Fijo</small>
+            <h5 class="mb-0 fw-bold">${{ total_costos|stringformat:".2f" }}</h5>
+            <small class="text-muted kpi-label">Costo Mensual Fijo</small>
           </div>
         </div>
       </div>
     </div>
     
     <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+      <div class="card kpi-card shadow-sm border-0 p-4">
         <div class="d-flex align-items-center gap-3">
-          <div class="bg-warning-subtle text-warning rounded-circle d-flex justify-content-center align-items-center" style="width: 48px; height: 48px;">
+          <div class="kpi-icon-wrapper bg-warning-subtle text-warning rounded-circle">
             <i class="fas fa-hourglass-half fa-lg"></i>
           </div>
           <div>
-            <h5 class="mb-0 font-weight-bold" style="font-weight: 600;">${{ costo_por_hora_interno|stringformat:".2f" }}</h5>
-            <small class="text-muted">Costo por Hora Interno (160h)</small>
+            <h5 class="mb-0 fw-bold">${{ costo_por_hora_interno|stringformat:".2f" }}</h5>
+            <small class="text-muted kpi-label">Costo por Hora Interno (160h)</small>
           </div>
         </div>
       </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+      <div class="card kpi-card shadow-sm border-0 p-4">
         <div class="d-flex align-items-center justify-content-between w-100">
           <div class="d-flex align-items-center gap-3">
-            <div class="bg-primary-subtle text-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 48px; height: 48px;">
+            <div class="kpi-icon-wrapper bg-primary-subtle text-primary rounded-circle">
               <i class="fas fa-dollar-sign fa-lg"></i>
             </div>
             <div>
-              <h5 class="mb-0 font-weight-bold" style="font-weight: 600;">${{ rate|stringformat:".2f" }}</h5>
-              <small class="text-muted">Tarifa de Venta / Hora</small>
+              <h5 class="mb-0 fw-bold">${{ rate|stringformat:".2f" }}</h5>
+              <small class="text-muted kpi-label">Tarifa de Venta / Hora</small>
             </div>
           </div>
           <button class="btn btn-sm btn-outline-primary rounded-circle" data-bs-toggle="modal" data-bs-target="#editRateModal" title="Editar tarifa">
@@ -62,14 +62,14 @@
     </div>
 
     <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+      <div class="card kpi-card shadow-sm border-0 p-4">
         <div class="d-flex align-items-center gap-3">
-          <div class="bg-success-subtle text-success rounded-circle d-flex justify-content-center align-items-center" style="width: 48px; height: 48px;">
+          <div class="kpi-icon-wrapper bg-success-subtle text-success rounded-circle">
             <i class="fas fa-coins fa-lg"></i>
           </div>
           <div>
-            <h5 class="mb-0 font-weight-bold" style="font-weight: 600;">${{ max_ganancia|stringformat:".2f" }}</h5>
-            <small class="text-muted">Ganancia Máx. ({{ max_ingreso|stringformat:".0f" }}$ - Costos)</small>
+            <h5 class="mb-0 fw-bold">${{ max_ganancia|stringformat:".2f" }}</h5>
+            <small class="text-muted kpi-label">Ganancia Máx. ({{ max_ingreso|stringformat:".0f" }}$ - Costos)</small>
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@
       <div class="card border-0 shadow-sm rounded-4 bg-white">
         <div class="card-body p-4">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="mb-0 font-weight-bold" style="font-weight: 600;">Estructura de Gastos Mensuales</h5>
+            <h5 class="mb-0 fw-bold">Estructura de Gastos Mensuales</h5>
             <button class="btn btn-sm btn-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#addCostModal">
               <i class="fas fa-plus me-1"></i>Añadir Costo
             </button>
@@ -100,8 +100,8 @@
               <tbody>
                 {% for cost in costs %}
                 <tr>
-                  <td class="px-3 py-3 font-weight-medium text-dark">{{ cost.descripcion }}</td>
-                  <td class="text-end py-3 font-weight-semibold text-danger">${{ cost.precio|stringformat:".2f" }}</td>
+                  <td class="px-3 py-3 fw-medium text-dark">{{ cost.descripcion }}</td>
+                  <td class="text-end py-3 fw-semibold text-danger">${{ cost.precio|stringformat:".2f" }}</td>
                   <td class="text-end py-3">
                     <button class="btn btn-sm btn-outline-secondary rounded-circle me-1" onclick="openEditCostModal('{{ cost.id }}', '{{ cost.descripcion }}', '{{ cost.precio }}')" title="Editar">
                       <i class="fas fa-pen"></i>
@@ -121,7 +121,7 @@
                   <td colspan="3" class="text-center py-4 text-muted">No hay costos mensuales definidos.</td>
                 </tr>
                 {% endfor %}
-                <tr class="table-light font-weight-bold">
+                <tr class="table-light fw-bold">
                   <td class="px-3 py-3">Total General</td>
                   <td class="text-end py-3 text-danger">${{ total_costos|stringformat:".2f" }}</td>
                   <td></td>
@@ -138,7 +138,7 @@
       <div class="card border-0 shadow-sm rounded-4 bg-white">
         <div class="card-body p-4">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="mb-0 font-weight-bold" style="font-weight: 600;">Catálogo de Proyectos / Precios</h5>
+            <h5 class="mb-0 fw-bold">Catálogo de Proyectos / Precios</h5>
             <button class="btn btn-sm btn-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#addProjectModal">
               <i class="fas fa-plus me-1"></i>Añadir Proyecto
             </button>
@@ -159,11 +159,11 @@
               <tbody>
                 {% for proj in projects %}
                 <tr>
-                  <td class="px-3 py-3 font-weight-medium text-dark">{{ proj.descripcion }}</td>
+                  <td class="px-3 py-3 fw-medium text-dark">{{ proj.descripcion }}</td>
                   <td class="text-center py-3 text-muted">{{ proj.horas|stringformat:".0f" }}h</td>
                   <td class="text-end py-3 text-danger small">${{ proj.costo|stringformat:".2f" }}</td>
-                  <td class="text-end py-3 text-primary font-weight-semibold">${{ proj.precio|stringformat:".2f" }}</td>
-                  <td class="text-end py-3 text-success font-weight-semibold">${{ proj.ganancia|stringformat:".2f" }}</td>
+                  <td class="text-end py-3 text-primary fw-semibold">${{ proj.precio|stringformat:".2f" }}</td>
+                  <td class="text-end py-3 text-success fw-semibold">${{ proj.ganancia|stringformat:".2f" }}</td>
                   <td class="text-end py-3">
                     <button class="btn btn-sm btn-outline-secondary rounded-circle me-1" onclick="openEditProjectModal('{{ proj.id }}', '{{ proj.descripcion|escapejs }}', '{{ proj.horas }}', '{{ proj.precio_raw }}')" title="Editar">
                       <i class="fas fa-pen"></i>

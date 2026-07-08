@@ -100,36 +100,55 @@ document.addEventListener("DOMContentLoaded", () => {
       const submitBtn = elements.contactForm.querySelector('button[type="submit"]')
       const originalText = submitBtn.innerHTML
 
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...'
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...'
       submitBtn.disabled = true
 
       try {
-        const formData = new FormData(elements.contactForm)
+        const name = document.getElementById("contactName")?.value || "";
+        const phone = document.getElementById("contactPhone")?.value || "";
+        const email = document.getElementById("contactEmail")?.value || "";
+        const message = document.getElementById("contactMessage")?.value || "";
 
-        const response = await fetch("send_email.php", {
+        // First, save to database
+        const formData = new FormData(elements.contactForm);
+        // Add CSRF Token
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+        
+        await fetch("/guardar-contacto/", {
           method: "POST",
+          headers: {
+            'X-CSRFToken': csrfToken
+          },
           body: formData,
-        })
+        });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`)
-        }
+        // Format the WhatsApp message
+        const text = `Hola RauDie! Me gustaría obtener más información.
+Mis datos son:
+- Nombre: ${name}
+- Teléfono: ${phone}
+- Email: ${email}
 
-        const result = await response.json()
+Mensaje:
+${message}`;
 
-        if (result.success) {
-          submitBtn.innerHTML = '<i class="fas fa-check"></i> ¡Enviado!'
-          submitBtn.style.background = "#10b981"
-          elements.contactForm.reset()
+        // Phone number configured on the page
+        const targetPhone = "584243736030";
+        const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(text)}`;
 
-          setTimeout(() => {
-            submitBtn.innerHTML = originalText
-            submitBtn.disabled = false
-            submitBtn.style.background = ""
-          }, 2000)
-        } else {
-          throw new Error(result.message || "Error desconocido en el servidor.")
-        }
+        window.open(whatsappUrl, "_blank");
+
+        // Reset the form and button
+        elements.contactForm.reset();
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> ¡Enviado!'
+        submitBtn.style.background = "#10b981"
+
+        setTimeout(() => {
+          submitBtn.innerHTML = originalText
+          submitBtn.disabled = false
+          submitBtn.style.background = ""
+        }, 2000)
+        
       } catch (error) {
         submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error'
         submitBtn.style.background = "#ef4444"
@@ -430,22 +449,31 @@ document.addEventListener("DOMContentLoaded", () => {
   // =============================================
 
   document.addEventListener("click", (e) => {
-    const anchor = e.target.closest('a[href^="#"]:not([href="#"])')
+    const anchor = e.target.closest('a[href*="#"]:not([href="#"])')
     if (!anchor) return
 
-    if (anchor.parentElement.classList.contains("has-submenu") && window.innerWidth <= 768) return
+    if (anchor.parentElement && anchor.parentElement.classList.contains("has-submenu") && window.innerWidth <= 768) return
 
-    e.preventDefault()
-    const target = document.querySelector(anchor.getAttribute("href"))
+    // Verify if the link points to the current page
+    const href = anchor.getAttribute("href");
+    const hashIndex = href.indexOf('#');
+    const path = href.substring(0, hashIndex);
+    const hash = href.substring(hashIndex);
+    
+    // Only smooth scroll if we are on the same path (or path is empty meaning it's a direct anchor)
+    if (path === "" || path === window.location.pathname) {
+      e.preventDefault()
+      const target = document.querySelector(hash)
 
-    if (target) {
-      const headerHeight = document.querySelector(".header")?.offsetHeight || 0
-      const targetPosition = target.offsetTop - headerHeight
+      if (target) {
+        const headerHeight = document.querySelector(".header")?.offsetHeight || 0
+        const targetPosition = target.offsetTop - headerHeight
 
-      window.scrollTo({
-        top: targetPosition,
-        behavior: "smooth",
-      })
+        window.scrollTo({
+          top: targetPosition,
+          behavior: "smooth",
+        })
+      }
     }
   })
 

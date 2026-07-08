@@ -69,3 +69,26 @@ def proyectos(request):
 def enlaces(request):
 
     return render(request, 'enlaces.html')
+
+from django.http import JsonResponse
+import json
+from .models import Contacto
+
+def guardar_contacto(request):
+    if request.method == 'POST':
+        try:
+            nombre = request.POST.get('name', '')
+            whatsapp = request.POST.get('phone', '')
+            email = request.POST.get('email', '')
+            mensaje = request.POST.get('message', '')
+            
+            contacto = Contacto.objects.create(
+                nombre=nombre,
+                whatsapp=whatsapp,
+                email=email,
+                mensaje=mensaje
+            )
+            return JsonResponse({'success': True, 'message': 'Guardado exitosamente'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)}, status=400)
+    return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)

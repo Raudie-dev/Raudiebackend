@@ -53,26 +53,25 @@ document.addEventListener('DOMContentLoaded', function(){
 <div class="container-fluid">
 
   <!-- ── PAGE HEADER ── -->
-  <div class="page-header">
-    <div class="page-header__left">
-      <div class="page-header__icon">
-        <i class="fas fa-wrench"></i>
-      </div>
-      <div>
-        <h1 class="page-header__title">Control de Servicios</h1>
-        <p class="page-header__subtitle">Gestiona y administra todos tus servicios</p>
-      </div>
+  <div class="row align-items-center mb-4 mt-2">
+    <div class="col">
+      <h1 class="h3 mb-1 text-gray-800 fw-bold">Control de Servicios</h1>
+      <p class="text-muted mb-0">Gestiona y administra todos tus servicios</p>
     </div>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearServicio">
-      <i class="fas fa-plus me-2"></i>Nuevo Servicio
-    </button>
+    <div class="col-auto">
+      <button class="btn btn-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalCrearServicio">
+        <i class="fas fa-plus me-1"></i>Nuevo Servicio
+      </button>
+    </div>
   </div>
 
   <!-- ── STATS BAR ── -->
-  <div class="stats-bar">
-    <div class="stat-pill">
-      <i class="fas fa-layer-group"></i>
-      <span><strong>{{ servicios|length }}</strong> servicio{{ servicios|length|pluralize:",s" }} activo{{ servicios|length|pluralize:",s" }}</span>
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-3 d-flex flex-row align-items-center gap-2">
+        <i class="fas fa-layer-group text-primary fa-lg"></i>
+        <span><strong>{{ servicios|length }}</strong> servicio{{ servicios|length|pluralize:",s" }} activo{{ servicios|length|pluralize:",s" }}</span>
+      </div>
     </div>
   </div>
 

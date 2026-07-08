@@ -49,3 +49,13 @@ class Proyecto(models.Model):
 
     def __str__(self):
         return self.titulo if self.titulo else f"Proyecto {self.pk}"
+
+class Contacto(models.Model):
+    nombre = models.CharField(max_length=200)
+    whatsapp = models.CharField(max_length=50)
+    email = models.EmailField()
+    mensaje = models.TextField()
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.nombre} - {self.whatsapp}"

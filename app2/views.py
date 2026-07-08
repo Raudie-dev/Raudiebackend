@@ -2018,7 +2018,8 @@ def generar_cotizacion(request):
         import random
         referencia = datetime.now().strftime('%Y%m%d') + str(random.randint(100, 999))
 
-        logo_path = os.path.join(settings.BASE_DIR, 'assets', 'img', 'navbar-logo.png')
+        logo_path = os.path.join(settings.BASE_DIR, 'assets', 'img', 'cotizaciones_logo.png')
+        logo_uri = f"file:///{logo_path.replace('\\', '/')}"
 
         html = render_to_string('contabilidad/pdf_cotizacion.html', {
             'cliente': cliente,
@@ -2028,7 +2029,8 @@ def generar_cotizacion(request):
             'condiciones': condiciones,
             'items': items,
             'total_importe_formatted': _format_currency(total_importe),
-            'logo_path': logo_path
+            'logo_path': logo_path,
+            'logo_uri': logo_uri
         })
 
         try:
@@ -2304,3 +2306,14 @@ def control_usuarios(request):
         'user': user,
         'usuarios': usuarios
     })
+
+def contactos_web_view(request):
+    user = _get_session_user(request)
+    if not user:
+        messages.error(request, 'Debe iniciar sesión primero')
+        return redirect('login')
+
+    from app1.models import Contacto
+    contactos_web = Contacto.objects.all().order_by('-fecha_creacion')
+    
+    return render(request, 'contactos_web.html', {'user': user, 'contactos_web': contactos_web})

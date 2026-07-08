@@ -220,14 +220,16 @@ h4 { font-weight:500; letter-spacing:.02em; }
   opacity:0; visibility:hidden;
   transition:all .22s var(--ease);
   box-shadow:var(--shadow-md);
+  display:flex; flex-direction:column;
 }
 .nav-menu li.has-submenu:hover .submenu {
-  opacity:1; flex-direction: column; visibility:visible; transform:translateX(-50%) translateY(0);
+  opacity:1; visibility:visible; transform:translateX(-50%) translateY(0);
 }
-.submenu li { margin:0; }
+.submenu li { margin:0; width:100%; }
 .submenu a {
   display:block; padding:8px 14px; font-size:13.5px; color:var(--ink-mid);
   border-radius:var(--r-sm); white-space:nowrap; transition:all .15s var(--ease);
+  width:100%; text-align:left;
 }
 .submenu a:hover, .submenu a.active { color:var(--ink); background:var(--canvas-2); }
 
@@ -482,8 +484,8 @@ h4 { font-weight:500; letter-spacing:.02em; }
 .service-card:hover { transform:translateY(-6px); box-shadow:var(--shadow-md); border-color:var(--red-border); }
 .service-card:hover::before { opacity:1; }
 
-.service-card a { text-decoration:none; display:block; }
-
+.service-card a { text-decoration:none; display:block; height:100%; }
+.service-card a::after { content:''; position:absolute; inset:0; z-index:10; }
 .service-icon {
   width:52px; height:52px; background:var(--red-dim);
   border:1px solid var(--red-border); border-radius:var(--r-md);
