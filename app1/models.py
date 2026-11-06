@@ -59,3 +59,23 @@ class Contacto(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.whatsapp}"
+
+class Noticia(models.Model):
+    titulo = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250, unique=True, blank=True)
+    categoria = models.CharField(max_length=100, default='Actualidad')
+    resumen = models.TextField()
+    contenido = models.TextField(blank=True)
+    fecha = models.DateField(auto_now_add=True)
+    foto = models.ImageField(upload_to='noticias/', blank=True, null=True)
+    foto_url = models.URLField(blank=True, help_text='URL de imagen externa')
+    tiempo_lectura = models.CharField(max_length=50, default='3 min')
+    destacado = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'Noticia'
+        verbose_name_plural = 'Noticias'
+        ordering = ['-fecha', '-id']
+
+    def __str__(self):
+        return self.titulo

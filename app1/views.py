@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
-from .models import Prueba, Servicios, Proyecto, Categoria
+from .models import Prueba, Servicios, Proyecto, Categoria, Noticia
 
 # Create your views here.
 def index(request):
@@ -20,8 +20,11 @@ def index(request):
     # Obtener servicios recientes para mostrar en tarjetas (últimos 6)
     servicios = Servicios.objects.all().order_by('-id')[:6]
 
-    # NUEVO: obtener últimos 4 proyectos
-    proyectos = Proyecto.objects.all().order_by('-fecha', '-id')[:4]
+    # Obtener últimos 6 proyectos
+    proyectos = Proyecto.objects.all().order_by('-fecha', '-id')[:6]
+
+    # Obtener últimas noticias (3 para el grid editorial del index)
+    noticias = Noticia.objects.all().order_by('-fecha', '-id')[:3]
 
     # Manejo de formulario de contacto (envía correo a la cuenta admin)
     if request.method == 'POST' and 'contact_message' in request.POST:
@@ -51,23 +54,59 @@ def index(request):
         'socio': socio,
         'servicios': servicios,
         'proyectos': proyectos,
+        'noticias': noticias,
         'mensaje_bienvenida': mensaje_bienvenida,
     })
 
 # Nueva vista: detalle de un servicio
 def servicios_detalle(request, servicio_id):
     servicio = get_object_or_404(Servicios, id=servicio_id)
-    return render(request, 'servicio_detalle.html', {'servicio': servicio})
+    otros_servicios = Servicios.objects.exclude(id=servicio_id).order_by('-id')[:3]
+    return render(request, 'servicio_detalle.html', {
+        'servicio': servicio,
+        'otros_servicios': otros_servicios,
+    })
 
-# Nueva vista: listado de proyectos con modal por proyecto
+# Nueva vista: detalle de un proyecto
+def proyecto_detalle(request, proyecto_id):
+    proyecto = get_object_or_404(Proyecto, pk=proyecto_id)
+    proyectos_relacionados = Proyecto.objects.exclude(pk=proyecto_id).order_by('-fecha', '-id')[:3]
+    return render(request, 'proyecto_detalle.html', {
+        'proyecto': proyecto,
+        'proyectos_relacionados': proyectos_relacionados
+    })
+
 def proyectos(request):
     proyectos = Proyecto.objects.all().order_by('-fecha', '-id')
     categorias = Categoria.objects.all()
     return render(request, 'proyectos.html', {'proyectos': proyectos, 'categorias': categorias})
 
+# Nueva vista: listado de noticias e insights
+def noticias(request):
+    categoria_filtro = request.GET.get('categoria', '').strip()
+    noticias_qs = Noticia.objects.all().order_by('-fecha', '-id')
+    if categoria_filtro:
+        noticias_qs = noticias_qs.filter(categoria__iexact=categoria_filtro)
+
+    categorias = [c for c in Noticia.objects.values_list('categoria', flat=True).distinct() if c]
+
+    return render(request, 'noticias.html', {
+        'noticias': noticias_qs,
+        'categorias': categorias,
+        'categoria_filtro': categoria_filtro,
+    })
+
+# Nueva vista: lectura completa del artículo de noticia
+def noticia_detalle(request, noticia_id):
+    noticia = get_object_or_404(Noticia, pk=noticia_id)
+    noticias_relacionadas = Noticia.objects.exclude(pk=noticia_id).order_by('-fecha', '-id')[:3]
+    return render(request, 'noticia_detalle.html', {
+        'noticia': noticia,
+        'noticias_relacionadas': noticias_relacionadas,
+    })
+
 # Vista estática tipo "linktree" con enlaces fijos
 def enlaces(request):
-
     return render(request, 'enlaces.html')
 
 from django.http import JsonResponse

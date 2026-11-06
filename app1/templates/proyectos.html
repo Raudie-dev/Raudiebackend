@@ -1,397 +1,289 @@
 {% extends 'base_index.html' %}
-            {% load static %}
+{% load static %}
 
-            {% block title %}Proyectos | RauDie Software Company{% endblock %}
+{% block title %}Proyectos | RauDie Software Company{% endblock %}
 
-            {% block content %}
+{% block content %}
+<!-- Projects Premium Engineering Hero -->
+<section class="projects-editorial-hero has-bg-image">
+  <!-- Background Image Media (Matching Index Hero Style) -->
+  <div class="hero-bg-media" aria-hidden="true">
+    <img src="https://i.pinimg.com/originals/39/f6/9e/39f69ee62a065eaee5ab9a3fb296ed60.gif" alt="Proyectos Background" class="hero-bg-img" loading="eager">
+    <div class="hero-bg-overlay"></div>
+  </div>
+  <div class="projects-hero-glow" aria-hidden="true"></div>
 
-            <!-- Projects Page Header -->
-            <section class="projects-hero">
-              <div class="container">
-                <div class="projects-hero-content">
-                  <div class="projects-badge">
-                    <i class="fas fa-rocket"></i>
-                    <span>Portafolio</span>
+  <div class="section-container" style="position: relative; z-index: 3;">
+    <div class="projects-hero-content">
+      <!-- Kicker Pill with Rocket Icon -->
+      <div class="projects-hero-pill">
+        <i class="fas fa-rocket"></i>
+        <span data-i18n="archive.badge">PORTAFOLIO</span>
+      </div>
+
+      <!-- Main Headline with Red Accent -->
+      <h1 class="projects-hero-h1">
+        <span class="white-text">Nuestros</span> <span class="red-text">Proyectos</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="projects-hero-sub" data-i18n="archive.sub">
+        Descubre algunos de los proyectos más destacados que hemos desarrollado para nuestros clientes, cada uno con su propia historia de éxito
+      </p>
+    </div>
+  </div>
+
+  <!-- Bottom Arch Curve Divider Transitioning to Canvas -->
+  <div class="projects-hero-bottom-curve" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none" style="width: 100%; height: 60px; display: block;">
+      <path d="M0,80 Q720,10 1440,80 L1440,80 L0,80 Z" fill="var(--bg-canvas, #FAF8F5)"></path>
+    </svg>
+  </div>
+</section>
+
+<!-- Projects Catalog Section (Light Canvas) -->
+<section class="projects-catalog-section" style="padding: 10px 0 96px; background: var(--bg-canvas, #FAF8F5); min-height: 60vh;">
+  <div class="section-container">
+
+    <!-- Filter Pills -->
+    <div class="work-filters-bar" style="justify-content: center; margin-bottom: 48px;">
+      <button type="button" class="filter-pill active" data-filter="all" data-i18n="archive.filter_all">Todos</button>
+      {% if categorias %}
+        {% for c in categorias %}
+          <button type="button" class="filter-pill" data-filter="{{ c.slug|default:c.nombre|slugify }}">{{ c.nombre }}</button>
+        {% endfor %}
+      {% else %}
+        <button type="button" class="filter-pill" data-filter="saas" data-i18n="work.filter_saas">SaaS &amp; Plataformas</button>
+        <button type="button" class="filter-pill" data-filter="sistemas" data-i18n="work.filter_crm">Sistemas &amp; CRM</button>
+        <button type="button" class="filter-pill" data-filter="ecommerce" data-i18n="work.filter_ecom">E-Commerce</button>
+        <button type="button" class="filter-pill" data-filter="auto" data-i18n="work.filter_auto">Automatizaciones</button>
+      {% endif %}
+    </div>
+
+    <!-- 3-Column Showcase Grid -->
+    <div class="work-showcase-grid">
+      {% if proyectos %}
+        {% for p in proyectos %}
+          <article class="work-item-card" data-project="{{ p.id }}" data-category="{% for c in p.categorias.all %}{{ c.slug|default:c.nombre|slugify }} {% empty %}sistemas{% endfor %}">
+            <div class="work-thumb-wrap">
+              {% if p.imagen %}
+                <img src="{{ p.imagen.url }}" alt="{{ p.titulo }}" class="work-thumb-img" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80';">
+              {% else %}
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="{{ p.titulo }}" class="work-thumb-img" loading="lazy">
+              {% endif %}
+            </div>
+            <div class="work-info-row">
+              <div class="work-meta-strip">
+                <span class="work-cat-chip">
+                  {% for cat in p.categorias.all %}
+                    {{ cat.nombre }}{% if not forloop.last %}, {% endif %}
+                  {% empty %}
+                    Sistemas &amp; CRM
+                  {% endfor %}
+                </span>
+                <span class="work-year">{% if p.fecha %}{{ p.fecha|date:"Y" }}{% else %}2026{% endif %}</span>
+              </div>
+              <h3 class="work-card-title">{{ p.titulo }}</h3>
+            </div>
+          </article>
+        {% endfor %}
+      {% else %}
+        <p style="text-align: center; grid-column: 1 / -1; color: var(--fg-2); font-size: 16px; padding: 40px 0;">No hay proyectos disponibles en este momento.</p>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+<!-- =============================================
+     PROJECT MODALS (Linear/Apple Clean Style)
+     ============================================= -->
+{% if proyectos %}
+  {% for p in proyectos %}
+    <div id="projectModal{{ p.id }}" class="clean-modal" data-modal="project">
+      <div class="clean-modal-backdrop"></div>
+      <div class="clean-modal-dialog">
+        <button type="button" class="clean-modal-close" aria-label="Cerrar modal">&times;</button>
+        <div class="clean-modal-content">
+          <div class="modal-proj-split">
+            <div class="modal-media-col">
+              <!-- Browser Mockup Window -->
+              <div class="modal-browser-frame">
+                <div class="modal-browser-header">
+                  <div class="browser-dots">
+                    <span class="b-dot dot-red"></span>
+                    <span class="b-dot dot-yellow"></span>
+                    <span class="b-dot dot-green"></span>
                   </div>
-                  <h1><span style="font-weight:500;">Nuestros </span><span style=" color: var(--red-light); font-weight:900">Proyectos</span></h1>
-                  <p>Descubre algunos de los proyectos más destacados que hemos desarrollado para nuestros clientes, cada uno
-                    con su propia historia de éxito</p>
-                </div>
-              </div>
-              <div class="projects-hero-bg"></div>
-            </section>
-
-            <!-- Projects Filter and Grid (dynamic) -->
-            <section class="projects section">
-              <div class="container">
-                <div class="projects-filter">
-                  <button class="filter-btn active" data-filter="all">
-                    <i class="fas fa-th"></i>
-                    <span>Todos</span>
-                  </button>
-                  {% if categorias %}
-                    {% for c in categorias %}
-                      <button class="filter-btn" data-filter="{{ c.nombre|slugify }}">
-                        <i class="fas fa-tag"></i>
-                        <span>{{ c.nombre }}</span>
-                      </button>
-                    {% endfor %}
-                  {% else %}
-                    <button class="filter-btn" data-filter="landing">
-                      <i class="fas fa-globe"></i>
-                      <span>Landing Page</span>
-                    </button>
-                    <button class="filter-btn" data-filter="ecommerce">
-                      <i class="fas fa-shopping-cart"></i>
-                      <span>E-commerce</span>
-                    </button>
-                    <button class="filter-btn" data-filter="dashboard">
-                      <i class="fas fa-chart-line"></i>
-                      <span>Dashboard</span>
-                    </button>
-                  {% endif %}
-                </div>
-
-                <div class="projects-grid">
-                  {% if proyectos %}
-                    {% for p in proyectos %}
-                      <div class="project-card" data-project="{{ p.id }}" data-modal-target="#projectModal{{ p.id }}" data-target="#projectModal{{ p.id }}" role="button" tabindex="0" data-category="{% if p.categorias.all %}{% for c in p.categorias.all %}{{ c.nombre|slugify }}{% if not forloop.last %} {% endif %}{% endfor %}{% else %}uncategorized{% endif %}">
-                        <div class="project-image">
-                            {% if p.fotos %}
-                              <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}">
-                            {% else %}
-                              <img src="{% static 'assets/img/proyectos/proyecto-1.png' %}" alt="{{ p.titulo }}">
-                            {% endif %}
-                            <div class="project-overlay">
-                              <div class="project-actions">
-                                <button type="button" class="action-btn view-details" data-project="{{ p.id }}" aria-label="Ver detalles">
-                                  <i class="fas fa-eye"></i>
-                                  <span class="action-text">Ver detalles</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="project-content">
-                          <div class="project-category">{% for c in p.categorias.all %}{% if forloop.first %}{{ c.nombre }}{% endif %}{% endfor %}</div>
-                          <h3>{{ p.titulo }}</h3>
-                          <p>{{ p.descripcion|truncatechars:150 }}</p>
-                          <div class="project-tags">
-                            {% for t in p.tecnologias.all %}
-                              <span>{{ t.nombre }}</span>
-                            {% empty %}
-                              <span>Proyecto</span>
-                            {% endfor %}
-                          </div>
-                          <div class="project-footer">
-                            <div class="project-date">
-                              <i class="fas fa-calendar"></i>
-                              <span>{% if p.fecha %}{{ p.fecha|date:"M Y" }}{% else %}—{% endif %}</span>
-                            </div>
-                            <button type="button" class="btn-details view-details" data-project="{{ p.id }}">
-                              Ver detalles
-                              <i class="fas fa-arrow-right"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    {% endfor %}
-                  {% else %}
-                    <p>No hay proyectos disponibles.</p>
-                  {% endif %}
-                </div>
-              </div>
-            </section>
-
-            {# Dynamic modals generated from proyectos queryset #}
-            {% if proyectos %}
-              {% for p in proyectos %}
-                <div id="projectModal{{ p.id }}" class="modern-modal">
-                  <div class="modal-backdrop"></div>
-                  <div class="modal-container">
-                    <div class="modal-header">
-                      <div class="modal-title">
-                        <h2>{{ p.titulo }}{% if p.cliente %} | {{ p.cliente }}{% endif %}</h2>
-                        <div class="modal-subtitle">{% for c in p.categorias.all %}{% if forloop.first %}{{ c.nombre }}{% endif %}{% endfor %}</div>
-                      </div>
-                      <button class="modal-close">
-                        <i class="fas fa-times"></i>
-                      </button>
-                    </div>
-
-                    <div class="modal-content">
-                      <div class="modal-gallery">
-                        <div class="gallery-main">
-                          {% if p.fotos %}
-                            <img id="mainImage{{ p.id }}" src="{{ p.fotos.0 }}" alt="{{ p.titulo }}">
-                          {% else %}
-                            <img id="mainImage{{ p.id }}" src="{% static 'assets/img/proyectos/proyecto-1.png' %}" alt="{{ p.titulo }}">
-                          {% endif %}
-                          <div class="gallery-controls">
-                            <button class="gallery-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
-                            <button class="gallery-btn next-btn"><i class="fas fa-chevron-right"></i></button>
-                          </div>
-                          <div class="gallery-counter">
-                            <span class="current-slide">1</span> / <span class="total-slides">{% if p.fotos %}{{ p.fotos|length }}{% else %}1{% endif %}</span>
-                          </div>
-                        </div>
-
-                        <div class="gallery-thumbnails">
-                          {% if p.fotos %}
-                            {% for foto in p.fotos %}
-                              <div class="thumbnail{% if forloop.first %} active{% endif %}" data-image="{{ foto }}">
-                                <img src="{{ foto }}" alt="{{ p.titulo }} mini">
-                              </div>
-                            {% endfor %}
-                          {% else %}
-                            <div class="thumbnail active" data-image="{% static 'assets/img/proyectos/proyecto-1.png' %}">
-                              <img src="{% static 'assets/img/proyectos/proyecto-1.png' %}" alt="{{ p.titulo }} mini">
-                            </div>
-                          {% endif %}
-                        </div>
-                      </div>
-
-                      <div class="modal-info">
-                        <div class="project-details">
-                          <h3>Descripción del Proyecto</h3>
-                          <p>{{ p.descripcion }}</p>
-
-                          {% if p.caracteristicas %}
-                            <div class="project-features">
-                              <h4>Características principales:</h4>
-                              <ul>
-                                {% for feat in p.caracteristicas %}
-                                  <li><i class="fas fa-check"></i> {{ feat }}</li>
-                                {% endfor %}
-                              </ul>
-                            </div>
-                          {% endif %}
-                        </div>
-
-                        <div class="project-meta">
-                          <div class="meta-item">
-                            <i class="fas fa-user"></i>
-                            <div>
-                              <span class="meta-label">Cliente</span>
-                              <span class="meta-value">{% if p.cliente %}{{ p.cliente }}{% else %}—{% endif %}</span>
-                            </div>
-                          </div>
-
-                          <div class="meta-item">
-                            <i class="fas fa-calendar"></i>
-                            <div>
-                              <span class="meta-label">Fecha</span>
-                              <span class="meta-value">{% if p.fecha %}{{ p.fecha|date:"F Y" }}{% else %}—{% endif %}</span>
-                            </div>
-                          </div>
-
-                          <div class="meta-item">
-                            <i class="fas fa-tag"></i>
-                            <div>
-                              <span class="meta-label">Categoría</span>
-                              <span class="meta-value">{% for c in p.categorias.all %}{% if forloop.first %}{{ c.nombre }}{% endif %}{% endfor %}</span>
-                            </div>
-                          </div>
-
-                          <div class="meta-item">
-                            <i class="fas fa-code"></i>
-                            <div>
-                              <span class="meta-label">Tecnologías</span>
-                              <div class="tech-tags">
-                                {% for t in p.tecnologias.all %}
-                                  <span>{{ t.nombre }}</span>
-                                {% empty %}
-                                  <span>—</span>
-                                {% endfor %}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div class="browser-address-bar">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <span>raudie.dev/proyectos/{{ p.titulo|slugify }}</span>
                   </div>
                 </div>
-              {% endfor %}
-            {% endif %}
+                <div class="modal-main-img-box">
+                  {% if p.fotos %}
+                    <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}" id="modalMainImg{{ p.id }}" class="modal-main-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80';">
+                  {% elif p.imagen %}
+                    <img src="{{ p.imagen.url }}" alt="{{ p.titulo }}" id="modalMainImg{{ p.id }}" class="modal-main-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80';">
+                  {% else %}
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="{{ p.titulo }}" id="modalMainImg{{ p.id }}" class="modal-main-img">
+                  {% endif %}
+                </div>
+              </div>
 
-            <!-- Floating buttons / scroll-top kept in page content (if required) -->
-            <div class="floating-buttons">
-              <a href="https://wa.me/584243736030" class="floating-btn whatsapp-btn" target="_blank">
-                <i class="fab fa-whatsapp"></i>
-              </a>
+              {% if p.fotos and p.fotos|length > 1 %}
+                <div class="modal-thumbs-row">
+                  {% for foto in p.fotos %}
+                    <div class="thumb-box {% if forloop.first %}active{% endif %}" data-target="modalMainImg{{ p.id }}" data-src="{{ foto }}">
+                      <img src="{{ foto }}" alt="{{ p.titulo }} vista {{ forloop.counter }}">
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
 
-            <a href="#" id="scroll-top" class="scroll-top" aria-label="Volver arriba">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="18 15 12 9 6 15"></polyline>
-              </svg>
-            </a>
+            <div class="modal-details-col">
+              <div>
+                <div class="modal-tags-row">
+                  {% for c in p.categorias.all %}
+                    <span class="cap-tag">{{ c.nombre }}</span>
+                  {% empty %}
+                    <span class="cap-tag">Sistemas</span>
+                  {% endfor %}
+                </div>
+                <h3 class="section-h2-title" style="font-size: 26px; line-height: 1.2; margin-bottom: 6px; text-align: left;">{{ p.titulo }}</h3>
+                <span class="section-head-hint" style="color: #6B7280; font-size: 13px;">Cliente: {{ p.cliente|default:"RauDie Ecosystem" }}</span>
+              </div>
 
-            {% endblock %}
+              <div class="modal-desc-text">
+                <p>{{ p.descripcion }}</p>
+                {% if p.caracteristicas %}
+                  <ul style="margin: 10px 0 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 5px;">
+                    {% for feat in p.caracteristicas|slice:":3" %}
+                      <li style="display: flex; align-items: baseline; gap: 7px; font-size: 13px; color: #4B5563;">
+                        <span style="color: var(--vinotinto); font-weight: bold; font-size: 12px;">✓</span>
+                        <span>{{ feat }}</span>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+
+              <div class="modal-specs-strip">
+                <div>
+                  <span class="spec-label">AÑO DE ENTREGA</span>
+                  <span class="spec-val">{% if p.fecha %}{{ p.fecha|date:"F Y" }}{% else %}2026{% endif %}</span>
+                </div>
+                <div>
+                  <span class="spec-label">STACK TECNOLÓGICO</span>
+                  <span class="spec-val">
+                    {% for t in p.tecnologias.all %}
+                      {{ t.nombre }}{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                      Django, Python, PostgreSQL
+                    {% endfor %}
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <div class="modal-actions-grid">
+                  <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20un%20proyecto%20similar%20a%20{{ p.titulo|urlencode }}" target="_blank" rel="noopener noreferrer" class="modal-action-btn modal-btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>Cotizar por WhatsApp</span>
+                  </a>
+                  <a href="{% url 'proyecto_detalle' p.id %}" class="modal-action-btn modal-btn-detail">
+                    <span>Ver página completa</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                </div>
+                {% if p.enlace %}
+                  <div style="margin-top: 8px;">
+                    <a href="{{ p.enlace }}" target="_blank" rel="noopener noreferrer" class="modal-demo-link">
+                      <span>Ver demo en vivo</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endif %}
+
+{% endblock %}
 
 {% block extra_scripts %}
 <script>
-document.addEventListener('DOMContentLoaded', function(){
-  function setupOptimizedModals(){
-    const modals = new Map();
+document.addEventListener('DOMContentLoaded', function() {
+  // Category Filtering
+  const filterPills = document.querySelectorAll('.filter-pill');
+  const workItems = document.querySelectorAll('.work-item-card');
 
-    function createModal(modalId){
-      if(modals.has(modalId)) return modals.get(modalId);
-      const modalEl = document.querySelector(modalId);
-      if(!modalEl) return null;
-      const modalData = {
-        element: modalEl,
-        thumbnails: Array.from(modalEl.querySelectorAll('.thumbnail')),
-        mainImage: modalEl.querySelector('.gallery-main img'),
-        prevBtn: modalEl.querySelector('.prev-btn'),
-        nextBtn: modalEl.querySelector('.next-btn'),
-        currentSlide: modalEl.querySelector('.current-slide'),
-        totalSlides: modalEl.querySelector('.total-slides'),
-        currentIndex: 0,
-        _listenersAttached: false
-      };
-      modals.set(modalId, modalData);
-      return modalData;
-    }
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', function() {
+      filterPills.forEach(p => p.classList.remove('active'));
+      this.classList.add('active');
 
-    function openModal(modalId){
-      const modalData = createModal(modalId);
-      if(!modalData) return;
-      // ensure the element is visible even if it has inline display:none
-      try{ modalData.element.style.display = 'flex'; }catch(_){ }
-      modalData.element.classList.add('active','open');
-      document.body.style.overflow = 'hidden';
-      setupModalGallery(modalData);
-    }
+      const filter = this.getAttribute('data-filter');
+      workItems.forEach(card => {
+        const cat = card.getAttribute('data-category') || '';
+        if (filter === 'all' || cat.toLowerCase().includes(filter.toLowerCase())) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
 
-    function closeModal(modalEl){
-      if(!modalEl) return;
-      modalEl.classList.remove('active','open');
-      try{ modalEl.style.display = 'none'; }catch(_){ }
+  // Project Modals
+  document.querySelectorAll('.work-item-card').forEach(card => {
+    card.addEventListener('click', function() {
+      const pid = this.getAttribute('data-project');
+      const modal = document.getElementById(`projectModal${pid}`);
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  // Modal Closers
+  document.querySelectorAll('.clean-modal-close, .clean-modal-backdrop').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.clean-modal').forEach(m => m.classList.remove('active'));
+      document.body.style.overflow = '';
+    });
+  });
+
+  // ESC key modal close
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.clean-modal').forEach(m => m.classList.remove('active'));
       document.body.style.overflow = '';
     }
+  });
 
-    function setupModalGallery(modalData){
-      const { thumbnails, mainImage, prevBtn, nextBtn, currentSlide, totalSlides } = modalData;
-      if(totalSlides) totalSlides.textContent = thumbnails.length || 1;
-
-      function updateImage(index){
-        if(!thumbnails || !thumbnails[index] || !mainImage) return;
-        const thumbnail = thumbnails[index];
-        const imageUrl = thumbnail.dataset.image;
-        if(imageUrl && imageUrl !== mainImage.src){
-          const img = new Image();
-          img.onload = () => { mainImage.src = imageUrl; };
-          img.src = imageUrl;
-        }
-        thumbnails.forEach((t,i)=> t.classList.toggle('active', i===index));
-        if(currentSlide) currentSlide.textContent = index+1;
-        modalData.currentIndex = index;
-      }
-
-      // Bind explicit listeners to button triggers as a fallback for delegation
-      function bindDirectTriggers(){
-        const triggers = Array.from(document.querySelectorAll('.view-details, .action-btn, .btn-details, .open-modal-btn'));
-        triggers.forEach(btn => {
-          // avoid attaching twice
-          if(btn._boundToModal) return;
-          btn.addEventListener('click', function(ev){
-            ev.preventDefault();
-            const project = btn.dataset && btn.dataset.project || (btn.closest && btn.closest('.project-card') && btn.closest('.project-card').dataset.project);
-            if(project){
-              openModal(`#projectModal${project}`);
-              return;
-            }
-            const modalId = btn.dataset && (btn.dataset.modalTarget || btn.getAttribute('data-modal-target'));
-            if(modalId) openModal(modalId);
-          });
-          btn._boundToModal = true;
-        });
-
-        // Make clicking the card itself open the modal (but ignore clicks on inner buttons/links)
-        document.querySelectorAll('.project-card').forEach(card => {
-          if(card._boundCard) return;
-          card.addEventListener('click', function(ev){
-            // don't open when clicking a button or link inside the card
-            if(ev.target.closest && ev.target.closest('button, a')) return;
-            const project = card.dataset && card.dataset.project;
-            if(project) openModal(`#projectModal${project}`);
-          });
-          card._boundCard = true;
-        });
-      }
-
-      // call binding once after DOM is ready
-      bindDirectTriggers();
-
-      // Attach listeners only once per modal
-      if(!modalData._listenersAttached){
-        thumbnails.forEach((thumb, index)=>{
-          thumb.addEventListener('click', ()=> updateImage(index));
-        });
-
-        if(prevBtn) prevBtn.addEventListener('click', ()=>{
-          const newIndex = (modalData.currentIndex - 1 + thumbnails.length) % thumbnails.length;
-          updateImage(newIndex);
-        });
-        if(nextBtn) nextBtn.addEventListener('click', ()=>{
-          const newIndex = (modalData.currentIndex + 1) % thumbnails.length;
-          updateImage(newIndex);
-        });
-
-        modalData._listenersAttached = true;
-      }
-
-      if(thumbnails.length>0) updateImage(0);
-    }
-
-    document.addEventListener('click', function(e){
-      // Find the nearest actionable trigger: button, card, or overlay action
-      const trigger = e.target.closest('.view-details, .open-modal-btn, .btn-details, .action-btn, .project-card');
-      if(trigger){
-        e.preventDefault();
-        // Prefer direct data-project, otherwise search up to the .project-card
-        let project = trigger.dataset && trigger.dataset.project;
-        if(!project){
-          const card = trigger.closest('.project-card');
-          if(card) project = card.dataset && card.dataset.project;
-        }
-        if(project){
-          openModal(`#projectModal${project}`);
-          return;
-        }
-        const modalId = trigger.dataset && (trigger.dataset.modalTarget || trigger.getAttribute('data-modal-target'));
-        if(modalId){
-          openModal(modalId);
-          return;
-        }
-      }
-
-      // Close modal by close button
-      const closeBtn = e.target.closest('.modal-close');
-      if(closeBtn){
-        e.preventDefault();
-        const modal = closeBtn.closest('.modern-modal');
-        closeModal(modal);
-        return;
-      }
-
-      // Close when clicking backdrop
-      const backdrop = e.target.closest('.modal-backdrop');
-      if(backdrop){
-        const modal = backdrop.closest('.modern-modal');
-        closeModal(modal);
-        return;
+  // Thumbnail Switcher
+  document.querySelectorAll('.modal-thumbs-row .thumb-box').forEach(thumb => {
+    thumb.addEventListener('click', function() {
+      const parent = this.closest('.modal-media-col');
+      parent.querySelectorAll('.thumb-box').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      const targetId = this.getAttribute('data-target');
+      const mainImg = document.getElementById(targetId);
+      if (mainImg) {
+        mainImg.src = this.getAttribute('data-src');
       }
     });
-
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape'){
-        document.querySelectorAll('.modern-modal.active').forEach(closeModal);
-      }
-    });
-  }
-
-  setupOptimizedModals();
+  });
 });
 </script>
 {% endblock %}

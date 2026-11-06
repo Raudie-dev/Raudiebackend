@@ -1,0 +1,128 @@
+{% extends 'base_index.html' %}
+{% load static %}
+
+{% block title %}{{ noticia.titulo }} | Noticias &amp; Insights RauDie{% endblock %}
+
+{% block content %}
+<main class="article-detail-page">
+  <div class="section-container">
+
+    <!-- Breadcrumb -->
+    <div style="margin-bottom: 32px; max-width: 860px; margin-left: auto; margin-right: auto;">
+      <a href="{% url 'noticias' %}" class="detail-back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Volver a Noticias</span>
+      </a>
+    </div>
+
+    <!-- Article Header -->
+    <header class="article-header">
+      <div class="article-header-meta">
+        <div class="section-kicker-pill" style="margin-bottom: 0;">
+          <span class="kicker-dot"></span>
+          <span>{{ noticia.categoria }}</span>
+        </div>
+        <div class="meta-pill">
+          <i class="far fa-clock" style="color: #888; font-size: 11px;"></i>
+          <span class="meta-val">{{ noticia.tiempo_lectura }}</span>
+        </div>
+        <div class="meta-pill">
+          <i class="far fa-calendar-alt" style="color: #888; font-size: 11px;"></i>
+          <span class="meta-val">{{ noticia.fecha|date:"d F, Y" }}</span>
+        </div>
+      </div>
+
+      <h1 class="article-h1-title">{{ noticia.titulo }}</h1>
+
+      <p class="article-lead">{{ noticia.resumen }}</p>
+
+      <div class="article-author-strip">
+        <div class="article-author-avatar">
+          <i class="fas fa-terminal"></i>
+        </div>
+        <div class="article-author-info">
+          <span class="article-author-name">Equipo de Ingeniería RauDie</span>
+          <span class="article-author-role">Arquitectura de Software &amp; Soluciones Cloud</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Featured Banner Image -->
+    <div class="article-banner-wrap">
+      {% if noticia.foto %}
+        <img src="{{ noticia.foto.url }}" alt="{{ noticia.titulo }}" class="article-banner-img">
+      {% elif noticia.foto_url %}
+        <img src="{{ noticia.foto_url }}" alt="{{ noticia.titulo }}" class="article-banner-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&q=80';">
+      {% else %}
+        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&q=80" alt="{{ noticia.titulo }}" class="article-banner-img">
+      {% endif %}
+    </div>
+
+    <!-- Article Content -->
+    <div class="article-body-container">
+      <article class="article-prose">
+        {% if noticia.contenido %}
+          {{ noticia.contenido|linebreaks }}
+        {% else %}
+          <p>{{ noticia.resumen }}</p>
+          <p>En RauDie diseñamos arquitecturas de software diseñadas para escalar con alto rendimiento y cero fricción. Si necesitás asesoramiento sobre esta tecnología o querés integrarla en tus operaciones, podés contactarnos directamente.</p>
+        {% endif %}
+
+        <blockquote>
+          "El verdadero valor de la tecnología no radica en su complejidad técnica, sino en la eficiencia y libertad operativa que desbloquea para tu negocio."
+        </blockquote>
+      </article>
+
+      <!-- CTA Box -->
+      <div class="article-cta-box">
+        <h3 class="article-cta-title">¿Buscás implementar una solución como esta en tu empresa?</h3>
+        <p class="article-cta-desc">
+          Evaluamos tus procesos actuales y te mostramos cómo optimizarlos con software a medida, automatizaciones con IA o infraestructura de alto rendimiento.
+        </p>
+        <a href="https://wa.me/5491172341870?text=Hola%20RauDie,%20leí%20el%20artículo%20'{{ noticia.titulo|urlencode }}'%20y%20me%20gustaría%20hacer%20una%20consulta." target="_blank" rel="noopener noreferrer" class="btn-whatsapp-cta">
+          <i class="fab fa-whatsapp" style="font-size: 18px;"></i>
+          <span>Consultar por WhatsApp</span>
+        </a>
+      </div>
+
+      <!-- Related News Section -->
+      {% if noticias_relacionadas %}
+        <div style="margin-top: 64px; border-top: 1px solid rgba(27, 23, 23, 0.08); padding-top: 48px;">
+          <h3 style="font-family: var(--font-display); font-size: 24px; font-weight: 800; margin-bottom: 24px; color: #1B1717;">
+            Otras lecciones &amp; artículos recomendados
+          </h3>
+
+          <div class="news-editorial-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+            {% for rel in noticias_relacionadas %}
+              <article class="news-card-editorial">
+                <div class="news-card-img-wrap" style="aspect-ratio: 16/10;">
+                  {% if rel.foto %}
+                    <img src="{{ rel.foto.url }}" alt="{{ rel.titulo }}" class="news-card-img" loading="lazy">
+                  {% elif rel.foto_url %}
+                    <img src="{{ rel.foto_url }}" alt="{{ rel.titulo }}" class="news-card-img" loading="lazy">
+                  {% else %}
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="{{ rel.titulo }}" class="news-card-img" loading="lazy">
+                  {% endif %}
+                  <span class="news-card-badge">{{ rel.categoria }}</span>
+                </div>
+                <div class="news-card-content" style="padding: 18px;">
+                  <h4 class="news-card-h3" style="font-size: 15.5px; margin-bottom: 8px;">{{ rel.titulo }}</h4>
+                  <a href="{% url 'noticia_detalle' rel.id %}" class="news-card-cta" style="font-size: 12.5px;">
+                    <span>Leer artículo</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </a>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+</main>
+{% endblock %}

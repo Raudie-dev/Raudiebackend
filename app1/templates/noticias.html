@@ -1,0 +1,129 @@
+{% extends 'base_index.html' %}
+{% load static %}
+
+{% block title %}Noticias & Insights | RauDie Software Company{% endblock %}
+
+{% block content %}
+<!-- Noticias Editorial Hero (Matching Proyectos Style) -->
+<section class="projects-editorial-hero has-bg-image">
+  <!-- Background Image Media (Matching Index Hero Style) -->
+  <div class="hero-bg-media" aria-hidden="true">
+    <img src="{% static 'img/hero-bg.jpg' %}" alt="Noticias Background" class="hero-bg-img" loading="eager">
+    <div class="hero-bg-overlay"></div>
+  </div>
+  <div class="projects-hero-glow" aria-hidden="true"></div>
+
+  <div class="section-container" style="position: relative; z-index: 3;">
+    <div class="projects-hero-content">
+      <!-- Kicker Pill with Newspaper Icon -->
+      <div class="projects-hero-pill">
+        <i class="fas fa-newspaper"></i>
+        <span>NOTICIAS &amp; INSIGHTS</span>
+      </div>
+
+      <!-- Main Headline with Red Accent -->
+      <h1 class="projects-hero-h1">
+        <span class="white-text">Nuestras</span> <span class="red-text">Noticias</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="projects-hero-sub">
+        Artículos técnicos, análisis de ingeniería y novedades de producto sobre desarrollo de software, arquitectura en Django y automatizaciones con IA.
+      </p>
+    </div>
+  </div>
+
+  <!-- Bottom Arch Curve Divider Transitioning to Canvas -->
+  <div class="projects-hero-bottom-curve" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none" style="width: 100%; height: 60px; display: block;">
+      <path d="M0,80 Q720,10 1440,80 L1440,80 L0,80 Z" fill="var(--bg-canvas, #FAF8F5)"></path>
+    </svg>
+  </div>
+</section>
+
+<!-- News Catalog Section (Light Canvas) -->
+<section class="news-page-section">
+  <div class="section-container">
+
+    <!-- Category Filter Pills -->
+    <div class="work-filters-bar" style="justify-content: center; margin-bottom: 48px;">
+      <button type="button" class="filter-pill active" data-filter="all">Todos</button>
+      {% if categorias %}
+        {% for cat in categorias %}
+          <button type="button" class="filter-pill" data-filter="{{ cat|slugify }}">{{ cat }}</button>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- 3-Column Editorial News Grid -->
+    <div class="news-editorial-grid" id="newsGrid">
+      {% if noticias %}
+        {% for n in noticias %}
+          <article class="news-card-editorial" data-category="{{ n.categoria|slugify }}">
+            <div class="news-card-img-wrap">
+              {% if n.foto %}
+                <img src="{{ n.foto.url }}" alt="{{ n.titulo }}" class="news-card-img" loading="lazy">
+              {% elif n.foto_url %}
+                <img src="{{ n.foto_url }}" alt="{{ n.titulo }}" class="news-card-img" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80';">
+              {% else %}
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80" alt="{{ n.titulo }}" class="news-card-img" loading="lazy">
+              {% endif %}
+              <span class="news-card-badge">{{ n.categoria }}</span>
+            </div>
+
+            <div class="news-card-content">
+              <div class="news-card-meta">
+                <span>{{ n.fecha|date:"d M, Y" }}</span>
+                <span class="meta-dot"></span>
+                <span>{{ n.tiempo_lectura }}</span>
+              </div>
+
+              <h2 class="news-card-h3">{{ n.titulo }}</h2>
+
+              <p class="news-card-desc">{{ n.resumen }}</p>
+
+              <a href="{% url 'noticia_detalle' n.id %}" class="news-card-cta">
+                <span>Leer artículo completo</span>
+                <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </article>
+        {% endfor %}
+      {% else %}
+        <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #71717A;">
+          <p style="font-size: 18px; margin-bottom: 8px;">No hay noticias publicadas en este momento.</p>
+          <p style="font-size: 14px;">Pronto estaremos compartiendo novedades técnicas y de producto.</p>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Filter news cards smoothly
+  document.addEventListener('DOMContentLoaded', function() {
+    const filterPills = document.querySelectorAll('.work-filters-bar .filter-pill');
+    const cards = document.querySelectorAll('.news-card-editorial');
+
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', function() {
+        filterPills.forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+
+        const filterVal = this.getAttribute('data-filter');
+
+        cards.forEach(card => {
+          if (filterVal === 'all' || card.getAttribute('data-category') === filterVal) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>
+{% endblock %}

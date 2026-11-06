@@ -37,6 +37,39 @@ document.addEventListener("DOMContentLoaded", () => {
   // MENÚ MÓVIL OPTIMIZADO
   // =============================================
 
+    // =============================================
+  // MENÚ MÓVIL & DRAWER MODERNO
+  // =============================================
+  const modernMobileBtn = document.querySelector(".mobile-menu-btn");
+  const modernDrawer = document.querySelector(".mobile-drawer");
+  const modernOverlay = document.querySelector(".mobile-drawer-overlay");
+  const modernCloseBtn = document.querySelector(".drawer-close");
+
+  function openModernDrawer() {
+    modernDrawer?.classList.add("active");
+    modernOverlay?.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModernDrawer() {
+    modernDrawer?.classList.remove("active");
+    modernOverlay?.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  if (modernMobileBtn) {
+    modernMobileBtn.addEventListener("click", openModernDrawer);
+  }
+  if (modernCloseBtn) {
+    modernCloseBtn.addEventListener("click", closeModernDrawer);
+  }
+  if (modernOverlay) {
+    modernOverlay.addEventListener("click", closeModernDrawer);
+  }
+  document.querySelectorAll(".drawer-links a").forEach(link => {
+    link.addEventListener("click", closeModernDrawer);
+  });
+
   if (elements.mobileToggle && elements.navMenu) {
     let menuOverlay = document.querySelector(".menu-overlay")
     if (!menuOverlay) {
@@ -133,7 +166,7 @@ Mensaje:
 ${message}`;
 
         // Phone number configured on the page
-        const targetPhone = "584243736030";
+        const targetPhone = "5491172341870";
         const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(text)}`;
 
         window.open(whatsappUrl, "_blank");
@@ -476,6 +509,63 @@ ${message}`;
       }
     }
   })
+
+  // =============================================
+  // ANIMACIÓN DE MÉTRICAS (CONTADORES)
+  // =============================================
+  const metricNumbers = document.querySelectorAll('.metric-number');
+  let animationStarted = false;
+
+  if (metricNumbers.length > 0) {
+    const startCounting = () => {
+      metricNumbers.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        const duration = 2000; // 2 seconds
+        const increment = target / (duration / 16); // ~60fps
+
+        let current = 0;
+        const updateCounter = () => {
+          current += increment;
+          if (current < target) {
+            counter.innerText = Math.ceil(current);
+            requestAnimationFrame(updateCounter);
+          } else {
+            counter.innerText = target;
+          }
+        };
+        updateCounter();
+      });
+    };
+
+    const metricsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !animationStarted) {
+          animationStarted = true;
+          startCounting();
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const metricsSection = document.querySelector('.metrics-section');
+    if (metricsSection) {
+      metricsObserver.observe(metricsSection);
+    }
+  }
+
+  // =============================================
+  // HORIZONTAL ACCORDION (MOBILE CLICK SUPPORT)
+  // =============================================
+  const accCards = document.querySelectorAll('.acc-card');
+  if (accCards.length > 0) {
+    accCards.forEach(card => {
+      card.addEventListener('click', () => {
+        // Remove active from all
+        accCards.forEach(c => c.classList.remove('active'));
+        // Add active to clicked
+        card.classList.add('active');
+      });
+    });
+  }
 
   // =============================================
   // ANIMACIONES DE SCROLL OPTIMIZADAS

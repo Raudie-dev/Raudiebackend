@@ -351,12 +351,35 @@ def _load_context_from_bot(bot):
     context_str = "\n\n".join(context_items)
     return context_str
 
-def _generar_pdf_consulta(historial, datos_cliente, plan, departamento, resumen_ia=''):
+def _render_html_to_pdf(html_string):
+    """
+    Renders HTML to PDF bytes.
+    Tries WeasyPrint first. If WeasyPrint fails (e.g. missing GTK/GObject on Windows),
+    falls back gracefully to xhtml2pdf with CSS sanitization.
+    """
     try:
         from weasyprint import HTML
-    except ImportError as e:
-        raise Exception(f"WeasyPrint no está instalado o tiene problemas de dependencias: {e}")
-    
+        return HTML(string=html_string).write_pdf()
+    except (OSError, ImportError, Exception) as weasy_err:
+        try:
+            import re
+            from io import BytesIO
+            from xhtml2pdf import pisa
+            
+            # Remove nested @at-rules inside @page (like @bottom-right) which crash xhtml2pdf's parser
+            cleaned_html = re.sub(r'@[a-z-]+\s*\{[^{}]*\}', '', html_string)
+            
+            result = BytesIO()
+            pdf = pisa.pisaDocument(BytesIO(cleaned_html.encode("UTF-8")), result)
+            if not pdf.err:
+                return result.getvalue()
+            raise Exception(f"xhtml2pdf error code: {pdf.err}")
+        except Exception as xhtml_err:
+            raise Exception(
+                f"No se pudo generar PDF. (WeasyPrint: {weasy_err} | Fallback xhtml2pdf: {xhtml_err})"
+            )
+
+def _generar_pdf_consulta(historial, datos_cliente, plan, departamento, resumen_ia=''):
     from django.template.loader import render_to_string
     from django.utils.timezone import now
     import random
@@ -374,10 +397,7 @@ def _generar_pdf_consulta(historial, datos_cliente, plan, departamento, resumen_
         'referencia': referencia,
     })
 
-    try:
-        pdf_bytes = HTML(string=html).write_pdf()
-    except Exception as e:
-        raise Exception(f"Error generando PDF con WeasyPrint: {e}")
+    pdf_bytes = _render_html_to_pdf(html)
 
     if not pdf_bytes:
         raise Exception("PDF vacío generado")
@@ -1994,12 +2014,6 @@ def generar_cotizacion(request):
                 })
                 total_importe += imp_val
 
-        # Generar PDF con WeasyPrint
-        try:
-            from weasyprint import HTML
-        except ImportError as e:
-            return HttpResponse(f"Error: WeasyPrint no está disponible: {e}", status=500)
-
         # Prepara fecha
         if fecha_str:
             try:
@@ -2034,7 +2048,7 @@ def generar_cotizacion(request):
         })
 
         try:
-            pdf_bytes = HTML(string=html).write_pdf()
+            pdf_bytes = _render_html_to_pdf(html)
             response = HttpResponse(pdf_bytes, content_type='application/pdf')
             response['Content-Disposition'] = f'inline; filename="cotizacion_{cliente.replace(" ", "_")}.pdf"'
             return response

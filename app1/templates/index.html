@@ -1,916 +1,3462 @@
 {% extends 'base_index.html' %}
-        {% load static %}
 
-        {% block title %}RauDie Web Developers - Transformando Ideas en Realidad Digital{% endblock %}
 
-        {% block content %}
-        <main>
-          <!-- Hero Section -->
-          <section id="hero" class="hero">
-            <div class="container">
-              <div class="hero-content">
-                <div class="hero-text">
-                  <div class="hero-badge">
-                    <i class="fas fa-rocket"></i>
-                    <span>Transformando Ideas en Realidad Digital</span>
-                  </div>
-                  <h1><span style="font-weight:500;letter-spacing:-.01em">RauDie </span><span class="text-gradient" style="font-weight:900">Web</span><span style="font-weight:500"> Developers</span></h1>
-                  <p>Desarrollamos sitios web modernos, eficientes y orientados a resultados para impulsar el crecimiento y la presencia digital de tu negocio.</p>
-                  <div class="hero-buttons">
-                    <a href="#contact" class="btn-primary">
-                      <span>Empezar ahora</span>
-                      <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="{% url 'proyectos' %}" class="btn-secondary">
-                      <i class="fas fa-play"></i>
-                      <span>Ver nuestro trabajo</span>
-                    </a>
-                  </div>
-                </div>
-                <div class="hero-visual">
-                  <div class="hero-video-container">
-                      <div class="gif-placeholder">
-                         <img src="{% static 'img/animacion.gif' %}" alt="Animación Logo RauDie" class="hero-gif-img">
-                      </div>
-                    <!-- Elementos flotantes -->
-                    <div class="floating-element element-1">
-                      <i class="fas fa-code"></i>
-                    </div>
-                    <div class="floating-element element-2">
-                      <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="floating-element element-3">
-                      <i class="fas fa-database"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+{% load static %}
+
+
+
+
+
+
+
+{% block title %}RauDie — Software Studio, Plataformas &amp; RauDie OS{% endblock %}
+
+
+
+
+
+
+
+{% block content %}
+
+
+
+<main class="bleibt-main">
+
+
+
+
+
+
+
+  <!-- =============================================
+
+
+
+       SECTION 1: HERO (ROSBERT.MAKE STYLE)
+
+
+
+       ============================================= -->
+
+
+
+  <section id="hero" class="modern-hero-section has-bg-image">
+
+
+
+    <!-- Architectural Engineering Background Media -->
+
+
+
+    <div class="hero-bg-media" aria-hidden="true">
+
+
+
+      <img src="https://i.pinimg.com/originals/0f/f7/69/0ff769dea5fe0c24a3c93f87edf05f16.gif" alt="RauDie Engineering Architecture" class="hero-bg-img" loading="eager" onerror="this.onerror=null; this.src='{% static 'img/digital_mesh.jpg' %}';">
+
+
+
+      <div class="hero-bg-overlay"></div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- Aceternity UI Dotted Glow Canvas Background -->
+
+
+
+    <div class="dotted-glow-container" id="heroDottedGlow" aria-hidden="true">
+
+
+
+      <canvas class="dotted-glow-canvas"></canvas>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="section-container">
+
+
+
+
+
+
+
+      <!-- Main Editorial Headline (Marklab Style Display) -->
+
+
+
+      <div class="hero-editorial-wrap">
+
+        <!-- Cursive Eyebrow Flow -->
+        <div class="hero-cursive-eyebrow-wrap">
+          <span class="cursive-eyebrow" data-i18n="hero.eyebrow_flow">Tu visión digital, en perfecto ritmo.</span>
+        </div>
+
+        <!-- Brand Cat Logo Placed Underneath (No Ring / Standalone Glow) -->
+        <div class="hero-logo-under-wrap">
+          <img src="{% static 'img/cat-white.png' %}" alt="RauDie" class="hero-cat-standalone-img" width="80" height="49" onerror="this.onerror=null; this.src='{% static 'img/favicon-white.png' %}';">
+        </div>
+
+        <h1 class="h-display">
+
+
+
+          <span class="line" data-i18n="hero.h1_rosbert">
+
+
+
+            <span class="hero-line-top">Diseñamos software para lograr</span>
+
+
+
+            <span class="hero-line-bottom">más <span class="accent">con menos fricción</span>.</span>
+
+
+
+          </span>
+
+
+
+        </h1>
+
+
+
+
+
+
+
+        <p class="body-lead" data-i18n="hero.lead_rosbert">
+
+
+
+          Acompañamos a tu negocio con sitios web de alto impacto, plataformas a medida y RauDie OS: ingeniería sólida con diseño editorial y foco en resultados.
+
+
+
+        </p>
+
+
+
+
+
+
+
+        <!-- Marklab Style Action Buttons -->
+
+
+
+        <div class="hero-cta-row">
+
+
+
+          <div class="hero-btn-arrow-wrap">
+
+
+
+            <svg class="hero-sketch-arrow" viewBox="0 0 50 25" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+
+
+              <path d="M4 18C14 7 28 3 44 8M44 8L37 2M44 8L39 15" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+
+
+            </svg>
+
+
+
+            <a href="#contact" class="btn btn-white-pill hero-glow-cta" id="heroTellBtn">
+              <span data-i18n="hero.cta_tell">Iniciar un Proyecto</span>
+              <span class="arrow-circle">→</span>
+            </a>
+
+
+
+          </div>
+
+
+
+          <div class="hero-wa-btn-wrap">
+            <a href="https://wa.me/5491172341870" target="_blank" class="hero-wa-circle-btn" id="heroWaLink" aria-label="Cotiza tu proyecto o escríbenos por WhatsApp" rel="noopener noreferrer">
+              <i class="fab fa-whatsapp"></i>
+              <span class="hero-wa-glow-pulse" aria-hidden="true"></span>
+            </a>
+            <div class="hero-wa-tooltip" role="tooltip">
+              <span data-i18n="hero.wa_tooltip">Cotiza tu proyecto o escríbenos por WhatsApp</span>
+              <div class="hero-wa-tooltip-arrow" aria-hidden="true"></div>
             </div>
-            <div class="hero-bg"></div>
-          </section>
+          </div>
 
-          <!-- About Section -->
-          <section id="about" class="about section">
-            <div class="container">
-              <div class="about-content">
-                <div class="about-text">
-                  <div class="section-badge">
-                    <i class="fas fa-users"></i>
-                    <span>¿Quiénes Somos?</span>
-                  </div>
-                  <h2><span style="font-weight:500;">Transformando Ideas en </span><span class="text-gradient" style="font-weight:900;display:block;font-style:normal">Realidad Digital</span></h2>
-                  <p class="about-description">
-                    En RauDie Software, somos un equipo apasionado por la tecnología y el desarrollo de software. 
-                    Nos especializamos en soluciones front-end y back-end, ofreciendo innovación y eficiencia en cada proyecto.
-                  </p>
-                  <div class="features-grid">
-                    <div class="feature-item">
-                      <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                      </div>
-                      <div class="feature-content">
-                        <h3>Innovación</h3>
-                        <p>Expertos en desarrollo front-end y back-end, ofreciendo soluciones personalizadas para empresas en crecimiento.</p>
-                      </div>
-                    </div>
-                    <div class="feature-item">
-                      <div class="feature-icon">
-                        <i class="fas fa-handshake"></i>
-                      </div>
-                      <div class="feature-content">
-                        <h3>Colaboración</h3>
-                        <p>Trabajamos de la mano con nuestros clientes, entendiendo sus necesidades y objetivos.</p>
-                      </div>
-                    </div>
-                    <div class="feature-item">
-                      <div class="feature-icon">
-                        <i class="fas fa-award"></i>
-                      </div>
-                      <div class="feature-content">
-                        <h3>Calidad</h3>
-                        <p>Nos comprometemos a entregar productos robustos y escalables que superen las expectativas.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="about-visual">
-                  <div class="about-image">
-                    <img src="https://online.usc.edu/wp-content/uploads/2025/03/Software-Engineer.png" alt="Equipo de desarrollo">
-                    <div class="floating-stats">
-                      <div class="floating-stat">
-                        <span class="stat-number">3+</span>
-                        <span class="stat-label">Años de Experiencia</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <!-- Signature Hero Marquee (5 Core Deliverables Loop) -->
+
+
+
+      <div class="hero-marquee" aria-hidden="true">
+
+
+
+        <div class="hero-marquee-track">
+
+
+
+          
+
+
+
+          <!-- Card 1: Sitio Web -->
+
+
+
+          <div class="marquee-card">
+
+
+
+            <div class="m-card-icon"><i class="fas fa-laptop-code"></i></div>
+
+
+
+            <div class="m-card-info">
+
+
+
+              <span class="m-card-label">Sitio Web de Alta Conversión</span>
+
+
+
+              <span class="m-card-desc">Diseño editorial, SEO técnico &amp; analítica 60 FPS</span>
+
+
+
             </div>
-          </section>
 
-          <!-- TikTok Section -->
-          <section class="tiktok-section section">
-            <div class="container">
-              <div class="tiktok-content">
-                <div class="tiktok-embed">
-                  <div class="tiktok-placeholder">
-                     <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@raudie.dev" data-unique-id="raudie.dev" data-embed-type="creator" style="max-width: 780px; min-width: 288px;" > <section> <a target="_blank" href="https://www.tiktok.com/@raudie.dev?refer=creator_embed">@raudie.dev</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>
+
+
+            <span class="m-card-tag">Desarrollo Web</span>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <!-- Card 2: Sistema Interno -->
+
+
+
+          <div class="marquee-card">
+
+
+
+            <div class="m-card-icon"><i class="fas fa-server"></i></div>
+
+
+
+            <div class="m-card-info">
+
+
+
+              <span class="m-card-label">Sistema Interno &amp; CRM</span>
+
+
+
+              <span class="m-card-desc">PostgreSQL, roles RBAC &amp; operaciones centrales</span>
+
+
+
+            </div>
+
+
+
+            <span class="m-card-tag">Sistemas</span>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <!-- Card 3: Automatización -->
+
+
+
+          <div class="marquee-card">
+
+
+
+            <div class="m-card-icon"><i class="fab fa-whatsapp"></i></div>
+
+
+
+            <div class="m-card-info">
+
+
+
+              <span class="m-card-label">Automatización WhatsApp &amp; IA</span>
+
+
+
+              <span class="m-card-desc">Meta Cloud API, bots autónomos &amp; atención 24/7</span>
+
+
+
+            </div>
+
+
+
+            <span class="m-card-tag">WhatsApp API</span>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <!-- Card 4: RauDie OS -->
+
+
+
+          <div class="marquee-card">
+
+
+
+            <div class="m-card-icon"><i class="fas fa-cubes"></i></div>
+
+
+
+            <div class="m-card-info">
+
+
+
+              <span class="m-card-label">RauDie OS (Plataforma SaaS)</span>
+
+
+
+              <span class="m-card-desc">Facturación, presupuestos PDF &amp; pipeline ágil</span>
+
+
+
+            </div>
+
+
+
+            <span class="m-card-tag">SaaS Core</span>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <!-- Card 5: Herramienta a Medida -->
+
+
+
+          <div class="marquee-card">
+
+
+
+            <div class="m-card-icon"><i class="fas fa-tools"></i></div>
+
+
+
+            <div class="m-card-info">
+
+
+
+              <span class="m-card-label">Herramienta Digital a Medida</span>
+
+
+
+              <span class="m-card-desc">Calculadoras interactivas, portal cliente &amp; lógica custom</span>
+
+
+
+            </div>
+
+
+
+            <span class="m-card-tag">A Medida</span>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <!-- Duplicate Set for Seamless Marquee Infinite Loop -->
+
+
+
+          <div class="marquee-card">
+
+
+
+            <div class="m-card-icon"><i class="fas fa-laptop-code"></i></div>
+
+
+
+            <div class="m-card-info">
+
+
+
+              <span class="m-card-label">Sitio Web de Alta Conversión</span>
+
+
+
+              <span class="m-card-desc">Diseño editorial, SEO técnico &amp; analítica 60 FPS</span>
+
+
+
+            </div>
+
+
+
+            <span class="m-card-tag">Desarrollo Web</span>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <div class="marquee-card">
+
+
+
+            <div class="m-card-icon"><i class="fas fa-server"></i></div>
+
+
+
+            <div class="m-card-info">
+
+
+
+              <span class="m-card-label">Sistema Interno &amp; CRM</span>
+
+
+
+              <span class="m-card-desc">PostgreSQL, roles RBAC &amp; operaciones centrales</span>
+
+
+
+            </div>
+
+
+
+            <span class="m-card-tag">Sistemas</span>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <div class="marquee-card">
+
+
+
+            <div class="m-card-icon"><i class="fab fa-whatsapp"></i></div>
+
+
+
+            <div class="m-card-info">
+
+
+
+              <span class="m-card-label">Automatización WhatsApp &amp; IA</span>
+
+
+
+              <span class="m-card-desc">Meta Cloud API, bots autónomos &amp; atención 24/7</span>
+
+
+
+            </div>
+
+
+
+            <span class="m-card-tag">WhatsApp API</span>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <div class="marquee-card">
+
+
+
+            <div class="m-card-icon"><i class="fas fa-cubes"></i></div>
+
+
+
+            <div class="m-card-info">
+
+
+
+              <span class="m-card-label">RauDie OS (Plataforma SaaS)</span>
+
+
+
+              <span class="m-card-desc">Facturación, presupuestos PDF &amp; pipeline ágil</span>
+
+
+
+            </div>
+
+
+
+            <span class="m-card-tag">SaaS Core</span>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <div class="marquee-card">
+
+
+
+            <div class="m-card-icon"><i class="fas fa-tools"></i></div>
+
+
+
+            <div class="m-card-info">
+
+
+
+              <span class="m-card-label">Herramienta Digital a Medida</span>
+
+
+
+              <span class="m-card-desc">Calculadoras interactivas, portal cliente &amp; lógica custom</span>
+
+
+
+            </div>
+
+
+
+            <span class="m-card-tag">A Medida</span>
+
+
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+  <!-- =============================================
+
+
+
+       SECTION 2: CAPACIDADES (PINNED RIGHT-SIDE CAROUSEL)
+
+
+
+       ============================================= -->
+
+
+
+  <section id="capacidades" class="bleibt-section capacidades-section cap-scroll-pinned">
+
+
+
+    <div class="cap-pinned-sticky-stage">
+
+
+
+      <div class="section-container">
+
+
+
+        
+
+
+
+        <div class="cap-stage-grid">
+
+
+
+          
+
+
+
+          <!-- Left Column: Title, Description & Indicators -->
+
+
+
+          <aside class="cap-left-col">
+
+
+
+            <div class="section-kicker-pill" style="align-self: flex-start; margin-bottom: 16px;">
+              <span class="kicker-dot"></span>
+              <span data-i18n="cap.eyebrow">Capacidades</span>
+            </div>
+
+
+
+
+
+
+
+            <h2 class="section-h2-title cap-sticky-title" data-i18n="cap.title">
+
+
+
+              ¿En cuál de estas <span class="accent">situaciones</span><br>está tu negocio?
+
+
+
+            </h2>
+
+
+
+
+
+
+
+            <p class="cap-sticky-desc" data-i18n="cap.sticky_desc">
+
+
+
+              Identifica el desafío de tu empresa. Cada solución está construida con código propio y arquitectura escalable.
+
+
+
+            </p>
+
+
+
+
+
+
+
+            <!-- Step Indicators -->
+
+
+
+            <nav class="cap-nav-indicators" aria-label="Navegación de situaciones">
+
+
+
+              <button type="button" class="cap-nav-btn active" data-index="0">
+
+
+
+                <span class="cap-nav-num">01</span>
+
+
+
+                <span class="cap-nav-label" data-i18n="cap.card1_tag">Presencia Digital</span>
+
+
+
+                <span class="cap-nav-bar"></span>
+
+
+
+              </button>
+
+
+
+              <button type="button" class="cap-nav-btn" data-index="1">
+
+
+
+                <span class="cap-nav-num">02</span>
+
+
+
+                <span class="cap-nav-label" data-i18n="cap.card2_tag">Ventas &amp; Operaciones</span>
+
+
+
+                <span class="cap-nav-bar"></span>
+
+
+
+              </button>
+
+
+
+              <button type="button" class="cap-nav-btn" data-index="2">
+
+
+
+                <span class="cap-nav-num">03</span>
+
+
+
+                <span class="cap-nav-label" data-i18n="cap.card3_tag">Procesos Internos</span>
+
+
+
+                <span class="cap-nav-bar"></span>
+
+
+
+              </button>
+
+
+
+              <button type="button" class="cap-nav-btn" data-index="3">
+
+
+
+                <span class="cap-nav-num">04</span>
+
+
+
+                <span class="cap-nav-label" data-i18n="cap.card4_tag">Software a Medida</span>
+
+
+
+                <span class="cap-nav-bar"></span>
+
+
+
+              </button>
+
+
+
+            </nav>
+
+
+
+
+
+
+
+            <!-- Carousel Controls -->
+
+
+
+            <div class="cap-step-controls">
+
+
+
+              <span class="cap-step-counter"><span id="capActiveNum">01</span> / 04</span>
+
+
+
+              <div class="cap-step-arrows">
+
+
+
+                <button type="button" class="cap-arrow-btn" id="capPrevBtn" aria-label="Tarjeta anterior">
+
+
+
+                  <i class="fas fa-arrow-left"></i>
+
+
+
+                </button>
+
+
+
+                <button type="button" class="cap-arrow-btn" id="capNextBtn" aria-label="Siguiente tarjeta">
+
+
+
+                  <i class="fas fa-arrow-right"></i>
+
+
+
+                </button>
+
+
+
+              </div>
+
+
+
+            </div>
+
+
+
+          </aside>
+
+
+
+
+
+
+
+          <!-- Right Column: Carousel Window where cards pass from the right -->
+
+
+
+          <div class="cap-right-col">
+
+
+
+            <div class="cap-carousel-window" id="capCarouselWindow">
+
+
+
+              <div class="cap-carousel-track" id="capCarouselTrack">
+
+
+
+                
+
+
+
+                <!-- Slide 1 -->
+
+
+
+                <div class="cap-carousel-slide" data-index="0">
+
+
+
+                  <article class="cap-card" data-situation="Mi presencia digital no refleja lo que construí">
+
+
+
+                    <div class="cap-card-sheen" aria-hidden="true"></div>
+
+
+
+                    <div class="cap-card-top">
+
+
+
+                      <div class="cap-card-head">
+
+
+
+                        <span class="cap-num-badge">01</span>
+
+
+
+                        <span class="cap-tag" data-i18n="cap.card1_tag">Presencia Digital</span>
+
+
+
+                      </div>
+
+
+
+                      <h3 class="cap-symptom" data-i18n="cap.card1_symptom">
+
+
+
+                        Tu presencia digital no refleja lo que ya construiste
+
+
+
+                      </h3>
+
+
+
+                      <p class="cap-body" data-i18n="cap.card1_body">
+
+
+
+                        Tu negocio tiene credibilidad real en el mercado, pero tu sitio web no la comunica. Quien te busca online no percibe la verdadera escala y calidad de lo que ofreces.
+
+
+
+                      </p>
+
+
+
+                      <div class="cap-built-box">
+
+
+
+                        <div class="built-label">
+
+
+
+                          <i class="fas fa-code"></i>
+
+
+
+                          <span data-i18n="cap.built_label">Lo que construimos</span>
+
+
+
+                        </div>
+
+
+
+                        <p class="built-text" data-i18n="cap.card1_built">
+
+
+
+                          Sitio web o plataforma corporativa diseñada y desarrollada desde cero. Rápida, con SEO técnico y analítica configurada desde el inicio.
+
+
+
+                        </p>
+
+
+
+                      </div>
+
+
+
+                      <div class="cap-chips-row">
+
+
+
+                        <span class="cap-chip">Sitio web a medida</span>
+
+
+
+                        <span class="cap-chip">Landing page</span>
+
+
+
+                        <span class="cap-chip">CMS editorial</span>
+
+
+
+                        <span class="cap-chip">SEO técnico</span>
+
+
+
+                        <span class="cap-chip">Analítica</span>
+
+
+
+                      </div>
+
+
+
+                    </div>
+
+
+
+                    <div class="cap-card-footer">
+
+
+
+                      <div class="cap-tech-meta">
+
+
+
+                        <span class="cap-tech-label" data-i18n="cap.stack_label">Stack</span>
+
+
+
+                        <span class="cap-tech-val">Python · Django · Next.js</span>
+
+
+
+                      </div>
+
+
+
+                      <button type="button" class="btn-cap-solve trigger-situation" data-topic="Mi presencia digital no refleja lo que construí">
+
+
+
+                        <span class="cap-btn-text" data-i18n="cap.btn_solve">Resolver esta situación</span>
+
+
+
+                        <span class="cap-btn-arrow"><i class="fas fa-arrow-right"></i></span>
+
+
+
+                      </button>
+
+
+
+                    </div>
+
+
+
+                  </article>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <!-- Slide 2 -->
+
+
+
+                <div class="cap-carousel-slide" data-index="1">
+
+
+
+                  <article class="cap-card" data-situation="Vendo bien pero todo pasa por WhatsApp">
+
+
+
+                    <div class="cap-card-sheen" aria-hidden="true"></div>
+
+
+
+                    <div class="cap-card-top">
+
+
+
+                      <div class="cap-card-head">
+
+
+
+                        <span class="cap-num-badge">02</span>
+
+
+
+                        <span class="cap-tag" data-i18n="cap.card2_tag">Ventas &amp; Operaciones</span>
+
+
+
+                      </div>
+
+
+
+                      <h3 class="cap-symptom" data-i18n="cap.card2_symptom">
+
+
+
+                        Vendes bien pero todo pasa por ti o por WhatsApp
+
+
+
+                      </h3>
+
+
+
+                      <p class="cap-body" data-i18n="cap.card2_body">
+
+
+
+                        El negocio funciona, pero escalar significa trabajar más horas. Cada cotización o consulta requiere tu atención manual y no hay sistema que lo maneje solo.
+
+
+
+                      </p>
+
+
+
+                      <div class="cap-built-box">
+
+
+
+                        <div class="built-label">
+
+
+
+                          <i class="fas fa-bolt"></i>
+
+
+
+                          <span data-i18n="cap.built_label">Lo que construimos</span>
+
+
+
+                        </div>
+
+
+
+                        <p class="built-text" data-i18n="cap.card2_built">
+
+
+
+                          RauDie OS integrado con Meta WhatsApp Cloud API. Flujos automatizados para capturar leads, cotizar presupuestos y responder 24/7 sin intermediarios.
+
+
+
+                        </p>
+
+
+
+                      </div>
+
+
+
+                      <div class="cap-chips-row">
+
+
+
+                        <span class="cap-chip">RauDie OS</span>
+
+
+
+                        <span class="cap-chip">Chatbot IA</span>
+
+
+
+                        <span class="cap-chip">Cotizador PDF</span>
+
+
+
+                        <span class="cap-chip">Pipeline Comercial</span>
+
+
+
+                        <span class="cap-chip">Meta Cloud API</span>
+
+
+
+                      </div>
+
+
+
+                    </div>
+
+
+
+                    <div class="cap-card-footer">
+
+
+
+                      <div class="cap-tech-meta">
+
+
+
+                        <span class="cap-tech-label" data-i18n="cap.stack_label">Stack</span>
+
+
+
+                        <span class="cap-tech-val">WhatsApp API · Redis · Python</span>
+
+
+
+                      </div>
+
+
+
+                      <button type="button" class="btn-cap-solve trigger-situation" data-topic="Vendo bien pero todo pasa por WhatsApp">
+
+
+
+                        <span class="cap-btn-text" data-i18n="cap.btn_solve">Resolver esta situación</span>
+
+
+
+                        <span class="cap-btn-arrow"><i class="fas fa-arrow-right"></i></span>
+
+
+
+                      </button>
+
+
+
+                    </div>
+
+
+
+                  </article>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <!-- Slide 3 -->
+
+
+
+                <div class="cap-carousel-slide" data-index="2">
+
+
+
+                  <article class="cap-card" data-situation="Mi equipo opera sin procesos claros">
+
+
+
+                    <div class="cap-card-sheen" aria-hidden="true"></div>
+
+
+
+                    <div class="cap-card-top">
+
+
+
+                      <div class="cap-card-head">
+
+
+
+                        <span class="cap-num-badge">03</span>
+
+
+
+                        <span class="cap-tag" data-i18n="cap.card3_tag">Procesos Internos</span>
+
+
+
+                      </div>
+
+
+
+                      <h3 class="cap-symptom" data-i18n="cap.card3_symptom">
+
+
+
+                        Tu equipo opera con herramientas desconectadas y sin procesos claros
+
+
+
+                      </h3>
+
+
+
+                      <p class="cap-body" data-i18n="cap.card3_body">
+
+
+
+                        La información está en varios lugares: chats, hojas de cálculo y la memoria de las personas. Nadie tiene visibilidad completa del estado operativo.
+
+
+
+                      </p>
+
+
+
+                      <div class="cap-built-box">
+
+
+
+                        <div class="built-label">
+
+
+
+                          <i class="fas fa-layer-group"></i>
+
+
+
+                          <span data-i18n="cap.built_label">Lo que construimos</span>
+
+
+
+                        </div>
+
+
+
+                        <p class="built-text" data-i18n="cap.card3_built">
+
+
+
+                          Un sistema central que conecta tu operación: CRM, flujos automatizados, tablero Kanban de entregas y herramientas que el equipo realmente usa desde el primer día.
+
+
+
+                        </p>
+
+
+
+                      </div>
+
+
+
+                      <div class="cap-chips-row">
+
+
+
+                        <span class="cap-chip">Sistema Interno</span>
+
+
+
+                        <span class="cap-chip">CRM Centralizado</span>
+
+
+
+                        <span class="cap-chip">Tablero Kanban</span>
+
+
+
+                        <span class="cap-chip">Control RBAC</span>
+
+
+
+                        <span class="cap-chip">PostgreSQL</span>
+
+
+
+                      </div>
+
+
+
+                    </div>
+
+
+
+                    <div class="cap-card-footer">
+
+
+
+                      <div class="cap-tech-meta">
+
+
+
+                        <span class="cap-tech-label" data-i18n="cap.stack_label">Stack</span>
+
+
+
+                        <span class="cap-tech-val">PostgreSQL · Docker · Django</span>
+
+
+
+                      </div>
+
+
+
+                      <button type="button" class="btn-cap-solve trigger-situation" data-topic="Mi equipo opera sin procesos claros">
+
+
+
+                        <span class="cap-btn-text" data-i18n="cap.btn_solve">Resolver esta situación</span>
+
+
+
+                        <span class="cap-btn-arrow"><i class="fas fa-arrow-right"></i></span>
+
+
+
+                      </button>
+
+
+
+                    </div>
+
+
+
+                  </article>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <!-- Slide 4 -->
+
+
+
+                <div class="cap-carousel-slide" data-index="3">
+
+
+
+                  <article class="cap-card" data-situation="Necesito una herramienta a medida">
+
+
+
+                    <div class="cap-card-sheen" aria-hidden="true"></div>
+
+
+
+                    <div class="cap-card-top">
+
+
+
+                      <div class="cap-card-head">
+
+
+
+                        <span class="cap-num-badge">04</span>
+
+
+
+                        <span class="cap-tag" data-i18n="cap.card4_tag">Software a Medida</span>
+
+
+
+                      </div>
+
+
+
+                      <h3 class="cap-symptom" data-i18n="cap.card4_symptom">
+
+
+
+                        Necesitas una herramienta que ningún software genérico resuelve
+
+
+
+                      </h3>
+
+
+
+                      <p class="cap-body" data-i18n="cap.card4_body">
+
+
+
+                        Tu operación tiene una lógica específica que un SaaS genérico empaquetado no puede cubrir. Necesitas algo construido a tu medida, no adaptado de otra cosa.
+
+
+
+                      </p>
+
+
+
+                      <div class="cap-built-box">
+
+
+
+                        <div class="built-label">
+
+
+
+                          <i class="fas fa-sliders-h"></i>
+
+
+
+                          <span data-i18n="cap.built_label">Lo que construimos</span>
+
+
+
+                        </div>
+
+
+
+                        <p class="built-text" data-i18n="cap.card4_built">
+
+
+
+                          Una plataforma o herramienta web a medida: cotizador interactivo, portal de clientes, sistema de reservas o cualquier solución con lógica específica.
+
+
+
+                        </p>
+
+
+
+                      </div>
+
+
+
+                      <div class="cap-chips-row">
+
+
+
+                        <span class="cap-chip">Portal de Clientes</span>
+
+
+
+                        <span class="cap-chip">Calculadora Interactiva</span>
+
+
+
+                        <span class="cap-chip">Sistema a Medida</span>
+
+
+
+                        <span class="cap-chip">Lógica Custom</span>
+
+
+
+                        <span class="cap-chip">Infraestructura Cloud</span>
+
+
+
+                      </div>
+
+
+
+                    </div>
+
+
+
+                    <div class="cap-card-footer">
+
+
+
+                      <div class="cap-tech-meta">
+
+
+
+                        <span class="cap-tech-label" data-i18n="cap.stack_label">Stack</span>
+
+
+
+                        <span class="cap-tech-val">Python · AWS Cloud · API REST</span>
+
+
+
+                      </div>
+
+
+
+                      <button type="button" class="btn-cap-solve trigger-situation" data-topic="Necesito una herramienta a medida">
+
+
+
+                        <span class="cap-btn-text" data-i18n="cap.btn_solve">Resolver esta situación</span>
+
+
+
+                        <span class="cap-btn-arrow"><i class="fas fa-arrow-right"></i></span>
+
+
+
+                      </button>
+
+
+
+                    </div>
+
+
+
+                  </article>
+
+
+
+                </div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+            </div>
+
+
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+  <!-- =============================================
+
+
+
+       SECTION 3: PROYECTOS ("Así se ve en la práctica")
+
+
+
+       ============================================= -->
+
+
+
+  <section id="work" class="bleibt-section work-section">
+
+
+
+    <div class="section-container">
+
+
+
+      
+
+
+
+      <div class="section-center-header">
+        <div class="section-kicker-pill">
+          <span class="kicker-dot"></span>
+          <span data-i18n="work.title">Proyectos</span>
+        </div>
+        <h2 class="section-h2-title center-h2" data-i18n="work.h2_title">
+          Así se ve en la <span class="accent">práctica</span>.
+        </h2>
+        <p class="section-lead-center" data-i18n="work.sub_lead">
+          Casos reales de ingeniería con código propio y arquitectura escalable.
+        </p>
+      </div>
+
+
+
+
+
+
+
+      <!-- Work Filters Bar -->
+
+
+
+      <div class="work-filters-bar">
+
+
+
+        <button type="button" class="filter-pill active" data-filter="all" data-i18n="work.filter_all">Todos</button>
+
+
+
+        <button type="button" class="filter-pill" data-filter="saas" data-i18n="work.filter_saas">SaaS &amp; Plataformas</button>
+
+
+
+        <button type="button" class="filter-pill" data-filter="sistemas" data-i18n="work.filter_crm">Sistemas &amp; CRM</button>
+
+
+
+        <button type="button" class="filter-pill" data-filter="ecommerce" data-i18n="work.filter_ecom">E-Commerce</button>
+
+
+
+        <button type="button" class="filter-pill" data-filter="auto" data-i18n="work.filter_auto">Automatizaciones</button>
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <!-- 3-Column Showcase Grid -->
+
+
+
+      <div class="work-showcase-grid">
+
+
+
+        {% if proyectos %}
+
+
+
+          {% for p in proyectos|slice:":6" %}
+
+
+
+            <article class="work-item-card" data-project="{{ p.id }}" data-category="{% for c in p.categorias.all %}{{ c.slug }} {% empty %}sistemas{% endfor %}">
+
+
+
+              <div class="work-thumb-wrap">
+                {% if p.fotos %}
+                  <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}" class="work-thumb-img" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80';">
+                {% elif p.imagen %}
+                  <img src="{{ p.imagen.url }}" alt="{{ p.titulo }}" class="work-thumb-img" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80';">
+                {% else %}
+                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="{{ p.titulo }}" class="work-thumb-img" loading="lazy">
+                {% endif %}
+              </div>
+
+
+
+              <div class="work-info-row">
+
+
+
+                <div class="work-meta-strip">
+
+
+
+                  <span class="work-cat-chip">
+
+
+
+                    {% for cat in p.categorias.all %}
+
+
+
+                      {{ cat.nombre }}{% if not forloop.last %}, {% endif %}
+
+
+
+                    {% empty %}
+
+
+
+                      Sistemas &amp; CRM
+
+
+
+                    {% endfor %}
+
+
+
+                  </span>
+
+
+
+                  <span class="work-year">{% if p.fecha %}{{ p.fecha|date:"Y" }}{% else %}2026{% endif %}</span>
+
+
+
+                </div>
+
+
+
+                <h3 class="work-card-title">{{ p.titulo }}</h3>
+
+
+
+              </div>
+
+
+
+            </article>
+
+
+
+          {% endfor %}
+
+
+
+        {% else %}
+
+
+
+          <!-- High-End Fallback Case 1 -->
+
+
+
+          <article class="work-item-card" data-project="demo1" data-category="saas sistemas">
+
+
+
+            <div class="work-thumb-wrap">
+
+
+
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="RauDie OS Enterprise" class="work-thumb-img">
+
+
+
+            </div>
+
+
+
+            <div class="work-info-row">
+
+
+
+              <div class="work-meta-strip">
+
+
+
+                <span class="work-cat-chip">SaaS &amp; CRM</span>
+
+
+
+                <span class="work-year">2026</span>
+
+
+
+              </div>
+
+
+
+              <h3 class="work-card-title">RauDie OS: Plataforma SaaS Empresarial</h3>
+
+
+
+            </div>
+
+
+
+          </article>
+
+
+
+          <!-- Fallback Case 2 -->
+
+
+
+          <article class="work-item-card" data-project="demo2" data-category="auto">
+
+
+
+            <div class="work-thumb-wrap">
+
+
+
+              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80" alt="Nexus Automations" class="work-thumb-img">
+
+
+
+            </div>
+
+
+
+            <div class="work-info-row">
+
+
+
+              <div class="work-meta-strip">
+
+
+
+                <span class="work-cat-chip">Automatizaciones</span>
+
+
+
+                <span class="work-year">2026</span>
+
+
+
+              </div>
+
+
+
+              <h3 class="work-card-title">Nexus: WhatsApp Gateway &amp; Bot IA</h3>
+
+
+
+            </div>
+
+
+
+          </article>
+
+
+
+          <!-- Fallback Case 3 -->
+
+
+
+          <article class="work-item-card" data-project="demo3" data-category="ecommerce">
+
+
+
+            <div class="work-thumb-wrap">
+
+
+
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80" alt="Apex Commerce" class="work-thumb-img">
+
+
+
+            </div>
+
+
+
+            <div class="work-info-row">
+
+
+
+              <div class="work-meta-strip">
+
+
+
+                <span class="work-cat-chip">E-Commerce</span>
+
+
+
+                <span class="work-year">2026</span>
+
+
+
+              </div>
+
+
+
+              <h3 class="work-card-title">Aura Store: Checkout &amp; Pagos Automáticos</h3>
+
+
+
+            </div>
+
+
+
+          </article>
+
+
+
+        {% endif %}
+
+
+
+      </div>
+
+      <!-- Ver Más Proyectos Button -->
+      <div class="work-more-row">
+        <a href="{% url 'proyectos' %}" class="btn-more-projects">
+          <span data-i18n="work.view_all">Ver más proyectos</span>
+          <svg class="more-arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+  <!-- =============================================
+
+
+
+       SECTION 4: NUESTRO SAAS - RAUDIE OS (KEYNOTE STAGE)
+
+
+
+       ============================================= -->
+
+
+
+  <section id="saas" class="bleibt-section saas-section saas-keynote-stage">
+
+
+
+    <!-- Atmospheric Ambient Lighting -->
+
+
+
+    <div class="saas-ambient-glow" aria-hidden="true"></div>
+
+
+
+
+
+
+
+    <div class="section-container">
+
+
+
+      
+
+
+
+      
+
+
+
+
+
+
+
+      <div class="saas-hero-header">
+
+
+
+        <div class="saas-badge-pill">
+
+
+
+          <span class="pulse-dot"></span>
+
+
+
+          <span>SaaS Propietario RauDie</span>
+
+
+
+        </div>
+
+
+
+        <h2 class="section-h2-title saas-title">
+
+
+
+          La plataforma operativa para <span class="accent">escalar</span> tu empresa.
+
+
+
+        </h2>
+
+
+
+        <p class="body-lead saas-lead" data-i18n="saas.lead">
+
+
+
+          Diseñado para centralizar toda tu operación sin parches ni herramientas desconectadas: CRM comercial, Meta WhatsApp Cloud API con bots de IA, seguimiento de sprints y cotizador PDF instantáneo.
+
+
+
+        </p>
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <!-- Flagship Showcase: Floating MacBook Air -->
+
+
+
+      <div class="saas-laptop-showcase">
+
+
+
+        <div class="saas-laptop-wrap">
+
+
+
+          <img src="{% static 'img/raudie-os-mockup.png' %}" alt="RauDie OS Dashboard Operativo en MacBook Air" class="saas-laptop-img" loading="lazy">
+
+
+
+        </div>
+
+
+
+        <div class="saas-laptop-pedestal" aria-hidden="true"></div>
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <!-- 4 Bento Feature Cards (Capabilities of RauDie OS) -->
+
+
+
+      <div class="saas-bento-grid">
+
+
+
+        
+
+
+
+        <!-- Bento 1: WhatsApp Cloud API -->
+
+
+
+        <div class="saas-bento-card">
+
+
+
+          <div class="bento-card-head">
+
+
+
+            <span class="bento-icon-box"><i class="fab fa-whatsapp"></i></span>
+
+
+
+            <span class="bento-kpi-pill">&lt; 220ms latencia</span>
+
+
+
+          </div>
+
+
+
+          <h3 class="bento-title" data-i18n="saas.wa_header_title">WhatsApp Cloud API &amp; Bot IA</h3>
+
+
+
+          <p class="bento-desc" data-i18n="saas.wa_header_desc">
+
+
+
+            Flujos conversacionales con respuestas automáticas, catalogación inteligente y traspaso fluido a agentes humanos 24/7 sin intermediarios.
+
+
+
+          </p>
+
+
+
+          <div class="bento-feature-tags">
+
+
+
+            <span>Meta Official API</span>
+
+
+
+            <span>Atención 24/7</span>
+
+
+
+            <span>IA Generativa</span>
+
+
+
+          </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <!-- Bento 2: CRM & Pipeline -->
+
+
+
+        <div class="saas-bento-card">
+
+
+
+          <div class="bento-card-head">
+
+
+
+            <span class="bento-icon-box"><i class="fas fa-chart-line"></i></span>
+
+
+
+            <span class="bento-kpi-pill">+48% conversión</span>
+
+
+
+          </div>
+
+
+
+          <h3 class="bento-title" data-i18n="saas.crm_header_title">CRM Comercial &amp; Pipeline Visual</h3>
+
+
+
+          <p class="bento-desc" data-i18n="saas.crm_header_desc">
+
+
+
+            Embudo unificado de oportunidades capturadas vía Web, Landing Pages y WhatsApp, con historial y recordatorios automáticos.
+
+
+
+          </p>
+
+
+
+          <div class="bento-feature-tags">
+
+
+
+            <span>Pipeline Visual</span>
+
+
+
+            <span>Scoring de Leads</span>
+
+
+
+            <span>Historial Unificado</span>
+
+
+
+          </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <!-- Bento 3: Cotizador PDF -->
+
+
+
+        <div class="saas-bento-card">
+
+
+
+          <div class="bento-card-head">
+
+
+
+            <span class="bento-icon-box"><i class="fas fa-file-invoice-dollar"></i></span>
+
+
+
+            <span class="bento-kpi-pill">&lt; 2s generación</span>
+
+
+
+          </div>
+
+
+
+          <h3 class="bento-title" data-i18n="saas.quote_header_title">Cotizador PDF Instantáneo</h3>
+
+
+
+          <p class="bento-desc" data-i18n="saas.quote_header_desc">
+
+
+
+            Emisión de cotizaciones y presupuestos profesionales con desglose dinámico de ítems, validez fiscal y envío en 1 clic por WhatsApp.
+
+
+
+          </p>
+
+
+
+          <div class="bento-feature-tags">
+
+
+
+            <span>PDF Vectorial A4</span>
+
+
+
+            <span>Envío Directo WA</span>
+
+
+
+            <span>Control de Precios</span>
+
+
+
+          </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <!-- Bento 4: Sprints & Kanban -->
+
+
+
+        <div class="saas-bento-card">
+
+
+
+          <div class="bento-card-head">
+
+
+
+            <span class="bento-icon-box"><i class="fas fa-layer-group"></i></span>
+
+
+
+            <span class="bento-kpi-pill">100% trazabilidad</span>
+
+
+
+          </div>
+
+
+
+          <h3 class="bento-title" data-i18n="saas.sprint_header_title">Gestión de Sprints &amp; Entregas</h3>
+
+
+
+          <p class="bento-desc" data-i18n="saas.sprint_header_desc">
+
+
+
+            Tablero Kanban de avance operativo, asignación de tareas del equipo y visibilidad en tiempo real para clientes y directivos.
+
+
+
+          </p>
+
+
+
+          <div class="bento-feature-tags">
+
+
+
+            <span>Tablero Kanban</span>
+
+
+
+            <span>Permisos RBAC</span>
+
+
+
+            <span>Visibilidad Total</span>
+
+
+
+          </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <!-- Action Footer -->
+
+
+
+      <div class="saas-action-bar">
+
+
+
+        <a href="https://os.raudie.net" target="_blank" rel="noopener noreferrer" class="btn-saas-cta">
+
+
+
+          <span>Descubre RauDie OS</span>
+
+
+
+          <span class="saas-arrow-circle"><i class="fas fa-arrow-right"></i></span>
+
+
+
+        </a>
+
+
+
+        <span class="saas-tech-badge">Python · Django · PostgreSQL · Redis · Meta API</span>
+
+
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+  <!-- =============================================
+
+
+
+       SECTION 5: ENFOQUE ("No empezamos por el código")
+
+
+
+       ============================================= -->
+
+
+
+  <section id="enfoque" class="bleibt-section enfoque-section">
+
+
+
+    <div class="section-container">
+
+
+
+      
+
+
+
+      <div class="section-center-header">
+        <div class="section-kicker-pill">
+          <span class="kicker-dot"></span>
+          <span data-i18n="enfoque.eyebrow">Cómo trabajamos</span>
+        </div>
+        <h2 class="section-h2-title center-h2" data-i18n="enfoque.title">
+          No empezamos por el código. Empezamos por <span class="accent">entender</span> qué necesitas lograr.
+        </h2>
+        <p class="section-lead-center" data-i18n="enfoque.aside_lead">
+          Lo que se construye es la consecuencia del objetivo, no al revés. Un sitio web, una automatización o un sistema interno existen porque resuelven algo concreto.
+        </p>
+      </div>
+
+
+
+
+
+
+
+      <!-- 4 Methodology Steps -->
+
+
+
+      <div class="method-grid">
+
+
+
+        <div class="method-step">
+
+
+
+          <span class="method-num">01</span>
+
+
+
+          <h3 class="method-title" data-i18n="enfoque.step1_title">Entender</h3>
+
+
+
+          <span class="method-span" data-i18n="enfoque.step1_span">La conversación</span>
+
+
+
+          <p class="method-desc" data-i18n="enfoque.step1_desc">
+
+
+
+            Una conversación profunda sobre el negocio y el problema real. Las expectativas quedan claras antes de tocar cualquier herramienta.
+
+
+
+          </p>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="method-step">
+
+
+
+          <span class="method-num">02</span>
+
+
+
+          <h3 class="method-title" data-i18n="enfoque.step2_title">Planificar</h3>
+
+
+
+          <span class="method-span" data-i18n="enfoque.step2_span">El mapa</span>
+
+
+
+          <p class="method-desc" data-i18n="enfoque.step2_desc">
+
+
+
+            Con todo lo aprendido, se define qué construir y por qué: arquitectura, objetivos, tiempos y estructura de trabajo visible para los dos.
+
+
+
+          </p>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="method-step">
+
+
+
+          <span class="method-num">03</span>
+
+
+
+          <h3 class="method-title" data-i18n="enfoque.step3_title">Construir</h3>
+
+
+
+          <span class="method-span" data-i18n="enfoque.step3_span">La ejecución</span>
+
+
+
+          <p class="method-desc" data-i18n="enfoque.step3_desc">
+
+
+
+            Ejecución en conjunto con código limpio. El cliente está involucrado estratégicamente durante todo el proceso con entregas continuas.
+
+
+
+          </p>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="method-step">
+
+
+
+          <span class="method-num">04</span>
+
+
+
+          <h3 class="method-title" data-i18n="enfoque.step4_title">Entregar &amp; Escalar</h3>
+
+
+
+          <span class="method-span" data-i18n="enfoque.step4_span">El cierre</span>
+
+
+
+          <p class="method-desc" data-i18n="enfoque.step4_desc">
+
+
+
+            Revisión completa, puesta en marcha y seguimiento. El trabajo termina cuando el objetivo se cumple, no cuando el código se envía.
+
+
+
+          </p>
+
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <!-- =============================================
+       SECTION: SERVICIOS DE DESARROLLO & SOFTWARE
+       ============================================= -->
+  <section id="services" class="bleibt-section services-section">
+    <div class="section-container">
+      
+      <div class="section-center-header">
+        <div class="section-kicker-pill">
+          <span class="kicker-dot"></span>
+          <span data-i18n="services.title">Nuestros Servicios</span>
+        </div>
+        <h2 class="section-h2-title center-h2" data-i18n="services.h2_title">
+          Desarrollo web y software <span class="accent">diseñado para resultados</span>.
+        </h2>
+        <p class="section-lead-center" data-i18n="services.lead">
+          Soluciones de ingeniería a la medida: landing pages de alta conversión, plataformas web, sistemas internos y automatizaciones operativas.
+        </p>
+      </div>
+
+      <div class="services-editorial-grid">
+        {% if servicios %}
+          {% for s in servicios %}
+            <article class="service-card-editorial">
+              {% if s.foto %}
+                <a href="{% url 'servicio_detalle' s.id %}" class="service-card-media-wrap" aria-label="{{ s.nombre }}">
+                  <img src="{{ s.foto.url }}" alt="{{ s.nombre }}" class="service-card-img" loading="lazy">
+                  <span class="service-card-tag" data-i18n="services.tag">Desarrollo Web &amp; Software</span>
+                </a>
+              {% else %}
+                <div class="service-card-header-gradient">
+                  <span class="service-card-tag" data-i18n="services.tag">Desarrollo Web &amp; Software</span>
+                  <div class="service-icon-mark">
+                    <i class="fas fa-layer-group"></i>
                   </div>
                 </div>
-                <div class="tiktok-info">
-                  <div class="section-badge">
-                    <i class="fab fa-tiktok"></i>
-                    <span>Conócenos</span>
-                  </div>
-                  <h2><span style="font-weight:500;">Síguenos en </span><span class="text-gradient" style="font-weight:900">TikTok</span></h2>
-                  <p>Síguenos en TikTok para descubrir tutoriales, consejos de programación y un vistazo exclusivo a nuestros
-                     proyectos más innovadores. ¡Aprende y diviértete con nuestro contenido tecnológico!</p>
+              {% endif %}
 
-                  <a href="https://www.tiktok.com/@raudie.dev" target="_blank" class="btn-primary">
-                    <i class="fas fa-external-link-alt"></i>
-                    <span>Visitar nuestro TikTok</span>
+              <div class="service-card-body">
+                <div class="service-card-top-meta">
+                  <h3 class="service-card-name">
+                    <a href="{% url 'servicio_detalle' s.id %}">{{ s.nombre }}</a>
+                  </h3>
+                  {% if s.precio %}
+                    <div class="service-card-price">
+                      <span class="price-prefix" data-i18n="services.price_from">Desde</span>
+                      <span class="price-val">${{ s.precio|floatformat:0 }}</span>
+                      <span class="price-currency">USD</span>
+                    </div>
+                  {% endif %}
+                </div>
+
+                {% if s.titulo %}
+                  <p class="service-card-subtitle">{{ s.titulo }}</p>
+                {% endif %}
+
+                <p class="service-card-desc">{{ s.descripcion|truncatewords:26 }}</p>
+
+                {% if s.caracteristicas %}
+                  <div class="service-card-features">
+                    <span class="features-label" data-i18n="services.features_label">Incluye:</span>
+                    <ul class="features-list">
+                      {% for c in s.caracteristicas|slice:":4" %}
+                        <li>
+                          <i class="fas fa-check-circle feature-check-icon"></i>
+                          <span>{{ c }}</span>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                {% endif %}
+
+                <div class="service-card-actions">
+                  <a href="{% url 'servicio_detalle' s.id %}" class="btn-service-detail">
+                    <span data-i18n="services.details_btn">Ver detalles</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20el%20servicio%20de%20{{ s.nombre|urlencode }}" target="_blank" rel="noopener noreferrer" class="btn-service-whatsapp" title="Consultar por WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span data-i18n="services.wa_btn">Consultar</span>
                   </a>
                 </div>
               </div>
+            </article>
+          {% endfor %}
+        {% else %}
+          <!-- Fallback Cards si aún no se han cargado más servicios en la BD -->
+          <article class="service-card-editorial">
+            <div class="service-card-header-gradient">
+              <span class="service-card-tag">Desarrollo Web</span>
+              <div class="service-icon-mark"><i class="fas fa-laptop-code"></i></div>
             </div>
-          </section>
-
-          <!-- Services Section -->
-          <section id="services" class="services section">
-            <div class="container">
-              <div class="section-header">
-                <div class="section-badge">
-                  <i class="fas fa-cogs"></i>
-                  <span>Servicios</span>
+            <div class="service-card-body">
+              <div class="service-card-top-meta">
+                <h3 class="service-card-name">Landing Page de Alta Conversión</h3>
+                <div class="service-card-price">
+                  <span class="price-prefix">Desde</span>
+                  <span class="price-val">$200</span>
+                  <span class="price-currency">USD</span>
                 </div>
-                <h2><span style="font-weight:500;">¡Consulta Ya! </span><br><span class="text-gradient" style="font-weight:900">Nuestros Servicios</span></h2>
               </div>
+              <p class="service-card-subtitle">La mejor opción para empezar con presencia sólida</p>
+              <p class="service-card-desc">Sitios web modernos diseñados desde cero, con arquitectura optimizada para velocidad, SEO técnico y conversión efectiva de visitantes a clientes.</p>
+              <div class="service-card-features">
+                <span class="features-label">Incluye:</span>
+                <ul class="features-list">
+                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Diseño responsive 100% adaptado a móviles</span></li>
+                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Formulario de contacto e integración directa a WhatsApp</span></li>
+                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Optimización para buscadores (SEO) y analítica</span></li>
+                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Carga ultrarrápida y hosting optimizado</span></li>
+                </ul>
+              </div>
+              <div class="service-card-actions">
+                <a href="#contact" class="btn-service-detail"><span>Iniciar proyecto</span><i class="fas fa-arrow-right"></i></a>
+                <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20una%20Landing%20Page" target="_blank" class="btn-service-whatsapp"><i class="fab fa-whatsapp"></i><span>Consultar</span></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="service-card-editorial">
+            <div class="service-card-header-gradient">
+              <span class="service-card-tag">Software &amp; Plataformas</span>
+              <div class="service-icon-mark"><i class="fas fa-server"></i></div>
+            </div>
+            <div class="service-card-body">
+              <div class="service-card-top-meta">
+                <h3 class="service-card-name">Plataformas Web &amp; SaaS a Medida</h3>
+                <div class="service-card-price">
+                  <span class="price-prefix">A Medida</span>
+                </div>
+              </div>
+              <p class="service-card-subtitle">Sistemas empresariales y aplicaciones escalables</p>
+              <p class="service-card-desc">Desarrollo backend en Django/Python con bases de datos relacionales, autenticación por roles (RBAC), portales de clientes y paneles operativos completos.</p>
+              <div class="service-card-features">
+                <span class="features-label">Incluye:</span>
+                <ul class="features-list">
+                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Arquitectura modular escalable en Django</span></li>
+                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Gestión de usuarios, permisos y roles seguros</span></li>
+                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>APIs RESTful e integraciones con pasarelas de pago</span></li>
+                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Auditoría de seguridad y despliegue en la nube</span></li>
+                </ul>
+              </div>
+              <div class="service-card-actions">
+                <a href="#contact" class="btn-service-detail"><span>Iniciar proyecto</span><i class="fas fa-arrow-right"></i></a>
+                <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20una%20Plataforma%20a%20Medida" target="_blank" class="btn-service-whatsapp"><i class="fab fa-whatsapp"></i><span>Consultar</span></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="service-card-editorial">
+            <div class="service-card-header-gradient">
+              <span class="service-card-tag">Automatización &amp; IA</span>
+              <div class="service-icon-mark"><i class="fab fa-whatsapp"></i></div>
+            </div>
+            <div class="service-card-body">
+              <div class="service-card-top-meta">
+                <h3 class="service-card-name">Automatización WhatsApp &amp; Chatbot IA</h3>
+                <div class="service-card-price">
+                  <span class="price-prefix">A Medida</span>
+                </div>
+              </div>
+              <p class="service-card-subtitle">Atención 24/7 y captura automática de clientes</p>
+              <p class="service-card-desc">Conexión oficial con WhatsApp Cloud API y agentes inteligentes para responder consultas, calificar prospectos y generar presupuestos automáticamente.</p>
+              <div class="service-card-features">
+                <span class="features-label">Incluye:</span>
+                <ul class="features-list">
+                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Integración WhatsApp Business Cloud API oficial</span></li>
+                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Asistente inteligente con OpenAI / Gemini</span></li>
+                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Bandeja multicanal y sincronización con CRM</span></li>
+                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Notificaciones inmediatas a tu equipo comercial</span></li>
+                </ul>
+              </div>
+              <div class="service-card-actions">
+                <a href="#contact" class="btn-service-detail"><span>Iniciar proyecto</span><i class="fas fa-arrow-right"></i></a>
+                <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20Automatizar%20WhatsApp" target="_blank" class="btn-service-whatsapp"><i class="fab fa-whatsapp"></i><span>Consultar</span></a>
+              </div>
+            </div>
+          </article>
+        {% endif %}
+      </div>
+
+    </div>
+  </section>
+
+
+<!-- =============================================
+
+
+
+       SECTION 6: NOTICIAS & INSIGHTS
+
+
+
+       ============================================= -->
+
+
+
+  <section id="noticias" class="bleibt-section news-section">
+
+
+
+    <div class="section-container">
+
+
+
       
-              <!-- Services Carousel Container (dynamic from DB) -->
-              <div class="services-carousel-container">
-                <div class="services-carousel">
-                  {% if servicios and servicios.count %}
-                    {% for s in servicios %}
-                      <div class="service-card">
-                        <a href="{% url 'servicio_detalle' s.id %}">
-                          <div class="service-icon">
-                            {% if s.foto %}
-                              <img src="{{ s.foto.url }}" alt="{{ s.nombre }}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">
-                            {% else %}
-                              <i class="fas fa-cog"></i>
-                            {% endif %}
-                          </div>
-                          <h3>{{ s.nombre }}</h3>
-                          <p>{{ s.descripcion }}</p>
-                          <div class="service-price">{% if s.precio %}${{ s.precio }}{% else %}Consultar{% endif %}</div>
-                          <span class="service-link">Ver detalles <i class="fas fa-arrow-right"></i></span>
-                        </a>
-                      </div>
-                    {% endfor %}
-                  {% else %}
-                     <p>No hay servicios disponibles en este momento.</p>
-                  {% endif %}
-                </div>
-              </div>
-            </div>
-          </section>
 
-          <!-- Projects Section -->
-          <section id="projects" class="projects-section">
-            <div class="container">
-              <div class="section-header">
-                <div class="section-badge">
-                  <i class="fas fa-briefcase"></i>
-                  <span>Proyectos</span>
-                </div>
-                <h2><span style="font-weight:500; ">Nuestros Proyectos</span><span class="text-gradient" style="font-weight:900"> Destacados</span></h2>
-              </div>
 
-              <div class="projects-grid">
-                {% for p in proyectos %}
-                  <div class="project-card" data-project="{{ p.id }}" data-category="{% if p.categorias.all %}{% for c in p.categorias.all %}{{ c.nombre|slugify }}{% if not forloop.last %} {% endif %}{% endfor %}{% else %}uncategorized{% endif %}">
-                    <div class="project-image">
-                      {% if p.fotos %}
-                        {% with p.fotos.0 as foto %}
-                          <img src="{{ foto }}" alt="{{ p.titulo }}">
-                        {% endwith %}
-                      {% else %}
-                        <img src="{% static 'assets/img/proyectos/proyecto-1.png' %}" alt="{{ p.titulo }}">
-                      {% endif %}
-                      <div class="project-overlay">
-                        {% for cat in p.categorias.all %}
-                          {% if forloop.first %}
-                            <div class="project-category">{{ cat.nombre }}</div>
-                          {% endif %}
-                        {% empty %}
-                        {% endfor %}
-                      </div>
-                    </div>
-                    <div class="project-content">
-                      <h3>{{ p.titulo }}</h3>
-                      <p>{{ p.descripcion|truncatechars:150 }}</p>
-                      <div class="project-tags">
-                        {% for t in p.tecnologias.all %}
-                          <span>{{ t.nombre }}</span>
-                        {% empty %}
-                          <span>Proyecto</span>
-                        {% endfor %}
-                      </div>
-                    </div>
-                  </div>
-                {% empty %}
-                  <p>No hay proyectos disponibles en este momento.</p>
-                {% endfor %}
-              </div>
-              <div class="view-more-container">
-                <a href="{% url 'proyectos' %}" class="btn-primary">
-                  <span>Ver más proyectos</span>
+
+      <div class="section-center-header">
+        <div class="section-kicker-pill">
+          <span class="kicker-dot"></span>
+          <span data-i18n="news.title">Noticias &amp; Insights</span>
+        </div>
+        <h2 class="section-h2-title center-h2" data-i18n="news.h2_title">
+          Lecciones de ingeniería y <span class="accent">novedades</span> de producto.
+        </h2>
+        <p class="section-lead-center" data-i18n="news.lead">
+          Artículos y análisis técnicos sobre desarrollo de software, arquitectura en Django y automatización con IA.
+        </p>
+      </div>
+
+
+
+
+
+
+
+      <div class="news-editorial-grid">
+        {% if noticias %}
+          {% for n in noticias %}
+            <article class="news-card-editorial">
+              <a href="{% url 'noticia_detalle' n.id %}" class="news-card-img-wrap" aria-label="{{ n.titulo }}">
+                {% if n.foto %}
+                  <img src="{{ n.foto.url }}" alt="{{ n.titulo }}" class="news-card-img" loading="lazy">
+                {% elif n.foto_url %}
+                  <img src="{{ n.foto_url }}" alt="{{ n.titulo }}" class="news-card-img" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80';">
+                {% else %}
+                  <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80" alt="{{ n.titulo }}" class="news-card-img" loading="lazy">
+                {% endif %}
+                <span class="news-card-badge">{{ n.categoria }}</span>
+              </a>
+
+              <div class="news-card-content">
+                <div class="news-card-meta">
+                  <span>{{ n.fecha|date:"d M, Y" }}</span>
+                  <span class="meta-dot"></span>
+                  <span><i class="far fa-clock" style="margin-right: 4px;"></i>{{ n.tiempo_lectura }}</span>
+                </div>
+
+                <h3 class="news-card-h3">
+                  <a href="{% url 'noticia_detalle' n.id %}" style="color: inherit; text-decoration: none;">{{ n.titulo }}</a>
+                </h3>
+
+                <p class="news-card-desc">{{ n.resumen }}</p>
+
+                <a href="{% url 'noticia_detalle' n.id %}" class="news-card-cta" style="text-decoration: none;">
+                  <span data-i18n="news.read_btn">Leer artículo completo</span>
                   <i class="fas fa-arrow-right"></i>
                 </a>
               </div>
-            </div>
-          </section>
-
-          <!-- Contact Section -->
-          <section id="contact" class="contact section">
-            <div class="container">
-              <div class="contact-content">
-                <div class="contact-info">
-                  <div class="section-badge">
-                    <i class="fas fa-envelope"></i>
-                    <span>Contacto</span>
-                  </div>
-                  <h2><span style="font-weight:500">¿Necesitas ayuda? </span><br><span class="text-gradient" style="font-weight:900">Contáctanos</span></h2>
-          
-                  <div class="contact-methods">
-                    <div class="contact-method">
-                      <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                      </div>
-                      <div class="contact-details">
-                        <h3>Correo Electrónico</h3>
-                        <a href="mailto:raudie@raudie.net">raudie@raudie.net</a>
-                      </div>
-                    </div>
-
-                    <div class="contact-method">
-                      <div class="contact-icon">
-                        <i class="fab fa-whatsapp"></i>
-                      </div>
-                      <div class="contact-details">
-                        <h3>WhatsApp</h3>
-                        <a href="https://wa.me/+584243736030">Envíanos un mensaje</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="contact-form-container">
-                  <form class="contact-form" id="contactForm">
-                    {% csrf_token %}
-                    <div class="form-row">
-                      <div class="form-group">
-                        <input type="text" name="name" id="contactName" placeholder="Tu Nombre" required>
-                      </div>
-                      <div class="form-group">
-                        <input type="tel" name="phone" id="contactPhone" placeholder="Tu Número de WhatsApp" required>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <input type="email" name="email" id="contactEmail" placeholder="Tu Email" required>
-                    </div>
-                    <div class="form-group">
-                      <textarea placeholder="Mensaje" name="message" id="contactMessage" rows="6" required></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary">
-                      <span>Enviar por WhatsApp</span>
-                      <i class="fab fa-whatsapp" style="font-size:16px;"></i>
-                    </button>
-                  </form>
-                </div>
+            </article>
+          {% endfor %}
+        {% else %}
+          <article class="news-card-editorial">
+            <a href="{% url 'noticias' %}" class="news-card-img-wrap" aria-label="Arquitectura escalable en Django">
+              <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800" alt="Arquitectura escalable en Django" class="news-card-img" loading="lazy">
+              <span class="news-card-badge">Desarrollo &amp; Arquitectura</span>
+            </a>
+            <div class="news-card-content">
+              <div class="news-card-meta">
+                <span>24 Oct, 2026</span>
+                <span class="meta-dot"></span>
+                <span><i class="far fa-clock" style="margin-right: 4px;"></i>5 min de lectura</span>
               </div>
+              <h3 class="news-card-h3">
+                <a href="{% url 'noticias' %}" style="color: inherit; text-decoration: none;">Arquitectura escalable en Django: Buenas prácticas para sistemas empresariales</a>
+              </h3>
+              <p class="news-card-desc">Un análisis a fondo sobre modularidad, optimización de base de datos y diseño de micro-módulos para plataformas de alta concurrencia.</p>
+              <a href="{% url 'noticias' %}" class="news-card-cta" style="text-decoration: none;">
+                <span>Leer artículo completo</span>
+                <i class="fas fa-arrow-right"></i>
+              </a>
             </div>
-          </section>
-        </main>
-        {% endblock %}
+          </article>
 
-{% block extra_scripts %}
-<!-- Chatbot Widget Flotante -->
-<div id="raudie-chatbot" class="chatbot-wrapper">
-  <!-- Botón Flotante -->
-  <button id="chatbot-toggle-btn" class="chatbot-trigger" aria-label="Abrir Chat de Soporte">
-    <i class="fas fa-comments"></i>
-    <span class="pulse-ring"></span>
-  </button>
+          <article class="news-card-editorial">
+            <a href="{% url 'noticias' %}" class="news-card-img-wrap" aria-label="Automatizaciones con WhatsApp Cloud API">
+              <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800" alt="Automatizaciones con WhatsApp Cloud API" class="news-card-img" loading="lazy">
+              <span class="news-card-badge">Automatización &amp; IA</span>
+            </a>
+            <div class="news-card-content">
+              <div class="news-card-meta">
+                <span>18 Oct, 2026</span>
+                <span class="meta-dot"></span>
+                <span><i class="far fa-clock" style="margin-right: 4px;"></i>3 min de lectura</span>
+              </div>
+              <h3 class="news-card-h3">
+                <a href="{% url 'noticias' %}" style="color: inherit; text-decoration: none;">Automatizaciones con WhatsApp Cloud API: Cómo multiplicar tus ventas un 300%</a>
+              </h3>
+              <p class="news-card-desc">Descubre cómo las empresas están transformando su canal de WhatsApp en un motor de ventas automatizado 24/7 sin perder el toque humano.</p>
+              <a href="{% url 'noticias' %}" class="news-card-cta" style="text-decoration: none;">
+                <span>Leer artículo completo</span>
+                <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </article>
 
-  <!-- Ventana de Chat -->
-  <div id="chatbot-window" class="chatbot-window hidden">
-    <!-- Cabecera -->
-    <div class="chatbot-header">
-      <div class="chatbot-header-info">
-        <div>
-          <h4 class="chatbot-title">Asistente RauDie</h4>
-          <span class="chatbot-subtitle">En línea • Inteligencia Artificial</span>
-        </div>
+          <article class="news-card-editorial">
+            <a href="{% url 'noticias' %}" class="news-card-img-wrap" aria-label="Lanzamiento oficial de RauDie OS">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="Lanzamiento oficial de RauDie OS" class="news-card-img" loading="lazy">
+              <span class="news-card-badge">Producto &amp; SaaS</span>
+            </a>
+            <div class="news-card-content">
+              <div class="news-card-meta">
+                <span>10 Oct, 2026</span>
+                <span class="meta-dot"></span>
+                <span><i class="far fa-clock" style="margin-right: 4px;"></i>4 min de lectura</span>
+              </div>
+              <h3 class="news-card-h3">
+                <a href="{% url 'noticias' %}" style="color: inherit; text-decoration: none;">Lanzamiento oficial de RauDie OS: La solución SaaS para empresas y agencias</a>
+              </h3>
+              <p class="news-card-desc">Presentamos RauDie OS, nuestra plataforma unificada que integra CRM inteligente, automatización de WhatsApp, control de proyectos y finanzas.</p>
+              <a href="{% url 'noticias' %}" class="news-card-cta" style="text-decoration: none;">
+                <span>Leer artículo completo</span>
+                <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </article>
+        {% endif %}
       </div>
-      <div class="chatbot-header-actions">
-        <button id="chatbot-reset-btn" title="Reiniciar chat" class="chatbot-header-btn">
-          <i class="fas fa-sync-alt"></i>
-        </button>
-        <button id="chatbot-close-btn" title="Cerrar" class="chatbot-header-btn">
-          <i class="fas fa-times"></i>
-        </button>
+
+      <!-- Ver más noticias CTA -->
+      <div class="archive-cta-row" style="text-align: center; margin-top: 52px;">
+        <a href="{% url 'noticias' %}" class="btn-more-projects">
+          <span>Ver todas las noticias</span>
+          <i class="fas fa-arrow-right more-arrow-icon"></i>
+        </a>
       </div>
-    </div>
-
-    <!-- Cuerpo del Chat (Mensajes) -->
-    <div id="chatbot-messages" class="chatbot-messages">
-      <!-- Los mensajes se cargarán dinámicamente aquí -->
-    </div>
-
-    <!-- Indicador de Escribiendo (Loader) -->
-    <div id="chatbot-typing" class="chatbot-typing hidden">
-      <div class="typing-bubble">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-
-    <!-- Formulario de Entrada -->
-    <form id="chatbot-form" class="chatbot-input-area">
-      {% csrf_token %}
-      <input type="text" id="chatbot-input" placeholder="Escribe tu mensaje..." required autocomplete="off">
-      <button type="submit" id="chatbot-send-btn" class="chatbot-send-btn" aria-label="Enviar">
-        <i class="fas fa-paper-plane"></i>
-      </button>
-    </form>
-  </div>
 </div>
 
-<!-- Estilos CSS del Chatbot -->
-<style>
-  .chatbot-wrapper {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 1000;
-    font-family: 'Poppins', 'Roboto', sans-serif;
-  }
 
-  /* Botón de Activación */
-  .chatbot-trigger {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--red-light) 0%, var(--red) 100%);
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 8px 24px rgba(192, 19, 30, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    outline: none;
-  }
 
-  .chatbot-trigger:hover {
-    box-shadow: 0 10px 28px rgba(192, 19, 30, 0.5);
-  }
+  </section>
 
-  .chatbot-trigger:active {
-    transform: scale(0.95);
-  }
 
-  /* Anillo de pulso */
-  .pulse-ring {
-    display: none;
-  }
 
-  @keyframes chatbot-pulse {
-    0% { transform: scale(0.95); opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { transform: scale(1.15); opacity: 0; }
-  }
 
-  /* Ventana de Chat */
-  .chatbot-window {
-    position: absolute;
-    bottom: 75px;
-    right: 0;
-    width: 370px;
-    height: 520px;
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-    transform-origin: bottom right;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-  }
 
-  .chatbot-window.hidden {
-    opacity: 0;
-    transform: scale(0.8) translateY(20px);
-    pointer-events: none;
-  }
 
-  /* Cabecera */
-  .chatbot-header {
-    background: linear-gradient(135deg, var(--red-light) 0%, var(--red) 100%);
-    padding: 16px;
-    color: white;
-    display: flex;
-    justify-content: justify;
-    align-items: center;
-    justify-content: space-between;
-  }
 
-  .chatbot-header-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
 
-  .chatbot-avatar {
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-    position: relative;
-  }
 
-  .status-dot {
-    width: 10px;
-    height: 10px;
-    background: #28a745;
-    border: 2px solid var(--red);
-    border-radius: 50%;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
 
-  .status-dot.online {
-    animation: status-pulse 1.5s infinite;
-  }
 
-  @keyframes status-pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { opacity: 0.6; }
-    100% { transform: scale(1.2); opacity: 0; }
-  }
+  <!-- =============================================
 
-  .chatbot-title {
-    font-size: 15px;
-    margin: 0;
-    font-weight: 600;
-    color: var(--white) !important;
-  }
 
-  .chatbot-subtitle {
-    font-size: 11px;
-    opacity: 0.8;
-    display: block;
-    color: var(--white) !important;
-  }
 
-  .chatbot-header-actions {
-    display: flex;
-    gap: 8px;
-  }
+       SECTION 7: CONTACTO ("Cuéntame qué está pasando")
 
-  .chatbot-header-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    opacity: 0.8;
-    transition: opacity 0.2s;
-    padding: 4px;
-  }
 
-  .chatbot-header-btn:hover {
-    opacity: 1;
-  }
 
-  /* Cuerpo */
-  .chatbot-messages {
-    flex-grow: 1;
-    padding: 16px;
-    overflow-y: auto;
-    background: #f8f9fa;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    scroll-behavior: smooth;
-  }
+       ============================================= -->
 
-  /* Burbujas de Mensaje */
-  .chat-bubble {
-    padding: 10px 14px;
-    border-radius: 16px;
-    max-width: 80%;
-    font-size: 13.5px;
-    line-height: 1.45;
-    animation: bubble-appear 0.25s ease-out forwards;
-    word-break: break-word;
-  }
 
-  @keyframes bubble-appear {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
 
-  .chat-bubble.bot {
-    background: var(--ink-2);
-    color: var(--white);
-    align-self: flex-start;
-    border-bottom-left-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border: none;
-  }
+  <section id="contact" class="bleibt-section contacto-section">
 
-  .chat-bubble.user {
-    background: linear-gradient(135deg, var(--red-light) 0%, var(--red) 100%);
-    color: #ffffff;
-    align-self: flex-end;
-    border-bottom-right-radius: 4px;
-    box-shadow: 0 4px 10px rgba(192, 19, 30, 0.15);
-  }
 
-  /* Indicador de Escribiendo */
-  .chatbot-typing {
-    padding: 8px 16px;
-    background: #f8f9fa;
-    align-self: flex-start;
-  }
 
-  .typing-bubble {
-    background: #ffffff;
-    padding: 10px 16px;
-    border-radius: 16px;
-    border-bottom-left-radius: 4px;
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-  }
+    <div class="section-container">
 
-  .typing-bubble span {
-    width: 6px;
-    height: 6px;
-    background: #888888;
-    border-radius: 50%;
-    animation: typing-dots 1s infinite alternate;
-  }
 
-  .typing-bubble span:nth-child(2) { animation-delay: 0.2s; }
-  .typing-bubble span:nth-child(3) { animation-delay: 0.4s; }
 
-  @keyframes typing-dots {
-    from { transform: translateY(0); opacity: 0.4; }
-    to { transform: translateY(-5px); opacity: 1; }
-  }
+      
 
-  /* Formulario de Entrada */
-  .chatbot-input-area {
-    padding: 12px 16px;
-    background: #ffffff;
-    border-top: 1px solid #eeeeee;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
 
-  .chatbot-input-area input {
-    flex-grow: 1;
-    border: 1px solid #dddddd;
-    padding: 10px 16px;
-    border-radius: 24px;
-    font-size: 13.5px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
 
-  .chatbot-input-area input:focus {
-    border-color: var(--red);
-  }
+      <div class="section-center-header">
+        <div class="section-kicker-pill">
+          <span class="kicker-dot"></span>
+          <span data-i18n="contact.title">Contacto</span>
+        </div>
+        <h2 class="section-h2-title center-h2" data-i18n="contact.title_rosbert">
+          Cuéntame qué está pasando<span class="accent">.</span>
+        </h2>
+        <p class="section-lead-center" data-i18n="contact.sub_rosbert">
+          No necesitas tener todo definido para escribir. Si algo de lo que viste resonó con tu situación, es suficiente para iniciar una conversación.
+        </p>
+      </div>
 
-  .chatbot-send-btn {
-    background: var(--red);
-    border: none;
-    color: white;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    transition: background 0.2s, transform 0.1s;
-  }
 
-  .chatbot-send-btn:hover {
-    background: var(--ink);
-  }
 
-  .chatbot-send-btn:active {
-    transform: scale(0.9);
-  }
 
-  .hidden {
-    display: none !important;
-  }
 
-  /* Ajustes Mobile */
-  @media (max-width: 480px) {
-    .chatbot-wrapper {
-      bottom: 16px;
-      right: 16px;
-    }
-    .chatbot-window {
-      width: calc(100vw - 32px);
-      height: 480px;
-      bottom: 70px;
-    }
-  }
-</style>
 
-<!-- Lógica JavaScript del Chatbot -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const chatToggleBtn = document.getElementById('chatbot-toggle-btn');
-    const chatWindow = document.getElementById('chatbot-window');
-    const chatCloseBtn = document.getElementById('chatbot-close-btn');
-    const chatResetBtn = document.getElementById('chatbot-reset-btn');
-    const chatForm = document.getElementById('chatbot-form');
-    const chatInput = document.getElementById('chatbot-input');
-    const chatMessages = document.getElementById('chatbot-messages');
-    const chatTyping = document.getElementById('chatbot-typing');
-    const chatSendBtn = document.getElementById('chatbot-send-btn');
 
-    const STORAGE_KEY = 'raudie_chat_history';
-    const welcomeMessage = "{{ mensaje_bienvenida|escapejs }}";
+            <!-- Modern Studio Contact Card -->
 
-    // Cargar historial local o inicializar
-    let history = [];
-    try {
-      history = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    } catch(e) {
-      history = [];
-    }
+      <div class="ct-form-wrap">
 
-    // Toggle Chat Window
-    chatToggleBtn.addEventListener('click', () => {
-      chatWindow.classList.toggle('hidden');
-      if (!chatWindow.classList.contains('hidden')) {
-        chatInput.focus();
-        scrollToBottom();
-      }
-    });
+        <form class="ct-form ct-modern-form" id="contactForm">
 
-    chatCloseBtn.addEventListener('click', () => {
-      chatWindow.classList.add('hidden');
-    });
+          {% csrf_token %}
 
-    // Renderizar un mensaje en la ventana de chat
-    function appendMessage(sender, text) {
-      const bubble = document.createElement('div');
-      bubble.className = `chat-bubble ${sender}`;
-      bubble.textContent = text;
-      chatMessages.appendChild(bubble);
-      scrollToBottom();
-    }
 
-    // Scroll al final
-    function scrollToBottom() {
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
 
-    // Inicializar Chat
-    function initChat() {
-      chatMessages.innerHTML = '';
-      if (history.length === 0) {
-        // Mensaje de bienvenida por defecto
-        appendMessage('bot', welcomeMessage);
-        history.push({ sender: 'bot', text: welcomeMessage });
-        saveHistory();
-      } else {
-        history.forEach(msg => {
-          appendMessage(msg.sender, msg.text);
-        });
-      }
-    }
+          <!-- Interactive Topic Selector Cluster -->
 
-    // Guardar historial en LocalStorage
-    function saveHistory() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-    }
+          <div class="ct-situations-row">
 
-    // Enviar mensaje al backend
-    chatForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const text = chatInput.value.trim();
-      if (!text) return;
+            <div class="ct-situation-header">
 
-      // Desactivar entrada
-      chatInput.value = '';
-      chatInput.disabled = true;
-      chatSendBtn.disabled = true;
+              <span class="ct-situation-icon"><i class="fas fa-layer-group"></i></span>
 
-      // Añadir mensaje de usuario al DOM e historial
-      appendMessage('user', text);
-      history.push({ sender: 'user', text: text });
-      saveHistory();
+              <span class="ct-situation-label" data-i18n="contact.topic_label">¿Qué desafío te gustaría resolver?</span>
 
-      // Mostrar indicador de escribiendo
-      chatTyping.classList.remove('hidden');
-      scrollToBottom();
+            </div>
 
-      // Crear FormData con el CSRF Token y el mensaje
-      const formData = new FormData();
-      formData.append('message', text);
-      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            <div class="ct-pills-cluster">
 
-      // Hacer petición POST a public_chat
-      fetch('/app2/bot/chat/', {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': csrfToken
-        },
-        body: formData
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Servicio no disponible.');
-        }
-        return response.json();
-      })
-      .then(data => {
-        // Ocultar cargador
-        chatTyping.classList.add('hidden');
-        
-        if (data.ok) {
-          appendMessage('bot', data.reply);
-          history.push({ sender: 'bot', text: data.reply });
-          saveHistory();
-        } else {
-          const errorMsg = data.error || 'Ocurrió un inconveniente al procesar tu solicitud.';
-          appendMessage('bot', errorMsg);
-        }
-      })
-      .catch(error => {
-        chatTyping.classList.add('hidden');
-        appendMessage('bot', 'El servicio de atención no está disponible en este momento. Inténtalo más tarde.');
-        console.error('[ChatBot Error]', error);
-      })
-      .finally(() => {
-        // Reactivar controles
-        chatInput.disabled = false;
-        chatSendBtn.disabled = false;
-        chatInput.focus();
-      });
-    });
+              <button type="button" class="form-topic-btn active" data-topic="Mi presencia digital no refleja lo que construí">
 
-    // Acción para reiniciar conversación
-    chatResetBtn.addEventListener('click', function() {
-      if (confirm('¿Deseas reiniciar la conversación? Se borrará el historial.')) {
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        
-        // Petición al backend para limpiar sesión de BD
-        fetch('/app2/bot/reset_chat/', {
-          method: 'POST',
-          headers: {
-            'X-CSRFToken': csrfToken
-          }
-        })
-        .then(() => {
-          history = [];
-          localStorage.removeItem(STORAGE_KEY);
-          initChat();
-        })
-        .catch(err => {
-          console.error('[Reset Error]', err);
-          history = [];
-          localStorage.removeItem(STORAGE_KEY);
-          initChat();
-        });
-      }
-    });
+                <span>Presencia Digital</span>
 
-    // Iniciar
-    initChat();
-  });
-</script>
+              </button>
+
+              <button type="button" class="form-topic-btn" data-topic="Vendo bien pero todo pasa por WhatsApp">
+
+                <span>Ventas por WhatsApp</span>
+
+              </button>
+
+              <button type="button" class="form-topic-btn" data-topic="Mi equipo opera sin procesos claros">
+
+                <span>Procesos Internos &amp; CRM</span>
+
+              </button>
+
+              <button type="button" class="form-topic-btn" data-topic="Necesito una herramienta a medida">
+
+                <span>Herramienta a Medida</span>
+
+              </button>
+
+              <button type="button" class="form-topic-btn" data-topic="RauDie OS (SaaS Demo &amp; Planes)">
+
+                <span>RauDie OS SaaS</span>
+
+              </button>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- Modern Inputs Grid -->
+
+          <div class="ct-fields-grid">
+
+            <div class="ct-field">
+
+              <label for="contactName" class="ct-label">
+
+                <span data-i18n="contact.name_lbl">Nombre y Empresa</span>
+
+                <span class="ct-req-dot" title="Obligatorio">•</span>
+
+              </label>
+
+              <div class="ct-input-wrap">
+
+                <i class="ct-input-icon fas fa-user"></i>
+
+                <input type="text" id="contactName" name="name" class="ct-input" placeholder="Ej: Lucas Romero · Apex Logística" required>
+
+              </div>
+
+            </div>
+
+
+
+            <div class="ct-field">
+
+              <label for="contactPhone" class="ct-label">
+
+                <span data-i18n="contact.phone_lbl">Teléfono WhatsApp</span>
+
+                <span class="ct-req-dot" title="Obligatorio">•</span>
+
+              </label>
+
+              <div class="ct-input-wrap">
+
+                <i class="ct-input-icon fab fa-whatsapp"></i>
+
+                <input type="tel" id="contactPhone" name="phone" class="ct-input" placeholder="+54 9 11 1234-5678" required>
+
+              </div>
+
+            </div>
+
+
+
+            <div class="ct-field field-full">
+
+              <label for="contactEmail" class="ct-label">
+
+                <span data-i18n="contact.email_lbl">Email Corporativo</span>
+
+                <span class="ct-opt-hint">(Opcional)</span>
+
+              </label>
+
+              <div class="ct-input-wrap">
+
+                <i class="ct-input-icon fas fa-envelope"></i>
+
+                <input type="email" id="contactEmail" name="email" class="ct-input" placeholder="nombre@empresa.com">
+
+              </div>
+
+            </div>
+
+
+
+            <div class="ct-field field-full">
+
+              <label for="contactMessage" class="ct-label">
+
+                <span data-i18n="contact.msg_lbl">Cuéntame sobre tu proyecto u operación</span>
+
+                <span class="ct-req-dot" title="Obligatorio">•</span>
+
+              </label>
+
+              <div class="ct-input-wrap ct-textarea-wrap">
+
+                <i class="ct-input-icon fas fa-comment-alt"></i>
+
+                <textarea id="contactMessage" name="message" class="ct-input ct-textarea" placeholder="Describe brevemente qué necesitas resolver o qué cuellos de botella enfrenta tu operación..." required></textarea>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="ct-submit-row">
+
+            <button type="submit" class="btn-ct-submit" id="contactSubmitBtn">
+
+              <span data-i18n="contact.btn_send">Enviar Consulta</span>
+
+              <span class="btn-arrow-circle"><i class="fas fa-arrow-right"></i></span>
+
+            </button>
+
+            <a href="https://wa.me/5491172341870" target="_blank" class="ct-wa-direct-pill">
+
+              <i class="fab fa-whatsapp"></i>
+
+              <span data-i18n="contact.wa_direct">O escribir por WhatsApp directo ↗</span>
+
+            </a>
+
+          </div>
+
+
+
+        </form>
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+  </section>
+
+
+
+
+
+
+
+</main>
+
+
+
+
+
+
+
+
+
+
+
+<!-- =============================================
+
+
+
+     PROJECT CASE STUDY MODALS
+
+
+
+     ============================================= -->
+
+
+
 {% if proyectos %}
   {% for p in proyectos %}
-    <div id="projectModal{{ p.id }}" class="modern-modal">
-      <div class="modal-backdrop"></div>
-      <div class="modal-container">
-        <div class="modal-header">
-          <div class="modal-title">
-            <h2>{{ p.titulo }}{% if p.cliente %} | {{ p.cliente }}{% endif %}</h2>
-            <div class="modal-subtitle">{% for c in p.categorias.all %}{% if forloop.first %}{{ c.nombre }}{% endif %}{% endfor %}</div>
-          </div>
-          <button class="modal-close">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-        <div class="modal-content">
-          <div class="modal-gallery">
-            <div class="gallery-main">
-              {% if p.fotos %}
-                <img id="mainImage{{ p.id }}" src="{{ p.fotos.0 }}" alt="{{ p.titulo }}">
-              {% else %}
-                <img id="mainImage{{ p.id }}" src="{% static 'assets/img/proyectos/proyecto-1.png' %}" alt="{{ p.titulo }}">
-              {% endif %}
-              <div class="gallery-controls">
-                <button class="gallery-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
-                <button class="gallery-btn next-btn"><i class="fas fa-chevron-right"></i></button>
-              </div>
-              <div class="gallery-counter">
-                <span class="current-slide">1</span> / <span class="total-slides">{% if p.fotos %}{{ p.fotos|length }}{% else %}1{% endif %}</span>
-              </div>
-            </div>
-            <div class="gallery-thumbnails">
-              {% if p.fotos %}
-                {% for foto in p.fotos %}
-                  <div class="thumbnail{% if forloop.first %} active{% endif %}" data-image="{{ foto }}">
-                    <img src="{{ foto }}" alt="{{ p.titulo }} mini">
+    <div id="projectModal{{ p.id }}" class="clean-modal" data-modal="project">
+      <div class="clean-modal-backdrop"></div>
+      <div class="clean-modal-dialog">
+        <button type="button" class="clean-modal-close" aria-label="Cerrar modal">&times;</button>
+        <div class="clean-modal-content">
+          <div class="modal-proj-split">
+            <div class="modal-media-col">
+              <!-- Browser Mockup Window -->
+              <div class="modal-browser-frame">
+                <div class="modal-browser-header">
+                  <div class="browser-dots">
+                    <span class="b-dot dot-red"></span>
+                    <span class="b-dot dot-yellow"></span>
+                    <span class="b-dot dot-green"></span>
                   </div>
-                {% endfor %}
-              {% else %}
-                <div class="thumbnail active" data-image="{% static 'assets/img/proyectos/proyecto-1.png' %}">
-                  <img src="{% static 'assets/img/proyectos/proyecto-1.png' %}" alt="{{ p.titulo }} mini">
+                  <div class="browser-address-bar">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <span>raudie.dev/proyectos/{{ p.titulo|slugify }}</span>
+                  </div>
+                </div>
+                <div class="modal-main-img-box">
+                  {% if p.fotos %}
+                    <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}" id="modalMainImg{{ p.id }}" class="modal-main-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80';">
+                  {% elif p.imagen %}
+                    <img src="{{ p.imagen.url }}" alt="{{ p.titulo }}" id="modalMainImg{{ p.id }}" class="modal-main-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80';">
+                  {% else %}
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="{{ p.titulo }}" id="modalMainImg{{ p.id }}" class="modal-main-img">
+                  {% endif %}
+                </div>
+              </div>
+
+              {% if p.fotos and p.fotos|length > 1 %}
+                <div class="modal-thumbs-row">
+                  {% for foto in p.fotos %}
+                    <div class="thumb-box {% if forloop.first %}active{% endif %}" data-target="modalMainImg{{ p.id }}" data-src="{{ foto }}">
+                      <img src="{{ foto }}" alt="{{ p.titulo }} vista {{ forloop.counter }}">
+                    </div>
+                  {% endfor %}
                 </div>
               {% endif %}
             </div>
-          </div>
-          <div class="modal-info">
-            <div class="project-details">
-              <h3>Descripción del Proyecto</h3>
-              <p>{{ p.descripcion }}</p>
-              {% if p.caracteristicas %}
-                <div class="project-features">
-                  <h4>Características principales:</h4>
-                  <ul>
-                    {% for feat in p.caracteristicas %}
-                      <li><i class="fas fa-check"></i> {{ feat }}</li>
+
+            <div class="modal-details-col">
+              <div>
+                <div class="modal-tags-row">
+                  {% for c in p.categorias.all %}
+                    <span class="cap-tag">{{ c.nombre }}</span>
+                  {% empty %}
+                    <span class="cap-tag">Sistemas</span>
+                  {% endfor %}
+                </div>
+                <h3 class="section-h2-title" style="font-size: 26px; line-height: 1.2; margin-bottom: 6px; text-align: left;">{{ p.titulo }}</h3>
+                <span class="section-head-hint" style="color: #6B7280; font-size: 13px;">Cliente: {{ p.cliente|default:"RauDie Ecosystem" }}</span>
+              </div>
+
+              <div class="modal-desc-text">
+                <p>{{ p.descripcion }}</p>
+                {% if p.caracteristicas %}
+                  <ul style="margin: 10px 0 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 5px;">
+                    {% for feat in p.caracteristicas|slice:":3" %}
+                      <li style="display: flex; align-items: baseline; gap: 7px; font-size: 13px; color: #4B5563;">
+                        <span style="color: var(--vinotinto); font-weight: bold; font-size: 12px;">✓</span>
+                        <span>{{ feat }}</span>
+                      </li>
                     {% endfor %}
                   </ul>
-                </div>
-              {% endif %}
-            </div>
-            <div class="project-meta">
-              <div class="meta-item">
-                <i class="fas fa-user"></i>
-                <div>
-                  <span class="meta-label">Cliente</span>
-                  <span class="meta-value">{% if p.cliente %}{{ p.cliente }}{% else %}—{% endif %}</span>
-                </div>
+                {% endif %}
               </div>
 
-              <div class="meta-item">
-                <i class="fas fa-calendar"></i>
+              <div class="modal-specs-strip">
                 <div>
-                  <span class="meta-label">Fecha</span>
-                  <span class="meta-value">{% if p.fecha %}{{ p.fecha|date:"F Y" }}{% else %}—{% endif %}</span>
+                  <span class="spec-label">AÑO DE ENTREGA</span>
+                  <span class="spec-val">{% if p.fecha %}{{ p.fecha|date:"F Y" }}{% else %}2026{% endif %}</span>
                 </div>
-              </div>
-
-              <div class="meta-item">
-                <i class="fas fa-tag"></i>
                 <div>
-                  <span class="meta-label">Categoría</span>
-                  <span class="meta-value">{% for c in p.categorias.all %}{% if forloop.first %}{{ c.nombre }}{% endif %}{% endfor %}</span>
-                </div>
-              </div>
-
-              <div class="meta-item">
-                <i class="fas fa-code"></i>
-                <div>
-                  <span class="meta-label">Tecnologías</span>
-                  <div class="tech-tags">
+                  <span class="spec-label">STACK TECNOLÓGICO</span>
+                  <span class="spec-val">
                     {% for t in p.tecnologias.all %}
-                      <span>{{ t.nombre }}</span>
+                      {{ t.nombre }}{% if not forloop.last %}, {% endif %}
                     {% empty %}
-                      <span>—</span>
+                      Django, Python, PostgreSQL
                     {% endfor %}
-                  </div>
+                  </span>
                 </div>
+              </div>
+
+              <div>
+                <div class="modal-actions-grid">
+                  <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20un%20proyecto%20similar%20a%20{{ p.titulo|urlencode }}" target="_blank" rel="noopener noreferrer" class="modal-action-btn modal-btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>Cotizar por WhatsApp</span>
+                  </a>
+                  <a href="{% url 'proyecto_detalle' p.id %}" class="modal-action-btn modal-btn-detail">
+                    <span>Ver página completa</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                </div>
+                {% if p.enlace %}
+                  <div style="margin-top: 8px;">
+                    <a href="{{ p.enlace }}" target="_blank" rel="noopener noreferrer" class="modal-demo-link">
+                      <span>Ver demo en vivo</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                    </a>
+                  </div>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -920,6 +3466,1948 @@
   {% endfor %}
 {% endif %}
 
+
+
+
+
+
+
+
+
+
+
+<!-- News Article Reader Modal -->
+
+
+
+<!-- newsReaderModal removed: news now links directly to dedicated detail page -->
+
+
+
+</div>
+
+
+
+
+
+
+
 {% endblock %}
 
-                </div>
+
+
+
+
+
+
+{% block extra_scripts %}
+
+
+
+<script>
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+
+
+
+  
+
+
+
+  // Real-time Clock Ticker
+
+
+
+  const heroLiveClock = document.getElementById('heroLiveClock');
+
+
+
+  function updateClock() {
+
+
+
+    if (heroLiveClock) {
+
+
+
+      const now = new Date();
+
+
+
+      const h = String(now.getHours()).padStart(2, '0');
+
+
+
+      const m = String(now.getMinutes()).padStart(2, '0');
+
+
+
+      const s = String(now.getSeconds()).padStart(2, '0');
+
+
+
+      heroLiveClock.innerHTML = `<i class="far fa-clock"></i> ${h}:${m}:${s} ART`;
+
+
+
+    }
+
+
+
+  }
+
+
+
+  setInterval(updateClock, 1000);
+
+
+
+  updateClock();
+
+
+
+
+
+
+
+  // Mobile Drawer Toggle
+
+
+
+  const mobileBtn = document.querySelector('.mobile-menu-btn');
+
+
+
+  const drawer = document.querySelector('.mobile-drawer');
+
+
+
+  const overlay = document.querySelector('.mobile-drawer-overlay');
+
+
+
+  const closeBtn = document.querySelector('.drawer-close');
+
+
+
+
+
+
+
+  function openDrawer() {
+
+
+
+    drawer?.classList.add('active');
+
+
+
+    overlay?.classList.add('active');
+
+
+
+    document.body.style.overflow = 'hidden';
+
+
+
+  }
+
+
+
+
+
+
+
+  function closeDrawer() {
+
+
+
+    drawer?.classList.remove('active');
+
+
+
+    overlay?.classList.remove('active');
+
+
+
+    document.body.style.overflow = '';
+
+
+
+  }
+
+
+
+
+
+
+
+  mobileBtn?.addEventListener('click', openDrawer);
+
+
+
+  closeBtn?.addEventListener('click', closeDrawer);
+
+
+
+  overlay?.addEventListener('click', closeDrawer);
+
+
+
+  document.querySelectorAll('.drawer-links a').forEach(a => a.addEventListener('click', closeDrawer));
+
+
+
+
+
+
+
+  // =============================================
+
+
+
+  // INTERACTIVE 3D RIGHT-SIDE CAROUSEL ENGINE
+
+
+
+  // =============================================
+
+
+
+  const capSection = document.getElementById('capacidades');
+
+
+
+  const capWindow = document.getElementById('capCarouselWindow');
+
+
+
+  const capTrack = document.getElementById('capCarouselTrack');
+
+
+
+  const capSlides = document.querySelectorAll('.cap-carousel-slide');
+
+
+
+  const capNavBtns = document.querySelectorAll('.cap-nav-btn');
+
+
+
+  const capActiveNumEl = document.getElementById('capActiveNum');
+
+
+
+  const capPrevBtn = document.getElementById('capPrevBtn');
+
+
+
+  const capNextBtn = document.getElementById('capNextBtn');
+
+
+
+
+
+
+
+  if (capSection && capTrack && capSlides.length > 0) {
+
+
+
+    const totalSlides = capSlides.length;
+
+
+
+    let targetProgress = 0;
+
+
+
+    let currentProgress = 0;
+
+
+
+    let isDragging = false;
+
+
+
+    let startX = 0;
+
+
+
+    let startProgress = 0;
+
+
+
+    let dragVelocity = 0;
+
+
+
+    let lastDragX = 0;
+
+
+
+    let lastDragTime = 0;
+
+
+
+    let animFrameId = null;
+
+
+
+
+
+
+
+    // Apply continuous 3D transforms to slides
+
+
+
+    function render() {
+
+
+
+      const diff = targetProgress - currentProgress;
+
+
+
+      currentProgress += diff * 0.12;
+
+
+
+
+
+
+
+      capTrack.style.transform = `translateX(-${currentProgress * 100}%)`;
+
+
+
+
+
+
+
+      capSlides.forEach((slide, i) => {
+
+
+
+        const dist = i - currentProgress;
+
+
+
+        const absDist = Math.abs(dist);
+
+
+
+
+
+
+
+        const scale = Math.max(0.86, 1 - absDist * 0.08);
+
+
+
+        const rotY = Math.max(-14, Math.min(14, dist * -8));
+
+
+
+        const rotZ = Math.max(-3, Math.min(3, dist * -1.5));
+
+
+
+        // Fast fade-out to 0 when exiting left so it NEVER bleeds behind left title/indicators
+
+
+
+        let opacity;
+
+
+
+        if (dist < 0) {
+
+
+
+          opacity = Math.max(0, 1 - Math.abs(dist) * 2.2);
+
+
+
+        } else {
+
+
+
+          opacity = Math.max(0.15, 1 - absDist * 0.65);
+
+
+
+        }
+
+
+
+        const blur = Math.min(5, absDist * 2.5);
+
+
+
+
+
+
+
+        const card = slide.querySelector('.cap-card');
+
+
+
+        if (card) {
+
+
+
+          card.style.transform = 'none';
+
+
+
+          card.style.opacity = opacity;
+
+
+
+          card.style.visibility = opacity < 0.02 ? 'hidden' : 'visible';
+
+
+
+          card.style.filter = blur > 0.4 ? `blur(${blur}px)` : 'none';
+
+
+
+          card.style.pointerEvents = absDist < 0.4 ? 'auto' : 'none';
+
+
+
+        }
+
+
+
+      });
+
+
+
+
+
+
+
+      const activeIdx = Math.max(0, Math.min(totalSlides - 1, Math.round(currentProgress)));
+
+
+
+      capNavBtns.forEach((btn, i) => {
+
+
+
+        btn.classList.toggle('active', i === activeIdx);
+
+
+
+      });
+
+
+
+      if (capActiveNumEl) {
+
+
+
+        capActiveNumEl.textContent = `0${activeIdx + 1}`;
+
+
+
+      }
+
+
+
+
+
+
+
+      if (Math.abs(diff) > 0.0005 || isDragging) {
+
+
+
+        animFrameId = requestAnimationFrame(render);
+
+
+
+      } else {
+
+
+
+        animFrameId = null;
+
+
+
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    function requestRender() {
+
+
+
+      if (!animFrameId) {
+
+
+
+        animFrameId = requestAnimationFrame(render);
+
+
+
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    // Scroll listener: maps vertical section scroll continuously to 0..totalSlides-1
+
+
+
+    function getScrollYForIndex(idx) {
+      const scrollableDist = capSection.offsetHeight - window.innerHeight;
+      const holdStart = 0.04;
+      const holdEnd = 0.82;
+      const ratio = idx / (totalSlides - 1);
+      const p = holdStart + ratio * (holdEnd - holdStart);
+      return capSection.offsetTop + p * scrollableDist;
+    }
+
+    function handleCapScroll() {
+      if (window.innerWidth <= 960 || isDragging) return;
+
+      const rect = capSection.getBoundingClientRect();
+      const scrollableDist = capSection.offsetHeight - window.innerHeight;
+      if (scrollableDist <= 0) return;
+
+      const scrolled = -rect.top;
+
+      if (scrolled >= 0 && scrolled <= scrollableDist) {
+        const p = scrolled / scrollableDist;
+        const holdStart = 0.04;
+        const holdEnd = 0.82;
+
+        let t;
+        if (p <= holdStart) {
+          t = 0;
+        } else if (p >= holdEnd) {
+          t = totalSlides - 1;
+        } else {
+          t = ((p - holdStart) / (holdEnd - holdStart)) * (totalSlides - 1);
+        }
+
+        targetProgress = t;
+        requestRender();
+      } else if (scrolled < 0) {
+        targetProgress = 0;
+        requestRender();
+      } else if (scrolled > scrollableDist) {
+        targetProgress = totalSlides - 1;
+        requestRender();
+      }
+    }
+
+    window.addEventListener('scroll', handleCapScroll, { passive: true });
+
+
+
+
+
+
+
+    // Interactive Drag / Swipe on Carousel Window
+
+
+
+    function startDrag(clientX) {
+
+
+
+      isDragging = true;
+
+
+
+      startX = clientX;
+
+
+
+      startProgress = targetProgress;
+
+
+
+      lastDragX = clientX;
+
+
+
+      lastDragTime = performance.now();
+
+
+
+      dragVelocity = 0;
+
+
+
+      capWindow?.classList.add('is-dragging');
+
+
+
+      requestRender();
+
+
+
+    }
+
+
+
+
+
+
+
+    function moveDrag(clientX) {
+
+
+
+      if (!isDragging) return;
+
+
+
+      const now = performance.now();
+
+
+
+      const dt = Math.max(1, now - lastDragTime);
+
+
+
+      const dx = clientX - lastDragX;
+
+
+
+      dragVelocity = dx / dt;
+
+
+
+      lastDragX = clientX;
+
+
+
+      lastDragTime = now;
+
+
+
+
+
+
+
+      const windowWidth = capWindow.offsetWidth || 500;
+
+
+
+      const progressDelta = -(clientX - startX) / windowWidth;
+
+
+
+      targetProgress = Math.max(-0.2, Math.min(totalSlides - 0.8, startProgress + progressDelta));
+
+
+
+      requestRender();
+
+
+
+    }
+
+
+
+
+
+
+
+    function endDrag() {
+
+
+
+      if (!isDragging) return;
+
+
+
+      isDragging = false;
+
+
+
+      capWindow?.classList.remove('is-dragging');
+
+
+
+
+
+
+
+      let snapTarget = Math.round(targetProgress);
+
+
+
+      if (dragVelocity < -0.35 && targetProgress < totalSlides - 1) {
+
+
+
+        snapTarget = Math.ceil(targetProgress);
+
+
+
+      } else if (dragVelocity > 0.35 && targetProgress > 0) {
+
+
+
+        snapTarget = Math.floor(targetProgress);
+
+
+
+      }
+
+
+
+      snapTarget = Math.max(0, Math.min(totalSlides - 1, snapTarget));
+
+
+
+
+
+
+
+      targetProgress = snapTarget;
+
+
+
+      requestRender();
+
+
+
+
+
+
+
+      if (window.innerWidth > 960) {
+
+
+
+        const scrollableDist = capSection.offsetHeight - window.innerHeight;
+
+
+
+        const targetY = getScrollYForIndex(snapTarget);
+
+
+
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+
+
+
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    let touchStartX = 0;
+
+
+
+    let touchStartY = 0;
+
+
+
+    let gestureIntent = null; // null | 'horizontal' | 'vertical'
+
+
+
+
+
+
+
+    capWindow?.addEventListener('pointerdown', (e) => {
+
+
+
+      if (e.target.closest('button, a, input, textarea')) return;
+
+
+
+      touchStartX = e.clientX;
+
+
+
+      touchStartY = e.clientY;
+
+
+
+      gestureIntent = null;
+
+
+
+      if (e.pointerType === 'mouse') {
+
+
+
+        gestureIntent = 'horizontal';
+
+
+
+        startDrag(e.clientX);
+
+
+
+        try { capWindow.setPointerCapture(e.pointerId); } catch(_) {}
+
+
+
+      }
+
+
+
+    });
+
+
+
+
+
+
+
+    capWindow?.addEventListener('pointermove', (e) => {
+
+
+
+      if (gestureIntent === 'vertical') return;
+
+
+
+
+
+
+
+      if (!gestureIntent && e.pointerType !== 'mouse') {
+
+
+
+        const dx = Math.abs(e.clientX - touchStartX);
+
+
+
+        const dy = Math.abs(e.clientY - touchStartY);
+
+
+
+        if (dy > 9 && dy > dx) {
+
+
+
+          // Vertical scroll detected: release drag intent to let page scroll naturally
+
+
+
+          gestureIntent = 'vertical';
+
+
+
+          return;
+
+
+
+        } else if (dx > 9 && dx >= dy) {
+
+
+
+          // Horizontal swipe detected
+
+
+
+          gestureIntent = 'horizontal';
+
+
+
+          startDrag(touchStartX);
+
+
+
+          try { capWindow.setPointerCapture(e.pointerId); } catch(_) {}
+
+
+
+        }
+
+
+
+      }
+
+
+
+
+
+
+
+      if (isDragging && gestureIntent === 'horizontal') {
+
+
+
+        moveDrag(e.clientX);
+
+
+
+      }
+
+
+
+    });
+
+
+
+
+
+
+
+    capWindow?.addEventListener('pointerup', (e) => {
+
+
+
+      if (isDragging) {
+
+
+
+        endDrag();
+
+
+
+        try { capWindow.releasePointerCapture(e.pointerId); } catch(_) {}
+
+
+
+      }
+
+
+
+      gestureIntent = null;
+
+
+
+    });
+
+
+
+
+
+
+
+    capWindow?.addEventListener('pointercancel', (e) => {
+
+
+
+      if (isDragging) {
+
+
+
+        endDrag();
+
+
+
+        try { capWindow.releasePointerCapture(e.pointerId); } catch(_) {}
+
+
+
+      }
+
+
+
+      gestureIntent = null;
+
+
+
+    });
+
+
+
+
+
+
+
+    // 3D tilt movement removed for stability and flat presentation
+
+
+
+
+
+
+
+    // Click indicators
+
+
+
+    capNavBtns.forEach((btn, idx) => {
+
+
+
+      btn.addEventListener('click', () => {
+
+
+
+        targetProgress = idx;
+
+
+
+        requestRender();
+
+
+
+        if (window.innerWidth > 960) {
+
+
+
+          const scrollableDist = capSection.offsetHeight - window.innerHeight;
+
+
+
+          const targetY = getScrollYForIndex(idx);
+
+
+
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+
+
+
+        }
+
+
+
+      });
+
+
+
+    });
+
+
+
+
+
+
+
+    // Arrow navigation
+
+
+
+    capPrevBtn?.addEventListener('click', () => {
+
+
+
+      const prevIdx = Math.max(0, Math.round(targetProgress) - 1);
+
+
+
+      targetProgress = prevIdx;
+
+
+
+      requestRender();
+
+
+
+      if (window.innerWidth > 960) {
+
+
+
+        const scrollableDist = capSection.offsetHeight - window.innerHeight;
+
+
+
+        const targetY = getScrollYForIndex(prevIdx);
+
+
+
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+
+
+
+      }
+
+
+
+    });
+
+
+
+
+
+
+
+    capNextBtn?.addEventListener('click', () => {
+
+
+
+      const nextIdx = Math.min(totalSlides - 1, Math.round(targetProgress) + 1);
+
+
+
+      targetProgress = nextIdx;
+
+
+
+      requestRender();
+
+
+
+      if (window.innerWidth > 960) {
+
+
+
+        const scrollableDist = capSection.offsetHeight - window.innerHeight;
+
+
+
+        const targetY = getScrollYForIndex(nextIdx);
+
+
+
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+
+
+
+      }
+
+
+
+    });
+
+
+
+
+
+
+
+    // Initial render
+
+
+
+    requestRender();
+
+
+
+  }
+
+
+
+
+
+
+
+    // Diagnostic Situation Buttons -> Preselects form & scrolls to #contact
+
+
+
+  const triggerSituationBtns = document.querySelectorAll('.trigger-situation');
+
+
+
+  const topicBtns = document.querySelectorAll('.form-topic-btn');
+
+
+
+  const messageArea = document.getElementById('contactMessage');
+
+
+
+  const contactSection = document.getElementById('contact');
+
+
+
+
+
+
+
+  triggerSituationBtns.forEach(btn => {
+
+
+
+    btn.addEventListener('click', function(e) {
+
+
+
+      e.preventDefault();
+
+
+
+      const topic = this.getAttribute('data-topic');
+
+
+
+      
+
+
+
+      // Select corresponding pill in contact form
+
+
+
+      topicBtns.forEach(p => {
+
+
+
+        if (p.getAttribute('data-topic') === topic) {
+
+
+
+          p.classList.add('active');
+
+
+
+        } else {
+
+
+
+          p.classList.remove('active');
+
+
+
+        }
+
+
+
+      });
+
+
+
+
+
+
+
+      const isEnglish = document.documentElement.getAttribute('lang') === 'en';
+
+
+
+      if (messageArea) {
+
+
+
+        if (isEnglish) {
+
+
+
+          messageArea.value = `Hello RauDie! I'm reaching out regarding: "${topic}".
+
+
+
+
+
+
+
+Our current situation: `;
+
+
+
+        } else {
+
+
+
+          messageArea.value = `¡Hola RauDie! Me pongo en contacto sobre la situación: "${topic}".
+
+
+
+
+
+
+
+Nuestra situación actual: `;
+
+
+
+        }
+
+
+
+      }
+
+
+
+
+
+
+
+      if (contactSection) {
+
+
+
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+
+
+
+        setTimeout(() => messageArea?.focus(), 700);
+
+
+
+      }
+
+
+
+    });
+
+
+
+  });
+
+
+
+
+
+
+
+  // Topic pills in contact form
+
+
+
+  topicBtns.forEach(btn => {
+
+
+
+    btn.addEventListener('click', function() {
+
+
+
+      topicBtns.forEach(b => b.classList.remove('active'));
+
+
+
+      this.classList.add('active');
+
+
+
+      const topic = this.getAttribute('data-topic');
+
+
+
+      const isEnglish = document.documentElement.getAttribute('lang') === 'en';
+
+
+
+      if (messageArea) {
+
+
+
+        if (isEnglish) {
+
+
+
+          messageArea.value = `Hello RauDie! Inquiring regarding: ${topic}.
+
+
+
+
+
+
+
+Requirements: `;
+
+
+
+        } else {
+
+
+
+          messageArea.value = `¡Hola RauDie! Me pongo en contacto para consultar sobre: ${topic}.
+
+
+
+
+
+
+
+Requerimiento: `;
+
+
+
+        }
+
+
+
+        messageArea.focus();
+
+
+
+      }
+
+
+
+    });
+
+
+
+  });
+
+
+
+
+
+
+
+  // Work Filters
+
+
+
+  const filterPills = document.querySelectorAll('.filter-pill');
+
+
+
+  const workItems = document.querySelectorAll('.work-item-card');
+
+
+
+  filterPills.forEach(pill => {
+
+
+
+    pill.addEventListener('click', function() {
+
+
+
+      filterPills.forEach(p => p.classList.remove('active'));
+
+
+
+      this.classList.add('active');
+
+
+
+      const filter = this.getAttribute('data-filter');
+
+
+
+      workItems.forEach(card => {
+
+
+
+        const cat = card.getAttribute('data-category') || '';
+
+
+
+        if (filter === 'all' || cat.toLowerCase().includes(filter.toLowerCase())) {
+
+
+
+          card.style.display = 'flex';
+
+
+
+        } else {
+
+
+
+          card.style.display = 'none';
+
+
+
+        }
+
+
+
+      });
+
+
+
+    });
+
+
+
+  });
+
+
+
+
+
+
+
+  // Project Modals
+
+
+
+  document.querySelectorAll('.work-item-card').forEach(card => {
+
+
+
+    card.addEventListener('click', function() {
+
+
+
+      const pid = this.getAttribute('data-project');
+
+
+
+      const modal = document.getElementById(`projectModal${pid}`);
+
+
+
+      if (modal) {
+
+
+
+        modal.classList.add('active');
+
+
+
+        document.body.style.overflow = 'hidden';
+
+
+
+      }
+
+
+
+    });
+
+
+
+  });
+
+
+
+
+
+
+
+  // Modal Closers
+
+
+
+  document.querySelectorAll('.clean-modal-close, .clean-modal-backdrop, .close-modal-trigger').forEach(btn => {
+
+
+
+    btn.addEventListener('click', function() {
+
+
+
+      document.querySelectorAll('.clean-modal').forEach(m => m.classList.remove('active'));
+
+
+
+      document.body.style.overflow = '';
+
+
+
+    });
+
+
+
+  });
+
+
+
+
+
+
+
+  // Thumbnail Switcher
+
+
+
+  document.querySelectorAll('.modal-thumbs-row .thumb-box').forEach(thumb => {
+
+
+
+    thumb.addEventListener('click', function() {
+
+
+
+      const targetImgId = this.getAttribute('data-target');
+
+
+
+      const newSrc = this.getAttribute('data-src');
+
+
+
+      const mainImg = document.getElementById(targetImgId);
+
+
+
+      if (mainImg && newSrc) {
+
+
+
+        mainImg.src = newSrc;
+
+
+
+        this.parentElement.querySelectorAll('.thumb-box').forEach(t => t.classList.remove('active'));
+
+
+
+        this.classList.add('active');
+
+
+
+      }
+
+
+
+    });
+
+
+
+  });
+
+
+
+
+
+
+
+  // News Modal Reader removed (links directly to dedicated page)
+
+
+
+
+
+
+
+  // Contact Form Submission & WhatsApp Link Dispatch
+
+
+
+  const contactForm = document.getElementById('contactForm');
+
+
+
+  if (contactForm) {
+
+
+
+    contactForm.addEventListener('submit', async function(e) {
+
+
+
+      e.preventDefault();
+
+
+
+
+
+
+
+      const name = document.getElementById('contactName')?.value.trim() || '';
+
+
+
+      const phone = document.getElementById('contactPhone')?.value.trim() || '';
+
+
+
+      const email = document.getElementById('contactEmail')?.value.trim() || '';
+
+
+
+      const message = document.getElementById('contactMessage')?.value.trim() || '';
+
+
+
+      const submitBtn = document.getElementById('contactSubmitBtn');
+
+
+
+      const isEnglish = document.documentElement.getAttribute('lang') === 'en';
+
+
+
+
+
+
+
+      if (!name || !phone || !message) {
+
+
+
+        alert(isEnglish ? 'Please complete all required fields.' : 'Por favor completa los campos requeridos.');
+
+
+
+        return;
+
+
+
+      }
+
+
+
+
+
+
+
+      const originalBtnHTML = submitBtn.innerHTML;
+
+
+
+      submitBtn.innerHTML = `<span>${isEnglish ? 'Sending...' : 'Enviando...'}</span> <i class="fas fa-spinner fa-spin"></i>`;
+
+
+
+      submitBtn.disabled = true;
+
+
+
+
+
+
+
+      try {
+
+
+
+        const formData = new FormData();
+
+
+
+        formData.append('name', name);
+
+
+
+        formData.append('phone', phone);
+
+
+
+        formData.append('email', email);
+
+
+
+        formData.append('message', message);
+
+
+
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+
+
+
+
+
+
+
+        await fetch('/guardar-contacto/', {
+
+
+
+          method: 'POST',
+
+
+
+          headers: { 'X-CSRFToken': csrfToken },
+
+
+
+          body: formData
+
+
+
+        });
+
+
+
+      } catch (err) {
+
+
+
+        console.warn('Registro guardado:', err);
+
+
+
+      }
+
+
+
+
+
+
+
+      let waText = '';
+
+
+
+      if (isEnglish) {
+
+
+
+        waText = `Hello RauDie! I am contacting you from your website.
+
+
+
+
+
+
+
+Client:
+
+
+
+- Name: ${name}
+
+
+
+- Phone: ${phone}
+
+
+
+- Email: ${email}
+
+
+
+
+
+
+
+Project Scope:
+
+
+
+${message}`;
+
+
+
+      } else {
+
+
+
+        waText = `¡Hola RauDie! Me pongo en contacto desde su sitio web.
+
+
+
+
+
+
+
+Identificación:
+
+
+
+- Nombre: ${name}
+
+
+
+- Teléfono: ${phone}
+
+
+
+- Email: ${email}
+
+
+
+
+
+
+
+Requerimiento / Situación:
+
+
+
+${message}`;
+
+
+
+      }
+
+
+
+
+
+
+
+      const targetPhone = "5491172341870";
+
+
+
+      const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(waText)}`;
+
+
+
+      window.open(whatsappUrl, '_blank');
+
+
+
+
+
+
+
+      submitBtn.innerHTML = `<span>${isEnglish ? 'Sent!' : '¡Enviado!'}</span> <i class="fas fa-check"></i>`;
+
+
+
+      submitBtn.style.background = '#10b981';
+
+
+
+
+
+
+
+      setTimeout(() => {
+
+
+
+        contactForm.reset();
+
+
+
+        submitBtn.innerHTML = originalBtnHTML;
+
+
+
+        submitBtn.disabled = false;
+
+
+
+        submitBtn.style.background = '';
+
+
+
+      }, 3500);
+
+
+
+    });
+
+
+
+  }
+
+
+
+
+
+
+
+});
+
+
+
+</script>
+
+
+
+{% endblock %}
+
+
+
