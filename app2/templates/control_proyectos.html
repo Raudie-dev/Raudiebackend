@@ -1,50 +1,159 @@
 {% extends 'base.html' %}
 
-{% block title %}Control de Proyectos{% endblock %}
+{% block title %}Portafolio & Proyectos — RauDie OS{% endblock %}
+
+{% block extra_head %}
+<style>
+  .editorial-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(27, 23, 23, 0.08);
+  }
+  .editorial-eyebrow-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #EDEBDD;
+    color: #1B1717;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .editorial-eyebrow-pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #810100;
+  }
+  .editorial-page-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1B1717;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0 0 6px 0;
+  }
+  .editorial-page-title .serif-italic {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    color: #810100;
+    font-size: 1.08em;
+  }
+  .editorial-stats-strip {
+    background: #FFFFFF;
+    border: 1px solid rgba(27, 23, 23, 0.08);
+    border-radius: 16px;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    box-shadow: 0 8px 24px -6px rgba(27, 23, 23, 0.04);
+    margin-bottom: 28px;
+  }
+  .editorial-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #4A4444;
+  }
+  .editorial-stat-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #EDEBDD;
+    color: #630000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+  }
+  .editorial-stat-item strong {
+    font-weight: 800;
+    color: #1B1717;
+    font-size: 1.02rem;
+  }
+  .proyectos-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)) !important;
+    gap: 24px !important;
+  }
+  .proyecto-card__image {
+    height: 215px !important;
+    background: #1B1717 !important;
+  }
+  .proyecto-card__image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid px-0">
 
-  <!-- ── PAGE HEADER ── -->
-  <div class="row align-items-center mb-4 mt-2">
-    <div class="col">
-      <h1 class="h3 mb-1 text-gray-800 fw-bold">Control de Proyectos</h1>
-      <p class="text-muted mb-0">Gestiona tus proyectos, categorías y tecnologías</p>
+  <!-- ── PAGE HEADER (RauDie '26 Editorial Style) ── -->
+  <div class="editorial-page-header">
+    <div>
+      <div class="editorial-eyebrow-pill">
+        <span class="dot"></span> PORTAFOLIO EN VIVO (#WORK)
+      </div>
+      <h1 class="editorial-page-title">
+        Proyectos &amp; <span class="serif-italic">Casos de Éxito</span>
+      </h1>
+      <p class="text-muted mb-0" style="font-size: 0.92rem;">
+        Gestiona las entregas, arquitecturas y casos de estudio publicados en la página principal
+      </p>
     </div>
-    <div class="col-auto d-flex gap-2">
+    <div class="d-flex flex-wrap gap-2">
       <button class="btn btn-outline-info rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalNuevaCategoria">
         <i class="fas fa-layer-group me-1"></i>Nueva Categoría
       </button>
       <button class="btn btn-outline-info rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalNuevaTecnologia">
         <i class="fas fa-code me-1"></i>Nueva Tecnología
       </button>
-      <button id="btnAgregarProyecto" class="btn btn-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalProyecto">
+      <button id="btnAgregarProyecto" class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#modalProyecto">
         <i class="fas fa-plus me-1"></i>Nuevo Proyecto
       </button>
     </div>
   </div>
 
   <!-- ── STATS BAR ── -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <div class="card border-0 shadow-sm rounded-4 bg-white p-3 d-flex flex-row align-items-center gap-4">
-        <div class="d-flex align-items-center gap-2">
-          <i class="fas fa-folder text-primary fa-lg"></i>
-          <span><strong>{{ proyectos|length }}</strong> proyecto{{ proyectos|length|pluralize:",s" }}</span>
-        </div>
-        {% if categorias %}
-        <div class="d-flex align-items-center gap-2 border-start ps-3">
-          <i class="fas fa-layer-group text-info fa-lg"></i>
-          <span><strong>{{ categorias|length }}</strong> categoría{{ categorias|length|pluralize:",s" }}</span>
-        </div>
-        {% endif %}
-        {% if tecnologias %}
-        <div class="d-flex align-items-center gap-2 border-start ps-3">
-          <i class="fas fa-code text-info fa-lg"></i>
-          <span><strong>{{ tecnologias|length }}</strong> tecnología{{ tecnologias|length|pluralize:",s" }}</span>
-        </div>
-        {% endif %}
-      </div>
+  <div class="editorial-stats-strip">
+    <div class="editorial-stat-item">
+      <span class="editorial-stat-icon"><i class="fas fa-laptop-code"></i></span>
+      <span><strong>{{ proyectos|length }}</strong> proyecto{{ proyectos|length|pluralize:",s" }} publicado{{ proyectos|length|pluralize:",s" }}</span>
+    </div>
+    {% if categorias %}
+    <div class="editorial-stat-item border-start ps-4">
+      <span class="editorial-stat-icon"><i class="fas fa-layer-group"></i></span>
+      <span><strong>{{ categorias|length }}</strong> categoría{{ categorias|length|pluralize:",s" }}</span>
+    </div>
+    {% endif %}
+    {% if tecnologias %}
+    <div class="editorial-stat-item border-start ps-4">
+      <span class="editorial-stat-icon"><i class="fas fa-code"></i></span>
+      <span><strong>{{ tecnologias|length }}</strong> tecnología{{ tecnologias|length|pluralize:",s" }} en stack</span>
+    </div>
+    {% endif %}
+    <div class="ms-auto d-none d-md-flex align-items-center gap-2">
+      <a href="/#work" target="_blank" style="font-size: 0.8rem; font-weight: 700; color: #810100; text-decoration: none;">
+        Ver sección en la Landing <i class="fas fa-arrow-up-right-from-square ms-1" style="font-size: 0.7rem;"></i>
+      </a>
     </div>
   </div>
 

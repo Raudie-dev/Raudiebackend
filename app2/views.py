@@ -17,9 +17,10 @@ import uuid, os, requests, PyPDF2, docx, re, base64
 import json as json_mod
 import pandas as pd
 from PIL import Image, UnidentifiedImageError
-from .models import User_admin, ConfigBot, TelegramMessage, ContextFile, Departamento, Agente, ClienteConsulta, CostItem, ProjectHourlyRate, ProjectCostType, IncomeRecord, ExpenseRecord
+from .models import User_admin, ConfigBot, TelegramMessage, ContextFile, Departamento, Agente, ClienteConsulta, CostItem, ProjectHourlyRate, ProjectCostType, IncomeRecord, ExpenseRecord, PublicacionMarketing
 from .crypto import encrypt_value, decrypt_value
-from app1.models import Categoria, Tecnologia
+from app1.models import Categoria, Tecnologia, Contacto, Proyecto, Noticia, Servicios
+from django.db.models import Sum
 from .crud import (
     crear_servicio, obtener_servicios, eliminar_servicio, actualizar_servicio,
     crear_proyecto, obtener_proyectos, eliminar_proyecto, actualizar_proyecto
@@ -87,7 +88,7 @@ def login(request):
             elif user.password == password or check_password(password, user.password):
                 request.session['user_admin_id'] = user.id
                 if user.nombre == 'admin':
-                    return redirect('control_servicios')
+                    return redirect('estado')
                 user_perms = user.permisos or []
                 for p in ['control_servicios', 'control_proyectos', 'marketing', 'estado', 'conversaciones', 'configuracion', 'telegram_configuracion', 'departamentos', 'agentes', 'contabilidad_costos', 'contabilidad_finanzas', 'generar_cotizacion', 'control_usuarios']:
                     if p in user_perms:
@@ -115,64 +116,23 @@ def control_servicios(request):
         messages.error(request, 'Usuario no encontrado')
         return redirect('login')
 
-    # CRUD Servicios - crear
-    if request.method == 'POST' and 'crear_servicio' in request.POST:
-        nombre = request.POST.get('nombre', '').strip()
-        titulo = request.POST.get('titulo', '').strip()
-        precio = request.POST.get('precio', '').strip()
-        descripcion = request.POST.get('descripcion', '').strip()
-        caracteristicas_txt = request.POST.get('caracteristicas', '').strip()
-        foto = request.FILES.get('foto')
+    # Los servicios oficiales están definidos en código fuente (app1/services_data.py)
+    # y no son modificables desde el panel.
+    if request.method == 'POST':
+        messages.info(
+            request,
+            'Los servicios oficiales de RauDie están definidos en código (app1/services_data.py) '
+            'para mantener la identidad visual y no son modificables desde el panel.'
+        )
+        return redirect('control_servicios')
 
-        if not nombre or not precio:
-            messages.error(request, 'Nombre y precio son obligatorios')
-        else:
-            try:
-                precio_val = float(precio)
-                caracteristicas = [c.strip() for c in caracteristicas_txt.split(',') if c.strip()]
-                foto_path = None
-                if foto:
-                    foto_path = save_image_as_webp(foto, 'servicios')
-                crear_servicio(nombre, titulo, precio_val, descripcion, caracteristicas, foto_path)
-                messages.success(request, 'Servicio creado correctamente')
-                return redirect('control_servicios')
-            except ValueError:
-                messages.error(request, 'Precio inválido')
-
-    # editar servicio
-    if request.method == 'POST' and 'editar_servicio' in request.POST:
-        servicio_id = request.POST.get('editar_servicio_id')
-        nombre = request.POST.get('nombre', '').strip()
-        titulo = request.POST.get('titulo', '').strip()
-        precio = request.POST.get('precio', '').strip()
-        descripcion = request.POST.get('descripcion', '').strip()
-        caracteristicas_txt = request.POST.get('caracteristicas', '').strip()
-        foto = request.FILES.get('foto')
-
-        if not servicio_id:
-            messages.error(request, 'ID de servicio faltante')
-        else:
-            try:
-                precio_val = float(precio) if precio else None
-                caracteristicas = [c.strip() for c in caracteristicas_txt.split(',') if c.strip()] if caracteristicas_txt != '' else None
-                foto_path = None
-                if foto:
-                    foto_path = save_image_as_webp(foto, 'servicios')
-                actualizar_servicio(servicio_id, nombre=nombre or None, titulo=titulo or None, precio=precio_val, descripcion=descripcion or None, caracteristicas=caracteristicas, foto=foto_path)
-                messages.success(request, 'Servicio actualizado correctamente')
-                return redirect('control_servicios')
-            except ValueError:
-                messages.error(request, 'Precio inválido')
-
-    # eliminar servicio
-    if request.method == 'POST' and 'eliminar_servicio' in request.POST:
-        servicio_id = request.POST.get('eliminar_servicio')
-        if servicio_id:
-            eliminar_servicio(servicio_id)
-            messages.success(request, 'Servicio eliminado')
-
-    servicios = obtener_servicios()
-    return render(request, 'control_servicios.html', {'servicios': servicios, 'user': user})
+    from app1.services_data import get_servicios
+    servicios = get_servicios()
+    return render(request, 'control_servicios.html', {
+        'servicios': servicios,
+        'user': user,
+        'servicios_en_codigo': True
+    })
 
 # NUEVA/ACTUALIZADA: control_proyectos con manejo de categorias/tecnologias
 @admin_permission_required('control_proyectos')
@@ -424,7 +384,53 @@ def estado(request):
             'status': bot_status
         })
 
-    return render(request, 'control.html', {'bot_statuses': bot_statuses, 'user': user})
+    # Métricas y Datos Operativos en Tiempo Real
+    total_contactos = Contacto.objects.count()
+    ultimos_contactos = Contacto.objects.order_by('-fecha_creacion')[:6]
+
+    total_proyectos = Proyecto.objects.count()
+    ultimos_proyectos = Proyecto.objects.prefetch_related('categorias', 'tecnologias').order_by('-id')[:4]
+
+    total_noticias = Noticia.objects.count()
+    ultimas_noticias = Noticia.objects.order_by('-fecha', '-id')[:3]
+
+    # Finanzas
+    finanzas_ingresos = IncomeRecord.objects.aggregate(total=Sum('monto_usd'))['total'] or 0
+    finanzas_gastos = ExpenseRecord.objects.aggregate(total=Sum('monto_usd'))['total'] or 0
+    balance_neto = finanzas_ingresos - finanzas_gastos
+
+    # Marketing / Contenido
+    from django.utils import timezone
+    hoy = timezone.now().date()
+    proximas_publicaciones = PublicacionMarketing.objects.filter(fecha__gte=hoy).order_by('fecha')[:4]
+    if not proximas_publicaciones.exists():
+        proximas_publicaciones = PublicacionMarketing.objects.order_by('-fecha')[:4]
+    total_marketing = PublicacionMarketing.objects.count()
+
+    total_usuarios = User_admin.objects.count()
+    total_mensajes_bot = TelegramMessage.objects.filter(bot=bot).count() if bot else 0
+
+    context = {
+        'user': user,
+        'bot_statuses': bot_statuses,
+        'bot': bot,
+        'total_contactos': total_contactos,
+        'ultimos_contactos': ultimos_contactos,
+        'total_proyectos': total_proyectos,
+        'ultimos_proyectos': ultimos_proyectos,
+        'total_noticias': total_noticias,
+        'ultimas_noticias': ultimas_noticias,
+        'finanzas_ingresos': finanzas_ingresos,
+        'finanzas_gastos': finanzas_gastos,
+        'balance_neto': balance_neto,
+        'total_marketing': total_marketing,
+        'proximas_publicaciones': proximas_publicaciones,
+        'total_usuarios': total_usuarios,
+        'total_mensajes_bot': total_mensajes_bot,
+        'fecha_hoy': hoy,
+    }
+
+    return render(request, 'control.html', context)
 
 @admin_permission_required('configuracion')
 def configuracion(request):
@@ -2331,3 +2337,84 @@ def contactos_web_view(request):
     contactos_web = Contacto.objects.all().order_by('-fecha_creacion')
     
     return render(request, 'contactos_web.html', {'user': user, 'contactos_web': contactos_web})
+
+
+def control_noticias(request):
+    user = _get_session_user(request)
+    if not user:
+        messages.error(request, 'Debe iniciar sesión primero')
+        return redirect('login')
+
+    from app1.models import Noticia
+    from django.utils.text import slugify
+
+    # Crear noticia
+    if request.method == 'POST' and 'crear_noticia' in request.POST:
+        titulo = request.POST.get('titulo', '').strip()
+        categoria = request.POST.get('categoria', 'Actualidad').strip()
+        resumen = request.POST.get('resumen', '').strip()
+        contenido = request.POST.get('contenido', '').strip()
+        tiempo_lectura = request.POST.get('tiempo_lectura', '3 min').strip()
+        foto_url = request.POST.get('foto_url', '').strip()
+        destacado = 'destacado' in request.POST
+        foto = request.FILES.get('foto')
+
+        if titulo and resumen:
+            slug = slugify(titulo)
+            base_slug = slug
+            counter = 1
+            while Noticia.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+
+            Noticia.objects.create(
+                titulo=titulo,
+                slug=slug,
+                categoria=categoria,
+                resumen=resumen,
+                contenido=contenido,
+                tiempo_lectura=tiempo_lectura,
+                foto_url=foto_url,
+                destacado=destacado,
+                foto=foto
+            )
+            messages.success(request, 'Noticia publicada exitosamente en la web.')
+            return redirect('control_noticias')
+        else:
+            messages.error(request, 'Título y resumen son requeridos.')
+
+    # Editar noticia
+    if request.method == 'POST' and 'editar_noticia' in request.POST:
+        noticia_id = request.POST.get('noticia_id')
+        noticia = get_object_or_404(Noticia, id=noticia_id)
+        noticia.titulo = request.POST.get('titulo', noticia.titulo).strip()
+        noticia.categoria = request.POST.get('categoria', noticia.categoria).strip()
+        noticia.resumen = request.POST.get('resumen', noticia.resumen).strip()
+        noticia.contenido = request.POST.get('contenido', noticia.contenido).strip()
+        noticia.tiempo_lectura = request.POST.get('tiempo_lectura', noticia.tiempo_lectura).strip()
+        noticia.foto_url = request.POST.get('foto_url', noticia.foto_url).strip()
+        noticia.destacado = 'destacado' in request.POST
+        if 'foto' in request.FILES:
+            noticia.foto = request.FILES['foto']
+        noticia.save()
+        messages.success(request, 'Noticia actualizada correctamente.')
+        return redirect('control_noticias')
+
+    noticias = Noticia.objects.all().order_by('-fecha', '-id')
+    return render(request, 'control_noticias.html', {
+        'user': user,
+        'noticias': noticias
+    })
+
+def eliminar_noticia_view(request, noticia_id):
+    user = _get_session_user(request)
+    if not user:
+        messages.error(request, 'Debe iniciar sesión primero')
+        return redirect('login')
+
+    from app1.models import Noticia
+    if request.method == 'POST':
+        noticia = get_object_or_404(Noticia, id=noticia_id)
+        noticia.delete()
+        messages.success(request, 'Noticia eliminada correctamente.')
+    return redirect('control_noticias')

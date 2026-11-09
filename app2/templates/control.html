@@ -1,263 +1,660 @@
 {% extends 'base.html' %}
-{% block title %}Estado del Chatbot - RAUDIE{% endblock %}
+{% load static %}
+{% block title %}Dashboard General — RauDie OS{% endblock %}
 
 {% block extra_head %}
+<style>
+  .editorial-hero-banner {
+    background: radial-gradient(circle at 88% 20%, rgba(129, 1, 0, 0.48) 0%, transparent 55%),
+                linear-gradient(135deg, #0F0E0E 0%, #1B1214 55%, #2D090D 100%) !important;
+    border-radius: 22px;
+    padding: 32px 36px;
+    color: #FFFFFF !important;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 18px 40px -12px rgba(15, 14, 14, 0.25);
+    margin-bottom: 26px;
+    border: 1px solid rgba(237, 235, 221, 0.12);
+  }
+  .editorial-kicker-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(237, 235, 221, 0.1);
+    border: 1px solid rgba(237, 235, 221, 0.2);
+    color: #EDEBDD;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .editorial-kicker-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #25D366;
+    box-shadow: 0 0 8px #25D366;
+  }
+  .editorial-hero-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(1.65rem, 2.4vw, 2.15rem);
+    font-weight: 800;
+    color: #FFFFFF !important;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 8px !important;
+  }
+  .editorial-hero-title .serif-italic {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    color: #EDEBDD;
+  }
+  .editorial-hero-lead {
+    color: rgba(237, 235, 221, 0.76);
+    font-size: 0.94rem;
+    max-width: 580px;
+    margin-bottom: 0;
+  }
+  .btn-editorial-white {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FFFFFF;
+    color: #141212 !important;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    text-decoration: none !important;
+    box-shadow: 0 0 25px rgba(235, 30, 50, 0.45), 0 8px 20px rgba(0, 0, 0, 0.35);
+    transition: all 0.25s ease;
+  }
+  .btn-editorial-white:hover {
+    transform: translateY(-2px);
+    background: #EDEBDD;
+  }
+  .btn-editorial-glass {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(237, 235, 221, 0.22);
+    color: #EDEBDD !important;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    text-decoration: none !important;
+    transition: all 0.22s ease;
+  }
+  .btn-editorial-glass:hover {
+    background: rgba(255, 255, 255, 0.16);
+    color: #FFFFFF !important;
+    transform: translateY(-1px);
+  }
+  .dash-kpi-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(27, 23, 23, 0.08);
+    border-radius: 18px;
+    padding: 20px 20px 18px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 6px 20px -8px rgba(27, 23, 23, 0.04);
+  }
+  .dash-kpi-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(129, 1, 0, 0.22);
+    box-shadow: 0 14px 30px -10px rgba(27, 23, 23, 0.09);
+  }
+  .dash-kpi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: #EDEBDD;
+    color: #810100;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .dash-kpi-val {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #1B1717;
+    line-height: 1.1;
+    margin: 10px 0 4px;
+    letter-spacing: -0.03em;
+  }
+  .dash-kpi-sub {
+    font-size: 0.78rem;
+    color: #6E6662;
+  }
+  .dash-kpi-link {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #810100 !important;
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 12px;
+    transition: gap 0.2s ease;
+  }
+  .dash-kpi-link:hover {
+    gap: 8px;
+  }
+  .editorial-section-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(27, 23, 23, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 26px -10px rgba(27, 23, 23, 0.05);
+    margin-bottom: 24px;
+  }
+  .editorial-card-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid rgba(27, 23, 23, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: #FFFFFF;
+  }
+  .editorial-card-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #1B1717;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  .dash-table th {
+    background: #FAF8F5;
+    color: #6E6662;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(27, 23, 23, 0.07);
+  }
+  .dash-table td {
+    padding: 14px 20px;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(27, 23, 23, 0.05);
+    font-size: 0.875rem;
+  }
+  .dash-lead-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #1B1717;
+    color: #EDEBDD;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .dash-wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(37, 211, 102, 0.12);
+    color: #128C7E !important;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    text-decoration: none !important;
+    border: 1px solid rgba(37, 211, 102, 0.3);
+    transition: all 0.2s ease;
+  }
+  .dash-wa-btn:hover {
+    background: #25D366;
+    color: #0b1e11 !important;
+  }
+  .dash-quick-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: #FAF8F5;
+    border: 1px solid rgba(27, 23, 23, 0.07);
+    color: #1B1717 !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+  }
+  .dash-quick-item:hover {
+    background: #EDEBDD;
+    border-color: rgba(129, 1, 0, 0.2);
+    transform: translateX(3px);
+  }
+  .dash-quick-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #FFFFFF;
+    color: #810100;
+    border: 1px solid rgba(27, 23, 23, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid py-4">
-  <!-- Cabecera de Página -->
-  <div class="row align-items-center mb-4 animate-fade-in-up">
-    <div class="col">
-      <h1 class="h3 mb-1 text-gray-800 fw-bold">Estado del Chatbot</h1>
-      <p class="text-muted mb-0">Revisa la conectividad y el estado actual de tu asistente inteligente.</p>
-    </div>
-    <div class="col-auto">
-      <a href="{% url 'configuracion' %}" class="btn btn-primary rounded-pill shadow-sm">
-        <i class="fas fa-cog me-2"></i>Configuración General
-      </a>
+<div>
+
+  <!-- =========================================================================
+       HERO EDITORIAL BANNER (MATCHES LANDING HERO AESTHETIC)
+       ========================================================================= -->
+  <div class="editorial-hero-banner">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <div class="editorial-kicker-pill">
+          <span class="editorial-kicker-dot"></span>
+          <span>RauDie OS · Centro de Operaciones</span>
+        </div>
+        <h1 class="editorial-hero-title">
+          Bienvenido, {{ user.nombre }} — <span class="serif-italic">visión en ritmo.</span>
+        </h1>
+        <p class="editorial-hero-lead">
+          Control unificado de prospectos de la landing page, entregables de portafolio, contabilidad y automatización inteligente.
+        </p>
+      </div>
+
+      <div class="col-lg-5 text-lg-end">
+        <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+          <a href="{% url 'contactos_web' %}" class="btn-editorial-white">
+            <i class="fas fa-inbox" style="color: #810100;"></i>
+            <span>Bandeja Leads</span>
+            {% if total_contactos %}
+              <span class="badge rounded-pill" style="background: #810100; color: #fff;">{{ total_contactos }}</span>
+            {% endif %}
+          </a>
+
+          <a href="{% url 'generar_cotizacion' %}" class="btn-editorial-glass">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <span>Cotización PDF</span>
+          </a>
+
+          <a href="{% url 'control_proyectos' %}" class="btn-editorial-glass">
+            <i class="fas fa-laptop-code"></i>
+            <span>Portafolio</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Tarjetas KPI de Métricas Clave -->
-  <div class="row g-4 mb-4 animate-fade-in-up">
-    <!-- Card 1: Conectividad -->
-    <div class="col-md-4">
-      <div class="card kpi-card shadow-sm border-0">
-        <div class="card-body p-4 d-flex align-items-center">
-          {% if bot_statuses %}
-            {% if bot_statuses.0.status == 'connected' %}
-              <div class="kpi-icon-wrapper bg-success-subtle text-success me-3 pulse-active">
-                <i class="fas fa-link"></i>
-              </div>
-              <div>
-                <span class="text-muted d-block font-size-xs text-uppercase fw-semibold kpi-label">Conectividad</span>
-                <h4 class="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
-                  <span class="status-indicator-dot bg-success"></span> Conectado
-                </h4>
-              </div>
+  <!-- =========================================================================
+       KPI METRIC CARDS (6 EDITORIAL CARDS)
+       ========================================================================= -->
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-2">
+      <div class="dash-kpi-card">
+        <div class="d-flex align-items-center justify-content-between">
+          <span class="text-muted small fw-bold text-uppercase" style="font-size: 10.5px; letter-spacing: 0.05em;">Leads Web</span>
+          <div class="dash-kpi-icon"><i class="fas fa-envelope-open-text"></i></div>
+        </div>
+        <div>
+          <div class="dash-kpi-val">{{ total_contactos }}</div>
+          <div class="dash-kpi-sub">Solicitudes en landing</div>
+        </div>
+        <a href="{% url 'contactos_web' %}" class="dash-kpi-link">
+          <span>Abrir bandeja</span> <i class="fas fa-arrow-right fa-xs"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-2">
+      <div class="dash-kpi-card">
+        <div class="d-flex align-items-center justify-content-between">
+          <span class="text-muted small fw-bold text-uppercase" style="font-size: 10.5px; letter-spacing: 0.05em;">Balance Neto</span>
+          <div class="dash-kpi-icon"><i class="fas fa-wallet"></i></div>
+        </div>
+        <div>
+          <div class="dash-kpi-val">${{ balance_neto|floatformat:0 }}</div>
+          <div class="dash-kpi-sub">Ingresos: ${{ finanzas_ingresos|floatformat:0 }} USD</div>
+        </div>
+        <a href="{% url 'contabilidad_finanzas' %}" class="dash-kpi-link">
+          <span>Ver finanzas</span> <i class="fas fa-arrow-right fa-xs"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-2">
+      <div class="dash-kpi-card">
+        <div class="d-flex align-items-center justify-content-between">
+          <span class="text-muted small fw-bold text-uppercase" style="font-size: 10.5px; letter-spacing: 0.05em;">Portafolio</span>
+          <div class="dash-kpi-icon"><i class="fas fa-laptop-code"></i></div>
+        </div>
+        <div>
+          <div class="dash-kpi-val">{{ total_proyectos }}</div>
+          <div class="dash-kpi-sub">Proyectos publicados</div>
+        </div>
+        <a href="{% url 'control_proyectos' %}" class="dash-kpi-link">
+          <span>Gestionar</span> <i class="fas fa-arrow-right fa-xs"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-2">
+      <div class="dash-kpi-card">
+        <div class="d-flex align-items-center justify-content-between">
+          <span class="text-muted small fw-bold text-uppercase" style="font-size: 10.5px; letter-spacing: 0.05em;">Editorial</span>
+          <div class="dash-kpi-icon"><i class="fas fa-newspaper"></i></div>
+        </div>
+        <div>
+          <div class="dash-kpi-val">{{ total_noticias }}</div>
+          <div class="dash-kpi-sub">Artículos &amp; Noticias</div>
+        </div>
+        <a href="{% url 'control_noticias' %}" class="dash-kpi-link">
+          <span>Editar blog</span> <i class="fas fa-arrow-right fa-xs"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-2">
+      <div class="dash-kpi-card">
+        <div class="d-flex align-items-center justify-content-between">
+          <span class="text-muted small fw-bold text-uppercase" style="font-size: 10.5px; letter-spacing: 0.05em;">Marketing</span>
+          <div class="dash-kpi-icon"><i class="fas fa-calendar-check"></i></div>
+        </div>
+        <div>
+          <div class="dash-kpi-val">{{ total_marketing }}</div>
+          <div class="dash-kpi-sub">Publicaciones redes</div>
+        </div>
+        <a href="{% url 'marketing' %}" class="dash-kpi-link">
+          <span>Ver agenda</span> <i class="fas fa-arrow-right fa-xs"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-2">
+      <div class="dash-kpi-card">
+        <div class="d-flex align-items-center justify-content-between">
+          <span class="text-muted small fw-bold text-uppercase" style="font-size: 10.5px; letter-spacing: 0.05em;">Motor IA</span>
+          <div class="dash-kpi-icon"><i class="fas fa-robot"></i></div>
+        </div>
+        <div>
+          <div class="dash-kpi-val" style="font-size: 1.25rem;">
+            {% if bot_statuses and bot_statuses.0.status == 'connected' %}
+              <span style="color: #15803d;">Conectado</span>
             {% else %}
-              <div class="kpi-icon-wrapper bg-danger-subtle text-danger me-3 pulse-inactive">
-                <i class="fas fa-link-slash"></i>
-              </div>
-              <div>
-                <span class="text-muted d-block font-size-xs text-uppercase fw-semibold kpi-label">Conectividad</span>
-                <h4 class="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
-                  <span class="status-indicator-dot bg-danger"></span> Desconectado
-                </h4>
-              </div>
+              <span class="text-muted">En Espera</span>
             {% endif %}
-          {% else %}
-            <div class="kpi-icon-wrapper bg-secondary-subtle text-secondary me-3">
-              <i class="fas fa-robot"></i>
+          </div>
+          <div class="dash-kpi-sub">{{ bot.api_provider|default:"DeepSeek"|upper }}</div>
+        </div>
+        <a href="{% url 'telegram_configuracion' %}" class="dash-kpi-link">
+          <span>Configurar</span> <i class="fas fa-arrow-right fa-xs"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MAIN WORKSPACE (COL-LG-8 + COL-LG-4)
+       ========================================================================= -->
+  <div class="row g-4">
+    <div class="col-lg-8">
+
+      <!-- Últimos Leads Recibidos -->
+      <div class="editorial-section-card">
+        <div class="editorial-card-header">
+          <div>
+            <h2 class="editorial-card-title">Últimos Prospectos &amp; <span class="editorial-accent">Leads Web</span></h2>
+            <span class="text-muted small">Consultas directas recibidas desde la sección de contacto de la landing</span>
+          </div>
+          <a href="{% url 'contactos_web' %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+            <span>Ver todos ({{ total_contactos }})</span> <i class="fas fa-arrow-right fa-xs ms-1"></i>
+          </a>
+        </div>
+
+        <div>
+          {% if ultimos_contactos %}
+            <div class="table-responsive">
+              <table class="table dash-table align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>Cliente</th>
+                    <th>WhatsApp Directo</th>
+                    <th>Correo</th>
+                    <th>Requerimiento</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for c in ultimos_contactos %}
+                    <tr>
+                      <td>
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="dash-lead-avatar">{{ c.nombre|slice:":1"|upper }}</span>
+                          <strong class="text-dark text-truncate" style="max-width: 145px;">{{ c.nombre }}</strong>
+                        </div>
+                      </td>
+                      <td>
+                        {% if c.whatsapp %}
+                          <a href="https://wa.me/{{ c.whatsapp|cut:' '|cut:'+'|cut:'-' }}" target="_blank" class="dash-wa-btn">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>{{ c.whatsapp }}</span>
+                          </a>
+                        {% else %}
+                          <span class="text-muted small">—</span>
+                        {% endif %}
+                      </td>
+                      <td>
+                        <a href="mailto:{{ c.email }}" class="text-muted text-decoration-none small text-truncate d-inline-block" style="max-width: 140px;">
+                          {{ c.email }}
+                        </a>
+                      </td>
+                      <td>
+                        <span class="text-dark small d-inline-block text-truncate" style="max-width: 210px;" title="{{ c.mensaje }}">
+                          {{ c.mensaje }}
+                        </span>
+                      </td>
+                      <td class="text-muted small text-nowrap" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">
+                        {{ c.fecha_creacion|date:"d/m H:i" }}
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
-            <div>
-              <span class="text-muted d-block font-size-xs text-uppercase fw-semibold kpi-label">Conectividad</span>
-              <h4 class="mb-0 fw-bold text-dark">No Configurado</h4>
+          {% else %}
+            <div class="p-5 text-center">
+              <p class="text-muted small mb-3">Aún no se han registrado leads desde el formulario web.</p>
+              <a href="/#contact" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3">
+                Ver Formulario en Landing
+              </a>
             </div>
           {% endif %}
         </div>
       </div>
-    </div>
 
-    <!-- Card 2: Motor de IA -->
-    <div class="col-md-4">
-      <div class="card kpi-card shadow-sm border-0">
-        <div class="card-body p-4 d-flex align-items-center">
-          <div class="kpi-icon-wrapper bg-primary-subtle text-primary me-3">
-            <i class="fas fa-brain"></i>
-          </div>
+      <!-- Proyectos Recientes en Portafolio -->
+      <div class="editorial-section-card">
+        <div class="editorial-card-header">
           <div>
-            <span class="text-muted d-block font-size-xs text-uppercase fw-semibold kpi-label">Proveedor de IA</span>
-            <h4 class="mb-0 fw-bold text-dark text-uppercase">
-              {% if bot_statuses %}
-                {{ bot_statuses.0.bot.api_provider }}
-              {% else %}
-                -
-              {% endif %}
-            </h4>
+            <h2 class="editorial-card-title">Casos de Éxito en <span class="editorial-accent">Portafolio</span></h2>
+            <span class="text-muted small">Sincronizados en vivo con la sección #work de la página principal</span>
           </div>
+          <a href="{% url 'control_proyectos' %}" class="btn btn-sm btn-primary rounded-pill px-3">
+            <i class="fas fa-plus fa-xs me-1"></i>Administrar Proyectos
+          </a>
         </div>
-      </div>
-    </div>
 
-    <!-- Card 3: Canal Integrado -->
-    <div class="col-md-4">
-      <div class="card kpi-card shadow-sm border-0">
-        <div class="card-body p-4 d-flex align-items-center">
-          <div class="kpi-icon-wrapper bg-info-subtle text-info me-3">
-            <i class="fab fa-telegram"></i>
-          </div>
-          <div>
-            <span class="text-muted d-block font-size-xs text-uppercase fw-semibold kpi-label">Canal Activo</span>
-            <h4 class="mb-0 fw-bold text-dark">
-              {% if bot_statuses and bot_statuses.0.bot.telegram_bot_token %}
-                Telegram Bot
-              {% else %}
-                Ninguno
-              {% endif %}
-            </h4>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    {% if bot_statuses %}
-      {% for item in bot_statuses %}
-        <div class="col-lg-8 mb-4">
-          <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 bg-white">
-            <!-- Cabecera de Tarjeta -->
-            <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center" style="border-bottom: 1px solid var(--border-color) !important;">
-              <div class="d-flex align-items-center gap-3">
-                <div class="bot-avatar-wrapper">
-                  <i class="fas fa-robot"></i>
-                </div>
-                <div>
-                  <h5 class="mb-0 fw-bold text-dark">{{ item.bot.nombre }}</h5>
-                  <span class="text-muted small">Asistente Virtual Inteligente</span>
-                </div>
-              </div>
-              <div>
-                {% if item.status == 'connected' %}
-                  <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill d-flex align-items-center gap-2">
-                    <span class="status-indicator-dot bg-success pulse-active" style="width: 8px; height: 8px;"></span> Conectado
-                  </span>
-                {% elif item.status == 'disconnected' %}
-                  <span class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill d-flex align-items-center gap-2">
-                    <span class="status-indicator-dot bg-danger pulse-inactive" style="width: 8px; height: 8px;"></span> Desconectado
-                  </span>
-                {% else %}
-                  <span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill">
-                    <i class="fas fa-exclamation-triangle me-1"></i>{{ item.status|default:'Desconocido' }}
-                  </span>
-                {% endif %}
-              </div>
-            </div>
-            
-            <!-- Cuerpo de Tarjeta -->
-            <div class="card-body p-4">
-              <div class="row g-4">
-                <!-- Detalles del Asistente (IA) -->
+        <div class="p-4">
+          {% if ultimos_proyectos %}
+            <div class="row g-3">
+              {% for p in ultimos_proyectos %}
                 <div class="col-md-6">
-                  <div class="d-flex align-items-center mb-3">
-                    <div class="bg-primary-subtle text-primary rounded-3 p-1.5 me-2 d-inline-flex">
-                      <i class="fas fa-brain fa-sm"></i>
-                    </div>
-                    <h6 class="text-dark mb-0 fw-bold" style="font-size: 0.95rem;">Detalles del Asistente</h6>
-                  </div>
-                  
-                  <div class="mb-3 d-flex align-items-center gap-2">
-                    <span class="text-muted small fw-semibold">Proveedor de IA:</span> 
-                    <span class="badge bg-dark-subtle text-dark text-uppercase px-2.5 py-1 border border-secondary-subtle">{{ item.bot.api_provider }}</span>
-                  </div>
-                  
-                  <div class="mb-2">
-                    <span class="text-muted small d-block mb-1.5 fw-semibold">Mensaje de bienvenida actual:</span>
-                    <div class="chat-bubble-preview">
-                      <p class="text-dark small mb-0 font-monospace" style="font-style: italic; line-height: 1.4;">
-                        "{{ item.bot.mensaje_bienvenida|truncatechars:120|default:'(No configurado)' }}"
-                      </p>
+                  <div class="rounded-4 border overflow-hidden h-100 d-flex flex-column bg-white" style="border-color: rgba(27,23,23,0.08) !important;">
+                    {% if p.fotos and p.fotos.0 %}
+                      <div style="height: 145px; overflow: hidden; background: #141212;">
+                        <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}" style="width: 100%; height: 100%; object-fit: cover; object-position: center top;">
+                      </div>
+                    {% endif %}
+                    <div class="p-3 d-flex flex-column justify-content-between flex-grow-1">
+                      <div>
+                        <div class="d-flex align-items-center justify-content-between mb-1">
+                          <span class="small fw-semibold text-muted">{{ p.cliente|default:"RauDie Studio" }}</span>
+                          <span class="badge rounded-pill" style="background: #EDEBDD; color: #1B1717; font-family: 'JetBrains Mono', monospace; font-size: 10px;">{{ p.fecha|date:"Y" }}</span>
+                        </div>
+                        <h6 class="fw-bold text-dark mb-1">{{ p.titulo }}</h6>
+                      </div>
+                      <div class="d-flex flex-wrap gap-1 mt-2">
+                        {% for cat in p.categorias.all|slice:":2" %}
+                          <span class="badge rounded-pill" style="background: #FAF8F5; color: #810100; border: 1px solid rgba(129,1,0,0.15); font-size: 10px;">{{ cat.nombre }}</span>
+                        {% endfor %}
+                      </div>
                     </div>
                   </div>
                 </div>
-
-                <!-- Conexión de Telegram -->
-                <div class="col-md-6 border-start-md" style="border-left: 1px solid var(--border-color);">
-                  <div class="d-flex align-items-center mb-3">
-                    <div class="bg-info-subtle text-info rounded-3 p-1.5 me-2 d-inline-flex">
-                      <i class="fab fa-telegram-plane fa-sm"></i>
-                    </div>
-                    <h6 class="text-dark mb-0 fw-bold" style="font-size: 0.95rem;">Conexión de Telegram</h6>
-                  </div>
-                  
-                  {% if item.bot.telegram_bot_token %}
-                    <p class="text-muted small mb-4" style="line-height: 1.5;">
-                      Tu bot está integrado con Telegram y responde automáticamente consultas de usuarios de forma ininterrumpida.
-                    </p>
-                    <a href="{% url 'telegram_configuracion' %}" class="btn btn-telegram-outline w-100 rounded-pill py-2.5">
-                      <i class="fab fa-telegram me-2"></i>Ver Configuración de Telegram
-                    </a>
-                  {% else %}
-                    <p class="text-muted small mb-4" style="line-height: 1.5;">
-                      Vincular un bot de Telegram permite al asistente inteligente automatizar las conversaciones directamente con tus clientes en tiempo real.
-                    </p>
-                    <a href="{% url 'telegram_configuracion' %}" class="btn btn-telegram w-100 rounded-pill py-2.5 text-white">
-                      <i class="fab fa-telegram me-2"></i>Configurar Bot de Telegram
-                    </a>
-                  {% endif %}
-                </div>
-              </div>
+              {% endfor %}
             </div>
-          </div>
+          {% else %}
+            <p class="text-muted small mb-0">No hay proyectos cargados.</p>
+          {% endif %}
         </div>
-      {% endfor %}
-      
-      <!-- Atajos Rápidos -->
-      <div class="col-lg-4 mb-4">
-        <h5 class="fw-bold mb-3 text-dark px-2">Atajos Rápidos</h5>
-        
-        <a href="{% url 'configuracion' %}" class="card org-card mb-3 text-decoration-none">
-          <div class="card-body p-3 d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-              <div class="bg-primary-subtle text-primary rounded-circle p-2 me-3">
-                <i class="fas fa-sliders-h"></i>
-              </div>
-              <div>
-                <h6 class="mb-0 text-dark fw-bold">Configuración IA</h6>
-                <span class="text-muted small">Modificar prompt e instrucciones</span>
-              </div>
-            </div>
-            <i class="fas fa-chevron-right text-muted org-arrow"></i>
-          </div>
-        </a>
-
-        <a href="{% url 'conversaciones' %}" class="card org-card mb-3 text-decoration-none">
-          <div class="card-body p-3 d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-              <div class="bg-success-subtle text-success rounded-circle p-2 me-3">
-                <i class="fas fa-comments"></i>
-              </div>
-              <div>
-                <h6 class="mb-0 text-dark fw-bold">Interacciones</h6>
-                <span class="text-muted small">Ver historial de chats</span>
-              </div>
-            </div>
-            <i class="fas fa-chevron-right text-muted org-arrow"></i>
-          </div>
-        </a>
-
-        <a href="{% url 'contactos_web' %}" class="card org-card mb-3 text-decoration-none">
-          <div class="card-body p-3 d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-              <div class="bg-warning-subtle text-warning rounded-circle p-2 me-3">
-                <i class="fas fa-address-book"></i>
-              </div>
-              <div>
-                <h6 class="mb-0 text-dark fw-bold">Contactos Web</h6>
-                <span class="text-muted small">Ver prospectos y leads</span>
-              </div>
-            </div>
-            <i class="fas fa-chevron-right text-muted org-arrow"></i>
-          </div>
-        </a>
-
       </div>
-    {% else %}
-      <div class="col-12">
-        <div class="card border-0 shadow-sm rounded-4 bg-white p-5 text-center">
-          <div class="mb-4">
-            <i class="fas fa-robot fa-4x text-muted opacity-25"></i>
-          </div>
-          <h4 class="fw-bold text-dark mb-2">No hay un Bot configurado</h4>
-          <p class="text-muted mb-4">Comienza configurando tu primer asistente virtual inteligente para automatizar la atención a tus clientes.</p>
-          <a href="{% url 'configuracion' %}" class="btn btn-primary rounded-pill px-4 py-2">
-            <i class="fas fa-plus me-2"></i>Crear mi primer Bot
+
+    </div>
+
+    <!-- COL-LG-4: ACCESOS RÁPIDOS, BOT Y AGENDA -->
+    <div class="col-lg-4">
+
+      <!-- Accesos Rápidos -->
+      <div class="editorial-section-card">
+        <div class="editorial-card-header">
+          <h2 class="editorial-card-title">Herramientas <span class="editorial-accent">Rápidas</span></h2>
+        </div>
+        <div class="p-3 d-flex flex-column gap-2">
+          <a href="{% url 'generar_cotizacion' %}" class="dash-quick-item">
+            <div class="dash-quick-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+            <div>
+              <strong class="d-block small">Generar Cotización PDF</strong>
+              <span class="text-muted" style="font-size: 0.75rem;">Presupuesto formal membretado</span>
+            </div>
+          </a>
+
+          <a href="{% url 'contabilidad_costos' %}" class="dash-quick-item">
+            <div class="dash-quick-icon"><i class="fas fa-calculator"></i></div>
+            <div>
+              <strong class="d-block small">Estructura de Costos</strong>
+              <span class="text-muted" style="font-size: 0.75rem;">Tarifas por hora y entregables</span>
+            </div>
+          </a>
+
+          <a href="{% url 'contabilidad_finanzas' %}" class="dash-quick-item">
+            <div class="dash-quick-icon"><i class="fas fa-chart-line"></i></div>
+            <div>
+              <strong class="d-block small">Finanzas y Balances</strong>
+              <span class="text-muted" style="font-size: 0.75rem;">Control de ingresos y egresos</span>
+            </div>
+          </a>
+
+          <a href="{% url 'control_servicios' %}" class="dash-quick-item">
+            <div class="dash-quick-icon"><i class="fas fa-layer-group"></i></div>
+            <div>
+              <strong class="d-block small">Catálogo de Servicios</strong>
+              <span class="text-muted" style="font-size: 0.75rem;">6 planes oficiales en código</span>
+            </div>
           </a>
         </div>
       </div>
-    {% endif %}
+
+      <!-- Agenda de Marketing -->
+      <div class="editorial-section-card">
+        <div class="editorial-card-header">
+          <h2 class="editorial-card-title">Agenda de <span class="editorial-accent">Contenido</span></h2>
+          <a href="{% url 'marketing' %}" class="small fw-bold text-decoration-none" style="color: #810100;">Ver todo →</a>
+        </div>
+        <div class="p-3">
+          {% if proximas_publicaciones %}
+            <div class="d-flex flex-column gap-2">
+              {% for pub in proximas_publicaciones %}
+                <div class="p-2 rounded-3 d-flex align-items-center justify-content-between" style="background: #FAF8F5; border: 1px solid rgba(27,23,23,0.06);">
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; background: #1B1717; color: #EDEBDD; font-size: 12px;">
+                      {% if pub.plataforma == 'instagram' %}<i class="fab fa-instagram"></i>
+                      {% elif pub.plataforma == 'tiktok' %}<i class="fab fa-tiktok"></i>
+                      {% elif pub.plataforma == 'youtube' %}<i class="fab fa-youtube"></i>
+                      {% elif pub.plataforma == 'linkedin' %}<i class="fab fa-linkedin-in"></i>
+                      {% else %}<i class="fas fa-share-alt"></i>{% endif %}
+                    </span>
+                    <div>
+                      <strong class="d-block text-dark small text-truncate" style="max-width: 155px;">{{ pub.titulo }}</strong>
+                      <span class="text-muted" style="font-size: 0.72rem;">{{ pub.get_formato_display }} · {{ pub.fecha|date:"d M" }}</span>
+                    </div>
+                  </div>
+                  <span class="badge rounded-pill" style="background: #EDEBDD; color: #1B1717; font-size: 10px;">{{ pub.plataforma|capfirst }}</span>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="text-center py-3">
+              <p class="text-muted small mb-2">Sin publicaciones programadas.</p>
+              <a href="{% url 'marketing_crear' %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                <i class="fas fa-plus fa-xs me-1"></i>Planear Contenido
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Estado de Chatbot & IA -->
+      <div class="editorial-section-card">
+        <div class="editorial-card-header">
+          <h2 class="editorial-card-title">Asistente <span class="editorial-accent">IA &amp; Bot</span></h2>
+          {% if bot_statuses and bot_statuses.0.status == 'connected' %}
+            <span class="badge rounded-pill" style="background: #dcfce7; color: #15803d;">Activo</span>
+          {% else %}
+            <span class="badge rounded-pill" style="background: #F3EFEA; color: #6E6662;">Sin Token</span>
+          {% endif %}
+        </div>
+        <div class="p-3">
+          {% if bot %}
+            <p class="small text-muted mb-3">
+              Bot <strong>{{ bot.nombre }}</strong> operando con motor <strong>{{ bot.api_provider|upper }}</strong>.
+            </p>
+            <div class="d-flex gap-2">
+              <a href="{% url 'telegram_configuracion' %}" class="btn btn-sm btn-outline-dark rounded-pill flex-grow-1">
+                <i class="fab fa-telegram me-1"></i>Telegram
+              </a>
+              <a href="{% url 'configuracion' %}" class="btn btn-sm btn-primary rounded-pill flex-grow-1">
+                <i class="fas fa-sliders-h me-1"></i>Prompt IA
+              </a>
+            </div>
+          {% else %}
+            <p class="text-muted small mb-3">Configura las instrucciones del asistente virtual para atención automatizada.</p>
+            <a href="{% url 'configuracion' %}" class="btn btn-sm btn-primary rounded-pill w-100">
+              Configurar Asistente
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
   </div>
+
 </div>
 {% endblock %}

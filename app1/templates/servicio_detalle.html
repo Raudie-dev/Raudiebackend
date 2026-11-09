@@ -27,12 +27,27 @@
       <!-- LEFT COLUMN: Image / Media Showcase -->
       <div class="service-split-media-col">
         <div class="service-split-card-frame">
-          <div class="service-split-img-box">
-            {% if servicio.foto %}
-              <img src="{{ servicio.foto.url }}" alt="{{ servicio.nombre }}" class="service-split-img" onerror="this.onerror=null; this.src='{% static 'img/web_dev1.jpg' %}';">
-            {% else %}
-              <img src="{% static 'img/web_dev1.jpg' %}" alt="{{ servicio.nombre }}" class="service-split-img">
-            {% endif %}
+          <div class="service-split-showcase-box">
+            <div class="service-showcase-icon-disc">
+              <i class="{{ servicio.icono|default:'fas fa-code' }}"></i>
+            </div>
+            <span class="service-showcase-tag">{{ servicio.badge|default:"Servicio Oficial" }}</span>
+            <h2 class="service-showcase-title">{{ servicio.nombre }}</h2>
+            <p class="service-showcase-caption">{{ servicio.titulo }}</p>
+            <div class="service-showcase-specs-list">
+              <div class="spec-row">
+                <i class="fas fa-shield-alt"></i>
+                <span>Garantía de arquitectura modular &amp; escalable</span>
+              </div>
+              <div class="spec-row">
+                <i class="fas fa-bolt"></i>
+                <span>Optimización integral de rendimiento web</span>
+              </div>
+              <div class="spec-row">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Diseño 100% responsive adaptado a móviles</span>
+              </div>
+            </div>
           </div>
           <div class="service-split-media-footer">
             <div class="media-badge">
@@ -84,6 +99,22 @@
                 <span class="price-status-tag"><span class="status-dot-green"></span> Disponible</span>
               </div>
               <span class="price-caption-note">Inversión transparente • Sin costos recurrentes ocultos</span>
+            </div>
+          {% else %}
+            <div class="service-info-price-block">
+              <span class="price-lead-label">Inversión estimada:</span>
+              <div class="price-display-row">
+                <span class="price-big-number" style="font-size: 30px;">Cotización a Medida</span>
+                <span class="price-status-tag"><span class="status-dot-green"></span> Proyecto Personalizado</span>
+              </div>
+              <span class="price-caption-note">Presupuesto adaptado al alcance y requerimientos de tu proyecto</span>
+            </div>
+          {% endif %}
+
+          {% if servicio.bonus %}
+            <div class="service-detail-bonus-banner">
+              <span class="bonus-badge-glow-tag"><i class="fas fa-gift"></i> BENEFICIO INCLUIDO</span>
+              <span class="bonus-badge-glow-text">{{ servicio.bonus }}</span>
             </div>
           {% endif %}
 
@@ -160,19 +191,12 @@
       <div class="services-editorial-grid">
         {% for s in otros_servicios %}
           <article class="service-card-editorial">
-            {% if s.foto %}
-              <a href="{% url 'servicio_detalle' s.id %}" class="service-card-media-wrap" aria-label="{{ s.nombre }}">
-                <img src="{{ s.foto.url }}" alt="{{ s.nombre }}" class="service-card-img" loading="lazy">
-                <span class="service-card-tag">Desarrollo Web &amp; Software</span>
-              </a>
-            {% else %}
-              <div class="service-card-header-gradient">
-                <span class="service-card-tag">Desarrollo Web &amp; Software</span>
-                <div class="service-icon-mark">
-                  <i class="fas fa-layer-group"></i>
-                </div>
+            <div class="service-card-header-gradient">
+              <span class="service-card-tag">{{ s.badge|default:"Desarrollo Web &amp; Software" }}</span>
+              <div class="service-icon-mark">
+                <i class="{{ s.icono|default:'fas fa-layer-group' }}"></i>
               </div>
-            {% endif %}
+            </div>
 
             <div class="service-card-body">
               <div class="service-card-top-meta">

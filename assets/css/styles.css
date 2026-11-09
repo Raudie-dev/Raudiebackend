@@ -10946,11 +10946,17 @@ button {
    ========================================================================== */
 .modern-hero-section.has-bg-image {
   background-color: #0F0E0E;
-  padding: 160px 0 90px;
+  padding: 105px 0 25px;
   position: relative;
   overflow: hidden;
   color: #ffffff;
   border-bottom: none !important;
+}
+
+@media (max-width: 768px) {
+  .modern-hero-section.has-bg-image {
+    padding: 95px 0 20px;
+  }
 }
 
 .hero-bg-media {
@@ -10968,7 +10974,7 @@ button {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 200px;
+  height: 100px;
   background: linear-gradient(180deg, transparent 0%, rgba(250, 248, 245, 0.45) 55%, var(--bg-canvas) 100%);
   pointer-events: none;
   z-index: 2;
@@ -11037,6 +11043,7 @@ button {
 .modern-hero-section.has-bg-image .h-display {
   color: #ffffff;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  margin-bottom: 12px !important;
 }
 
 .modern-hero-section.has-bg-image .h-display .accent {
@@ -11047,6 +11054,11 @@ button {
 .modern-hero-section.has-bg-image .body-lead {
   color: rgba(255, 255, 255, 0.82);
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  margin: 0 auto 18px !important;
+}
+
+.modern-hero-section.has-bg-image .hero-marquee {
+  margin-top: 18px !important;
 }
 
 /* Marklab White Pill CTA & Sketch Arrow */
@@ -11576,7 +11588,7 @@ button {
 
 /* Tighten Hero Editorial Wrap margin */
 .hero-editorial-wrap {
-  margin: 0 auto 20px !important;
+  margin: 0 auto 14px !important;
 }
 
 /* Red Glow under Iniciar Proyecto CTA */
@@ -11598,7 +11610,7 @@ button {
 }
 
 /* ==========================================================================
-   RauDie Hero WhatsApp Icon Button & Hover Tooltip
+   RauDie Hero WhatsApp Icon Button & Auto-Notification
    ========================================================================== */
 .hero-wa-btn-wrap {
   position: relative;
@@ -11641,6 +11653,33 @@ button {
     0 0 28px rgba(37, 211, 102, 0.48) !important;
 }
 
+/* Red/Green Unread Notification Badge Dot on WhatsApp Circle */
+.hero-wa-badge-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #081a0e;
+  font-family: var(--font-main, sans-serif);
+  font-size: 11px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #0F0E0E;
+  box-shadow: 0 0 10px rgba(37, 211, 102, 0.75);
+  z-index: 4;
+  animation: waBadgeBounce 2.5s ease-in-out infinite;
+}
+
+@keyframes waBadgeBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.16); }
+}
+
 /* Subtle glowing pulse ring around WhatsApp button */
 .hero-wa-glow-pulse {
   position: absolute;
@@ -11666,47 +11705,94 @@ button {
   }
 }
 
-/* Floating Hover Tooltip: "Cotiza tu proyecto o escríbenos por WhatsApp" */
-.hero-wa-tooltip {
+/* On-load interactive notification popover bubble: "¡Contáctanos! 👋" */
+.hero-wa-bubble-notif {
   position: absolute;
   bottom: calc(100% + 14px);
   left: 50%;
-  transform: translateX(-50%) translateY(8px);
+  transform: translateX(-50%) translateY(12px) scale(0.85);
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(18, 10, 14, 0.95);
+  background: rgba(18, 12, 16, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(37, 211, 102, 0.48);
   box-shadow: 
-    0 12px 32px rgba(0, 0, 0, 0.6),
-    0 0 24px rgba(37, 211, 102, 0.28);
+    0 10px 28px rgba(0, 0, 0, 0.6),
+    0 0 22px rgba(37, 211, 102, 0.32);
   color: #EDEBDD;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--font-main, 'Plus Jakarta Sans', sans-serif);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.01em;
   white-space: nowrap;
-  padding: 8px 16px;
-  border-radius: 10px;
-  pointer-events: none;
+  padding: 7px 15px;
+  border-radius: 999px;
+  text-decoration: none !important;
+  cursor: pointer;
+  z-index: 50;
   opacity: 0;
   visibility: hidden;
   transition: 
-    opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-    visibility 0.25s ease;
-  z-index: 50;
+    opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    visibility 0.45s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.hero-wa-btn-wrap:hover .hero-wa-tooltip {
+.hero-wa-bubble-notif.pop-in {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) translateY(0) scale(1);
+  animation: waBubbleFloat 3.5s ease-in-out infinite 0.5s;
 }
 
-.hero-wa-tooltip-arrow {
+.hero-wa-bubble-notif:hover {
+  transform: translateX(-50%) translateY(-3px) scale(1.06);
+  border-color: #25D366 !important;
+  box-shadow: 
+    0 14px 34px rgba(0, 0, 0, 0.7),
+    0 0 28px rgba(37, 211, 102, 0.55) !important;
+  color: #ffffff !important;
+}
+
+@keyframes waBubbleFloat {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-4px);
+  }
+}
+
+.wa-notif-dot-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #25D366;
+  box-shadow: 0 0 8px #25D366;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.wa-notif-dot-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid #25D366;
+  animation: waDotPulse 1.8s infinite;
+}
+
+@keyframes waDotPulse {
+  0% { transform: scale(0.9); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.hero-wa-bubble-arrow {
   position: absolute;
   top: 100%;
   left: 50%;
@@ -11715,17 +11801,18 @@ button {
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 6px solid rgba(18, 10, 14, 0.95);
+  border-top: 6px solid rgba(18, 12, 16, 0.95);
+}
+
+.hero-wa-tooltip {
+  display: none !important;
 }
 
 @media (max-width: 640px) {
-  .hero-wa-tooltip {
+  .hero-wa-bubble-notif {
     font-size: 11.5px;
     padding: 6px 12px;
     bottom: calc(100% + 10px);
-    max-width: 90vw;
-    white-space: normal;
-    text-align: center;
   }
 }
 
@@ -11766,7 +11853,7 @@ button {
 .service-card-media-wrap {
   display: block;
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
   background: #151313;
   overflow: hidden;
   text-decoration: none;
@@ -11776,6 +11863,7 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -12479,3 +12567,263 @@ button {
     gap: 8px;
   }
 }
+
+
+/* ==========================================================================
+   LANDING TO PANEL CONNECTION (Dock Pill & Footer Admin)
+   ========================================================================== */
+.dock-panel-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-cotton, #EDEBDD);
+  border: 1px solid var(--border-hairline, rgba(27, 23, 23, 0.1));
+  color: var(--ink, #1B1717) !important;
+  font-family: var(--font-main, 'Inter', sans-serif);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-full, 999px);
+  text-decoration: none !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 0.02em;
+}
+
+.dock-panel-pill:hover {
+  background: var(--vinotinto, #630000);
+  color: #ffffff !important;
+  border-color: var(--vinotinto, #630000);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 0, 0, 0.25);
+}
+
+.dock-panel-pill.is-logged {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #065f46 !important;
+}
+
+.dock-panel-pill.is-logged:hover {
+  background: #10b981;
+  color: #ffffff !important;
+  border-color: #10b981;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+
+.panel-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+  display: inline-block;
+  animation: badgeStatusPulse 2s infinite;
+}
+
+/* Footer Admin Row */
+.footer-admin-row {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
+
+.footer-admin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(237, 235, 221, 0.55);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footer-admin-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+
+/* ==========================================================================
+   OFFICIAL SERVICES: BONUS BADGES & EDITORIAL CODE ARCHITECTURE
+   ========================================================================== */
+
+.service-card-bonus-banner {
+  background: linear-gradient(135deg, rgba(129, 1, 0, 0.08) 0%, rgba(184, 25, 42, 0.03) 100%);
+  border: 1px dashed rgba(184, 25, 42, 0.35);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin: 12px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.service-card-bonus-banner .bonus-badge-label {
+  background: #810100;
+  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.service-card-bonus-banner .bonus-badge-text {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #810100;
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+}
+
+.service-detail-bonus-banner {
+  background: linear-gradient(135deg, rgba(129, 1, 0, 0.08) 0%, rgba(184, 25, 42, 0.03) 100%);
+  border: 1.5px dashed rgba(184, 25, 42, 0.4);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 18px 0 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 16px rgba(129, 1, 0, 0.04);
+}
+
+.service-detail-bonus-banner .bonus-badge-glow-tag {
+  background: #810100;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(129, 1, 0, 0.25);
+}
+
+.service-detail-bonus-banner .bonus-badge-glow-text {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1b1717;
+  letter-spacing: 0.02em;
+}
+
+
+/* Detail Page: Iconic Dark Architectural Showcase */
+.service-split-showcase-box {
+  width: 100%;
+  padding: 44px 30px;
+  background: linear-gradient(135deg, #1b1717 0%, #281013 55%, #420d11 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px 20px 0 0;
+}
+
+.service-split-showcase-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 25%, rgba(192, 19, 30, 0.35), transparent 70%);
+  pointer-events: none;
+}
+
+.service-showcase-icon-disc {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #ffffff;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), 0 0 35px rgba(184, 25, 42, 0.35);
+  position: relative;
+  z-index: 1;
+}
+
+.service-showcase-tag {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(129, 1, 0, 0.7);
+  padding: 5px 15px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+}
+
+.service-showcase-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 8px;
+  position: relative;
+  z-index: 1;
+  line-height: 1.25;
+}
+
+.service-showcase-caption {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 320px;
+  line-height: 1.45;
+  margin: 0 0 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.service-showcase-specs-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
+  z-index: 1;
+}
+
+.service-showcase-specs-list .spec-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.service-showcase-specs-list .spec-row i {
+  color: #c92a2a;
+  font-size: 13px;
+}
+
+.dock-link { white-space: nowrap !important; }

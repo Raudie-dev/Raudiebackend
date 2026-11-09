@@ -1,391 +1,398 @@
-    {% load static %}
-    <!DOCTYPE html>
-    <html lang="es">
-      <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Panel de Administración - RAUDIE{% endblock %}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Panel de administración - RAUDIE" />
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}RauDie OS — Panel Editorial{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="RauDie OS — Panel de administración y gestión operativa" />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-          <!-- Favicon + CSS -->
-        <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png" sizes="48x48">
-        <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png" media="(prefers-color-scheme: light)">
-        <link rel="icon" href="{% static 'img/favicon-white.png' %}" type="image/png" media="(prefers-color-scheme: dark)">
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png" sizes="48x48">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="{% static 'img/favicon-white.png' %}" type="image/png" media="(prefers-color-scheme: dark)">
 
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-        <link rel="stylesheet" href="{% static 'css/paneles.css' %}?v=1.9" />
+    <!-- Editorial Fonts (Same as Main Landing Page: Plus Jakarta Sans, Instrument Serif, JetBrains Mono, Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-        {% block extra_head %}{% endblock %}
+    <!-- Bootstrap & FontAwesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
+    <!-- RauDie '26 Editorial Panel Styles (Dynamic cache-busting) -->
+    <link rel="stylesheet" href="{% static 'css/paneles.css' %}?v={% now 'U' %}" />
 
-      </head>
-      <body>
-        <header class="admin-header">
-          <div class="container-fluid d-flex justify-content-between align-items-center glass-header">
-            <div class="d-flex align-items-center gap-3">
-              <button class="mobile-menu-btn btn btn-outline-dark d-md-none" id="mobileMenuBtn" title="Menú"><i class="fas fa-bars"></i></button>
-              <a href="/" class="brand d-flex align-items-center text-decoration-none ms-2">
-                <img src="{% static 'img/animacion.gif' %}" alt="Logo RAUDIE" class="brand-logo-img me-2" style="height: 32px; width: 32px; border-radius: 50%; object-fit: cover;"> 
-                <span class="brand-text text-dark fw-bold" style="font-size: 1.35rem; letter-spacing: -0.5px;">RAU<span class="brand-text-accent" style="color: var(--primary-color);">DIE</span></span>
-              </a>
-            </div>
-            <nav class="d-none d-md-flex align-items-center gap-2">
+    {% block extra_head %}{% endblock %}
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body class="raudie-panel-body">
 
-              <span style="color: var(--text-muted); font-size: 0.95rem;" title="Usuario">
-                <i class="fas fa-user-circle me-2" style="color: var(--primary-color);"></i>{{ user.nombre }}
-              </span>
-              <form action="{% url 'logout' %}" method="post" class="d-inline">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-outline-primary rounded-pill ms-2" title="Cerrar sesión">
-                  <i class="fas fa-power-off me-1"></i>Salir
-                </button>
-              </form>
-            </nav>
-          </div>
-        </header>
-
-        <div class="container-fluid px-0 max-w-none">
-          <div class="row g-0">
-            <aside class="col-md-3 col-lg-2 sidebar d-none d-md-block" id="sidebar">
-
-              <ul class="nav flex-column p-3 gap-1">
-                <!-- General Section -->
-                {% if user.nombre == 'admin' or 'control_servicios' in user.permisos or 'control_proyectos' in user.permisos %}
-                  {% if user.nombre == 'admin' or 'control_servicios' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'control_servicios' %}active{% endif %}" href="{% url 'control_servicios' %}">
-                      <i class="fas fa-wrench me-2" style="width: 20px;"></i>Servicios
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'control_proyectos' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'control_proyectos' %}active{% endif %}" href="{% url 'control_proyectos' %}">
-                      <i class="fas fa-folder-open me-2" style="width: 20px;"></i>Proyectos
-                    </a>
-                  </li>
-                  {% endif %}
-                  
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'contactos_web' %}active{% endif %}" href="{% url 'contactos_web' %}">
-                      <i class="fas fa-envelope-open-text me-2" style="width: 20px;"></i>Contactos Web
-                    </a>
-                  </li>
-                {% endif %}
-
-                <!-- Marketing Section -->
-                {% if user.nombre == 'admin' or 'marketing' in user.permisos %}
-                <li class="sidebar-header-section">
-                  Marketing
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if request.resolver_match.url_name == 'marketing' %}active{% endif %}" href="{% url 'marketing' %}">
-                    <i class="fas fa-calendar-alt me-2" style="width: 20px;"></i>Planeación
-                  </a>
-                </li>
-                {% endif %}
-
-                <!-- Chatbot IA Section -->
-                {% if user.nombre == 'admin' or 'estado' in user.permisos or 'conversaciones' in user.permisos or 'configuracion' in user.permisos or 'telegram_configuracion' in user.permisos or 'departamentos' in user.permisos or 'agentes' in user.permisos %}
-                <li class="sidebar-header-section">
-                  Chatbot IA
-                </li>
-                  {% if user.nombre == 'admin' or 'estado' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'estado' %}active{% endif %}" href="{% url 'estado' %}">
-                      <i class="fas fa-robot me-2" style="width: 20px;"></i>Estado Bot
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'conversaciones' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'conversaciones' or request.resolver_match.url_name == 'conversacion_detalle' %}active{% endif %}" href="{% url 'conversaciones' %}">
-                      <i class="fas fa-comments me-2" style="width: 20px;"></i>Conversaciones
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'configuracion' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}" href="{% url 'configuracion' %}">
-                      <i class="fas fa-sliders-h me-2" style="width: 20px;"></i>Configuración IA
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'telegram_configuracion' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'telegram_configuracion' %}active{% endif %}" href="{% url 'telegram_configuracion' %}">
-                      <i class="fab fa-telegram me-2" style="width: 20px;"></i>Telegram Bot
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'departamentos' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'departamentos' %}active{% endif %}" href="{% url 'departamentos' %}">
-                      <i class="fas fa-building me-2" style="width: 20px;"></i>Departamentos
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'agentes' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'agentes' %}active{% endif %}" href="{% url 'agentes' %}">
-                      <i class="fas fa-user-tie me-2" style="width: 20px;"></i>Agentes
-                    </a>
-                  </li>
-                  {% endif %}
-                {% endif %}
-
-                <!-- Contabilidad Section -->
-                {% if user.nombre == 'admin' or 'contabilidad_costos' in user.permisos or 'contabilidad_finanzas' in user.permisos or 'generar_cotizacion' in user.permisos %}
-                <li class="sidebar-header-section">
-                  Contabilidad
-                </li>
-                  {% if user.nombre == 'admin' or 'contabilidad_costos' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'contabilidad_costos' %}active{% endif %}" href="{% url 'contabilidad_costos' %}">
-                      <i class="fas fa-calculator me-2" style="width: 20px;"></i>Estructura Costos
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'contabilidad_finanzas' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'contabilidad_finanzas' %}active{% endif %}" href="{% url 'contabilidad_finanzas' %}">
-                      <i class="fas fa-chart-line me-2" style="width: 20px;"></i>Finanzas y Balances
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'generar_cotizacion' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'generar_cotizacion' %}active{% endif %}" href="{% url 'generar_cotizacion' %}">
-                      <i class="fas fa-file-invoice-dollar me-2" style="width: 20px;"></i>Cotizaciones
-                    </a>
-                  </li>
-                  {% endif %}
-                {% endif %}
-
-                <!-- Administración Section -->
-                {% if user.nombre == 'admin' or 'control_usuarios' in user.permisos %}
-                <li class="sidebar-header-section">
-                  Administración
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if request.resolver_match.url_name == 'control_usuarios' %}active{% endif %}" href="{% url 'control_usuarios' %}">
-                    <i class="fas fa-users-cog me-2" style="width: 20px;"></i>Usuarios
-                  </a>
-                </li>
-                {% endif %}
-
-
-
-                <!-- Mi Cuenta Section -->
-                <li class="sidebar-header-section">
-                  Mi Cuenta
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if request.resolver_match.url_name == 'perfil' %}active{% endif %}" href="{% url 'perfil' %}">
-                    <i class="fas fa-user-cog me-2 icon-sidebar"></i>Mi Perfil
-                  </a>
-                </li>
-              </ul>
-            </aside>
-
-            <div class="mobile-sidebar-overlay" id="sidebarOverlay" onclick="document.getElementById('sidebarMobile').style.transform='translateX(-100%)'; document.getElementById('sidebarOverlay').style.display='none';"></div>
-            
-            <aside class="sidebar-mobile d-md-none mobile-sidebar-nav" id="sidebarMobile" style="transform: translateX(-100%);">
-              <div class="sidebar-header p-4" style="border-bottom: 1px solid var(--border-color);">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="d-flex align-items-center">
-                    <img src="{% static 'img/animacion.gif' %}" alt="Logo RAUDIE" class="brand-logo-img me-2" style="max-height: 35px; width: 35px; border-radius: 50%; object-fit: cover;">
-                    <h5 class="mb-0 brand-text text-dark fw-bold">RAU<span class="brand-text-accent" style="color: var(--primary-color);">DIE</span></h5>
-                  </div>
-                  <button class="btn btn-sm btn-outline-dark" onclick="document.getElementById('sidebarMobile').style.transform='translateX(-100%)'; document.getElementById('sidebarOverlay').style.display='none';">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-              <ul class="nav flex-column p-3 gap-1">
-                <!-- General Section -->
-                {% if user.nombre == 'admin' or 'control_servicios' in user.permisos or 'control_proyectos' in user.permisos %}
-                  {% if user.nombre == 'admin' or 'control_servicios' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'control_servicios' %}active{% endif %}" href="{% url 'control_servicios' %}">
-                      <i class="fas fa-wrench me-2 icon-sidebar"></i>Servicios
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'control_proyectos' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'control_proyectos' %}active{% endif %}" href="{% url 'control_proyectos' %}">
-                      <i class="fas fa-folder-open me-2 icon-sidebar"></i>Proyectos
-                    </a>
-                  </li>
-                  {% endif %}
-                  
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'contactos_web' %}active{% endif %}" href="{% url 'contactos_web' %}">
-                      <i class="fas fa-envelope-open-text me-2 icon-sidebar"></i>Contactos Web
-                    </a>
-                  </li>
-                {% endif %}
-
-                <!-- Marketing Section -->
-                {% if user.nombre == 'admin' or 'marketing' in user.permisos %}
-                <li class="sidebar-header-section">
-                  Marketing
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if request.resolver_match.url_name == 'marketing' %}active{% endif %}" href="{% url 'marketing' %}">
-                    <i class="fas fa-calendar-alt me-2 icon-sidebar"></i>Planeación
-                  </a>
-                </li>
-                {% endif %}
-
-                <!-- Chatbot IA Section -->
-                {% if user.nombre == 'admin' or 'estado' in user.permisos or 'conversaciones' in user.permisos or 'configuracion' in user.permisos or 'telegram_configuracion' in user.permisos or 'departamentos' in user.permisos or 'agentes' in user.permisos %}
-                <li class="sidebar-header-section">
-                  Chatbot IA
-                </li>
-                  {% if user.nombre == 'admin' or 'estado' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'estado' %}active{% endif %}" href="{% url 'estado' %}">
-                      <i class="fas fa-robot me-2 icon-sidebar"></i>Estado Bot
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'conversaciones' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'conversaciones' or request.resolver_match.url_name == 'conversacion_detalle' %}active{% endif %}" href="{% url 'conversaciones' %}">
-                      <i class="fas fa-comments me-2 icon-sidebar"></i>Conversaciones
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'configuracion' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}" href="{% url 'configuracion' %}">
-                      <i class="fas fa-sliders-h me-2 icon-sidebar"></i>Configuración IA
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'telegram_configuracion' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'telegram_configuracion' %}active{% endif %}" href="{% url 'telegram_configuracion' %}">
-                      <i class="fab fa-telegram me-2 icon-sidebar"></i>Telegram Bot
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'departamentos' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'departamentos' %}active{% endif %}" href="{% url 'departamentos' %}">
-                      <i class="fas fa-building me-2 icon-sidebar"></i>Departamentos
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'agentes' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'agentes' %}active{% endif %}" href="{% url 'agentes' %}">
-                      <i class="fas fa-user-tie me-2 icon-sidebar"></i>Agentes
-                    </a>
-                  </li>
-                  {% endif %}
-                {% endif %}
-
-                <!-- Contabilidad Section -->
-                {% if user.nombre == 'admin' or 'contabilidad_costos' in user.permisos or 'contabilidad_finanzas' in user.permisos or 'generar_cotizacion' in user.permisos %}
-                <li class="sidebar-header-section">
-                  Contabilidad
-                </li>
-                  {% if user.nombre == 'admin' or 'contabilidad_costos' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'contabilidad_costos' %}active{% endif %}" href="{% url 'contabilidad_costos' %}">
-                      <i class="fas fa-calculator me-2 icon-sidebar"></i>Estructura Costos
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'contabilidad_finanzas' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'contabilidad_finanzas' %}active{% endif %}" href="{% url 'contabilidad_finanzas' %}">
-                      <i class="fas fa-chart-line me-2 icon-sidebar"></i>Finanzas y Balances
-                    </a>
-                  </li>
-                  {% endif %}
-                  {% if user.nombre == 'admin' or 'generar_cotizacion' in user.permisos %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'generar_cotizacion' %}active{% endif %}" href="{% url 'generar_cotizacion' %}">
-                      <i class="fas fa-file-invoice-dollar me-2 icon-sidebar"></i>Cotizaciones
-                    </a>
-                  </li>
-                  {% endif %}
-                {% endif %}
-
-                <!-- Administración Section -->
-                {% if user.nombre == 'admin' or 'control_usuarios' in user.permisos %}
-                <li class="sidebar-header-section">
-                  Administración
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if request.resolver_match.url_name == 'control_usuarios' %}active{% endif %}" href="{% url 'control_usuarios' %}">
-                    <i class="fas fa-users-cog me-2 icon-sidebar"></i>Usuarios
-                  </a>
-                </li>
-                {% endif %}
-
-                <!-- Mi Cuenta Section -->
-                <li class="sidebar-header-section">
-                  Mi Cuenta
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if request.resolver_match.url_name == 'perfil' %}active{% endif %}" href="{% url 'perfil' %}">
-                    <i class="fas fa-user-cog me-2 icon-sidebar"></i>Mi Perfil
-                  </a>
-                </li>
-                <hr class="separator">
-                <li class="nav-item mt-2">
-                  <form action="{% url 'logout' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-outline-danger w-100 rounded-pill py-2">
-                      <i class="fas fa-power-off me-1"></i>Salir
-                    </button>
-                  </form>
-                </li>
-              </ul>
-            </aside>
-
-            <main class="col-12 col-md-9 col-lg-10 content-area d-flex flex-column" id="contentArea">
-              <div class="flex-grow-1 container-fluid pt-4 pb-4">
-                {% if messages %}
-                  {% for message in messages %}
-                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert" style="animation: slideInDown 0.3s ease-out;">
-                      <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %} me-2"></i>
-                      {{ message }}
-                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                  {% endfor %}
-                {% endif %}
-
-                <div class="fade-in">{% block content %}{% endblock %}</div>
-              </div>
-            </main>
-          </div>
+    <!-- =====================================================================
+         TOP EDITORIAL DOCK HEADER
+         ===================================================================== -->
+    <header class="admin-header">
+      <div class="raudie-topbar-inner">
+        <div class="d-flex align-items-center gap-3">
+          <button class="mobile-menu-btn btn d-lg-none" id="mobileMenuBtn" title="Menú">
+            <i class="fas fa-bars"></i>
+          </button>
+          <a href="{% url 'estado' %}" class="raudie-brand-link" title="Ir al Dashboard Principal">
+            <img src="{% static 'img/raudie-logo.png' %}" alt="RauDie Web Developers" class="raudie-brand-logo" onerror="this.style.display='none'">
+            <span class="raudie-os-pill">
+              <span class="raudie-os-dot"></span>
+              <span>RauDie OS</span>
+            </span>
+          </a>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="{% static 'js/main.js' %}"></script>
-        <script>
-      document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-        var sidebar = document.getElementById('sidebarMobile');
-        var overlay = document.getElementById('sidebarOverlay');
-        sidebar.style.display = 'block'; 
-        setTimeout(() => {
-          sidebar.style.transform = 'translateX(0)';
-          overlay.style.display = 'block';
-        }, 10);
-      });
+        <nav class="raudie-topbar-actions">
+          <!-- Leads Web Pill -->
+          <a href="{% url 'contactos_web' %}" class="raudie-top-pill" title="Contactos y Leads recibidos">
+            <i class="fas fa-inbox"></i>
+            <span class="d-none d-md-inline">Leads Web</span>
+            {% if total_contactos_count %}
+              <span class="raudie-pill-count">{{ total_contactos_count }}</span>
+            {% endif %}
+          </a>
+
+          <!-- Ver Sitio Web en Vivo -->
+          <a href="/" target="_blank" class="raudie-top-pill raudie-top-pill--dark" title="Abrir Landing Page">
+            <span>Ver Sitio Web</span>
+            <i class="fas fa-arrow-up-right-from-square"></i>
+          </a>
+
+          <!-- Usuario Conectado -->
+          <div class="raudie-user-chip d-none d-sm-inline-flex" title="Usuario activo">
+            <span class="raudie-user-avatar">{{ user.nombre|slice:":1"|upper|default:"A" }}</span>
+            <span class="raudie-user-name">{{ user.nombre }}</span>
+          </div>
+
+          <!-- Cerrar Sesión -->
+          <form action="{% url 'logout' %}" method="post" class="d-inline m-0">
+            {% csrf_token %}
+            <button type="submit" class="raudie-logout-btn" title="Cerrar sesión">
+              <i class="fas fa-power-off"></i>
+              <span class="d-none d-sm-inline">Salir</span>
+            </button>
+          </form>
+        </nav>
+      </div>
+    </header>
+
+    <!-- =====================================================================
+         EDITORIAL APP SHELL (268px Fixed Sidebar + Fluid Workspace)
+         ===================================================================== -->
+    <div class="raudie-app-shell">
+
+      <!-- DESKTOP SIDEBAR -->
+      <aside class="raudie-sidebar d-none d-lg-flex" id="sidebar">
+        <div class="raudie-sidebar-scroll">
+          <ul class="nav flex-column gap-1">
+
+            <!-- SECCIÓN PRINCIPAL: DASHBOARD -->
+            <li class="sidebar-header-section">
+              <span>Panel Principal</span>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'estado' or request.resolver_match.url_name == 'panel' or request.resolver_match.url_name == 'dashboard' or request.resolver_match.url_name == 'dashboard_root' %}active{% endif %}" href="{% url 'estado' %}">
+                <i class="fas fa-chart-pie sidebar-icon"></i>
+                <span class="sidebar-link-text">Dashboard General</span>
+              </a>
+            </li>
+
+            <!-- SECCIÓN 1: GESTIÓN SITIO WEB & LEADS -->
+            <li class="sidebar-header-section">
+              <span>Sitio Web &amp; Leads</span>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'contactos_web' %}active{% endif %}" href="{% url 'contactos_web' %}">
+                <i class="fas fa-envelope-open-text sidebar-icon"></i>
+                <span class="sidebar-link-text">Contactos &amp; Leads</span>
+                {% if total_contactos_count %}
+                  <span class="sidebar-badge sidebar-badge--accent">{{ total_contactos_count }}</span>
+                {% endif %}
+              </a>
+            </li>
+
+            {% if user.nombre == 'admin' or 'control_proyectos' in user.permisos %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'control_proyectos' %}active{% endif %}" href="{% url 'control_proyectos' %}">
+                <i class="fas fa-laptop-code sidebar-icon"></i>
+                <span class="sidebar-link-text">Proyectos &amp; Portafolio</span>
+              </a>
+            </li>
+            {% endif %}
+
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'control_noticias' %}active{% endif %}" href="{% url 'control_noticias' %}">
+                <i class="fas fa-newspaper sidebar-icon"></i>
+                <span class="sidebar-link-text">Noticias &amp; Blog</span>
+              </a>
+            </li>
+
+            {% if user.nombre == 'admin' or 'control_servicios' in user.permisos %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'control_servicios' %}active{% endif %}" href="{% url 'control_servicios' %}">
+                <i class="fas fa-layer-group sidebar-icon"></i>
+                <span class="sidebar-link-text">Servicios Web</span>
+                <span class="sidebar-badge">Código</span>
+              </a>
+            </li>
+            {% endif %}
+
+            <!-- SECCIÓN 2: CHATBOT & ATENCIÓN IA -->
+            {% if user.nombre == 'admin' or 'estado' in user.permisos or 'conversaciones' in user.permisos or 'configuracion' in user.permisos or 'telegram_configuracion' in user.permisos or 'departamentos' in user.permisos or 'agentes' in user.permisos %}
+            <li class="sidebar-header-section">
+              <span>Chatbot IA &amp; Soporte</span>
+            </li>
+              {% if user.nombre == 'admin' or 'conversaciones' in user.permisos %}
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'conversaciones' or request.resolver_match.url_name == 'conversacion_detalle' %}active{% endif %}" href="{% url 'conversaciones' %}">
+                  <i class="fas fa-comments sidebar-icon"></i>
+                  <span class="sidebar-link-text">Conversaciones</span>
+                </a>
+              </li>
+              {% endif %}
+              {% if user.nombre == 'admin' or 'configuracion' in user.permisos %}
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}" href="{% url 'configuracion' %}">
+                  <i class="fas fa-sliders-h sidebar-icon"></i>
+                  <span class="sidebar-link-text">Configuración IA</span>
+                </a>
+              </li>
+              {% endif %}
+              {% if user.nombre == 'admin' or 'telegram_configuracion' in user.permisos %}
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'telegram_configuracion' %}active{% endif %}" href="{% url 'telegram_configuracion' %}">
+                  <i class="fab fa-telegram sidebar-icon"></i>
+                  <span class="sidebar-link-text">Telegram Bot</span>
+                </a>
+              </li>
+              {% endif %}
+              {% if user.nombre == 'admin' or 'departamentos' in user.permisos %}
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'departamentos' %}active{% endif %}" href="{% url 'departamentos' %}">
+                  <i class="fas fa-building sidebar-icon"></i>
+                  <span class="sidebar-link-text">Departamentos</span>
+                </a>
+              </li>
+              {% endif %}
+              {% if user.nombre == 'admin' or 'agentes' in user.permisos %}
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'agentes' %}active{% endif %}" href="{% url 'agentes' %}">
+                  <i class="fas fa-user-tie sidebar-icon"></i>
+                  <span class="sidebar-link-text">Agentes</span>
+                </a>
+              </li>
+              {% endif %}
+            {% endif %}
+
+            <!-- SECCIÓN 3: MARKETING -->
+            {% if user.nombre == 'admin' or 'marketing' in user.permisos %}
+            <li class="sidebar-header-section">
+              <span>Marketing &amp; Redes</span>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'marketing' %}active{% endif %}" href="{% url 'marketing' %}">
+                <i class="fas fa-calendar-alt sidebar-icon"></i>
+                <span class="sidebar-link-text">Planeación de Contenido</span>
+              </a>
+            </li>
+            {% endif %}
+
+            <!-- SECCIÓN 4: CONTABILIDAD & PRESUPUESTOS -->
+            {% if user.nombre == 'admin' or 'contabilidad_costos' in user.permisos or 'contabilidad_finanzas' in user.permisos or 'generar_cotizacion' in user.permisos %}
+            <li class="sidebar-header-section">
+              <span>Contabilidad &amp; Finanzas</span>
+            </li>
+              {% if user.nombre == 'admin' or 'contabilidad_costos' in user.permisos %}
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'contabilidad_costos' %}active{% endif %}" href="{% url 'contabilidad_costos' %}">
+                  <i class="fas fa-calculator sidebar-icon"></i>
+                  <span class="sidebar-link-text">Estructura Costos</span>
+                </a>
+              </li>
+              {% endif %}
+              {% if user.nombre == 'admin' or 'contabilidad_finanzas' in user.permisos %}
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'contabilidad_finanzas' %}active{% endif %}" href="{% url 'contabilidad_finanzas' %}">
+                  <i class="fas fa-chart-line sidebar-icon"></i>
+                  <span class="sidebar-link-text">Finanzas y Balances</span>
+                </a>
+              </li>
+              {% endif %}
+              {% if user.nombre == 'admin' or 'generar_cotizacion' in user.permisos %}
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'generar_cotizacion' %}active{% endif %}" href="{% url 'generar_cotizacion' %}">
+                  <i class="fas fa-file-invoice-dollar sidebar-icon"></i>
+                  <span class="sidebar-link-text">Generar Cotización</span>
+                </a>
+              </li>
+              {% endif %}
+            {% endif %}
+
+            <!-- SECCIÓN 5: ADMINISTRACIÓN & CUENTA -->
+            <li class="sidebar-header-section">
+              <span>Administración</span>
+            </li>
+            {% if user.nombre == 'admin' or 'control_usuarios' in user.permisos %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'control_usuarios' %}active{% endif %}" href="{% url 'control_usuarios' %}">
+                <i class="fas fa-users-cog sidebar-icon"></i>
+                <span class="sidebar-link-text">Usuarios &amp; Permisos</span>
+              </a>
+            </li>
+            {% endif %}
+
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'perfil' %}active{% endif %}" href="{% url 'perfil' %}">
+                <i class="fas fa-user-circle sidebar-icon"></i>
+                <span class="sidebar-link-text">Mi Perfil</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- MOBILE SIDEBAR DRAWER -->
+      <div class="mobile-sidebar-overlay" id="sidebarOverlay" onclick="document.getElementById('sidebarMobile').style.transform='translateX(-100%)'; document.getElementById('sidebarOverlay').style.display='none';"></div>
+
+      <aside class="sidebar-mobile d-lg-none mobile-sidebar-nav" id="sidebarMobile" style="transform: translateX(-100%);">
+        <div class="sidebar-header p-3 d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center gap-2">
+            <img src="{% static 'img/raudie-logo.png' %}" alt="RauDie" style="height: 24px; width: auto;">
+            <span class="raudie-os-pill">RauDie OS</span>
+          </div>
+          <button class="btn btn-sm btn-outline-dark rounded-circle" onclick="document.getElementById('sidebarMobile').style.transform='translateX(-100%)'; document.getElementById('sidebarOverlay').style.display='none';">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="p-3">
+          <ul class="nav flex-column gap-1">
+            <li class="sidebar-header-section"><span>Panel Principal</span></li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'estado' %}active{% endif %}" href="{% url 'estado' %}">
+                <i class="fas fa-chart-pie sidebar-icon"></i><span>Dashboard General</span>
+              </a>
+            </li>
+
+            <li class="sidebar-header-section"><span>Sitio Web &amp; Leads</span></li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'contactos_web' %}active{% endif %}" href="{% url 'contactos_web' %}">
+                <i class="fas fa-envelope-open-text sidebar-icon"></i><span>Contactos &amp; Leads</span>
+                {% if total_contactos_count %}<span class="sidebar-badge sidebar-badge--accent">{{ total_contactos_count }}</span>{% endif %}
+              </a>
+            </li>
+            {% if user.nombre == 'admin' or 'control_proyectos' in user.permisos %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'control_proyectos' %}active{% endif %}" href="{% url 'control_proyectos' %}">
+                <i class="fas fa-laptop-code sidebar-icon"></i><span>Proyectos &amp; Portafolio</span>
+              </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'control_noticias' %}active{% endif %}" href="{% url 'control_noticias' %}">
+                <i class="fas fa-newspaper sidebar-icon"></i><span>Noticias &amp; Blog</span>
+              </a>
+            </li>
+            {% if user.nombre == 'admin' or 'control_servicios' in user.permisos %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'control_servicios' %}active{% endif %}" href="{% url 'control_servicios' %}">
+                <i class="fas fa-layer-group sidebar-icon"></i><span>Servicios Web</span>
+              </a>
+            </li>
+            {% endif %}
+
+            <li class="sidebar-header-section"><span>Operaciones &amp; IA</span></li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'conversaciones' %}active{% endif %}" href="{% url 'conversaciones' %}">
+                <i class="fas fa-comments sidebar-icon"></i><span>Conversaciones</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}" href="{% url 'configuracion' %}">
+                <i class="fas fa-sliders-h sidebar-icon"></i><span>Configuración IA</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'telegram_configuracion' %}active{% endif %}" href="{% url 'telegram_configuracion' %}">
+                <i class="fab fa-telegram sidebar-icon"></i><span>Telegram Bot</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'marketing' %}active{% endif %}" href="{% url 'marketing' %}">
+                <i class="fas fa-calendar-alt sidebar-icon"></i><span>Planeación Contenido</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'contabilidad_costos' %}active{% endif %}" href="{% url 'contabilidad_costos' %}">
+                <i class="fas fa-calculator sidebar-icon"></i><span>Estructura Costos</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'contabilidad_finanzas' %}active{% endif %}" href="{% url 'contabilidad_finanzas' %}">
+                <i class="fas fa-chart-line sidebar-icon"></i><span>Finanzas y Balances</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'generar_cotizacion' %}active{% endif %}" href="{% url 'generar_cotizacion' %}">
+                <i class="fas fa-file-invoice-dollar sidebar-icon"></i><span>Generar Cotización</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'control_usuarios' %}active{% endif %}" href="{% url 'control_usuarios' %}">
+                <i class="fas fa-users-cog sidebar-icon"></i><span>Usuarios &amp; Permisos</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'perfil' %}active{% endif %}" href="{% url 'perfil' %}">
+                <i class="fas fa-user-circle sidebar-icon"></i><span>Mi Perfil</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- MAIN WORKSPACE -->
+      <main class="raudie-workspace content-area" id="contentArea">
+        <div class="raudie-workspace-inner">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show rounded-4 border-0 shadow-sm mb-4" role="alert">
+                <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %} me-2"></i>
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <div class="fade-in">{% block content %}{% endblock %}</div>
+        </div>
+      </main>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/main.js' %}?v={% now 'U' %}"></script>
+    <script>
+      const mobBtn = document.getElementById('mobileMenuBtn');
+      if (mobBtn) {
+        mobBtn.addEventListener('click', function() {
+          var sidebar = document.getElementById('sidebarMobile');
+          var overlay = document.getElementById('sidebarOverlay');
+          sidebar.style.display = 'block';
+          setTimeout(() => {
+            sidebar.style.transform = 'translateX(0)';
+            overlay.style.display = 'block';
+          }, 10);
+        });
+      }
     </script>
 
-        {% block extra_scripts %}{% endblock %}
-        {% block modals %}{% endblock %}
-      </body>
-    </html>
+    {% block extra_scripts %}{% endblock %}
+    {% block modals %}{% endblock %}
+  </body>
+</html>

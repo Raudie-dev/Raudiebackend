@@ -39,9 +39,9 @@
       <nav class="dock-menu">
         <ul class="dock-links">
           <li><a href="{% url 'index' %}#hero" class="dock-link active" data-i18n="nav.home">Inicio</a></li>
-          <li><a href="{% url 'proyectos' %}" class="dock-link" data-i18n="nav.work">Proyectos</a></li>
-          <li><a href="{% url 'index' %}#saas" class="dock-link" data-i18n="nav.saas">RauDie OS</a></li>
+          <li><a href="{% url 'index' %}#work" class="dock-link" data-i18n="nav.work">Proyectos</a></li>
           <li><a href="{% url 'index' %}#services" class="dock-link" data-i18n="nav.services">Servicios</a></li>
+          <li><a href="{% url 'index' %}#saas" class="dock-link" data-i18n="nav.saas">RauDie OS</a></li>
           <li><a href="{% url 'noticias' %}" class="dock-link" data-i18n="nav.news">Noticias</a></li>
           <li><a href="{% url 'index' %}#contact" class="dock-link" data-i18n="nav.contact">Contacto</a></li>
         </ul>
@@ -59,6 +59,9 @@
           <span data-i18n="nav.talk">Hablemos</span>
           <i class="fas fa-arrow-right"></i>
         </a>
+
+
+
         <button class="mobile-menu-btn" aria-label="Abrir Menú">
           <span></span>
           <span></span>
@@ -85,12 +88,20 @@
     </div>
     <ul class="drawer-links">
       <li><a href="{% url 'index' %}#hero" data-i18n="nav.home">Inicio</a></li>
-      <li><a href="{% url 'proyectos' %}" data-i18n="nav.work">Proyectos</a></li>
-      <li><a href="{% url 'index' %}#saas" data-i18n="nav.saas">RauDie OS (SaaS)</a></li>
+      <li><a href="{% url 'index' %}#work" data-i18n="nav.work">Proyectos</a></li>
       <li><a href="{% url 'index' %}#services" data-i18n="nav.services">Servicios</a></li>
+      <li><a href="{% url 'index' %}#saas" data-i18n="nav.saas">RauDie OS (SaaS)</a></li>
       <li><a href="{% url 'noticias' %}" data-i18n="nav.news">Noticias &amp; Insights</a></li>
       <li><a href="{% url 'index' %}#contact" data-i18n="nav.contact">Contacto</a></li>
-      <li><a href="{% url 'login' %}" data-i18n="drawer.login">Acceso Clientes ↗</a></li>
+      {% if panel_user %}
+        <li class="drawer-panel-highlight">
+          <a href="{% url 'control_servicios' %}" style="color: #10b981; font-weight: 700;">
+            <i class="fas fa-gauge-high me-2"></i>Panel de Control ({{ panel_user.nombre }}) ⚡
+          </a>
+        </li>
+      {% else %}
+        <li><a href="{% url 'login' %}" data-i18n="drawer.login"><i class="fas fa-lock me-2"></i>Acceso al Panel ↗</a></li>
+      {% endif %}
     </ul>
     <div class="drawer-footer">
       <a href="mailto:raudie@raudie.net">raudie@raudie.net</a>

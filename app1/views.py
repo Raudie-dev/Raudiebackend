@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 from .models import Prueba, Servicios, Proyecto, Categoria, Noticia
+from .services_data import get_servicios, get_servicio_by_id, get_otros_servicios
 
 # Create your views here.
 def index(request):
@@ -17,8 +18,8 @@ def index(request):
     if socio in ['si', 'no']:
         pruebas = pruebas.filter(socio=(socio == 'si'))
 
-    # Obtener servicios recientes para mostrar en tarjetas (últimos 6)
-    servicios = Servicios.objects.all().order_by('-id')[:6]
+    # Obtener servicios oficiales definidos en código (no modificables desde el panel)
+    servicios = get_servicios()
 
     # Obtener últimos 6 proyectos
     proyectos = Proyecto.objects.all().order_by('-fecha', '-id')[:6]
@@ -58,10 +59,16 @@ def index(request):
         'mensaje_bienvenida': mensaje_bienvenida,
     })
 
-# Nueva vista: detalle de un servicio
+# Vista: detalle de un servicio (gestionado en código con fallback)
 def servicios_detalle(request, servicio_id):
-    servicio = get_object_or_404(Servicios, id=servicio_id)
-    otros_servicios = Servicios.objects.exclude(id=servicio_id).order_by('-id')[:3]
+    servicio = get_servicio_by_id(servicio_id)
+    if not servicio:
+        # Fallback a la base de datos por compatibilidad con IDs anteriores
+        try:
+            servicio = Servicios.objects.get(id=servicio_id)
+        except (Servicios.DoesNotExist, ValueError):
+            return redirect('index')
+    otros_servicios = get_otros_servicios(servicio_id)
     return render(request, 'servicio_detalle.html', {
         'servicio': servicio,
         'otros_servicios': otros_servicios,

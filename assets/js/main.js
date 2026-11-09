@@ -31,8 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
     navLinks.forEach((link) => {
       link.addEventListener("click", () => {
         if (!link.parentElement.classList.contains("has-dropdown")) {
-          navbarNav.classList.remove("show")
-          navbarToggle.classList.remove("active")
+          if (navbarNav) navbarNav.classList.remove("show")
+          if (navbarToggle) navbarToggle.classList.remove("active")
         }
       })
     })
@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // ========== CLOSE MENU WHEN CLICKING OUTSIDE ==========
     document.addEventListener("click", (e) => {
       if (!e.target.closest(".admin-header")) {
-        navbarNav.classList.remove("show")
-        if (navbarToggle) navbarToggle.classList.remove("active")
+        if (navbarNav) navbarNav.classList.remove("show")
+        if (navbarToggle) if (navbarToggle) navbarToggle.classList.remove("active")
         dropdownItems.forEach((item) => item.classList.remove("show"))
       }
     })
@@ -79,13 +79,15 @@ document.addEventListener("DOMContentLoaded", () => {
   
     // Header scroll effect
     const header = document.querySelector(".header")
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 50) {
-        header.classList.add("scrolled")
-      } else {
-        header.classList.remove("scrolled")
-      }
-    })
+    if (header) {
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled")
+        } else {
+          header.classList.remove("scrolled")
+        }
+      })
+    }
   
     // Initialize all sliders
     initializeAllSliders()
@@ -99,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const targetElement = document.querySelector(targetId)
   
         if (targetElement) {
-          const headerHeight = document.querySelector(".header").offsetHeight
+          const headerEl = document.querySelector(".header"); const headerHeight = headerEl ? headerEl.offsetHeight : 0
           const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight
   
           window.scrollTo({
@@ -116,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     window.addEventListener("scroll", () => {
       let current = ""
-      const headerHeight = document.querySelector(".header").offsetHeight
+      const headerEl = document.querySelector(".header"); const headerHeight = headerEl ? headerEl.offsetHeight : 0
   
       sections.forEach((section) => {
         const sectionTop = section.offsetTop - headerHeight - 100

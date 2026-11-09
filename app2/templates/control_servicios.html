@@ -1,298 +1,266 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Control de Servicios{% endblock %}
+{% block title %}Servicios Comerciales (Código) | Panel RauDie{% endblock %}
 
-{% block extra_scripts %}
-<script>
-document.addEventListener('click', function(e){
-  const addBtn = e.target.closest('.add-feature');
-  if(addBtn){
-    const widget = addBtn.closest('.features-widget');
-    const list = widget.querySelector('.features-list');
-    const item = document.createElement('div');
-    item.className = 'input-group mb-2 feature-item';
-    item.innerHTML = '<input type="text" class="form-control feature-input" placeholder="Agregar característica">'
-      + '<button class="btn btn-outline-danger remove-feature" type="button"><i class="fas fa-times"></i></button>';
-    list.appendChild(item);
-    list.lastElementChild.querySelector('input').focus();
+{% block extra_head %}
+<style>
+  .servicios-code-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
   }
-  const removeBtn = e.target.closest('.remove-feature');
-  if(removeBtn){
-    const item = removeBtn.closest('.feature-item');
-    if(item) item.remove();
+  .service-code-card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-});
-
-document.addEventListener('submit', function(e){
-  e.target.querySelectorAll('.features-widget').forEach(widget => {
-    const inputs = Array.from(widget.querySelectorAll('.feature-input')).map(i=>i.value.trim()).filter(Boolean);
-    const hidden = widget.querySelector('input[type="hidden"][name="caracteristicas"]');
-    if(hidden) hidden.value = inputs.join(', ');
-  });
-});
-
-document.addEventListener('DOMContentLoaded', function(){
-  document.querySelectorAll('.features-list').forEach(list => {
-    if(!list.children.length){
-      const item = document.createElement('div');
-      item.className = 'input-group mb-2 feature-item';
-      item.innerHTML = '<input type="text" class="form-control feature-input" placeholder="Agregar característica">'
-        + '<button class="btn btn-outline-danger remove-feature" type="button"><i class="fas fa-times"></i></button>';
-      list.appendChild(item);
-    }
-  });
-  document.querySelectorAll('.servicio-card').forEach((card, i) => {
-    card.style.animationDelay = `${i * 60}ms`;
-    card.classList.add('fade-in');
-  });
-});
-</script>
+  .service-code-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  }
+  .service-code-media {
+    position: relative;
+    height: 220px;
+    background: #111010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .service-code-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 0.4s ease;
+  }
+  .service-code-card:hover .service-code-media img {
+    transform: scale(1.03);
+  }
+  .service-code-id-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.75);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .service-code-pill-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #810100;
+    color: #ffffff;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(129, 1, 0, 0.4);
+  }
+  .service-code-body {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .service-code-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    gap: 12px;
+  }
+  .service-code-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: #1a1616;
+    margin: 0;
+    line-height: 1.3;
+  }
+  .service-code-price {
+    font-size: 18px;
+    font-weight: 800;
+    color: #810100;
+    white-space: nowrap;
+    background: rgba(129, 1, 0, 0.06);
+    padding: 4px 10px;
+    border-radius: 8px;
+  }
+  .service-code-subtitle {
+    font-size: 13px;
+    color: #6c757d;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .service-code-desc {
+    font-size: 13px;
+    color: #495057;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .service-code-bonus {
+    background: linear-gradient(135deg, rgba(129, 1, 0, 0.08), rgba(184, 25, 42, 0.03));
+    border: 1px dashed rgba(184, 25, 42, 0.4);
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #810100;
+  }
+  .service-code-bonus .bonus-tag {
+    background: #810100;
+    color: #ffffff;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+  }
+  .service-code-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .service-code-features li {
+    font-size: 12.5px;
+    color: #343a40;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .service-code-features li i {
+    color: #198754;
+    font-size: 13px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+  .service-code-footer {
+    padding-top: 14px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid px-4 py-3">
 
   <!-- ── PAGE HEADER ── -->
   <div class="row align-items-center mb-4 mt-2">
     <div class="col">
-      <h1 class="h3 mb-1 text-gray-800 fw-bold">Control de Servicios</h1>
-      <p class="text-muted mb-0">Gestiona y administra todos tus servicios</p>
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <h1 class="h3 mb-0 text-gray-800 fw-bold">Catálogo de Servicios Web</h1>
+        <span class="badge bg-secondary-subtle text-secondary border px-2 py-1" style="font-size: 11px;">
+          <i class="fas fa-lock me-1"></i>Gestionado en Código
+        </span>
+      </div>
+      <p class="text-muted mb-0">Servicios oficiales sincronizados con los flyers y la identidad corporativa de RauDie.</p>
     </div>
-    <div class="col-auto">
-      <button class="btn btn-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalCrearServicio">
-        <i class="fas fa-plus me-1"></i>Nuevo Servicio
-      </button>
+    <div class="col-auto d-flex gap-2">
+      <a href="{% url 'index' %}#services" target="_blank" class="btn btn-outline-dark rounded-pill px-3">
+        <i class="fas fa-external-link-alt me-1"></i>Ver en Landing Page
+      </a>
     </div>
   </div>
 
-  <!-- ── STATS BAR ── -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <div class="card border-0 shadow-sm rounded-4 bg-white p-3 d-flex flex-row align-items-center gap-2">
-        <i class="fas fa-layer-group text-primary fa-lg"></i>
-        <span><strong>{{ servicios|length }}</strong> servicio{{ servicios|length|pluralize:",s" }} activo{{ servicios|length|pluralize:",s" }}</span>
-      </div>
+  <!-- ── ARCHITECTURE NOTICE BANNER ── -->
+  <div class="alert alert-light border border-secondary border-opacity-25 rounded-4 shadow-sm p-3 mb-4 d-flex align-items-center gap-3">
+    <div class="rounded-circle bg-dark text-white p-2 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; flex-shrink: 0;">
+      <i class="fas fa-shield-alt fa-lg"></i>
+    </div>
+    <div class="flex-grow-1">
+      <h6 class="mb-1 fw-bold text-dark">Modo de Código Protegido (app1/services_data.py)</h6>
+      <p class="mb-0 text-muted small">
+        Los servicios comerciales no son modificables desde formularios web para prevenir inconsistencias visuales, fallos de maquetación y desalineación con los flyers oficiales de la marca. Cualquier ajuste se realiza directamente en la definición de código del proyecto.
+      </p>
     </div>
   </div>
 
   <!-- ── GRID DE SERVICIOS ── -->
-  {% if servicios %}
-  <div class="servicios-grid">
+  <div class="servicios-code-grid">
     {% for s in servicios %}
-    <div class="servicio-card">
-
-      {% if s.foto %}
-        <div class="servicio-card__image">
-          <img src="{{ s.foto.url }}" alt="{{ s.nombre }}">
-        </div>
-      {% else %}
-        <div class="servicio-card__image servicio-card__image--empty">
-          <i class="fas fa-image"></i>
-          <span>Sin imagen</span>
-        </div>
-      {% endif %}
-
-      <div class="servicio-card__body">
-        <div class="servicio-card__meta">
-          {% if s.titulo %}
-            <span class="servicio-card__tag">
-              <i class="fas fa-tag me-1"></i>{{ s.titulo }}
-            </span>
+      <div class="service-code-card">
+        
+        <div class="service-code-media" style="height: 140px; background: linear-gradient(135deg, #1b1717 0%, #2a1012 60%, #4a0d10 100%);">
+          <span class="service-code-id-badge">ID #{{ s.id }}</span>
+          {% if s.badge %}
+            <span class="service-code-pill-badge">{{ s.badge }}</span>
           {% endif %}
-          <span class="servicio-card__price">${{ s.precio }}</span>
-        </div>
-        <h2 class="servicio-card__name">{{ s.nombre }}</h2>
-        {% if s.descripcion %}
-          <p class="servicio-card__desc">{{ s.descripcion|truncatechars:110 }}</p>
-        {% endif %}
-        {% if s.caracteristicas %}
-        <div class="servicio-card__features">
-          {% for c in s.caracteristicas %}
-            <span class="feature-badge">{{ c }}</span>
-          {% endfor %}
-        </div>
-        {% endif %}
-      </div>
-
-      <div class="servicio-card__footer">
-        <button class="btn btn-sm btn-outline-primary"
-                data-bs-toggle="modal" data-bs-target="#modalEdit{{ s.id }}">
-          <i class="fas fa-pen me-1"></i>Editar
-        </button>
-        <form method="post" style="display:inline; margin-left:auto;"
-              onsubmit="return confirm('¿Eliminar servicio «{{ s.nombre }}»?');">
-          {% csrf_token %}
-          <button type="submit" name="eliminar_servicio" value="{{ s.id }}"
-                  class="btn btn-sm btn-outline-danger">
-            <i class="fas fa-trash me-1"></i>Eliminar
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <!-- ── MODAL EDITAR ── -->
-    <div class="modal fade" id="modalEdit{{ s.id }}" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div class="modal-header__icon"><i class="fas fa-pen"></i></div>
-            <h5 class="modal-title">Editar: {{ s.nombre }}</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          <div class="service-code-icon-center text-center">
+            <i class="{{ s.icono|default:'fas fa-layer-group' }} fa-2x text-white" style="opacity: 0.9;"></i>
           </div>
-          <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="hidden" name="editar_servicio" value="1">
-            <input type="hidden" name="editar_servicio_id" value="{{ s.id }}">
-            <div class="modal-body">
-              <div class="form-section">
-                <h6 class="form-section__label"><i class="fas fa-info-circle me-2"></i>Información básica</h6>
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label class="form-label">Nombre <span class="text-danger">*</span></label>
-                    <input type="text" name="nombre" class="form-control" value="{{ s.nombre }}" required>
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label">Título / Categoría</label>
-                    <input type="text" name="titulo" class="form-control" value="{{ s.titulo }}">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-label">Precio <span class="text-danger">*</span></label>
-                    <div class="input-group">
-                      <span class="input-group-text">$</span>
-                      <input type="number" step="0.01" name="precio" class="form-control" value="{{ s.precio }}">
-                    </div>
-                  </div>
-                  <div class="col-md-8">
-                    <label class="form-label">Foto</label>
-                    {% if s.foto %}
-                      <div class="current-photo mb-1">
-                        <img src="{{ s.foto.url }}" alt="Foto actual">
-                        <small class="text-muted ms-2">Foto actual</small>
-                      </div>
-                    {% endif %}
-                    <input type="file" name="foto" accept="image/*" class="form-control">
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label">Descripción</label>
-                    <textarea name="descripcion" class="form-control" rows="3">{{ s.descripcion }}</textarea>
-                  </div>
-                </div>
-              </div>
-              <div class="form-section mt-4">
-                <h6 class="form-section__label"><i class="fas fa-list-check me-2"></i>Características</h6>
-                <div class="features-widget">
-                  <div class="features-list">
-                    {% for c in s.caracteristicas %}
-                      <div class="input-group mb-2 feature-item">
-                        <input type="text" class="form-control feature-input" value="{{ c }}">
-                        <button class="btn btn-outline-danger remove-feature" type="button"><i class="fas fa-times"></i></button>
-                      </div>
-                    {% empty %}
-                      <div class="input-group mb-2 feature-item">
-                        <input type="text" class="form-control feature-input" placeholder="Agregar característica">
-                        <button class="btn btn-outline-danger remove-feature" type="button"><i class="fas fa-times"></i></button>
-                      </div>
-                    {% endfor %}
-                  </div>
-                  <button type="button" class="btn btn-sm btn-outline-primary add-feature mt-1">
-                    <i class="fas fa-plus me-1"></i>Añadir característica
-                  </button>
-                  <input type="hidden" name="caracteristicas">
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary">
-                <i class="fas fa-save me-2"></i>Guardar cambios
-              </button>
-            </div>
-          </form>
         </div>
+
+        <div class="service-code-body">
+          <div class="service-code-top">
+            <h2 class="service-code-title">{{ s.nombre }}</h2>
+            <div class="service-code-price">
+              {% if s.precio %}
+                ${{ s.precio|floatformat:0 }} USD
+              {% else %}
+                A Medida
+              {% endif %}
+            </div>
+          </div>
+
+          {% if s.titulo %}
+            <div class="service-code-subtitle">{{ s.titulo }}</div>
+          {% endif %}
+
+          <p class="service-code-desc">{{ s.descripcion }}</p>
+
+          {% if s.bonus %}
+            <div class="service-code-bonus">
+              <span class="bonus-tag">BONUS</span>
+              <span>{{ s.bonus }}</span>
+            </div>
+          {% endif %}
+
+          {% if s.caracteristicas %}
+            <h6 class="text-uppercase fw-bold text-muted small mb-2" style="letter-spacing: 0.05em; font-size: 11px;">Características incluidas:</h6>
+            <ul class="service-code-features">
+              {% for c in s.caracteristicas %}
+                <li>
+                  <i class="fas fa-check-circle"></i>
+                  <span>{{ c }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          <div class="service-code-footer">
+            <a href="{% url 'servicio_detalle' s.id %}" target="_blank" class="btn btn-sm btn-dark rounded-pill px-3 w-100 text-center">
+              <i class="fas fa-arrow-up-right-from-square me-1"></i>Ver Detalle del Servicio
+            </a>
+          </div>
+        </div>
+
       </div>
-    </div>
     {% endfor %}
   </div>
 
-  {% else %}
-  <div class="empty-state">
-    <div class="empty-state__icon"><i class="fas fa-wrench"></i></div>
-    <h3>Sin servicios aún</h3>
-    <p>Comienza creando tu primer servicio para gestionarlo desde aquí.</p>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearServicio">
-      <i class="fas fa-plus me-2"></i>Crear primer servicio
-    </button>
-  </div>
-  {% endif %}
-
-</div>
-
-<!-- ── MODAL CREAR SERVICIO ── -->
-<div class="modal fade" id="modalCrearServicio" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-header__icon"><i class="fas fa-plus-circle"></i></div>
-        <h5 class="modal-title">Nuevo Servicio</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="hidden" name="crear_servicio" value="1">
-        <div class="modal-body">
-          <div class="form-section">
-            <h6 class="form-section__label"><i class="fas fa-info-circle me-2"></i>Información básica</h6>
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Nombre <span class="text-danger">*</span></label>
-                <input type="text" name="nombre" class="form-control" placeholder="Ej: Mantenimiento preventivo" required>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Título / Categoría</label>
-                <input type="text" name="titulo" class="form-control" placeholder="Ej: Industrial">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Precio <span class="text-danger">*</span></label>
-                <div class="input-group">
-                  <span class="input-group-text">$</span>
-                  <input type="number" step="0.01" name="precio" class="form-control" placeholder="0.00" required>
-                </div>
-              </div>
-              <div class="col-md-8">
-                <label class="form-label">Foto</label>
-                <input type="file" name="foto" accept="image/*" class="form-control">
-              </div>
-              <div class="col-12">
-                <label class="form-label">Descripción</label>
-                <textarea name="descripcion" class="form-control" rows="3"
-                          placeholder="Describe brevemente este servicio..."></textarea>
-              </div>
-            </div>
-          </div>
-          <div class="form-section mt-4">
-            <h6 class="form-section__label"><i class="fas fa-list-check me-2"></i>Características</h6>
-            <div class="features-widget">
-              <div class="features-list">
-                <div class="input-group mb-2 feature-item">
-                  <input type="text" class="form-control feature-input" placeholder="Ej: Incluye diagnóstico">
-                  <button class="btn btn-outline-danger remove-feature" type="button"><i class="fas fa-times"></i></button>
-                </div>
-              </div>
-              <button type="button" class="btn btn-sm btn-outline-primary add-feature mt-1">
-                <i class="fas fa-plus me-1"></i>Añadir característica
-              </button>
-              <input type="hidden" name="caracteristicas">
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">
-            <i class="fas fa-plus-circle me-2"></i>Crear Servicio
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
 </div>
 {% endblock %}

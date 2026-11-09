@@ -2,9 +2,14 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('', views.estado, name='dashboard_root'),
+    path('panel/', views.estado, name='panel'),
+    path('dashboard/', views.estado, name='dashboard'),
     path('login/', views.login, name='login'),
     path('control_servicios/', views.control_servicios, name='control_servicios'),
     path('control_proyectos/', views.control_proyectos, name='control_proyectos'),
+    path('control_noticias/', views.control_noticias, name='control_noticias'),
+    path('control_noticias/eliminar/<int:noticia_id>/', views.eliminar_noticia_view, name='eliminar_noticia'),
     path('contactos/', views.contactos_web_view, name='contactos_web'),
     # path('solicitudes_cotizacion/', views.solicitudes_cotizacion, name='solicitudes_cotizacion'),
     path('logout/', views.logout, name='logout'),

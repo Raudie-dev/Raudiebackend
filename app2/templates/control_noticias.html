@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Control de Noticias &amp; Blog | RauDie Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+  <!-- ── PAGE HEADER ── -->
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill font-monospace small">
+          <i class="fas fa-globe me-1"></i>Sitio Web
+        </span>
+      </div>
+      <h1 class="h3 mb-1 text-gray-800 fw-bold mt-2">Control de Noticias &amp; Blog</h1>
+      <p class="text-muted mb-0">Gestiona los artículos, novedades y publicaciones visibles en la landing page.</p>
+    </div>
+    <div class="col-auto d-flex gap-2">
+      <a href="/noticias/" target="_blank" class="btn btn-outline-dark rounded-pill px-3">
+        <i class="fas fa-external-link-alt me-1"></i>Ver en Web
+      </a>
+      <button class="btn btn-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalCrearNoticia">
+        <i class="fas fa-plus me-1"></i>Nueva Noticia
+      </button>
+    </div>
+  </div>
+
+  <!-- ── STATS BAR ── -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-3 d-flex flex-row align-items-center gap-3">
+        <div class="p-3 rounded-circle bg-primary-subtle text-primary">
+          <i class="fas fa-newspaper fa-lg"></i>
+        </div>
+        <div>
+          <span class="text-muted small d-block">Total Publicaciones</span>
+          <h4 class="mb-0 fw-bold">{{ noticias|length }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-3 d-flex flex-row align-items-center gap-3">
+        <div class="p-3 rounded-circle bg-success-subtle text-success">
+          <i class="fas fa-check-circle fa-lg"></i>
+        </div>
+        <div>
+          <span class="text-muted small d-block">Sincronización Landing</span>
+          <h4 class="mb-0 fw-bold text-success">Activa</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-3 d-flex flex-row align-items-center gap-3">
+        <div class="p-3 rounded-circle bg-info-subtle text-info">
+          <i class="fas fa-rss fa-lg"></i>
+        </div>
+        <div>
+          <span class="text-muted small d-block">Destacados</span>
+          <h4 class="mb-0 fw-bold">Sección Home</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GRID DE NOTICIAS ── -->
+  {% if noticias %}
+  <div class="row g-4">
+    {% for n in noticias %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+        
+        <!-- Media / Preview -->
+        <div style="height: 190px; background: #f8fafc; position: relative; overflow: hidden;" class="d-flex align-items-center justify-content-center">
+          {% if n.foto %}
+            <img src="{{ n.foto.url }}" alt="{{ n.titulo }}" style="width: 100%; height: 100%; object-fit: cover;">
+          {% elif n.foto_url %}
+            <img src="{{ n.foto_url }}" alt="{{ n.titulo }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='{% static 'img/minimal_laptop.jpg' %}';">
+          {% else %}
+            <div class="text-center text-muted p-4">
+              <i class="fas fa-newspaper fa-3x mb-2 opacity-50"></i>
+              <span class="d-block small">Sin imagen asignada</span>
+            </div>
+          {% endif %}
+          <span class="position-absolute top-0 start-0 m-3 badge bg-dark bg-opacity-75 rounded-pill px-3 py-1 font-monospace small">
+            {{ n.categoria }}
+          </span>
+          {% if n.destacado %}
+          <span class="position-absolute top-0 end-0 m-3 badge bg-warning text-dark rounded-pill px-2 py-1 small">
+            <i class="fas fa-star me-1"></i>Destacado
+          </span>
+          {% endif %}
+        </div>
+
+        <div class="card-body p-4 d-flex flex-column">
+          <div class="d-flex align-items-center justify-content-between text-muted small mb-2">
+            <span><i class="far fa-calendar-alt me-1"></i>{{ n.fecha|date:"d M Y" }}</span>
+            <span><i class="far fa-clock me-1"></i>{{ n.tiempo_lectura }}</span>
+          </div>
+
+          <h5 class="fw-bold text-dark mb-2" style="line-height: 1.35;">{{ n.titulo }}</h5>
+          <p class="text-muted small flex-grow-1" style="line-height: 1.6;">{{ n.resumen|truncatewords:20 }}</p>
+
+          <div class="d-flex gap-2 pt-3 border-top mt-auto">
+            <a href="{% url 'noticia_detalle' n.id %}" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill px-3 flex-grow-1">
+              <i class="fas fa-eye me-1"></i>Ver
+            </a>
+            <button class="btn btn-sm btn-outline-primary rounded-pill px-3 flex-grow-1" data-bs-toggle="modal" data-bs-target="#modalEditNoticia{{ n.id }}">
+              <i class="fas fa-pen me-1"></i>Editar
+            </button>
+            <form action="{% url 'eliminar_noticia' n.id %}" method="post" class="d-inline" onsubmit="return confirm('¿Eliminar esta noticia?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle" style="width: 32px; height: 32px; padding: 0;" title="Eliminar">
+                <i class="fas fa-trash"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Modal Editar Noticia -->
+    <div class="modal fade" id="modalEditNoticia{{ n.id }}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+          <div class="modal-header border-0 pb-0 pt-4 px-4">
+            <h5 class="modal-title fw-bold">Editar Noticia</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="editar_noticia" value="1">
+            <input type="hidden" name="noticia_id" value="{{ n.id }}">
+            <div class="modal-body p-4">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Título del artículo</label>
+                <input type="text" class="form-control rounded-3" name="titulo" value="{{ n.titulo }}" required>
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Categoría</label>
+                  <input type="text" class="form-control rounded-3" name="categoria" value="{{ n.categoria }}" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Tiempo de lectura estimado</label>
+                  <input type="text" class="form-control rounded-3" name="tiempo_lectura" value="{{ n.tiempo_lectura }}" placeholder="Ej: 4 min">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Resumen corto (visible en tarjetas de la landing)</label>
+                <textarea class="form-control rounded-3" name="resumen" rows="2" required>{{ n.resumen }}</textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Contenido completo del artículo</label>
+                <textarea class="form-control rounded-3" name="contenido" rows="6">{{ n.contenido }}</textarea>
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Subir imagen</label>
+                  <input type="file" class="form-control rounded-3" name="foto" accept="image/*">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">O URL externa de imagen</label>
+                  <input type="url" class="form-control rounded-3" name="foto_url" value="{{ n.foto_url }}" placeholder="https://...">
+                </div>
+              </div>
+              <div class="form-check form-switch mt-2">
+                <input class="form-check-input" type="checkbox" name="destacado" id="editDestacado{{ n.id }}" {% if n.destacado %}checked{% endif %}>
+                <label class="form-check-label fw-semibold" for="editDestacado{{ n.id }}">Destacar en la página de inicio</label>
+              </div>
+            </div>
+            <div class="modal-footer border-0 pt-0 pb-4 px-4">
+              <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary rounded-pill px-4">Guardar Cambios</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="card border-0 shadow-sm rounded-4 p-5 text-center bg-white">
+    <i class="fas fa-newspaper fa-3x text-muted mb-3 opacity-50"></i>
+    <h5 class="fw-bold text-dark">No hay noticias publicadas</h5>
+    <p class="text-muted">Crea tu primer artículo para que aparezca en la sección de noticias de la web.</p>
+    <div>
+      <button class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#modalCrearNoticia">
+        <i class="fas fa-plus me-1"></i>Crear Noticia
+      </button>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+
+<!-- Modal Crear Noticia -->
+<div class="modal fade" id="modalCrearNoticia" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header border-0 pb-0 pt-4 px-4">
+        <h5 class="modal-title fw-bold"><i class="fas fa-plus-circle text-primary me-2"></i>Nueva Noticia para la Landing</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crear_noticia" value="1">
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Título del artículo</label>
+            <input type="text" class="form-control rounded-3" name="titulo" placeholder="Ej: Nueva arquitectura de software para empresas" required>
+          </div>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Categoría</label>
+              <input type="text" class="form-control rounded-3" name="categoria" value="Actualidad" placeholder="Ej: Desarrollo, SaaS, IA" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Tiempo de lectura estimado</label>
+              <input type="text" class="form-control rounded-3" name="tiempo_lectura" value="3 min" placeholder="Ej: 3 min">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Resumen corto (aparece en la tarjeta del inicio)</label>
+            <textarea class="form-control rounded-3" name="resumen" rows="2" placeholder="Breve introducción para enganchar al lector..." required></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Contenido completo del artículo</label>
+            <textarea class="form-control rounded-3" name="contenido" rows="6" placeholder="Escribe aquí el contenido completo..."></textarea>
+          </div>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Subir imagen</label>
+              <input type="file" class="form-control rounded-3" name="foto" accept="image/*">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">O URL externa de imagen</label>
+              <input type="url" class="form-control rounded-3" name="foto_url" placeholder="https://images.unsplash.com/...">
+            </div>
+          </div>
+          <div class="form-check form-switch mt-2">
+            <input class="form-check-input" type="checkbox" name="destacado" id="newDestacado" checked>
+            <label class="form-check-label fw-semibold" for="newDestacado">Destacar en la página de inicio</label>
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0 pb-4 px-4">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary rounded-pill px-4">Publicar Noticia</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

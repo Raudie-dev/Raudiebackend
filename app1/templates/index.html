@@ -1,109 +1,22 @@
 {% extends 'base_index.html' %}
-
-
-
 {% load static %}
-
-
-
-
-
-
-
-{% block title %}RauDie — Software Studio, Plataformas &amp; RauDie OS{% endblock %}
-
-
-
-
-
-
-
+{% block title %}RauDie — Desarrollo de Software{% endblock %}
 {% block content %}
-
-
-
 <main class="bleibt-main">
-
-
-
-
-
-
-
-  <!-- =============================================
-
-
-
-       SECTION 1: HERO (ROSBERT.MAKE STYLE)
-
-
-
-       ============================================= -->
-
-
-
   <section id="hero" class="modern-hero-section has-bg-image">
-
-
-
     <!-- Architectural Engineering Background Media -->
-
-
-
     <div class="hero-bg-media" aria-hidden="true">
-
-
-
       <img src="https://i.pinimg.com/originals/0f/f7/69/0ff769dea5fe0c24a3c93f87edf05f16.gif" alt="RauDie Engineering Architecture" class="hero-bg-img" loading="eager" onerror="this.onerror=null; this.src='{% static 'img/digital_mesh.jpg' %}';">
-
-
-
       <div class="hero-bg-overlay"></div>
-
-
-
     </div>
-
-
-
-
-
-
 
     <!-- Aceternity UI Dotted Glow Canvas Background -->
-
-
-
     <div class="dotted-glow-container" id="heroDottedGlow" aria-hidden="true">
-
-
-
       <canvas class="dotted-glow-canvas"></canvas>
-
-
-
     </div>
-
-
-
-
-
-
-
     <div class="section-container">
-
-
-
-
-
-
-
       <!-- Main Editorial Headline (Marklab Style Display) -->
-
-
-
       <div class="hero-editorial-wrap">
-
         <!-- Cursive Eyebrow Flow -->
         <div class="hero-cursive-eyebrow-wrap">
           <span class="cursive-eyebrow" data-i18n="hero.eyebrow_flow">Tu visión digital, en perfecto ritmo.</span>
@@ -115,87 +28,40 @@
         </div>
 
         <h1 class="h-display">
-
-
-
           <span class="line" data-i18n="hero.h1_rosbert">
-
-
-
             <span class="hero-line-top">Diseñamos software para lograr</span>
-
-
-
             <span class="hero-line-bottom">más <span class="accent">con menos fricción</span>.</span>
-
-
-
           </span>
-
-
-
         </h1>
 
-
-
-
-
-
-
         <p class="body-lead" data-i18n="hero.lead_rosbert">
-
-
-
           Acompañamos a tu negocio con sitios web de alto impacto, plataformas a medida y RauDie OS: ingeniería sólida con diseño editorial y foco en resultados.
-
-
-
         </p>
 
-
-
-
-
-
-
         <!-- Marklab Style Action Buttons -->
-
-
-
         <div class="hero-cta-row">
-
-
-
           <div class="hero-btn-arrow-wrap">
-
-
-
             <svg class="hero-sketch-arrow" viewBox="0 0 50 25" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-
-
-
               <path d="M4 18C14 7 28 3 44 8M44 8L37 2M44 8L39 15" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-
-
-
             </svg>
-
-
 
             <a href="#contact" class="btn btn-white-pill hero-glow-cta" id="heroTellBtn">
               <span data-i18n="hero.cta_tell">Iniciar un Proyecto</span>
               <span class="arrow-circle">→</span>
             </a>
-
-
-
           </div>
 
-
-
           <div class="hero-wa-btn-wrap">
+            <!-- Load-Time WhatsApp Notification Bubble -->
+            <a href="https://wa.me/5491172341870" target="_blank" class="hero-wa-bubble-notif" id="heroWaBubbleNotif" rel="noopener noreferrer" aria-label="Contáctanos por WhatsApp">
+              <span class="wa-notif-dot-pulse" aria-hidden="true"></span>
+              <span class="wa-notif-label" data-i18n="hero.wa_bubble">¡Contáctanos! 👋</span>
+              <span class="hero-wa-bubble-arrow" aria-hidden="true"></span>
+            </a>
+
             <a href="https://wa.me/5491172341870" target="_blank" class="hero-wa-circle-btn" id="heroWaLink" aria-label="Cotiza tu proyecto o escríbenos por WhatsApp" rel="noopener noreferrer">
               <i class="fab fa-whatsapp"></i>
+              <span class="hero-wa-badge-dot" aria-hidden="true">1</span>
               <span class="hero-wa-glow-pulse" aria-hidden="true"></span>
             </a>
             <div class="hero-wa-tooltip" role="tooltip">
@@ -203,1496 +69,409 @@
               <div class="hero-wa-tooltip-arrow" aria-hidden="true"></div>
             </div>
           </div>
-
-
-
         </div>
-
-
-
       </div>
-
-
-
-
-
-
 
       <!-- Signature Hero Marquee (5 Core Deliverables Loop) -->
-
-
-
       <div class="hero-marquee" aria-hidden="true">
-
-
-
         <div class="hero-marquee-track">
-
-
-
-          
-
-
-
           <!-- Card 1: Sitio Web -->
-
-
-
           <div class="marquee-card">
-
-
-
             <div class="m-card-icon"><i class="fas fa-laptop-code"></i></div>
-
-
-
             <div class="m-card-info">
-
-
-
               <span class="m-card-label">Sitio Web de Alta Conversión</span>
-
-
-
               <span class="m-card-desc">Diseño editorial, SEO técnico &amp; analítica 60 FPS</span>
-
-
-
             </div>
-
-
-
             <span class="m-card-tag">Desarrollo Web</span>
-
-
-
           </div>
-
-
-
-
-
-
 
           <!-- Card 2: Sistema Interno -->
-
-
-
           <div class="marquee-card">
-
-
-
             <div class="m-card-icon"><i class="fas fa-server"></i></div>
-
-
-
             <div class="m-card-info">
-
-
-
               <span class="m-card-label">Sistema Interno &amp; CRM</span>
-
-
-
               <span class="m-card-desc">PostgreSQL, roles RBAC &amp; operaciones centrales</span>
-
-
-
             </div>
-
-
-
             <span class="m-card-tag">Sistemas</span>
-
-
-
           </div>
-
-
-
-
-
-
-
           <!-- Card 3: Automatización -->
-
-
-
           <div class="marquee-card">
-
-
-
             <div class="m-card-icon"><i class="fab fa-whatsapp"></i></div>
-
-
-
             <div class="m-card-info">
-
-
-
               <span class="m-card-label">Automatización WhatsApp &amp; IA</span>
-
-
-
               <span class="m-card-desc">Meta Cloud API, bots autónomos &amp; atención 24/7</span>
-
-
-
             </div>
-
-
-
             <span class="m-card-tag">WhatsApp API</span>
-
-
-
           </div>
-
-
-
-
-
-
 
           <!-- Card 4: RauDie OS -->
-
-
-
           <div class="marquee-card">
-
-
-
             <div class="m-card-icon"><i class="fas fa-cubes"></i></div>
-
-
-
             <div class="m-card-info">
-
-
-
               <span class="m-card-label">RauDie OS (Plataforma SaaS)</span>
-
-
-
               <span class="m-card-desc">Facturación, presupuestos PDF &amp; pipeline ágil</span>
-
-
-
             </div>
-
-
-
             <span class="m-card-tag">SaaS Core</span>
-
-
-
           </div>
 
-
-
-
-
-
-
-          <!-- Card 5: Herramienta a Medida -->
-
-
-
+         <!-- Card 5: Herramienta a Medida -->
           <div class="marquee-card">
-
-
-
             <div class="m-card-icon"><i class="fas fa-tools"></i></div>
-
-
-
             <div class="m-card-info">
-
-
-
               <span class="m-card-label">Herramienta Digital a Medida</span>
-
-
-
               <span class="m-card-desc">Calculadoras interactivas, portal cliente &amp; lógica custom</span>
-
-
-
             </div>
-
-
-
             <span class="m-card-tag">A Medida</span>
-
-
-
           </div>
-
-
-
-
-
-
 
           <!-- Duplicate Set for Seamless Marquee Infinite Loop -->
-
-
-
           <div class="marquee-card">
-
-
-
             <div class="m-card-icon"><i class="fas fa-laptop-code"></i></div>
-
-
-
             <div class="m-card-info">
-
-
-
               <span class="m-card-label">Sitio Web de Alta Conversión</span>
-
-
-
               <span class="m-card-desc">Diseño editorial, SEO técnico &amp; analítica 60 FPS</span>
-
-
-
             </div>
-
-
-
             <span class="m-card-tag">Desarrollo Web</span>
-
-
-
           </div>
 
-
-
-
-
-
-
           <div class="marquee-card">
-
-
-
             <div class="m-card-icon"><i class="fas fa-server"></i></div>
-
-
-
             <div class="m-card-info">
-
-
-
               <span class="m-card-label">Sistema Interno &amp; CRM</span>
-
-
-
               <span class="m-card-desc">PostgreSQL, roles RBAC &amp; operaciones centrales</span>
-
-
-
             </div>
-
-
-
             <span class="m-card-tag">Sistemas</span>
-
-
-
           </div>
 
-
-
-
-
-
-
           <div class="marquee-card">
-
-
-
             <div class="m-card-icon"><i class="fab fa-whatsapp"></i></div>
-
-
-
             <div class="m-card-info">
-
-
-
               <span class="m-card-label">Automatización WhatsApp &amp; IA</span>
-
-
-
               <span class="m-card-desc">Meta Cloud API, bots autónomos &amp; atención 24/7</span>
-
-
-
             </div>
-
-
-
             <span class="m-card-tag">WhatsApp API</span>
-
-
-
           </div>
 
-
-
-
-
-
-
           <div class="marquee-card">
-
-
-
             <div class="m-card-icon"><i class="fas fa-cubes"></i></div>
-
-
-
             <div class="m-card-info">
-
-
-
               <span class="m-card-label">RauDie OS (Plataforma SaaS)</span>
-
-
-
               <span class="m-card-desc">Facturación, presupuestos PDF &amp; pipeline ágil</span>
-
-
-
             </div>
-
-
-
             <span class="m-card-tag">SaaS Core</span>
-
-
-
           </div>
-
-
-
-
-
-
 
           <div class="marquee-card">
-
-
-
             <div class="m-card-icon"><i class="fas fa-tools"></i></div>
-
-
-
             <div class="m-card-info">
-
-
-
               <span class="m-card-label">Herramienta Digital a Medida</span>
-
-
-
               <span class="m-card-desc">Calculadoras interactivas, portal cliente &amp; lógica custom</span>
-
-
-
             </div>
-
-
-
             <span class="m-card-tag">A Medida</span>
-
-
-
           </div>
-
-
-
-
-
-
-
         </div>
-
-
-
       </div>
-
-
-
-
-
-
-
     </div>
-
-
-
   </section>
 
-
-
-
-
-
-
-
-
-
-
   <!-- =============================================
-
-
-
-       SECTION 2: CAPACIDADES (PINNED RIGHT-SIDE CAROUSEL)
-
-
-
-       ============================================= -->
-
-
+     SECTION 2: CAPACIDADES (PINNED RIGHT-SIDE CAROUSEL)
+     ============================================= -->
 
   <section id="capacidades" class="bleibt-section capacidades-section cap-scroll-pinned">
-
-
-
     <div class="cap-pinned-sticky-stage">
-
-
-
       <div class="section-container">
-
-
-
-        
-
-
-
         <div class="cap-stage-grid">
-
-
-
-          
-
-
-
           <!-- Left Column: Title, Description & Indicators -->
 
-
-
           <aside class="cap-left-col">
-
-
-
             <div class="section-kicker-pill" style="align-self: flex-start; margin-bottom: 16px;">
               <span class="kicker-dot"></span>
               <span data-i18n="cap.eyebrow">Capacidades</span>
             </div>
 
-
-
-
-
-
-
             <h2 class="section-h2-title cap-sticky-title" data-i18n="cap.title">
-
-
-
               ¿En cuál de estas <span class="accent">situaciones</span><br>está tu negocio?
-
-
-
             </h2>
 
-
-
-
-
-
-
             <p class="cap-sticky-desc" data-i18n="cap.sticky_desc">
-
-
-
               Identifica el desafío de tu empresa. Cada solución está construida con código propio y arquitectura escalable.
-
-
-
             </p>
-
-
-
-
-
-
 
             <!-- Step Indicators -->
 
-
-
             <nav class="cap-nav-indicators" aria-label="Navegación de situaciones">
-
-
-
               <button type="button" class="cap-nav-btn active" data-index="0">
-
-
-
                 <span class="cap-nav-num">01</span>
-
-
-
                 <span class="cap-nav-label" data-i18n="cap.card1_tag">Presencia Digital</span>
-
-
-
                 <span class="cap-nav-bar"></span>
-
-
-
               </button>
-
-
 
               <button type="button" class="cap-nav-btn" data-index="1">
-
-
-
                 <span class="cap-nav-num">02</span>
-
-
-
                 <span class="cap-nav-label" data-i18n="cap.card2_tag">Ventas &amp; Operaciones</span>
-
-
-
                 <span class="cap-nav-bar"></span>
-
-
-
               </button>
-
-
 
               <button type="button" class="cap-nav-btn" data-index="2">
-
-
-
                 <span class="cap-nav-num">03</span>
-
-
-
                 <span class="cap-nav-label" data-i18n="cap.card3_tag">Procesos Internos</span>
-
-
-
                 <span class="cap-nav-bar"></span>
-
-
-
               </button>
-
-
 
               <button type="button" class="cap-nav-btn" data-index="3">
-
-
-
                 <span class="cap-nav-num">04</span>
-
-
-
                 <span class="cap-nav-label" data-i18n="cap.card4_tag">Software a Medida</span>
-
-
-
                 <span class="cap-nav-bar"></span>
-
-
-
               </button>
-
-
-
             </nav>
-
-
-
-
-
-
 
             <!-- Carousel Controls -->
 
-
-
             <div class="cap-step-controls">
-
-
-
               <span class="cap-step-counter"><span id="capActiveNum">01</span> / 04</span>
-
-
-
               <div class="cap-step-arrows">
-
-
-
                 <button type="button" class="cap-arrow-btn" id="capPrevBtn" aria-label="Tarjeta anterior">
-
-
-
                   <i class="fas fa-arrow-left"></i>
-
-
-
                 </button>
-
-
 
                 <button type="button" class="cap-arrow-btn" id="capNextBtn" aria-label="Siguiente tarjeta">
-
-
-
                   <i class="fas fa-arrow-right"></i>
-
-
-
                 </button>
-
-
-
               </div>
-
-
-
             </div>
-
-
-
           </aside>
-
-
-
-
-
-
 
           <!-- Right Column: Carousel Window where cards pass from the right -->
 
-
-
           <div class="cap-right-col">
-
-
-
             <div class="cap-carousel-window" id="capCarouselWindow">
-
-
-
               <div class="cap-carousel-track" id="capCarouselTrack">
-
-
-
-                
-
-
-
                 <!-- Slide 1 -->
 
-
-
                 <div class="cap-carousel-slide" data-index="0">
-
-
-
                   <article class="cap-card" data-situation="Mi presencia digital no refleja lo que construí">
-
-
-
                     <div class="cap-card-sheen" aria-hidden="true"></div>
-
-
-
                     <div class="cap-card-top">
-
-
-
                       <div class="cap-card-head">
-
-
-
                         <span class="cap-num-badge">01</span>
-
-
-
                         <span class="cap-tag" data-i18n="cap.card1_tag">Presencia Digital</span>
-
-
-
                       </div>
-
-
 
                       <h3 class="cap-symptom" data-i18n="cap.card1_symptom">
-
-
-
                         Tu presencia digital no refleja lo que ya construiste
-
-
-
                       </h3>
 
-
-
                       <p class="cap-body" data-i18n="cap.card1_body">
-
-
-
                         Tu negocio tiene credibilidad real en el mercado, pero tu sitio web no la comunica. Quien te busca online no percibe la verdadera escala y calidad de lo que ofreces.
-
-
-
                       </p>
 
-
-
                       <div class="cap-built-box">
-
-
-
                         <div class="built-label">
-
-
-
                           <i class="fas fa-code"></i>
 
-
-
                           <span data-i18n="cap.built_label">Lo que construimos</span>
-
-
-
                         </div>
 
-
-
                         <p class="built-text" data-i18n="cap.card1_built">
-
-
-
                           Sitio web o plataforma corporativa diseñada y desarrollada desde cero. Rápida, con SEO técnico y analítica configurada desde el inicio.
-
-
-
                         </p>
-
-
-
                       </div>
-
-
 
                       <div class="cap-chips-row">
-
-
-
                         <span class="cap-chip">Sitio web a medida</span>
-
-
-
                         <span class="cap-chip">Landing page</span>
-
-
-
                         <span class="cap-chip">CMS editorial</span>
-
-
-
                         <span class="cap-chip">SEO técnico</span>
-
-
-
                         <span class="cap-chip">Analítica</span>
-
-
-
                       </div>
-
-
-
                     </div>
-
-
 
                     <div class="cap-card-footer">
-
-
-
                       <div class="cap-tech-meta">
-
-
-
                         <span class="cap-tech-label" data-i18n="cap.stack_label">Stack</span>
-
-
-
                         <span class="cap-tech-val">Python · Django · Next.js</span>
-
-
-
                       </div>
 
-
-
                       <button type="button" class="btn-cap-solve trigger-situation" data-topic="Mi presencia digital no refleja lo que construí">
-
-
-
                         <span class="cap-btn-text" data-i18n="cap.btn_solve">Resolver esta situación</span>
-
-
-
                         <span class="cap-btn-arrow"><i class="fas fa-arrow-right"></i></span>
-
-
-
                       </button>
-
-
-
                     </div>
-
-
-
                   </article>
-
-
-
                 </div>
-
-
-
-
-
-
 
                 <!-- Slide 2 -->
 
-
-
                 <div class="cap-carousel-slide" data-index="1">
-
-
-
                   <article class="cap-card" data-situation="Vendo bien pero todo pasa por WhatsApp">
-
-
-
                     <div class="cap-card-sheen" aria-hidden="true"></div>
-
-
-
                     <div class="cap-card-top">
-
-
-
                       <div class="cap-card-head">
-
-
-
                         <span class="cap-num-badge">02</span>
-
-
-
                         <span class="cap-tag" data-i18n="cap.card2_tag">Ventas &amp; Operaciones</span>
-
-
-
                       </div>
-
-
 
                       <h3 class="cap-symptom" data-i18n="cap.card2_symptom">
-
-
-
                         Vendes bien pero todo pasa por ti o por WhatsApp
-
-
-
                       </h3>
 
-
-
                       <p class="cap-body" data-i18n="cap.card2_body">
-
-
-
                         El negocio funciona, pero escalar significa trabajar más horas. Cada cotización o consulta requiere tu atención manual y no hay sistema que lo maneje solo.
-
-
-
                       </p>
 
-
-
                       <div class="cap-built-box">
-
-
-
                         <div class="built-label">
-
-
-
                           <i class="fas fa-bolt"></i>
 
-
-
                           <span data-i18n="cap.built_label">Lo que construimos</span>
-
-
-
                         </div>
 
-
-
                         <p class="built-text" data-i18n="cap.card2_built">
-
-
-
                           RauDie OS integrado con Meta WhatsApp Cloud API. Flujos automatizados para capturar leads, cotizar presupuestos y responder 24/7 sin intermediarios.
-
-
-
                         </p>
-
-
-
                       </div>
-
-
 
                       <div class="cap-chips-row">
-
-
-
                         <span class="cap-chip">RauDie OS</span>
-
-
-
                         <span class="cap-chip">Chatbot IA</span>
-
-
-
                         <span class="cap-chip">Cotizador PDF</span>
-
-
-
                         <span class="cap-chip">Pipeline Comercial</span>
-
-
-
                         <span class="cap-chip">Meta Cloud API</span>
-
-
-
                       </div>
-
-
-
                     </div>
-
-
 
                     <div class="cap-card-footer">
-
-
-
                       <div class="cap-tech-meta">
-
-
-
                         <span class="cap-tech-label" data-i18n="cap.stack_label">Stack</span>
-
-
-
                         <span class="cap-tech-val">WhatsApp API · Redis · Python</span>
-
-
-
                       </div>
 
-
-
                       <button type="button" class="btn-cap-solve trigger-situation" data-topic="Vendo bien pero todo pasa por WhatsApp">
-
-
-
                         <span class="cap-btn-text" data-i18n="cap.btn_solve">Resolver esta situación</span>
-
-
-
                         <span class="cap-btn-arrow"><i class="fas fa-arrow-right"></i></span>
-
-
-
                       </button>
-
-
-
                     </div>
-
-
-
                   </article>
-
-
-
                 </div>
-
-
-
-
-
-
 
                 <!-- Slide 3 -->
 
-
-
                 <div class="cap-carousel-slide" data-index="2">
-
-
-
                   <article class="cap-card" data-situation="Mi equipo opera sin procesos claros">
-
-
-
                     <div class="cap-card-sheen" aria-hidden="true"></div>
-
-
-
                     <div class="cap-card-top">
-
-
-
                       <div class="cap-card-head">
-
-
-
                         <span class="cap-num-badge">03</span>
-
-
-
                         <span class="cap-tag" data-i18n="cap.card3_tag">Procesos Internos</span>
-
-
-
                       </div>
-
-
 
                       <h3 class="cap-symptom" data-i18n="cap.card3_symptom">
-
-
-
                         Tu equipo opera con herramientas desconectadas y sin procesos claros
-
-
-
                       </h3>
 
-
-
                       <p class="cap-body" data-i18n="cap.card3_body">
-
-
-
                         La información está en varios lugares: chats, hojas de cálculo y la memoria de las personas. Nadie tiene visibilidad completa del estado operativo.
-
-
-
                       </p>
 
-
-
                       <div class="cap-built-box">
-
-
-
                         <div class="built-label">
-
-
-
                           <i class="fas fa-layer-group"></i>
 
-
-
                           <span data-i18n="cap.built_label">Lo que construimos</span>
-
-
-
                         </div>
 
-
-
                         <p class="built-text" data-i18n="cap.card3_built">
-
-
-
                           Un sistema central que conecta tu operación: CRM, flujos automatizados, tablero Kanban de entregas y herramientas que el equipo realmente usa desde el primer día.
-
-
-
                         </p>
-
-
-
                       </div>
-
-
 
                       <div class="cap-chips-row">
-
-
-
                         <span class="cap-chip">Sistema Interno</span>
-
-
-
                         <span class="cap-chip">CRM Centralizado</span>
-
-
-
                         <span class="cap-chip">Tablero Kanban</span>
-
-
-
                         <span class="cap-chip">Control RBAC</span>
-
-
-
                         <span class="cap-chip">PostgreSQL</span>
-
-
-
                       </div>
-
-
-
                     </div>
-
-
 
                     <div class="cap-card-footer">
-
-
-
                       <div class="cap-tech-meta">
-
-
-
                         <span class="cap-tech-label" data-i18n="cap.stack_label">Stack</span>
-
-
-
                         <span class="cap-tech-val">PostgreSQL · Docker · Django</span>
-
-
-
                       </div>
 
-
-
                       <button type="button" class="btn-cap-solve trigger-situation" data-topic="Mi equipo opera sin procesos claros">
-
-
-
                         <span class="cap-btn-text" data-i18n="cap.btn_solve">Resolver esta situación</span>
-
-
-
                         <span class="cap-btn-arrow"><i class="fas fa-arrow-right"></i></span>
-
-
-
                       </button>
-
-
-
                     </div>
-
-
-
                   </article>
-
-
-
                 </div>
-
-
-
-
-
-
 
                 <!-- Slide 4 -->
 
-
-
                 <div class="cap-carousel-slide" data-index="3">
-
-
-
                   <article class="cap-card" data-situation="Necesito una herramienta a medida">
-
-
-
                     <div class="cap-card-sheen" aria-hidden="true"></div>
-
-
-
                     <div class="cap-card-top">
-
-
-
                       <div class="cap-card-head">
-
-
-
                         <span class="cap-num-badge">04</span>
-
-
-
                         <span class="cap-tag" data-i18n="cap.card4_tag">Software a Medida</span>
-
-
-
                       </div>
-
-
 
                       <h3 class="cap-symptom" data-i18n="cap.card4_symptom">
-
-
-
                         Necesitas una herramienta que ningún software genérico resuelve
-
-
-
                       </h3>
 
-
-
                       <p class="cap-body" data-i18n="cap.card4_body">
-
-
-
                         Tu operación tiene una lógica específica que un SaaS genérico empaquetado no puede cubrir. Necesitas algo construido a tu medida, no adaptado de otra cosa.
-
-
-
                       </p>
 
-
-
                       <div class="cap-built-box">
-
-
-
                         <div class="built-label">
-
-
-
                           <i class="fas fa-sliders-h"></i>
 
-
-
                           <span data-i18n="cap.built_label">Lo que construimos</span>
-
-
-
                         </div>
 
-
-
                         <p class="built-text" data-i18n="cap.card4_built">
-
-
-
                           Una plataforma o herramienta web a medida: cotizador interactivo, portal de clientes, sistema de reservas o cualquier solución con lógica específica.
-
-
-
                         </p>
-
-
-
                       </div>
-
-
 
                       <div class="cap-chips-row">
-
-
-
                         <span class="cap-chip">Portal de Clientes</span>
-
-
-
                         <span class="cap-chip">Calculadora Interactiva</span>
-
-
-
                         <span class="cap-chip">Sistema a Medida</span>
-
-
-
                         <span class="cap-chip">Lógica Custom</span>
-
-
-
                         <span class="cap-chip">Infraestructura Cloud</span>
-
-
-
                       </div>
-
-
-
                     </div>
-
-
 
                     <div class="cap-card-footer">
-
-
-
                       <div class="cap-tech-meta">
-
-
-
                         <span class="cap-tech-label" data-i18n="cap.stack_label">Stack</span>
-
-
-
                         <span class="cap-tech-val">Python · AWS Cloud · API REST</span>
-
-
-
                       </div>
 
-
-
                       <button type="button" class="btn-cap-solve trigger-situation" data-topic="Necesito una herramienta a medida">
-
-
-
                         <span class="cap-btn-text" data-i18n="cap.btn_solve">Resolver esta situación</span>
-
-
-
                         <span class="cap-btn-arrow"><i class="fas fa-arrow-right"></i></span>
-
-
-
                       </button>
-
-
-
                     </div>
-
-
-
                   </article>
-
-
-
                 </div>
-
-
-
-
-
-
-
               </div>
-
-
-
             </div>
-
-
-
           </div>
-
-
-
-
-
-
-
         </div>
-
-
-
-
-
-
-
       </div>
-
-
-
     </div>
-
-
-
   </section>
 
-
-
-
-
-
-
-
-
-
-
-  <!-- =============================================
-
-
-
-       SECTION 3: PROYECTOS ("Así se ve en la práctica")
-
-
-
-       ============================================= -->
-
-
-
   <section id="work" class="bleibt-section work-section">
-
-
-
     <div class="section-container">
-
-
-
-      
-
-
-
       <div class="section-center-header">
         <div class="section-kicker-pill">
           <span class="kicker-dot"></span>
@@ -1706,68 +485,22 @@
         </p>
       </div>
 
-
-
-
-
-
-
       <!-- Work Filters Bar -->
 
-
-
       <div class="work-filters-bar">
-
-
-
         <button type="button" class="filter-pill active" data-filter="all" data-i18n="work.filter_all">Todos</button>
-
-
-
         <button type="button" class="filter-pill" data-filter="saas" data-i18n="work.filter_saas">SaaS &amp; Plataformas</button>
-
-
-
         <button type="button" class="filter-pill" data-filter="sistemas" data-i18n="work.filter_crm">Sistemas &amp; CRM</button>
-
-
-
         <button type="button" class="filter-pill" data-filter="ecommerce" data-i18n="work.filter_ecom">E-Commerce</button>
-
-
-
         <button type="button" class="filter-pill" data-filter="auto" data-i18n="work.filter_auto">Automatizaciones</button>
-
-
-
       </div>
-
-
-
-
-
-
 
       <!-- 3-Column Showcase Grid -->
 
-
-
       <div class="work-showcase-grid">
-
-
-
         {% if proyectos %}
-
-
-
           {% for p in proyectos|slice:":6" %}
-
-
-
             <article class="work-item-card" data-project="{{ p.id }}" data-category="{% for c in p.categorias.all %}{{ c.slug }} {% empty %}sistemas{% endfor %}">
-
-
-
               <div class="work-thumb-wrap">
                 {% if p.fotos %}
                   <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}" class="work-thumb-img" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80';">
@@ -1777,233 +510,74 @@
                   <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="{{ p.titulo }}" class="work-thumb-img" loading="lazy">
                 {% endif %}
               </div>
-
-
-
               <div class="work-info-row">
-
-
-
                 <div class="work-meta-strip">
-
-
-
                   <span class="work-cat-chip">
-
-
-
                     {% for cat in p.categorias.all %}
-
-
-
                       {{ cat.nombre }}{% if not forloop.last %}, {% endif %}
-
-
-
                     {% empty %}
-
-
-
                       Sistemas &amp; CRM
-
-
-
                     {% endfor %}
-
-
-
                   </span>
-
-
-
                   <span class="work-year">{% if p.fecha %}{{ p.fecha|date:"Y" }}{% else %}2026{% endif %}</span>
-
-
-
                 </div>
-
-
-
                 <h3 class="work-card-title">{{ p.titulo }}</h3>
-
-
-
               </div>
-
-
-
             </article>
-
-
-
           {% endfor %}
-
-
-
         {% else %}
-
-
 
           <!-- High-End Fallback Case 1 -->
 
-
-
           <article class="work-item-card" data-project="demo1" data-category="saas sistemas">
-
-
-
             <div class="work-thumb-wrap">
-
-
-
               <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="RauDie OS Enterprise" class="work-thumb-img">
-
-
-
             </div>
-
-
 
             <div class="work-info-row">
-
-
-
               <div class="work-meta-strip">
-
-
-
                 <span class="work-cat-chip">SaaS &amp; CRM</span>
-
-
-
                 <span class="work-year">2026</span>
-
-
-
               </div>
 
-
-
               <h3 class="work-card-title">RauDie OS: Plataforma SaaS Empresarial</h3>
-
-
-
             </div>
-
-
-
           </article>
-
-
 
           <!-- Fallback Case 2 -->
 
-
-
           <article class="work-item-card" data-project="demo2" data-category="auto">
-
-
-
             <div class="work-thumb-wrap">
-
-
-
               <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80" alt="Nexus Automations" class="work-thumb-img">
-
-
-
             </div>
-
-
 
             <div class="work-info-row">
-
-
-
               <div class="work-meta-strip">
-
-
-
                 <span class="work-cat-chip">Automatizaciones</span>
-
-
-
                 <span class="work-year">2026</span>
-
-
-
               </div>
 
-
-
               <h3 class="work-card-title">Nexus: WhatsApp Gateway &amp; Bot IA</h3>
-
-
-
             </div>
-
-
-
           </article>
-
-
 
           <!-- Fallback Case 3 -->
 
-
-
           <article class="work-item-card" data-project="demo3" data-category="ecommerce">
-
-
-
             <div class="work-thumb-wrap">
-
-
-
               <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80" alt="Apex Commerce" class="work-thumb-img">
-
-
-
             </div>
-
-
 
             <div class="work-info-row">
-
-
-
               <div class="work-meta-strip">
-
-
-
                 <span class="work-cat-chip">E-Commerce</span>
-
-
-
                 <span class="work-year">2026</span>
-
-
-
               </div>
 
-
-
               <h3 class="work-card-title">Aura Store: Checkout &amp; Pagos Automáticos</h3>
-
-
-
             </div>
-
-
-
           </article>
-
-
-
         {% endif %}
-
-
-
       </div>
 
       <!-- Ver Más Proyectos Button -->
@@ -2016,724 +590,16 @@
           </svg>
         </a>
       </div>
-
-
-
-
-
-
-
     </div>
-
-
-
   </section>
-
-
-
-
-
-
-
-
-
-
-
-  <!-- =============================================
-
-
-
-       SECTION 4: NUESTRO SAAS - RAUDIE OS (KEYNOTE STAGE)
-
-
-
-       ============================================= -->
-
-
-
-  <section id="saas" class="bleibt-section saas-section saas-keynote-stage">
-
-
-
-    <!-- Atmospheric Ambient Lighting -->
-
-
-
-    <div class="saas-ambient-glow" aria-hidden="true"></div>
-
-
-
-
-
-
-
-    <div class="section-container">
-
-
-
-      
-
-
-
-      
-
-
-
-
-
-
-
-      <div class="saas-hero-header">
-
-
-
-        <div class="saas-badge-pill">
-
-
-
-          <span class="pulse-dot"></span>
-
-
-
-          <span>SaaS Propietario RauDie</span>
-
-
-
-        </div>
-
-
-
-        <h2 class="section-h2-title saas-title">
-
-
-
-          La plataforma operativa para <span class="accent">escalar</span> tu empresa.
-
-
-
-        </h2>
-
-
-
-        <p class="body-lead saas-lead" data-i18n="saas.lead">
-
-
-
-          Diseñado para centralizar toda tu operación sin parches ni herramientas desconectadas: CRM comercial, Meta WhatsApp Cloud API con bots de IA, seguimiento de sprints y cotizador PDF instantáneo.
-
-
-
-        </p>
-
-
-
-      </div>
-
-
-
-
-
-
-
-      <!-- Flagship Showcase: Floating MacBook Air -->
-
-
-
-      <div class="saas-laptop-showcase">
-
-
-
-        <div class="saas-laptop-wrap">
-
-
-
-          <img src="{% static 'img/raudie-os-mockup.png' %}" alt="RauDie OS Dashboard Operativo en MacBook Air" class="saas-laptop-img" loading="lazy">
-
-
-
-        </div>
-
-
-
-        <div class="saas-laptop-pedestal" aria-hidden="true"></div>
-
-
-
-      </div>
-
-
-
-
-
-
-
-      <!-- 4 Bento Feature Cards (Capabilities of RauDie OS) -->
-
-
-
-      <div class="saas-bento-grid">
-
-
-
-        
-
-
-
-        <!-- Bento 1: WhatsApp Cloud API -->
-
-
-
-        <div class="saas-bento-card">
-
-
-
-          <div class="bento-card-head">
-
-
-
-            <span class="bento-icon-box"><i class="fab fa-whatsapp"></i></span>
-
-
-
-            <span class="bento-kpi-pill">&lt; 220ms latencia</span>
-
-
-
-          </div>
-
-
-
-          <h3 class="bento-title" data-i18n="saas.wa_header_title">WhatsApp Cloud API &amp; Bot IA</h3>
-
-
-
-          <p class="bento-desc" data-i18n="saas.wa_header_desc">
-
-
-
-            Flujos conversacionales con respuestas automáticas, catalogación inteligente y traspaso fluido a agentes humanos 24/7 sin intermediarios.
-
-
-
-          </p>
-
-
-
-          <div class="bento-feature-tags">
-
-
-
-            <span>Meta Official API</span>
-
-
-
-            <span>Atención 24/7</span>
-
-
-
-            <span>IA Generativa</span>
-
-
-
-          </div>
-
-
-
-        </div>
-
-
-
-
-
-
-
-        <!-- Bento 2: CRM & Pipeline -->
-
-
-
-        <div class="saas-bento-card">
-
-
-
-          <div class="bento-card-head">
-
-
-
-            <span class="bento-icon-box"><i class="fas fa-chart-line"></i></span>
-
-
-
-            <span class="bento-kpi-pill">+48% conversión</span>
-
-
-
-          </div>
-
-
-
-          <h3 class="bento-title" data-i18n="saas.crm_header_title">CRM Comercial &amp; Pipeline Visual</h3>
-
-
-
-          <p class="bento-desc" data-i18n="saas.crm_header_desc">
-
-
-
-            Embudo unificado de oportunidades capturadas vía Web, Landing Pages y WhatsApp, con historial y recordatorios automáticos.
-
-
-
-          </p>
-
-
-
-          <div class="bento-feature-tags">
-
-
-
-            <span>Pipeline Visual</span>
-
-
-
-            <span>Scoring de Leads</span>
-
-
-
-            <span>Historial Unificado</span>
-
-
-
-          </div>
-
-
-
-        </div>
-
-
-
-
-
-
-
-        <!-- Bento 3: Cotizador PDF -->
-
-
-
-        <div class="saas-bento-card">
-
-
-
-          <div class="bento-card-head">
-
-
-
-            <span class="bento-icon-box"><i class="fas fa-file-invoice-dollar"></i></span>
-
-
-
-            <span class="bento-kpi-pill">&lt; 2s generación</span>
-
-
-
-          </div>
-
-
-
-          <h3 class="bento-title" data-i18n="saas.quote_header_title">Cotizador PDF Instantáneo</h3>
-
-
-
-          <p class="bento-desc" data-i18n="saas.quote_header_desc">
-
-
-
-            Emisión de cotizaciones y presupuestos profesionales con desglose dinámico de ítems, validez fiscal y envío en 1 clic por WhatsApp.
-
-
-
-          </p>
-
-
-
-          <div class="bento-feature-tags">
-
-
-
-            <span>PDF Vectorial A4</span>
-
-
-
-            <span>Envío Directo WA</span>
-
-
-
-            <span>Control de Precios</span>
-
-
-
-          </div>
-
-
-
-        </div>
-
-
-
-
-
-
-
-        <!-- Bento 4: Sprints & Kanban -->
-
-
-
-        <div class="saas-bento-card">
-
-
-
-          <div class="bento-card-head">
-
-
-
-            <span class="bento-icon-box"><i class="fas fa-layer-group"></i></span>
-
-
-
-            <span class="bento-kpi-pill">100% trazabilidad</span>
-
-
-
-          </div>
-
-
-
-          <h3 class="bento-title" data-i18n="saas.sprint_header_title">Gestión de Sprints &amp; Entregas</h3>
-
-
-
-          <p class="bento-desc" data-i18n="saas.sprint_header_desc">
-
-
-
-            Tablero Kanban de avance operativo, asignación de tareas del equipo y visibilidad en tiempo real para clientes y directivos.
-
-
-
-          </p>
-
-
-
-          <div class="bento-feature-tags">
-
-
-
-            <span>Tablero Kanban</span>
-
-
-
-            <span>Permisos RBAC</span>
-
-
-
-            <span>Visibilidad Total</span>
-
-
-
-          </div>
-
-
-
-        </div>
-
-
-
-
-
-
-
-      </div>
-
-
-
-
-
-
-
-      <!-- Action Footer -->
-
-
-
-      <div class="saas-action-bar">
-
-
-
-        <a href="https://os.raudie.net" target="_blank" rel="noopener noreferrer" class="btn-saas-cta">
-
-
-
-          <span>Descubre RauDie OS</span>
-
-
-
-          <span class="saas-arrow-circle"><i class="fas fa-arrow-right"></i></span>
-
-
-
-        </a>
-
-
-
-        <span class="saas-tech-badge">Python · Django · PostgreSQL · Redis · Meta API</span>
-
-
-
-      </div>
-
-
-
-
-
-
-
-    </div>
-
-
-
-  </section>
-
-
-
-
-
-
-
-
-
-
-
-  <!-- =============================================
-
-
-
-       SECTION 5: ENFOQUE ("No empezamos por el código")
-
-
-
-       ============================================= -->
-
-
-
-  <section id="enfoque" class="bleibt-section enfoque-section">
-
-
-
-    <div class="section-container">
-
-
-
-      
-
-
-
-      <div class="section-center-header">
-        <div class="section-kicker-pill">
-          <span class="kicker-dot"></span>
-          <span data-i18n="enfoque.eyebrow">Cómo trabajamos</span>
-        </div>
-        <h2 class="section-h2-title center-h2" data-i18n="enfoque.title">
-          No empezamos por el código. Empezamos por <span class="accent">entender</span> qué necesitas lograr.
-        </h2>
-        <p class="section-lead-center" data-i18n="enfoque.aside_lead">
-          Lo que se construye es la consecuencia del objetivo, no al revés. Un sitio web, una automatización o un sistema interno existen porque resuelven algo concreto.
-        </p>
-      </div>
-
-
-
-
-
-
-
-      <!-- 4 Methodology Steps -->
-
-
-
-      <div class="method-grid">
-
-
-
-        <div class="method-step">
-
-
-
-          <span class="method-num">01</span>
-
-
-
-          <h3 class="method-title" data-i18n="enfoque.step1_title">Entender</h3>
-
-
-
-          <span class="method-span" data-i18n="enfoque.step1_span">La conversación</span>
-
-
-
-          <p class="method-desc" data-i18n="enfoque.step1_desc">
-
-
-
-            Una conversación profunda sobre el negocio y el problema real. Las expectativas quedan claras antes de tocar cualquier herramienta.
-
-
-
-          </p>
-
-
-
-        </div>
-
-
-
-
-
-
-
-        <div class="method-step">
-
-
-
-          <span class="method-num">02</span>
-
-
-
-          <h3 class="method-title" data-i18n="enfoque.step2_title">Planificar</h3>
-
-
-
-          <span class="method-span" data-i18n="enfoque.step2_span">El mapa</span>
-
-
-
-          <p class="method-desc" data-i18n="enfoque.step2_desc">
-
-
-
-            Con todo lo aprendido, se define qué construir y por qué: arquitectura, objetivos, tiempos y estructura de trabajo visible para los dos.
-
-
-
-          </p>
-
-
-
-        </div>
-
-
-
-
-
-
-
-        <div class="method-step">
-
-
-
-          <span class="method-num">03</span>
-
-
-
-          <h3 class="method-title" data-i18n="enfoque.step3_title">Construir</h3>
-
-
-
-          <span class="method-span" data-i18n="enfoque.step3_span">La ejecución</span>
-
-
-
-          <p class="method-desc" data-i18n="enfoque.step3_desc">
-
-
-
-            Ejecución en conjunto con código limpio. El cliente está involucrado estratégicamente durante todo el proceso con entregas continuas.
-
-
-
-          </p>
-
-
-
-        </div>
-
-
-
-
-
-
-
-        <div class="method-step">
-
-
-
-          <span class="method-num">04</span>
-
-
-
-          <h3 class="method-title" data-i18n="enfoque.step4_title">Entregar &amp; Escalar</h3>
-
-
-
-          <span class="method-span" data-i18n="enfoque.step4_span">El cierre</span>
-
-
-
-          <p class="method-desc" data-i18n="enfoque.step4_desc">
-
-
-
-            Revisión completa, puesta en marcha y seguimiento. El trabajo termina cuando el objetivo se cumple, no cuando el código se envía.
-
-
-
-          </p>
-
-
-
-        </div>
-
-
-
-      </div>
-
-
-
-
-
-
-
-    </div>
-
-
-
-  </section>
-
-
-
-
-
-
-
-
-
-
 
   
 
   <!-- =============================================
-       SECTION: SERVICIOS DE DESARROLLO & SOFTWARE
-       ============================================= -->
+     SECTION: SERVICIOS DE DESARROLLO & SOFTWARE
+     ============================================= -->
   <section id="services" class="bleibt-section services-section">
     <div class="section-container">
-      
       <div class="section-center-header">
         <div class="section-kicker-pill">
           <span class="kicker-dot"></span>
@@ -2751,19 +617,12 @@
         {% if servicios %}
           {% for s in servicios %}
             <article class="service-card-editorial">
-              {% if s.foto %}
-                <a href="{% url 'servicio_detalle' s.id %}" class="service-card-media-wrap" aria-label="{{ s.nombre }}">
-                  <img src="{{ s.foto.url }}" alt="{{ s.nombre }}" class="service-card-img" loading="lazy">
-                  <span class="service-card-tag" data-i18n="services.tag">Desarrollo Web &amp; Software</span>
-                </a>
-              {% else %}
-                <div class="service-card-header-gradient">
-                  <span class="service-card-tag" data-i18n="services.tag">Desarrollo Web &amp; Software</span>
-                  <div class="service-icon-mark">
-                    <i class="fas fa-layer-group"></i>
-                  </div>
+              <div class="service-card-header-gradient">
+                <span class="service-card-tag">{{ s.badge|default:"Desarrollo Web &amp; Software" }}</span>
+                <div class="service-icon-mark">
+                  <i class="{{ s.icono|default:'fas fa-layer-group' }}"></i>
                 </div>
-              {% endif %}
+              </div>
 
               <div class="service-card-body">
                 <div class="service-card-top-meta">
@@ -2776,6 +635,10 @@
                       <span class="price-val">${{ s.precio|floatformat:0 }}</span>
                       <span class="price-currency">USD</span>
                     </div>
+                  {% else %}
+                    <div class="service-card-price">
+                      <span class="price-val" style="font-size: 15px;">A Medida</span>
+                    </div>
                   {% endif %}
                 </div>
 
@@ -2783,13 +646,19 @@
                   <p class="service-card-subtitle">{{ s.titulo }}</p>
                 {% endif %}
 
-                <p class="service-card-desc">{{ s.descripcion|truncatewords:26 }}</p>
+                {% if s.bonus %}
+                  <div class="service-card-bonus-banner">
+                    <span class="bonus-badge-label"><i class="fas fa-gift"></i> BONUS</span>
+                    <span class="bonus-badge-text">{{ s.bonus }}</span>
+                  </div>
+                {% endif %}
 
+                <p class="service-card-desc">{{ s.descripcion|truncatewords:26 }}</p>
                 {% if s.caracteristicas %}
                   <div class="service-card-features">
                     <span class="features-label" data-i18n="services.features_label">Incluye:</span>
                     <ul class="features-list">
-                      {% for c in s.caracteristicas|slice:":4" %}
+                      {% for c in s.caracteristicas %}
                         <li>
                           <i class="fas fa-check-circle feature-check-icon"></i>
                           <span>{{ c }}</span>
@@ -2907,35 +776,207 @@
           </article>
         {% endif %}
       </div>
-
     </div>
   </section>
 
+  <!-- =============================================
+     SECTION 4: NUESTRO SAAS - RAUDIE OS (KEYNOTE STAGE)
+     ============================================= -->
 
-<!-- =============================================
+  <section id="saas" class="bleibt-section saas-section saas-keynote-stage">
+    <!-- Atmospheric Ambient Lighting -->
 
+    <div class="saas-ambient-glow" aria-hidden="true"></div>
+    <div class="section-container">
+      <div class="saas-hero-header">
+        <div class="saas-badge-pill">
+          <span class="pulse-dot"></span>
+          <span>SaaS Propietario RauDie</span>
+        </div>
 
+        <h2 class="section-h2-title saas-title">
+          La plataforma operativa para <span class="accent">escalar</span> tu empresa.
+        </h2>
 
-       SECTION 6: NOTICIAS & INSIGHTS
+        <p class="body-lead saas-lead" data-i18n="saas.lead">
+          Diseñado para centralizar toda tu operación sin parches ni herramientas desconectadas: CRM comercial, Meta WhatsApp Cloud API con bots de IA, seguimiento de sprints y cotizador PDF instantáneo.
+        </p>
+      </div>
 
+      <!-- Flagship Showcase: Floating MacBook Air -->
 
+      <div class="saas-laptop-showcase">
+        <div class="saas-laptop-wrap">
+          <img src="{% static 'img/raudie-os-mockup.png' %}" alt="RauDie OS Dashboard Operativo en MacBook Air" class="saas-laptop-img" loading="lazy">
+        </div>
 
-       ============================================= -->
+        <div class="saas-laptop-pedestal" aria-hidden="true"></div>
+      </div>
 
+      <!-- 4 Bento Feature Cards (Capabilities of RauDie OS) -->
 
+      <div class="saas-bento-grid">
+        <!-- Bento 1: WhatsApp Cloud API -->
+
+        <div class="saas-bento-card">
+          <div class="bento-card-head">
+            <span class="bento-icon-box"><i class="fab fa-whatsapp"></i></span>
+            <span class="bento-kpi-pill">&lt; 220ms latencia</span>
+          </div>
+
+          <h3 class="bento-title" data-i18n="saas.wa_header_title">WhatsApp Cloud API &amp; Bot IA</h3>
+          <p class="bento-desc" data-i18n="saas.wa_header_desc">
+            Flujos conversacionales con respuestas automáticas, catalogación inteligente y traspaso fluido a agentes humanos 24/7 sin intermediarios.
+          </p>
+
+          <div class="bento-feature-tags">
+            <span>Meta Official API</span>
+            <span>Atención 24/7</span>
+            <span>IA Generativa</span>
+          </div>
+        </div>
+
+        <!-- Bento 2: CRM & Pipeline -->
+
+        <div class="saas-bento-card">
+          <div class="bento-card-head">
+            <span class="bento-icon-box"><i class="fas fa-chart-line"></i></span>
+            <span class="bento-kpi-pill">+48% conversión</span>
+          </div>
+
+          <h3 class="bento-title" data-i18n="saas.crm_header_title">CRM Comercial &amp; Pipeline Visual</h3>
+          <p class="bento-desc" data-i18n="saas.crm_header_desc">
+            Embudo unificado de oportunidades capturadas vía Web, Landing Pages y WhatsApp, con historial y recordatorios automáticos.
+          </p>
+
+          <div class="bento-feature-tags">
+            <span>Pipeline Visual</span>
+            <span>Scoring de Leads</span>
+            <span>Historial Unificado</span>
+          </div>
+        </div>
+
+        <!-- Bento 3: Cotizador PDF -->
+
+        <div class="saas-bento-card">
+          <div class="bento-card-head">
+            <span class="bento-icon-box"><i class="fas fa-file-invoice-dollar"></i></span>
+            <span class="bento-kpi-pill">&lt; 2s generación</span>
+          </div>
+
+          <h3 class="bento-title" data-i18n="saas.quote_header_title">Cotizador PDF Instantáneo</h3>
+          <p class="bento-desc" data-i18n="saas.quote_header_desc">
+            Emisión de cotizaciones y presupuestos profesionales con desglose dinámico de ítems, validez fiscal y envío en 1 clic por WhatsApp.
+          </p>
+
+          <div class="bento-feature-tags">
+            <span>PDF Vectorial A4</span>
+            <span>Envío Directo WA</span>
+            <span>Control de Precios</span>
+          </div>
+        </div>
+
+        <!-- Bento 4: Sprints & Kanban -->
+
+        <div class="saas-bento-card">
+          <div class="bento-card-head">
+            <span class="bento-icon-box"><i class="fas fa-layer-group"></i></span>
+            <span class="bento-kpi-pill">100% trazabilidad</span>
+          </div>
+
+          <h3 class="bento-title" data-i18n="saas.sprint_header_title">Gestión de Sprints &amp; Entregas</h3>
+          <p class="bento-desc" data-i18n="saas.sprint_header_desc">
+            Tablero Kanban de avance operativo, asignación de tareas del equipo y visibilidad en tiempo real para clientes y directivos.
+          </p>
+
+          <div class="bento-feature-tags">
+            <span>Tablero Kanban</span>
+            <span>Permisos RBAC</span>
+            <span>Visibilidad Total</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+
+      <div class="saas-action-bar">
+        <a href="https://os.raudie.net" target="_blank" rel="noopener noreferrer" class="btn-saas-cta">
+          <span>Descubre RauDie OS</span>
+          <span class="saas-arrow-circle"><i class="fas fa-arrow-right"></i></span>
+        </a>
+
+        <span class="saas-tech-badge">Python · Django · PostgreSQL · Redis · Meta API</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+     SECTION 5: ENFOQUE ("No empezamos por el código")
+     ============================================= -->
+
+  <section id="enfoque" class="bleibt-section enfoque-section">
+    <div class="section-container">
+      <div class="section-center-header">
+        <div class="section-kicker-pill">
+          <span class="kicker-dot"></span>
+          <span data-i18n="enfoque.eyebrow">Cómo trabajamos</span>
+        </div>
+        <h2 class="section-h2-title center-h2" data-i18n="enfoque.title">
+          No empezamos por el código. Empezamos por <span class="accent">entender</span> qué necesitas lograr.
+        </h2>
+        <p class="section-lead-center" data-i18n="enfoque.aside_lead">
+          Lo que se construye es la consecuencia del objetivo, no al revés. Un sitio web, una automatización o un sistema interno existen porque resuelven algo concreto.
+        </p>
+      </div>
+
+      <!-- 4 Methodology Steps -->
+
+      <div class="method-grid">
+        <div class="method-step">
+          <span class="method-num">01</span>
+          <h3 class="method-title" data-i18n="enfoque.step1_title">Entender</h3>
+          <span class="method-span" data-i18n="enfoque.step1_span">La conversación</span>
+          <p class="method-desc" data-i18n="enfoque.step1_desc">
+            Una conversación profunda sobre el negocio y el problema real. Las expectativas quedan claras antes de tocar cualquier herramienta.
+          </p>
+        </div>
+
+        <div class="method-step">
+          <span class="method-num">02</span>
+          <h3 class="method-title" data-i18n="enfoque.step2_title">Planificar</h3>
+          <span class="method-span" data-i18n="enfoque.step2_span">El mapa</span>
+          <p class="method-desc" data-i18n="enfoque.step2_desc">
+            Con todo lo aprendido, se define qué construir y por qué: arquitectura, objetivos, tiempos y estructura de trabajo visible para los dos.
+          </p>
+        </div>
+
+        <div class="method-step">
+          <span class="method-num">03</span>
+          <h3 class="method-title" data-i18n="enfoque.step3_title">Construir</h3>
+          <span class="method-span" data-i18n="enfoque.step3_span">La ejecución</span>
+          <p class="method-desc" data-i18n="enfoque.step3_desc">
+            Ejecución en conjunto con código limpio. El cliente está involucrado estratégicamente durante todo el proceso con entregas continuas.
+          </p>
+        </div>
+
+        <div class="method-step">
+          <span class="method-num">04</span>
+          <h3 class="method-title" data-i18n="enfoque.step4_title">Entregar &amp; Escalar</h3>
+          <span class="method-span" data-i18n="enfoque.step4_span">El cierre</span>
+          <p class="method-desc" data-i18n="enfoque.step4_desc">
+            Revisión completa, puesta en marcha y seguimiento. El trabajo termina cuando el objetivo se cumple, no cuando el código se envía.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+     SECTION 6: NOTICIAS & INSIGHTS
+     ============================================= -->
 
   <section id="noticias" class="bleibt-section news-section">
-
-
-
     <div class="section-container">
-
-
-
-      
-
-
-
       <div class="section-center-header">
         <div class="section-kicker-pill">
           <span class="kicker-dot"></span>
@@ -2948,12 +989,6 @@
           Artículos y análisis técnicos sobre desarrollo de software, arquitectura en Django y automatización con IA.
         </p>
       </div>
-
-
-
-
-
-
 
       <div class="news-editorial-grid">
         {% if noticias %}
@@ -2982,7 +1017,6 @@
                 </h3>
 
                 <p class="news-card-desc">{{ n.resumen }}</p>
-
                 <a href="{% url 'noticia_detalle' n.id %}" class="news-card-cta" style="text-decoration: none;">
                   <span data-i18n="news.read_btn">Leer artículo completo</span>
                   <i class="fas fa-arrow-right"></i>
@@ -3067,45 +1101,14 @@
         </a>
       </div>
 </div>
-
-
-
   </section>
 
-
-
-
-
-
-
-
-
-
-
   <!-- =============================================
-
-
-
-       SECTION 7: CONTACTO ("Cuéntame qué está pasando")
-
-
-
-       ============================================= -->
-
-
+     SECTION 7: CONTACTO ("Cuéntame qué está pasando")
+     ============================================= -->
 
   <section id="contact" class="bleibt-section contacto-section">
-
-
-
     <div class="section-container">
-
-
-
-      
-
-
-
       <div class="section-center-header">
         <div class="section-kicker-pill">
           <span class="kicker-dot"></span>
@@ -3119,233 +1122,118 @@
         </p>
       </div>
 
-
-
-
-
-
-
-            <!-- Modern Studio Contact Card -->
-
       <div class="ct-form-wrap">
-
         <form class="ct-form ct-modern-form" id="contactForm">
-
           {% csrf_token %}
-
-
 
           <!-- Interactive Topic Selector Cluster -->
 
           <div class="ct-situations-row">
-
             <div class="ct-situation-header">
-
               <span class="ct-situation-icon"><i class="fas fa-layer-group"></i></span>
-
               <span class="ct-situation-label" data-i18n="contact.topic_label">¿Qué desafío te gustaría resolver?</span>
-
             </div>
 
             <div class="ct-pills-cluster">
-
               <button type="button" class="form-topic-btn active" data-topic="Mi presencia digital no refleja lo que construí">
-
                 <span>Presencia Digital</span>
-
               </button>
 
               <button type="button" class="form-topic-btn" data-topic="Vendo bien pero todo pasa por WhatsApp">
-
                 <span>Ventas por WhatsApp</span>
-
               </button>
 
               <button type="button" class="form-topic-btn" data-topic="Mi equipo opera sin procesos claros">
-
                 <span>Procesos Internos &amp; CRM</span>
-
               </button>
 
               <button type="button" class="form-topic-btn" data-topic="Necesito una herramienta a medida">
-
                 <span>Herramienta a Medida</span>
-
               </button>
 
               <button type="button" class="form-topic-btn" data-topic="RauDie OS (SaaS Demo &amp; Planes)">
-
                 <span>RauDie OS SaaS</span>
-
               </button>
-
             </div>
-
           </div>
-
-
 
           <!-- Modern Inputs Grid -->
 
           <div class="ct-fields-grid">
-
             <div class="ct-field">
-
               <label for="contactName" class="ct-label">
-
                 <span data-i18n="contact.name_lbl">Nombre y Empresa</span>
-
                 <span class="ct-req-dot" title="Obligatorio">•</span>
-
               </label>
 
               <div class="ct-input-wrap">
-
                 <i class="ct-input-icon fas fa-user"></i>
 
                 <input type="text" id="contactName" name="name" class="ct-input" placeholder="Ej: Lucas Romero · Apex Logística" required>
-
               </div>
-
             </div>
 
-
-
             <div class="ct-field">
-
               <label for="contactPhone" class="ct-label">
-
                 <span data-i18n="contact.phone_lbl">Teléfono WhatsApp</span>
-
                 <span class="ct-req-dot" title="Obligatorio">•</span>
-
               </label>
 
               <div class="ct-input-wrap">
-
                 <i class="ct-input-icon fab fa-whatsapp"></i>
 
                 <input type="tel" id="contactPhone" name="phone" class="ct-input" placeholder="+54 9 11 1234-5678" required>
-
               </div>
-
             </div>
 
-
-
             <div class="ct-field field-full">
-
               <label for="contactEmail" class="ct-label">
-
                 <span data-i18n="contact.email_lbl">Email Corporativo</span>
-
                 <span class="ct-opt-hint">(Opcional)</span>
-
               </label>
 
               <div class="ct-input-wrap">
-
                 <i class="ct-input-icon fas fa-envelope"></i>
 
                 <input type="email" id="contactEmail" name="email" class="ct-input" placeholder="nombre@empresa.com">
-
               </div>
-
             </div>
 
-
-
             <div class="ct-field field-full">
-
               <label for="contactMessage" class="ct-label">
-
                 <span data-i18n="contact.msg_lbl">Cuéntame sobre tu proyecto u operación</span>
-
                 <span class="ct-req-dot" title="Obligatorio">•</span>
-
               </label>
 
               <div class="ct-input-wrap ct-textarea-wrap">
-
                 <i class="ct-input-icon fas fa-comment-alt"></i>
 
                 <textarea id="contactMessage" name="message" class="ct-input ct-textarea" placeholder="Describe brevemente qué necesitas resolver o qué cuellos de botella enfrenta tu operación..." required></textarea>
-
               </div>
-
             </div>
-
           </div>
 
-
-
           <div class="ct-submit-row">
-
             <button type="submit" class="btn-ct-submit" id="contactSubmitBtn">
-
               <span data-i18n="contact.btn_send">Enviar Consulta</span>
-
               <span class="btn-arrow-circle"><i class="fas fa-arrow-right"></i></span>
-
             </button>
 
             <a href="https://wa.me/5491172341870" target="_blank" class="ct-wa-direct-pill">
-
               <i class="fab fa-whatsapp"></i>
 
               <span data-i18n="contact.wa_direct">O escribir por WhatsApp directo ↗</span>
-
             </a>
-
           </div>
-
-
-
         </form>
-
       </div>
-
-
-
-
-
-
-
     </div>
-
-
-
   </section>
-
-
-
-
-
-
-
 </main>
 
-
-
-
-
-
-
-
-
-
-
 <!-- =============================================
-
-
-
      PROJECT CASE STUDY MODALS
-
-
-
      ============================================= -->
-
-
 
 {% if proyectos %}
   {% for p in proyectos %}
@@ -3466,519 +1354,141 @@
   {% endfor %}
 {% endif %}
 
-
-
-
-
-
-
-
-
-
-
-<!-- News Article Reader Modal -->
-
-
-
-<!-- newsReaderModal removed: news now links directly to dedicated detail page -->
-
-
-
-</div>
-
-
-
-
-
-
-
+<!-- News Article Reader Modal removed: news now links directly to dedicated detail page -->
 {% endblock %}
 
-
-
-
-
-
-
 {% block extra_scripts %}
-
-
-
 <script>
-
-
-
 document.addEventListener('DOMContentLoaded', function() {
-
-
-
-  
-
-
+  // Hero WhatsApp Auto-Notification Pop-in
+  const heroWaBubble = document.getElementById('heroWaBubbleNotif');
+  if (heroWaBubble) {
+    setTimeout(() => {
+      heroWaBubble.classList.add('pop-in');
+    }, 450);
+  }
 
   // Real-time Clock Ticker
 
-
-
   const heroLiveClock = document.getElementById('heroLiveClock');
-
-
-
   function updateClock() {
-
-
-
     if (heroLiveClock) {
-
-
-
       const now = new Date();
-
-
-
       const h = String(now.getHours()).padStart(2, '0');
-
-
-
       const m = String(now.getMinutes()).padStart(2, '0');
-
-
-
       const s = String(now.getSeconds()).padStart(2, '0');
-
-
-
       heroLiveClock.innerHTML = `<i class="far fa-clock"></i> ${h}:${m}:${s} ART`;
-
-
-
     }
 
-
-
   }
-
-
 
   setInterval(updateClock, 1000);
-
-
-
   updateClock();
-
-
-
-
-
-
-
   // Mobile Drawer Toggle
 
-
-
   const mobileBtn = document.querySelector('.mobile-menu-btn');
-
-
-
   const drawer = document.querySelector('.mobile-drawer');
-
-
-
   const overlay = document.querySelector('.mobile-drawer-overlay');
-
-
-
   const closeBtn = document.querySelector('.drawer-close');
-
-
-
-
-
-
-
   function openDrawer() {
-
-
-
     drawer?.classList.add('active');
-
-
-
     overlay?.classList.add('active');
-
-
-
     document.body.style.overflow = 'hidden';
-
-
-
   }
-
-
-
-
-
-
 
   function closeDrawer() {
-
-
-
     drawer?.classList.remove('active');
-
-
-
     overlay?.classList.remove('active');
-
-
-
     document.body.style.overflow = '';
-
-
-
   }
 
-
-
-
-
-
-
   mobileBtn?.addEventListener('click', openDrawer);
-
-
-
   closeBtn?.addEventListener('click', closeDrawer);
-
-
-
   overlay?.addEventListener('click', closeDrawer);
-
-
-
   document.querySelectorAll('.drawer-links a').forEach(a => a.addEventListener('click', closeDrawer));
-
-
-
-
-
-
-
   // =============================================
-
-
 
   // INTERACTIVE 3D RIGHT-SIDE CAROUSEL ENGINE
 
-
-
   // =============================================
 
-
-
   const capSection = document.getElementById('capacidades');
-
-
-
   const capWindow = document.getElementById('capCarouselWindow');
-
-
-
   const capTrack = document.getElementById('capCarouselTrack');
-
-
-
   const capSlides = document.querySelectorAll('.cap-carousel-slide');
-
-
-
   const capNavBtns = document.querySelectorAll('.cap-nav-btn');
-
-
-
   const capActiveNumEl = document.getElementById('capActiveNum');
-
-
-
   const capPrevBtn = document.getElementById('capPrevBtn');
-
-
-
   const capNextBtn = document.getElementById('capNextBtn');
-
-
-
-
-
-
-
   if (capSection && capTrack && capSlides.length > 0) {
-
-
-
     const totalSlides = capSlides.length;
-
-
-
     let targetProgress = 0;
-
-
-
     let currentProgress = 0;
-
-
-
     let isDragging = false;
-
-
-
     let startX = 0;
-
-
-
     let startProgress = 0;
-
-
-
     let dragVelocity = 0;
-
-
-
     let lastDragX = 0;
-
-
-
     let lastDragTime = 0;
-
-
-
     let animFrameId = null;
-
-
-
-
-
-
-
     // Apply continuous 3D transforms to slides
 
-
-
     function render() {
-
-
-
       const diff = targetProgress - currentProgress;
-
-
-
       currentProgress += diff * 0.12;
-
-
-
-
-
-
-
       capTrack.style.transform = `translateX(-${currentProgress * 100}%)`;
-
-
-
-
-
-
-
       capSlides.forEach((slide, i) => {
-
-
-
         const dist = i - currentProgress;
-
-
-
         const absDist = Math.abs(dist);
-
-
-
-
-
-
-
         const scale = Math.max(0.86, 1 - absDist * 0.08);
-
-
-
         const rotY = Math.max(-14, Math.min(14, dist * -8));
-
-
-
         const rotZ = Math.max(-3, Math.min(3, dist * -1.5));
-
-
-
         // Fast fade-out to 0 when exiting left so it NEVER bleeds behind left title/indicators
 
-
-
         let opacity;
-
-
-
         if (dist < 0) {
-
-
-
           opacity = Math.max(0, 1 - Math.abs(dist) * 2.2);
-
-
-
         } else {
-
-
-
           opacity = Math.max(0.15, 1 - absDist * 0.65);
-
-
-
         }
-
-
 
         const blur = Math.min(5, absDist * 2.5);
-
-
-
-
-
-
-
         const card = slide.querySelector('.cap-card');
-
-
-
         if (card) {
-
-
-
           card.style.transform = 'none';
-
-
-
           card.style.opacity = opacity;
-
-
-
           card.style.visibility = opacity < 0.02 ? 'hidden' : 'visible';
-
-
-
           card.style.filter = blur > 0.4 ? `blur(${blur}px)` : 'none';
-
-
-
           card.style.pointerEvents = absDist < 0.4 ? 'auto' : 'none';
-
-
-
         }
 
-
-
       });
-
-
-
-
-
-
 
       const activeIdx = Math.max(0, Math.min(totalSlides - 1, Math.round(currentProgress)));
-
-
-
       capNavBtns.forEach((btn, i) => {
-
-
-
         btn.classList.toggle('active', i === activeIdx);
-
-
-
       });
 
-
-
       if (capActiveNumEl) {
-
-
-
         capActiveNumEl.textContent = `0${activeIdx + 1}`;
-
-
-
       }
-
-
-
-
-
-
 
       if (Math.abs(diff) > 0.0005 || isDragging) {
-
-
-
         animFrameId = requestAnimationFrame(render);
-
-
-
       } else {
-
-
-
         animFrameId = null;
-
-
-
       }
 
-
-
     }
-
-
-
-
-
-
 
     function requestRender() {
-
-
-
       if (!animFrameId) {
-
-
-
         animFrameId = requestAnimationFrame(render);
-
-
-
       }
-
-
 
     }
 
-
-
-
-
-
-
     // Scroll listener: maps vertical section scroll continuously to 0..totalSlides-1
-
-
 
     function getScrollYForIndex(idx) {
       const scrollableDist = capSection.offsetHeight - window.innerHeight;
@@ -3991,18 +1501,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handleCapScroll() {
       if (window.innerWidth <= 960 || isDragging) return;
-
       const rect = capSection.getBoundingClientRect();
       const scrollableDist = capSection.offsetHeight - window.innerHeight;
       if (scrollableDist <= 0) return;
-
       const scrolled = -rect.top;
-
       if (scrolled >= 0 && scrolled <= scrollableDist) {
         const p = scrolled / scrollableDist;
         const holdStart = 0.04;
         const holdEnd = 0.82;
-
         let t;
         if (p <= holdStart) {
           t = 0;
@@ -4024,1390 +1530,309 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     window.addEventListener('scroll', handleCapScroll, { passive: true });
-
-
-
-
-
-
-
     // Interactive Drag / Swipe on Carousel Window
 
-
-
     function startDrag(clientX) {
-
-
-
       isDragging = true;
-
-
-
       startX = clientX;
-
-
-
       startProgress = targetProgress;
-
-
-
       lastDragX = clientX;
-
-
-
       lastDragTime = performance.now();
-
-
-
       dragVelocity = 0;
-
-
-
       capWindow?.classList.add('is-dragging');
-
-
-
       requestRender();
-
-
-
     }
-
-
-
-
-
-
 
     function moveDrag(clientX) {
-
-
-
       if (!isDragging) return;
-
-
-
       const now = performance.now();
-
-
-
       const dt = Math.max(1, now - lastDragTime);
-
-
-
       const dx = clientX - lastDragX;
-
-
-
       dragVelocity = dx / dt;
-
-
-
       lastDragX = clientX;
-
-
-
       lastDragTime = now;
-
-
-
-
-
-
-
       const windowWidth = capWindow.offsetWidth || 500;
-
-
-
       const progressDelta = -(clientX - startX) / windowWidth;
-
-
-
       targetProgress = Math.max(-0.2, Math.min(totalSlides - 0.8, startProgress + progressDelta));
-
-
-
       requestRender();
-
-
-
     }
-
-
-
-
-
-
 
     function endDrag() {
-
-
-
       if (!isDragging) return;
-
-
-
       isDragging = false;
-
-
-
       capWindow?.classList.remove('is-dragging');
-
-
-
-
-
-
-
       let snapTarget = Math.round(targetProgress);
-
-
-
       if (dragVelocity < -0.35 && targetProgress < totalSlides - 1) {
-
-
-
         snapTarget = Math.ceil(targetProgress);
-
-
-
       } else if (dragVelocity > 0.35 && targetProgress > 0) {
-
-
-
         snapTarget = Math.floor(targetProgress);
-
-
-
       }
-
-
 
       snapTarget = Math.max(0, Math.min(totalSlides - 1, snapTarget));
-
-
-
-
-
-
-
       targetProgress = snapTarget;
-
-
-
       requestRender();
-
-
-
-
-
-
-
       if (window.innerWidth > 960) {
-
-
-
         const scrollableDist = capSection.offsetHeight - window.innerHeight;
-
-
-
         const targetY = getScrollYForIndex(snapTarget);
-
-
-
         window.scrollTo({ top: targetY, behavior: 'smooth' });
-
-
-
       }
-
-
 
     }
 
-
-
-
-
-
-
     let touchStartX = 0;
-
-
-
     let touchStartY = 0;
-
-
-
     let gestureIntent = null; // null | 'horizontal' | 'vertical'
-
-
-
-
-
-
-
     capWindow?.addEventListener('pointerdown', (e) => {
-
-
-
       if (e.target.closest('button, a, input, textarea')) return;
-
-
-
       touchStartX = e.clientX;
-
-
-
       touchStartY = e.clientY;
-
-
-
       gestureIntent = null;
-
-
-
       if (e.pointerType === 'mouse') {
-
-
-
         gestureIntent = 'horizontal';
-
-
-
         startDrag(e.clientX);
-
-
-
         try { capWindow.setPointerCapture(e.pointerId); } catch(_) {}
-
-
-
       }
 
-
-
     });
-
-
-
-
-
-
 
     capWindow?.addEventListener('pointermove', (e) => {
-
-
-
       if (gestureIntent === 'vertical') return;
-
-
-
-
-
-
-
       if (!gestureIntent && e.pointerType !== 'mouse') {
-
-
-
         const dx = Math.abs(e.clientX - touchStartX);
-
-
-
         const dy = Math.abs(e.clientY - touchStartY);
-
-
-
         if (dy > 9 && dy > dx) {
-
-
-
-          // Vertical scroll detected: release drag intent to let page scroll naturally
-
-
-
           gestureIntent = 'vertical';
-
-
-
           return;
-
-
-
         } else if (dx > 9 && dx >= dy) {
-
-
-
-          // Horizontal swipe detected
-
-
-
           gestureIntent = 'horizontal';
-
-
-
           startDrag(touchStartX);
-
-
-
           try { capWindow.setPointerCapture(e.pointerId); } catch(_) {}
-
-
-
         }
-
-
-
       }
-
-
-
-
-
-
 
       if (isDragging && gestureIntent === 'horizontal') {
-
-
-
         moveDrag(e.clientX);
-
-
-
       }
-
-
-
     });
-
-
-
-
-
-
 
     capWindow?.addEventListener('pointerup', (e) => {
-
-
-
       if (isDragging) {
-
-
-
         endDrag();
-
-
-
         try { capWindow.releasePointerCapture(e.pointerId); } catch(_) {}
-
-
-
       }
 
-
-
       gestureIntent = null;
-
-
-
     });
-
-
-
-
-
-
 
     capWindow?.addEventListener('pointercancel', (e) => {
-
-
-
       if (isDragging) {
-
-
-
         endDrag();
-
-
-
         try { capWindow.releasePointerCapture(e.pointerId); } catch(_) {}
-
-
-
       }
-
-
-
       gestureIntent = null;
-
-
-
     });
-
-
-
-
-
-
-
-    // 3D tilt movement removed for stability and flat presentation
-
-
-
-
-
-
-
-    // Click indicators
-
-
 
     capNavBtns.forEach((btn, idx) => {
-
-
-
       btn.addEventListener('click', () => {
-
-
-
         targetProgress = idx;
-
-
-
         requestRender();
-
-
-
         if (window.innerWidth > 960) {
-
-
-
           const scrollableDist = capSection.offsetHeight - window.innerHeight;
-
-
-
           const targetY = getScrollYForIndex(idx);
-
-
-
           window.scrollTo({ top: targetY, behavior: 'smooth' });
-
-
-
         }
-
-
-
       });
-
-
-
     });
-
-
-
-
-
-
-
-    // Arrow navigation
-
-
 
     capPrevBtn?.addEventListener('click', () => {
-
-
-
       const prevIdx = Math.max(0, Math.round(targetProgress) - 1);
-
-
-
       targetProgress = prevIdx;
-
-
-
       requestRender();
-
-
-
       if (window.innerWidth > 960) {
-
-
-
         const scrollableDist = capSection.offsetHeight - window.innerHeight;
-
-
-
         const targetY = getScrollYForIndex(prevIdx);
-
-
-
         window.scrollTo({ top: targetY, behavior: 'smooth' });
-
-
-
       }
-
-
-
     });
-
-
-
-
-
-
 
     capNextBtn?.addEventListener('click', () => {
-
-
-
       const nextIdx = Math.min(totalSlides - 1, Math.round(targetProgress) + 1);
-
-
-
       targetProgress = nextIdx;
-
-
-
       requestRender();
-
-
-
       if (window.innerWidth > 960) {
-
-
-
         const scrollableDist = capSection.offsetHeight - window.innerHeight;
-
-
-
         const targetY = getScrollYForIndex(nextIdx);
-
-
-
         window.scrollTo({ top: targetY, behavior: 'smooth' });
-
-
-
       }
-
-
-
     });
-
-
-
-
-
-
-
-    // Initial render
-
-
-
     requestRender();
-
-
-
   }
-
-
-
-
-
-
-
-    // Diagnostic Situation Buttons -> Preselects form & scrolls to #contact
-
-
 
   const triggerSituationBtns = document.querySelectorAll('.trigger-situation');
-
-
-
   const topicBtns = document.querySelectorAll('.form-topic-btn');
-
-
-
   const messageArea = document.getElementById('contactMessage');
-
-
-
   const contactSection = document.getElementById('contact');
-
-
-
-
-
-
-
   triggerSituationBtns.forEach(btn => {
-
-
-
     btn.addEventListener('click', function(e) {
-
-
-
       e.preventDefault();
-
-
-
       const topic = this.getAttribute('data-topic');
-
-
-
-      
-
-
-
-      // Select corresponding pill in contact form
-
-
-
       topicBtns.forEach(p => {
-
-
-
         if (p.getAttribute('data-topic') === topic) {
-
-
-
           p.classList.add('active');
-
-
-
         } else {
-
-
-
           p.classList.remove('active');
-
-
-
         }
-
-
-
       });
 
-
-
-
-
-
-
       const isEnglish = document.documentElement.getAttribute('lang') === 'en';
-
-
-
       if (messageArea) {
-
-
-
         if (isEnglish) {
-
-
-
           messageArea.value = `Hello RauDie! I'm reaching out regarding: "${topic}".
-
-
-
-
-
-
-
 Our current situation: `;
-
-
-
         } else {
-
-
-
           messageArea.value = `¡Hola RauDie! Me pongo en contacto sobre la situación: "${topic}".
-
-
-
-
-
-
-
 Nuestra situación actual: `;
-
-
-
         }
-
-
-
       }
-
-
-
-
-
-
-
       if (contactSection) {
-
-
-
         contactSection.scrollIntoView({ behavior: 'smooth' });
-
-
-
         setTimeout(() => messageArea?.focus(), 700);
-
-
-
       }
-
-
-
     });
-
-
-
   });
-
-
-
-
-
-
-
-  // Topic pills in contact form
-
-
 
   topicBtns.forEach(btn => {
-
-
-
     btn.addEventListener('click', function() {
-
-
-
       topicBtns.forEach(b => b.classList.remove('active'));
-
-
-
       this.classList.add('active');
-
-
-
       const topic = this.getAttribute('data-topic');
-
-
-
       const isEnglish = document.documentElement.getAttribute('lang') === 'en';
-
-
-
       if (messageArea) {
-
-
-
         if (isEnglish) {
-
-
-
           messageArea.value = `Hello RauDie! Inquiring regarding: ${topic}.
-
-
-
-
-
-
-
 Requirements: `;
-
-
-
         } else {
-
-
-
           messageArea.value = `¡Hola RauDie! Me pongo en contacto para consultar sobre: ${topic}.
-
-
-
-
-
-
-
 Requerimiento: `;
-
-
-
         }
-
-
-
         messageArea.focus();
-
-
-
       }
-
-
-
     });
-
-
-
   });
-
-
-
-
-
-
-
-  // Work Filters
-
-
 
   const filterPills = document.querySelectorAll('.filter-pill');
-
-
-
   const workItems = document.querySelectorAll('.work-item-card');
-
-
-
   filterPills.forEach(pill => {
-
-
-
     pill.addEventListener('click', function() {
-
-
-
       filterPills.forEach(p => p.classList.remove('active'));
-
-
-
       this.classList.add('active');
-
-
-
       const filter = this.getAttribute('data-filter');
-
-
-
       workItems.forEach(card => {
-
-
-
         const cat = card.getAttribute('data-category') || '';
-
-
-
         if (filter === 'all' || cat.toLowerCase().includes(filter.toLowerCase())) {
-
-
-
           card.style.display = 'flex';
-
-
-
         } else {
-
-
-
           card.style.display = 'none';
-
-
-
         }
-
-
-
       });
-
-
-
     });
-
-
-
   });
-
-
-
-
-
-
-
-  // Project Modals
-
-
 
   document.querySelectorAll('.work-item-card').forEach(card => {
-
-
-
     card.addEventListener('click', function() {
-
-
-
       const pid = this.getAttribute('data-project');
-
-
-
       const modal = document.getElementById(`projectModal${pid}`);
-
-
-
       if (modal) {
-
-
-
         modal.classList.add('active');
-
-
-
         document.body.style.overflow = 'hidden';
-
-
-
       }
-
-
-
     });
-
-
-
   });
-
-
-
-
-
-
-
-  // Modal Closers
-
-
 
   document.querySelectorAll('.clean-modal-close, .clean-modal-backdrop, .close-modal-trigger').forEach(btn => {
-
-
-
     btn.addEventListener('click', function() {
-
-
-
       document.querySelectorAll('.clean-modal').forEach(m => m.classList.remove('active'));
-
-
-
       document.body.style.overflow = '';
-
-
-
     });
-
-
-
   });
-
-
-
-
-
-
-
-  // Thumbnail Switcher
-
-
 
   document.querySelectorAll('.modal-thumbs-row .thumb-box').forEach(thumb => {
-
-
-
     thumb.addEventListener('click', function() {
-
-
-
       const targetImgId = this.getAttribute('data-target');
-
-
-
       const newSrc = this.getAttribute('data-src');
-
-
-
       const mainImg = document.getElementById(targetImgId);
-
-
-
       if (mainImg && newSrc) {
-
-
-
         mainImg.src = newSrc;
-
-
-
         this.parentElement.querySelectorAll('.thumb-box').forEach(t => t.classList.remove('active'));
-
-
-
         this.classList.add('active');
-
-
-
       }
-
-
-
     });
-
-
-
   });
 
-
-
-
-
-
-
-  // News Modal Reader removed (links directly to dedicated page)
-
-
-
-
-
-
-
-  // Contact Form Submission & WhatsApp Link Dispatch
-
-
-
   const contactForm = document.getElementById('contactForm');
-
-
-
   if (contactForm) {
-
-
-
     contactForm.addEventListener('submit', async function(e) {
-
-
-
       e.preventDefault();
-
-
-
-
-
-
-
       const name = document.getElementById('contactName')?.value.trim() || '';
-
-
-
       const phone = document.getElementById('contactPhone')?.value.trim() || '';
-
-
-
       const email = document.getElementById('contactEmail')?.value.trim() || '';
-
-
-
       const message = document.getElementById('contactMessage')?.value.trim() || '';
-
-
-
       const submitBtn = document.getElementById('contactSubmitBtn');
-
-
-
       const isEnglish = document.documentElement.getAttribute('lang') === 'en';
-
-
-
-
-
-
-
       if (!name || !phone || !message) {
-
-
-
         alert(isEnglish ? 'Please complete all required fields.' : 'Por favor completa los campos requeridos.');
-
-
-
         return;
-
-
-
       }
-
-
-
-
-
-
-
       const originalBtnHTML = submitBtn.innerHTML;
-
-
-
       submitBtn.innerHTML = `<span>${isEnglish ? 'Sending...' : 'Enviando...'}</span> <i class="fas fa-spinner fa-spin"></i>`;
-
-
-
       submitBtn.disabled = true;
-
-
-
-
-
-
-
       try {
-
-
-
         const formData = new FormData();
-
-
-
         formData.append('name', name);
-
-
-
         formData.append('phone', phone);
-
-
-
         formData.append('email', email);
-
-
-
         formData.append('message', message);
-
-
-
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
-
-
-
-
-
-
-
         await fetch('/guardar-contacto/', {
-
-
-
           method: 'POST',
-
-
-
           headers: { 'X-CSRFToken': csrfToken },
-
-
-
           body: formData
-
-
-
         });
-
-
-
       } catch (err) {
-
-
-
         console.warn('Registro guardado:', err);
-
-
-
       }
-
-
-
-
-
-
-
       let waText = '';
-
-
-
       if (isEnglish) {
-
-
-
         waText = `Hello RauDie! I am contacting you from your website.
-
-
-
-
-
-
-
 Client:
-
-
-
 - Name: ${name}
-
-
-
 - Phone: ${phone}
-
-
-
 - Email: ${email}
-
-
-
-
-
-
-
 Project Scope:
-
-
-
 ${message}`;
-
-
-
       } else {
-
-
-
         waText = `¡Hola RauDie! Me pongo en contacto desde su sitio web.
-
-
-
-
-
-
-
 Identificación:
-
-
-
 - Nombre: ${name}
-
-
-
 - Teléfono: ${phone}
-
-
-
 - Email: ${email}
-
-
-
-
-
-
-
 Requerimiento / Situación:
-
-
-
 ${message}`;
-
-
-
       }
-
-
-
-
-
-
-
       const targetPhone = "5491172341870";
-
-
-
       const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(waText)}`;
-
-
-
       window.open(whatsappUrl, '_blank');
-
-
-
-
-
-
-
       submitBtn.innerHTML = `<span>${isEnglish ? 'Sent!' : '¡Enviado!'}</span> <i class="fas fa-check"></i>`;
-
-
-
       submitBtn.style.background = '#10b981';
-
-
-
-
-
-
-
       setTimeout(() => {
-
-
-
         contactForm.reset();
-
-
-
         submitBtn.innerHTML = originalBtnHTML;
-
-
-
         submitBtn.disabled = false;
-
-
-
         submitBtn.style.background = '';
-
-
-
       }, 3500);
-
-
-
     });
-
-
-
   }
-
-
-
-
-
-
-
 });
-
-
-
 </script>
 
-
-
 {% endblock %}
-
-
-
