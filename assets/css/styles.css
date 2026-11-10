@@ -12827,3 +12827,85 @@ button {
 }
 
 .dock-link { white-space: nowrap !important; }
+
+
+/* ==========================================================================
+   CLEAN ADAPTIVE PROJECT GALLERY (NO MAC WINDOW CHROME)
+   ========================================================================== */
+.modal-browser-header {
+  display: none !important;
+}
+.modal-browser-frame {
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(27, 23, 23, 0.08) !important;
+  background: #141212 !important;
+  box-shadow: 0 14px 34px -10px rgba(27, 23, 23, 0.12) !important;
+}
+.modal-main-img-box,
+.detail-main-img-container {
+  width: 100% !important;
+  aspect-ratio: 16 / 10 !important;
+  max-height: 520px !important;
+  background: #141212 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 18px !important;
+}
+.modal-main-img,
+.detail-main-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  display: block !important;
+  transition: transform 0.35s ease, opacity 0.25s ease !important;
+}
+.work-thumb-wrap {
+  width: 100% !important;
+  aspect-ratio: 16 / 10 !important;
+  overflow: hidden !important;
+  border-radius: 16px !important;
+  background: #141212 !important;
+}
+.work-thumb-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  display: block !important;
+}
+.modal-thumbs-row,
+.detail-thumbs-strip {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin-top: 12px !important;
+}
+.modal-thumbs-row .thumb-box,
+.detail-thumbs-strip .detail-thumb-btn {
+  width: 76px !important;
+  height: 52px !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  border: 2px solid rgba(27, 23, 23, 0.12) !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  background: #141212 !important;
+  transition: all 0.2s ease !important;
+}
+.modal-thumbs-row .thumb-box.active,
+.detail-thumbs-strip .detail-thumb-btn.active {
+  border-color: #810100 !important;
+  box-shadow: 0 4px 12px rgba(129, 1, 0, 0.25) !important;
+  transform: translateY(-2px) !important;
+}
+.modal-thumbs-row .thumb-box img,
+.detail-thumbs-strip .detail-thumb-btn img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}

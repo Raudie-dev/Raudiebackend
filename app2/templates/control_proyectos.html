@@ -733,7 +733,9 @@ document.addEventListener('DOMContentLoaded', function(){
     fotosActualesDiv.innerHTML = '';
     seccionActuales.style.display = 'none';
     inputCrear.value    = '1';
+    inputCrear.disabled = false;
     inputEditar.value   = '';
+    inputEditar.disabled = true;
     inputEditarId.value = '';
     document.querySelectorAll('.categoria-checkbox').forEach(r => r.checked = false);
     document.querySelectorAll('.tecnologia-checkbox').forEach(c => c.checked = false);
@@ -756,7 +758,9 @@ document.addEventListener('DOMContentLoaded', function(){
       clearForm();
       modalTitle.innerHTML = '<i class="fas fa-pen me-2"></i>Editar: ' + btn.dataset.titulo;
       inputCrear.value    = '';
+      inputCrear.disabled = true;
       inputEditar.value   = '1';
+      inputEditar.disabled = false;
       inputEditarId.value = btn.dataset.id;
 
       document.getElementById('input_titulo').value          = btn.dataset.titulo          || '';

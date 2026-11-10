@@ -177,7 +177,7 @@ def control_proyectos(request):
             return redirect('control_proyectos')
 
     # Crear proyecto
-    if request.method == 'POST' and 'crear_proyecto' in request.POST:
+    if request.method == 'POST' and request.POST.get('crear_proyecto') == '1' and not request.POST.get('editar_proyecto_id'):
         titulo = request.POST.get('titulo', '').strip()
         cliente = request.POST.get('cliente', '').strip()
         fecha = request.POST.get('fecha', '').strip()
@@ -212,7 +212,7 @@ def control_proyectos(request):
                 messages.error(request, 'Fecha inválida, use AAAA-MM-DD')
 
     # Editar proyecto
-    if request.method == 'POST' and 'editar_proyecto' in request.POST:
+    if request.method == 'POST' and (request.POST.get('editar_proyecto') == '1' or request.POST.get('editar_proyecto_id')):
         proyecto_id = request.POST.get('editar_proyecto_id')
         titulo = request.POST.get('titulo', '').strip()
         cliente = request.POST.get('cliente', '').strip()
