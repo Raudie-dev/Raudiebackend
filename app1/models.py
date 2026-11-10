@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 class Prueba(models.Model):
     nombre = models.CharField(max_length=200)
@@ -16,6 +17,10 @@ class Servicios(models.Model):
 
     caracteristicas = models.JSONField(default=list, blank=True)
     foto = models.ImageField(upload_to='servicios/', blank=True, null=True)
+
+    @property
+    def slug(self):
+        return slugify(self.nombre) or f'servicio-{self.pk}'
 
     def __str__(self):
         return self.nombre
@@ -44,8 +49,16 @@ class Proyecto(models.Model):
     categorias = models.ManyToManyField(Categoria, blank=True, related_name='proyectos')
     tecnologias = models.ManyToManyField(Tecnologia, blank=True, related_name='proyectos')
 
+    @property
+    def slug(self):
+        return slugify(self.titulo) or f'proyecto-{self.pk}'
+
     def fotos_lista(self):
         return self.fotos or []
+
+    @property
+    def url_slug(self):
+        return self.slug or slugify(self.titulo) or f'noticia-{self.pk}'
 
     def __str__(self):
         return self.titulo if self.titulo else f"Proyecto {self.pk}"
@@ -76,6 +89,10 @@ class Noticia(models.Model):
         verbose_name = 'Noticia'
         verbose_name_plural = 'Noticias'
         ordering = ['-fecha', '-id']
+
+    @property
+    def url_slug(self):
+        return self.slug or slugify(self.titulo) or f'noticia-{self.pk}'
 
     def __str__(self):
         return self.titulo

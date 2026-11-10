@@ -82,7 +82,7 @@
 
               <p class="news-card-desc">{{ n.resumen }}</p>
 
-              <a href="{% url 'noticia_detalle' n.id %}" class="news-card-cta">
+              <a href="{% url 'noticia_detalle' n.url_slug %}" class="news-card-cta">
                 <span>Leer artículo completo</span>
                 <i class="fas fa-arrow-right"></i>
               </a>

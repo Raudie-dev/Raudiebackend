@@ -3,7 +3,9 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 from .models import Prueba, Servicios, Proyecto, Categoria, Noticia
-from .services_data import get_servicios, get_servicio_by_id, get_otros_servicios
+from .services_data import get_servicios, get_servicio_by_id, get_servicio_by_slug, get_otros_servicios
+from django.utils.text import slugify
+from django.http import Http404
 
 # Create your views here.
 def index(request):
@@ -59,25 +61,64 @@ def index(request):
         'mensaje_bienvenida': mensaje_bienvenida,
     })
 
-# Vista: detalle de un servicio (gestionado en código con fallback)
-def servicios_detalle(request, servicio_id):
-    servicio = get_servicio_by_id(servicio_id)
-    if not servicio:
-        # Fallback a la base de datos por compatibilidad con IDs anteriores
+# Vista: detalle de un servicio por slug (sin mostrar ID en la URL)
+def servicios_detalle(request, servicio_ref):
+    ref_str = str(servicio_ref).strip()
+    servicio = None
+
+    if ref_str.isdigit():
+        servicio = get_servicio_by_id(int(ref_str))
+        if servicio and servicio.get('slug'):
+            return redirect('servicio_detalle', servicio_ref=servicio['slug'])
         try:
-            servicio = Servicios.objects.get(id=servicio_id)
+            db_serv = Servicios.objects.get(id=int(ref_str))
+            return redirect('servicio_detalle', servicio_ref=db_serv.slug)
         except (Servicios.DoesNotExist, ValueError):
             return redirect('index')
-    otros_servicios = get_otros_servicios(servicio_id)
+
+    servicio = get_servicio_by_slug(ref_str)
+    if not servicio:
+        for s in get_servicios():
+            if slugify(s.get('nombre', '')) == ref_str:
+                servicio = s
+                break
+    if not servicio:
+        for db_s in Servicios.objects.all():
+            if db_s.slug == ref_str:
+                servicio = db_s
+                break
+    if not servicio:
+        return redirect('index')
+
+    serv_id = servicio['id'] if isinstance(servicio, dict) else servicio.id
+    otros_servicios = get_otros_servicios(serv_id)
     return render(request, 'servicio_detalle.html', {
         'servicio': servicio,
         'otros_servicios': otros_servicios,
     })
 
-# Nueva vista: detalle de un proyecto
-def proyecto_detalle(request, proyecto_id):
-    proyecto = get_object_or_404(Proyecto, pk=proyecto_id)
-    proyectos_relacionados = Proyecto.objects.exclude(pk=proyecto_id).order_by('-fecha', '-id')[:3]
+# Vista: detalle de un proyecto por slug (sin mostrar ID en la URL)
+def proyecto_detalle(request, proyecto_ref):
+    ref_str = str(proyecto_ref).strip()
+    proyecto = None
+
+    if ref_str.isdigit():
+        proyecto = get_object_or_404(Proyecto, pk=int(ref_str))
+        if proyecto.slug and not proyecto.slug.isdigit():
+            return redirect('proyecto_detalle', proyecto_ref=proyecto.slug)
+    else:
+        for p in Proyecto.objects.all().order_by('-fecha', '-id'):
+            if p.slug == ref_str or slugify(p.titulo) == ref_str:
+                proyecto = p
+                break
+        if not proyecto and ref_str.startswith('proyecto-'):
+            tail_id = ref_str.replace('proyecto-', '')
+            if tail_id.isdigit():
+                proyecto = Proyecto.objects.filter(pk=int(tail_id)).first()
+        if not proyecto:
+            raise Http404('Proyecto no encontrado')
+
+    proyectos_relacionados = Proyecto.objects.exclude(pk=proyecto.pk).order_by('-fecha', '-id')[:3]
     return render(request, 'proyecto_detalle.html', {
         'proyecto': proyecto,
         'proyectos_relacionados': proyectos_relacionados
@@ -103,10 +144,26 @@ def noticias(request):
         'categoria_filtro': categoria_filtro,
     })
 
-# Nueva vista: lectura completa del artículo de noticia
-def noticia_detalle(request, noticia_id):
-    noticia = get_object_or_404(Noticia, pk=noticia_id)
-    noticias_relacionadas = Noticia.objects.exclude(pk=noticia_id).order_by('-fecha', '-id')[:3]
+# Vista: lectura completa del artículo de noticia por slug (sin mostrar ID en la URL)
+def noticia_detalle(request, noticia_ref):
+    ref_str = str(noticia_ref).strip()
+    noticia = None
+
+    if ref_str.isdigit():
+        noticia = get_object_or_404(Noticia, pk=int(ref_str))
+        if noticia.url_slug and not noticia.url_slug.isdigit():
+            return redirect('noticia_detalle', noticia_ref=noticia.url_slug)
+    else:
+        noticia = Noticia.objects.filter(slug=ref_str).first()
+        if not noticia:
+            for n in Noticia.objects.all():
+                if n.url_slug == ref_str or slugify(n.titulo) == ref_str:
+                    noticia = n
+                    break
+        if not noticia:
+            raise Http404('Noticia no encontrada')
+
+    noticias_relacionadas = Noticia.objects.exclude(pk=noticia.pk).order_by('-fecha', '-id')[:3]
     return render(request, 'noticia_detalle.html', {
         'noticia': noticia,
         'noticias_relacionadas': noticias_relacionadas,
