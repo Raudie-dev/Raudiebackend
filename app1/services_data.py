@@ -153,8 +153,45 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
 ]
 
 
+_DB_SYNCED = False
+
+
+def sync_servicios_to_db() -> None:
+    """
+    Sincroniza automáticamente los 6 servicios oficiales definidos en código
+    con la tabla `app1_servicios` en la base de datos (producción o local),
+    sin requerir subir `db.sqlite3` por Git.
+    """
+    global _DB_SYNCED
+    if _DB_SYNCED:
+        return
+    try:
+        from app1.models import Servicios
+        from decimal import Decimal
+
+        official_names = []
+        for s in SERVICIOS_DATA:
+            nombre = s["nombre"]
+            official_names.append(nombre)
+            precio_val = Decimal(str(s["precio"])) if s.get("precio") is not None else Decimal("0.00")
+            Servicios.objects.update_or_create(
+                id=s["id"],
+                defaults={
+                    "nombre": nombre,
+                    "titulo": s.get("titulo", ""),
+                    "precio": precio_val,
+                    "descripcion": s.get("descripcion", ""),
+                    "caracteristicas": s.get("caracteristicas", []),
+                },
+            )
+        _DB_SYNCED = True
+    except Exception:
+        pass
+
+
 def get_servicios() -> List[Dict[str, Any]]:
-    """Retorna la lista completa de servicios definidos en código."""
+    """Retorna la lista completa de servicios definidos en código y sincroniza la BD."""
+    sync_servicios_to_db()
     return SERVICIOS_DATA
 
 
