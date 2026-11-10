@@ -12909,3 +12909,42 @@ button {
   object-fit: cover !important;
   display: block !important;
 }
+
+
+/* ==========================================================================
+   EXACT CARD FRAME FIT FOR PROJECT IMAGES (100% SQUARED TO CARD SIZE)
+   ========================================================================== */
+.work-item-card .work-thumb-wrap {
+  width: 100% !important;
+  height: 235px !important;
+  aspect-ratio: 16 / 10 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  background: #141212 !important;
+}
+.work-item-card .work-thumb-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill !important;
+  object-position: center center !important;
+  display: block !important;
+}
+.modal-main-img-box,
+.detail-main-img-container {
+  width: 100% !important;
+  aspect-ratio: 16 / 10 !important;
+  height: auto !important;
+  min-height: 280px !important;
+  max-height: 480px !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  background: #141212 !important;
+}
+.modal-main-img,
+.detail-main-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill !important;
+  object-position: center center !important;
+  display: block !important;
+}

@@ -65,6 +65,10 @@ def save_image_as_webp(uploaded_file, folder):
         else:
             image = image.convert('RGB')
 
+        if folder == 'proyectos':
+            resample_filter = getattr(getattr(Image, 'Resampling', Image), 'LANCZOS', Image.BICUBIC)
+            image = image.resize((1280, 800), resample_filter)
+
         buffer = BytesIO()
         image.save(buffer, format='WEBP', quality=80, method=6)
         buffer.seek(0)

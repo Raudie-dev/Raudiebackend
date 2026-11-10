@@ -370,11 +370,16 @@
         overflow: hidden !important;
         display: block !important;
       }
+      .proyecto-card__image, .servicio-card__image {
+        width: 100% !important;
+        height: 220px !important;
+        aspect-ratio: 16 / 10 !important;
+      }
       .proyecto-card__image img, .servicio-card__image img {
         width: 100% !important;
         height: 100% !important;
-        object-fit: cover !important;
-        object-position: center top !important;
+        object-fit: fill !important;
+        object-position: center center !important;
         display: block !important;
       }
       .tag-badge--categoria {
