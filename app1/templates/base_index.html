@@ -145,6 +145,81 @@
   display: block !important;
 }
 </style>
+  <style>
+/* ==========================================================================
+   BALANCED 4:3 EDITORIAL IMAGE CONTAINERS (LESS RECTANGULAR, SOFT ROUNDED)
+   ========================================================================== */
+.detail-gallery-wrap {
+  max-width: 760px !important;
+  margin: 0 auto 52px !important;
+}
+.modal-browser-frame {
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(27, 23, 23, 0.08) !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 20px 50px -12px rgba(27, 23, 23, 0.10) !important;
+  padding: 0 !important;
+}
+.detail-main-img-container {
+  width: 100% !important;
+  aspect-ratio: 4 / 3 !important;
+  height: auto !important;
+  max-height: 560px !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  background: #FAF8F5 !important;
+}
+.modal-main-img-box {
+  width: 100% !important;
+  aspect-ratio: 4 / 3 !important;
+  height: auto !important;
+  min-height: 300px !important;
+  max-height: 460px !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+  background: #FAF8F5 !important;
+}
+.modal-main-img,
+.detail-main-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill !important;
+  object-position: center center !important;
+  display: block !important;
+  border-radius: 22px !important;
+}
+.detail-thumbs-strip,
+.modal-thumbs-row {
+  justify-content: center !important;
+  margin-top: 16px !important;
+  gap: 12px !important;
+}
+.detail-thumbs-strip .detail-thumb-btn,
+.modal-thumbs-row .thumb-box {
+  width: 78px !important;
+  height: 60px !important;
+  border-radius: 14px !important;
+  border: 2px solid rgba(27, 23, 23, 0.1) !important;
+  background: #FFFFFF !important;
+  overflow: hidden !important;
+}
+.work-item-card .work-thumb-wrap {
+  width: 100% !important;
+  height: 255px !important;
+  aspect-ratio: 4 / 3 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  background: #FAF8F5 !important;
+}
+.work-item-card .work-thumb-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill !important;
+  object-position: center center !important;
+  display: block !important;
+}
+</style>
   {% block extra_head %}{% endblock %}
 </head>
 
