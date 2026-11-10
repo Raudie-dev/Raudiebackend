@@ -193,7 +193,7 @@
 
         <div class="work-showcase-grid">
           {% for p in proyectos_relacionados %}
-            <a href="{% url 'proyecto_detalle' p.slug %}" class="work-item-card" style="text-decoration: none; color: inherit;">
+            <a href="{% url 'proyecto_detalle' p.titulo|slugify|default:p.id %}" class="work-item-card" style="text-decoration: none; color: inherit;">
               <div class="work-thumb-wrap">
                 {% if p.fotos %}
                   <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}" class="work-thumb-img" loading="lazy">

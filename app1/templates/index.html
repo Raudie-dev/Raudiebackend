@@ -627,7 +627,7 @@
               <div class="service-card-body">
                 <div class="service-card-top-meta">
                   <h3 class="service-card-name">
-                    <a href="{% url 'servicio_detalle' s.slug %}">{{ s.nombre }}</a>
+                    <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}">{{ s.nombre }}</a>
                   </h3>
                   {% if s.precio %}
                     <div class="service-card-price">
@@ -669,7 +669,7 @@
                 {% endif %}
 
                 <div class="service-card-actions">
-                  <a href="{% url 'servicio_detalle' s.slug %}" class="btn-service-detail">
+                  <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}" class="btn-service-detail">
                     <span data-i18n="services.details_btn">Ver detalles</span>
                     <i class="fas fa-arrow-right"></i>
                   </a>
@@ -994,7 +994,7 @@
         {% if noticias %}
           {% for n in noticias %}
             <article class="news-card-editorial">
-              <a href="{% url 'noticia_detalle' n.url_slug %}" class="news-card-img-wrap" aria-label="{{ n.titulo }}">
+              <a href="{% url 'noticia_detalle' n.titulo|slugify|default:n.id %}" class="news-card-img-wrap" aria-label="{{ n.titulo }}">
                 {% if n.foto %}
                   <img src="{{ n.foto.url }}" alt="{{ n.titulo }}" class="news-card-img" loading="lazy">
                 {% elif n.foto_url %}
@@ -1013,11 +1013,11 @@
                 </div>
 
                 <h3 class="news-card-h3">
-                  <a href="{% url 'noticia_detalle' n.url_slug %}" style="color: inherit; text-decoration: none;">{{ n.titulo }}</a>
+                  <a href="{% url 'noticia_detalle' n.titulo|slugify|default:n.id %}" style="color: inherit; text-decoration: none;">{{ n.titulo }}</a>
                 </h3>
 
                 <p class="news-card-desc">{{ n.resumen }}</p>
-                <a href="{% url 'noticia_detalle' n.url_slug %}" class="news-card-cta" style="text-decoration: none;">
+                <a href="{% url 'noticia_detalle' n.titulo|slugify|default:n.id %}" class="news-card-cta" style="text-decoration: none;">
                   <span data-i18n="news.read_btn">Leer artículo completo</span>
                   <i class="fas fa-arrow-right"></i>
                 </a>
@@ -1319,7 +1319,7 @@
                     <i class="fab fa-whatsapp"></i>
                     <span>Cotizar por WhatsApp</span>
                   </a>
-                  <a href="{% url 'proyecto_detalle' p.slug %}" class="modal-action-btn modal-btn-detail">
+                  <a href="{% url 'proyecto_detalle' p.titulo|slugify|default:p.id %}" class="modal-action-btn modal-btn-detail">
                     <span>Ver página completa</span>
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"></line>

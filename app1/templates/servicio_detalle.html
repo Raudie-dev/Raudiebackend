@@ -201,7 +201,7 @@
             <div class="service-card-body">
               <div class="service-card-top-meta">
                 <h3 class="service-card-name">
-                  <a href="{% url 'servicio_detalle' s.slug %}">{{ s.nombre }}</a>
+                  <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}">{{ s.nombre }}</a>
                 </h3>
                 {% if s.precio %}
                   <div class="service-card-price">
@@ -233,7 +233,7 @@
               {% endif %}
 
               <div class="service-card-actions">
-                <a href="{% url 'servicio_detalle' s.slug %}" class="btn-service-detail">
+                <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}" class="btn-service-detail">
                   <span>Ver detalles</span>
                   <i class="fas fa-arrow-right"></i>
                 </a>

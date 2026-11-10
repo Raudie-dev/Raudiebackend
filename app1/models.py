@@ -51,14 +51,10 @@ class Proyecto(models.Model):
 
     @property
     def slug(self):
-        return slugify(self.titulo) or f'proyecto-{self.pk}'
+        return slugify(self.titulo or '') or f'proyecto-{self.pk or 1}'
 
     def fotos_lista(self):
         return self.fotos or []
-
-    @property
-    def url_slug(self):
-        return self.slug or slugify(self.titulo) or f'noticia-{self.pk}'
 
     def __str__(self):
         return self.titulo if self.titulo else f"Proyecto {self.pk}"

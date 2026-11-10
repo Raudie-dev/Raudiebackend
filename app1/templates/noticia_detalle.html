@@ -110,7 +110,7 @@
                 </div>
                 <div class="news-card-content" style="padding: 18px;">
                   <h4 class="news-card-h3" style="font-size: 15.5px; margin-bottom: 8px;">{{ rel.titulo }}</h4>
-                  <a href="{% url 'noticia_detalle' rel.url_slug %}" class="news-card-cta" style="font-size: 12.5px;">
+                  <a href="{% url 'noticia_detalle' rel.titulo|slugify|default:rel.id %}" class="news-card-cta" style="font-size: 12.5px;">
                     <span>Leer artículo</span>
                     <i class="fas fa-arrow-right"></i>
                   </a>

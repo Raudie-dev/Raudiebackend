@@ -184,7 +184,7 @@
                     <i class="fab fa-whatsapp"></i>
                     <span>Cotizar por WhatsApp</span>
                   </a>
-                  <a href="{% url 'proyecto_detalle' p.slug %}" class="modal-action-btn modal-btn-detail">
+                  <a href="{% url 'proyecto_detalle' p.titulo|slugify|default:p.id %}" class="modal-action-btn modal-btn-detail">
                     <span>Ver página completa</span>
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
