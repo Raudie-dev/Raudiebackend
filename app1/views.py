@@ -23,8 +23,9 @@ def index(request):
     # Obtener servicios oficiales definidos en código (no modificables desde el panel)
     servicios = get_servicios()
 
-    # Obtener últimos 6 proyectos
+    # Obtener últimos 6 proyectos y categorías
     proyectos = Proyecto.objects.all().order_by('-fecha', '-id')[:6]
+    categorias = Categoria.objects.all()
 
     # Obtener últimas noticias (3 para el grid editorial del index)
     noticias = Noticia.objects.all().order_by('-fecha', '-id')[:3]
@@ -57,6 +58,7 @@ def index(request):
         'socio': socio,
         'servicios': servicios,
         'proyectos': proyectos,
+        'categorias': categorias,
         'noticias': noticias,
         'mensaje_bienvenida': mensaje_bienvenida,
     })

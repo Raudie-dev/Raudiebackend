@@ -29,6 +29,10 @@ class Servicios(models.Model):
 class Categoria(models.Model):
     nombre = models.CharField(max_length=120, unique=True)
 
+    @property
+    def slug(self):
+        return slugify(self.nombre or '') or f'cat-{self.pk or 1}'
+
     def __str__(self):
         return self.nombre
 

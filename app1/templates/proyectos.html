@@ -50,7 +50,7 @@
       <button type="button" class="filter-pill active" data-filter="all" data-i18n="archive.filter_all">Todos</button>
       {% if categorias %}
         {% for c in categorias %}
-          <button type="button" class="filter-pill" data-filter="{{ c.slug|default:c.nombre|slugify }}">{{ c.nombre }}</button>
+          <button type="button" class="filter-pill" data-filter="{{ c.nombre|slugify }}">{{ c.nombre }}</button>
         {% endfor %}
       {% else %}
         <button type="button" class="filter-pill" data-filter="saas" data-i18n="work.filter_saas">SaaS &amp; Plataformas</button>
@@ -64,7 +64,7 @@
     <div class="work-showcase-grid">
       {% if proyectos %}
         {% for p in proyectos %}
-          <article class="work-item-card" data-project="{{ p.id }}" data-category="{% for c in p.categorias.all %}{{ c.slug|default:c.nombre|slugify }} {% empty %}sistemas{% endfor %}">
+          <article class="work-item-card" data-project="{{ p.id }}" data-category="{% for c in p.categorias.all %}{{ c.nombre|slugify }} {{ c.nombre|lower }} {% empty %}sistemas{% endfor %}">
             <div class="work-thumb-wrap">
               {% if p.fotos and p.fotos.0 %}
                 <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}" class="work-thumb-img" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80';">
@@ -153,7 +153,7 @@
                   <ul style="margin: 10px 0 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 5px;">
                     {% for feat in p.caracteristicas|slice:":3" %}
                       <li style="display: flex; align-items: baseline; gap: 7px; font-size: 13px; color: #4B5563;">
-                        <span style="color: var(--vinotinto); font-weight: bold; font-size: 12px;">✓</span>
+                        <span class="feature-check-dot" aria-hidden="true"></span>
                         <span>{{ feat }}</span>
                       </li>
                     {% endfor %}
@@ -181,7 +181,6 @@
               <div>
                 <div class="modal-actions-grid">
                   <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20un%20proyecto%20similar%20a%20{{ p.titulo|urlencode }}" target="_blank" rel="noopener noreferrer" class="modal-action-btn modal-btn-whatsapp">
-                    <i class="fab fa-whatsapp"></i>
                     <span>Cotizar por WhatsApp</span>
                   </a>
                   <a href="{% url 'proyecto_detalle' p.titulo|slugify|default:p.id %}" class="modal-action-btn modal-btn-detail">
@@ -223,11 +222,12 @@ document.addEventListener('DOMContentLoaded', function() {
       filterPills.forEach(p => p.classList.remove('active'));
       this.classList.add('active');
 
-      const filter = this.getAttribute('data-filter');
+      const filter = (this.getAttribute('data-filter') || 'all').trim().toLowerCase();
       workItems.forEach(card => {
-        const cat = card.getAttribute('data-category') || '';
-        if (filter === 'all' || cat.toLowerCase().includes(filter.toLowerCase())) {
-          card.style.display = 'flex';
+        const cat = (card.getAttribute('data-category') || '').toLowerCase();
+        const catTokens = cat.split(/\s+/).filter(Boolean);
+        if (filter === 'all' || catTokens.includes(filter) || cat.includes(filter)) {
+          card.style.display = '';
         } else {
           card.style.display = 'none';
         }

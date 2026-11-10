@@ -471,10 +471,16 @@
 
       <div class="work-filters-bar">
         <button type="button" class="filter-pill active" data-filter="all" data-i18n="work.filter_all">Todos</button>
-        <button type="button" class="filter-pill" data-filter="saas" data-i18n="work.filter_saas">SaaS &amp; Plataformas</button>
-        <button type="button" class="filter-pill" data-filter="sistemas" data-i18n="work.filter_crm">Sistemas &amp; CRM</button>
-        <button type="button" class="filter-pill" data-filter="ecommerce" data-i18n="work.filter_ecom">E-Commerce</button>
-        <button type="button" class="filter-pill" data-filter="auto" data-i18n="work.filter_auto">Automatizaciones</button>
+        {% if categorias %}
+          {% for c in categorias %}
+            <button type="button" class="filter-pill" data-filter="{{ c.nombre|slugify }}">{{ c.nombre }}</button>
+          {% endfor %}
+        {% else %}
+          <button type="button" class="filter-pill" data-filter="saas" data-i18n="work.filter_saas">SaaS &amp; Plataformas</button>
+          <button type="button" class="filter-pill" data-filter="sistemas" data-i18n="work.filter_crm">Sistemas &amp; CRM</button>
+          <button type="button" class="filter-pill" data-filter="ecommerce" data-i18n="work.filter_ecom">E-Commerce</button>
+          <button type="button" class="filter-pill" data-filter="auto" data-i18n="work.filter_auto">Automatizaciones</button>
+        {% endif %}
       </div>
 
       <!-- 3-Column Showcase Grid -->
@@ -482,7 +488,7 @@
       <div class="work-showcase-grid">
         {% if proyectos %}
           {% for p in proyectos|slice:":6" %}
-            <article class="work-item-card" data-project="{{ p.id }}" data-category="{% for c in p.categorias.all %}{{ c.slug }} {% empty %}sistemas{% endfor %}">
+            <article class="work-item-card" data-project="{{ p.id }}" data-category="{% for c in p.categorias.all %}{{ c.nombre|slugify }} {{ c.nombre|lower }} {% empty %}sistemas{% endfor %}">
               <div class="work-thumb-wrap">
                 {% if p.fotos %}
                   <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}" class="work-thumb-img" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80';">
@@ -1659,11 +1665,12 @@ document.addEventListener('DOMContentLoaded', function() {
     pill.addEventListener('click', function() {
       filterPills.forEach(p => p.classList.remove('active'));
       this.classList.add('active');
-      const filter = this.getAttribute('data-filter');
+      const filter = (this.getAttribute('data-filter') || 'all').trim().toLowerCase();
       workItems.forEach(card => {
-        const cat = card.getAttribute('data-category') || '';
-        if (filter === 'all' || cat.toLowerCase().includes(filter.toLowerCase())) {
-          card.style.display = 'flex';
+        const cat = (card.getAttribute('data-category') || '').toLowerCase();
+        const catTokens = cat.split(/\s+/).filter(Boolean);
+        if (filter === 'all' || catTokens.includes(filter) || cat.includes(filter)) {
+          card.style.display = '';
         } else {
           card.style.display = 'none';
         }
