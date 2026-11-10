@@ -6,7 +6,7 @@
   <section id="hero" class="modern-hero-section has-bg-image">
     <!-- Architectural Engineering Background Media -->
     <div class="hero-bg-media" aria-hidden="true">
-      <img src="https://i.pinimg.com/originals/0f/f7/69/0ff769dea5fe0c24a3c93f87edf05f16.gif" alt="RauDie Engineering Architecture" class="hero-bg-img" loading="eager" onerror="this.onerror=null; this.src='{% static 'img/digital_mesh.jpg' %}';">
+      <img src="https://i.pinimg.com/originals/0f/f7/69/0ff769dea5fe0c24a3c93f87edf05f16.gif" alt="RauDie Engineering Architecture" class="hero-bg-img" fetchpriority="high" onerror="this.onerror=null; this.src='{% static 'img/digital_mesh.jpg' %}';">
       <div class="hero-bg-overlay"></div>
     </div>
 
@@ -55,7 +55,7 @@
             <!-- Load-Time WhatsApp Notification Bubble -->
             <a href="https://wa.me/5491172341870" target="_blank" class="hero-wa-bubble-notif" id="heroWaBubbleNotif" rel="noopener noreferrer" aria-label="Contáctanos por WhatsApp">
               <span class="wa-notif-dot-pulse" aria-hidden="true"></span>
-              <span class="wa-notif-label" data-i18n="hero.wa_bubble">¡Contáctanos! 👋</span>
+              <span class="wa-notif-label" data-i18n="hero.wa_bubble">¡Contáctanos!</span>
               <span class="hero-wa-bubble-arrow" aria-hidden="true"></span>
             </a>
 
@@ -77,97 +77,87 @@
         <div class="hero-marquee-track">
           <!-- Card 1: Sitio Web -->
           <div class="marquee-card">
-            <div class="m-card-icon"><i class="fas fa-laptop-code"></i></div>
             <div class="m-card-info">
-              <span class="m-card-label">Sitio Web de Alta Conversión</span>
-              <span class="m-card-desc">Diseño editorial, SEO técnico &amp; analítica 60 FPS</span>
+              <span class="m-card-label" data-i18n="hero.m1_label">Sitio Web de Alta Conversión</span>
+              <span class="m-card-desc" data-i18n="hero.m1_desc">Diseño editorial, SEO técnico &amp; analítica 60 FPS</span>
             </div>
-            <span class="m-card-tag">Desarrollo Web</span>
+            <span class="m-card-tag" data-i18n="hero.m1_tag">Desarrollo Web</span>
           </div>
 
           <!-- Card 2: Sistema Interno -->
           <div class="marquee-card">
-            <div class="m-card-icon"><i class="fas fa-server"></i></div>
             <div class="m-card-info">
-              <span class="m-card-label">Sistema Interno &amp; CRM</span>
-              <span class="m-card-desc">PostgreSQL, roles RBAC &amp; operaciones centrales</span>
+              <span class="m-card-label" data-i18n="hero.m2_label">Sistema Interno &amp; CRM</span>
+              <span class="m-card-desc" data-i18n="hero.m2_desc">PostgreSQL, roles RBAC &amp; operaciones centrales</span>
             </div>
-            <span class="m-card-tag">Sistemas</span>
+            <span class="m-card-tag" data-i18n="hero.m2_tag">Sistemas</span>
           </div>
           <!-- Card 3: Automatización -->
           <div class="marquee-card">
-            <div class="m-card-icon"><i class="fab fa-whatsapp"></i></div>
             <div class="m-card-info">
-              <span class="m-card-label">Automatización WhatsApp &amp; IA</span>
-              <span class="m-card-desc">Meta Cloud API, bots autónomos &amp; atención 24/7</span>
+              <span class="m-card-label" data-i18n="hero.m3_label">Automatización WhatsApp &amp; IA</span>
+              <span class="m-card-desc" data-i18n="hero.m3_desc">Meta Cloud API, bots autónomos &amp; atención 24/7</span>
             </div>
-            <span class="m-card-tag">WhatsApp API</span>
+            <span class="m-card-tag" data-i18n="hero.m3_tag">WhatsApp API</span>
           </div>
 
           <!-- Card 4: RauDie OS -->
           <div class="marquee-card">
-            <div class="m-card-icon"><i class="fas fa-cubes"></i></div>
             <div class="m-card-info">
-              <span class="m-card-label">RauDie OS (Plataforma SaaS)</span>
-              <span class="m-card-desc">Facturación, presupuestos PDF &amp; pipeline ágil</span>
+              <span class="m-card-label" data-i18n="hero.m4_label">RauDie OS (Plataforma SaaS)</span>
+              <span class="m-card-desc" data-i18n="hero.m4_desc">Facturación, presupuestos PDF &amp; pipeline ágil</span>
             </div>
-            <span class="m-card-tag">SaaS Core</span>
+            <span class="m-card-tag" data-i18n="hero.m4_tag">SaaS Core</span>
           </div>
 
          <!-- Card 5: Herramienta a Medida -->
           <div class="marquee-card">
-            <div class="m-card-icon"><i class="fas fa-tools"></i></div>
             <div class="m-card-info">
-              <span class="m-card-label">Herramienta Digital a Medida</span>
-              <span class="m-card-desc">Calculadoras interactivas, portal cliente &amp; lógica custom</span>
+              <span class="m-card-label" data-i18n="hero.m5_label">Herramienta Digital a Medida</span>
+              <span class="m-card-desc" data-i18n="hero.m5_desc">Calculadoras interactivas, portal cliente &amp; lógica custom</span>
             </div>
-            <span class="m-card-tag">A Medida</span>
+            <span class="m-card-tag" data-i18n="hero.m5_tag">A Medida</span>
           </div>
 
           <!-- Duplicate Set for Seamless Marquee Infinite Loop -->
           <div class="marquee-card">
-            <div class="m-card-icon"><i class="fas fa-laptop-code"></i></div>
             <div class="m-card-info">
-              <span class="m-card-label">Sitio Web de Alta Conversión</span>
-              <span class="m-card-desc">Diseño editorial, SEO técnico &amp; analítica 60 FPS</span>
+              <span class="m-card-label" data-i18n="hero.m1_label">Sitio Web de Alta Conversión</span>
+              <span class="m-card-desc" data-i18n="hero.m1_desc">Diseño editorial, SEO técnico &amp; analítica 60 FPS</span>
             </div>
-            <span class="m-card-tag">Desarrollo Web</span>
+            <span class="m-card-tag" data-i18n="hero.m1_tag">Desarrollo Web</span>
           </div>
 
           <div class="marquee-card">
-            <div class="m-card-icon"><i class="fas fa-server"></i></div>
             <div class="m-card-info">
-              <span class="m-card-label">Sistema Interno &amp; CRM</span>
-              <span class="m-card-desc">PostgreSQL, roles RBAC &amp; operaciones centrales</span>
+              <span class="m-card-label" data-i18n="hero.m2_label">Sistema Interno &amp; CRM</span>
+              <span class="m-card-desc" data-i18n="hero.m2_desc">PostgreSQL, roles RBAC &amp; operaciones centrales</span>
             </div>
-            <span class="m-card-tag">Sistemas</span>
+            <span class="m-card-tag" data-i18n="hero.m2_tag">Sistemas</span>
           </div>
 
           <div class="marquee-card">
-            <div class="m-card-icon"><i class="fab fa-whatsapp"></i></div>
             <div class="m-card-info">
-              <span class="m-card-label">Automatización WhatsApp &amp; IA</span>
-              <span class="m-card-desc">Meta Cloud API, bots autónomos &amp; atención 24/7</span>
+              <span class="m-card-label" data-i18n="hero.m3_label">Automatización WhatsApp &amp; IA</span>
+              <span class="m-card-desc" data-i18n="hero.m3_desc">Meta Cloud API, bots autónomos &amp; atención 24/7</span>
             </div>
-            <span class="m-card-tag">WhatsApp API</span>
+            <span class="m-card-tag" data-i18n="hero.m3_tag">WhatsApp API</span>
           </div>
 
           <div class="marquee-card">
-            <div class="m-card-icon"><i class="fas fa-cubes"></i></div>
             <div class="m-card-info">
-              <span class="m-card-label">RauDie OS (Plataforma SaaS)</span>
-              <span class="m-card-desc">Facturación, presupuestos PDF &amp; pipeline ágil</span>
+              <span class="m-card-label" data-i18n="hero.m4_label">RauDie OS (Plataforma SaaS)</span>
+              <span class="m-card-desc" data-i18n="hero.m4_desc">Facturación, presupuestos PDF &amp; pipeline ágil</span>
             </div>
-            <span class="m-card-tag">SaaS Core</span>
+            <span class="m-card-tag" data-i18n="hero.m4_tag">SaaS Core</span>
           </div>
 
           <div class="marquee-card">
-            <div class="m-card-icon"><i class="fas fa-tools"></i></div>
             <div class="m-card-info">
-              <span class="m-card-label">Herramienta Digital a Medida</span>
-              <span class="m-card-desc">Calculadoras interactivas, portal cliente &amp; lógica custom</span>
+              <span class="m-card-label" data-i18n="hero.m5_label">Herramienta Digital a Medida</span>
+              <span class="m-card-desc" data-i18n="hero.m5_desc">Calculadoras interactivas, portal cliente &amp; lógica custom</span>
             </div>
-            <span class="m-card-tag">A Medida</span>
+            <span class="m-card-tag" data-i18n="hero.m5_tag">A Medida</span>
           </div>
         </div>
       </div>
@@ -232,11 +222,11 @@
               <span class="cap-step-counter"><span id="capActiveNum">01</span> / 04</span>
               <div class="cap-step-arrows">
                 <button type="button" class="cap-arrow-btn" id="capPrevBtn" aria-label="Tarjeta anterior">
-                  <i class="fas fa-arrow-left"></i>
+                  ←
                 </button>
 
                 <button type="button" class="cap-arrow-btn" id="capNextBtn" aria-label="Siguiente tarjeta">
-                  <i class="fas fa-arrow-right"></i>
+                  →
                 </button>
               </div>
             </div>
@@ -268,8 +258,6 @@
 
                       <div class="cap-built-box">
                         <div class="built-label">
-                          <i class="fas fa-code"></i>
-
                           <span data-i18n="cap.built_label">Lo que construimos</span>
                         </div>
 
@@ -295,7 +283,7 @@
 
                       <button type="button" class="btn-cap-solve trigger-situation" data-topic="Mi presencia digital no refleja lo que construí">
                         <span class="cap-btn-text" data-i18n="cap.btn_solve">Resolver esta situación</span>
-                        <span class="cap-btn-arrow"><i class="fas fa-arrow-right"></i></span>
+                        <span class="cap-btn-arrow">→</span>
                       </button>
                     </div>
                   </article>
@@ -322,8 +310,6 @@
 
                       <div class="cap-built-box">
                         <div class="built-label">
-                          <i class="fas fa-bolt"></i>
-
                           <span data-i18n="cap.built_label">Lo que construimos</span>
                         </div>
 
@@ -349,7 +335,7 @@
 
                       <button type="button" class="btn-cap-solve trigger-situation" data-topic="Vendo bien pero todo pasa por WhatsApp">
                         <span class="cap-btn-text" data-i18n="cap.btn_solve">Resolver esta situación</span>
-                        <span class="cap-btn-arrow"><i class="fas fa-arrow-right"></i></span>
+                        <span class="cap-btn-arrow">→</span>
                       </button>
                     </div>
                   </article>
@@ -376,8 +362,6 @@
 
                       <div class="cap-built-box">
                         <div class="built-label">
-                          <i class="fas fa-layer-group"></i>
-
                           <span data-i18n="cap.built_label">Lo que construimos</span>
                         </div>
 
@@ -403,7 +387,7 @@
 
                       <button type="button" class="btn-cap-solve trigger-situation" data-topic="Mi equipo opera sin procesos claros">
                         <span class="cap-btn-text" data-i18n="cap.btn_solve">Resolver esta situación</span>
-                        <span class="cap-btn-arrow"><i class="fas fa-arrow-right"></i></span>
+                        <span class="cap-btn-arrow">→</span>
                       </button>
                     </div>
                   </article>
@@ -430,8 +414,6 @@
 
                       <div class="cap-built-box">
                         <div class="built-label">
-                          <i class="fas fa-sliders-h"></i>
-
                           <span data-i18n="cap.built_label">Lo que construimos</span>
                         </div>
 
@@ -457,7 +439,7 @@
 
                       <button type="button" class="btn-cap-solve trigger-situation" data-topic="Necesito una herramienta a medida">
                         <span class="cap-btn-text" data-i18n="cap.btn_solve">Resolver esta situación</span>
-                        <span class="cap-btn-arrow"><i class="fas fa-arrow-right"></i></span>
+                        <span class="cap-btn-arrow">→</span>
                       </button>
                     </div>
                   </article>
@@ -531,7 +513,7 @@
 
           <article class="work-item-card" data-project="demo1" data-category="saas sistemas">
             <div class="work-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="RauDie OS Enterprise" class="work-thumb-img">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="RauDie OS Enterprise" class="work-thumb-img" loading="lazy">
             </div>
 
             <div class="work-info-row">
@@ -548,7 +530,7 @@
 
           <article class="work-item-card" data-project="demo2" data-category="auto">
             <div class="work-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80" alt="Nexus Automations" class="work-thumb-img">
+              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80" alt="Nexus Automations" class="work-thumb-img" loading="lazy">
             </div>
 
             <div class="work-info-row">
@@ -565,7 +547,7 @@
 
           <article class="work-item-card" data-project="demo3" data-category="ecommerce">
             <div class="work-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80" alt="Apex Commerce" class="work-thumb-img">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80" alt="Apex Commerce" class="work-thumb-img" loading="lazy">
             </div>
 
             <div class="work-info-row">
@@ -593,8 +575,6 @@
     </div>
   </section>
 
-  
-
   <!-- =============================================
      SECTION: SERVICIOS DE DESARROLLO & SOFTWARE
      ============================================= -->
@@ -617,17 +597,15 @@
         {% if servicios %}
           {% for s in servicios %}
             <article class="service-card-editorial">
-              <div class="service-card-header-gradient">
-                <span class="service-card-tag">{{ s.badge|default:"Desarrollo Web &amp; Software" }}</span>
-                <div class="service-icon-mark">
-                  <i class="{{ s.icono|default:'fas fa-layer-group' }}"></i>
-                </div>
-              </div>
+              <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}" class="service-card-media-wrap" aria-label="{{ s.nombre }}">
+                <img src="{{ s.imagen|default:'/static/img/servicio-landing.png' }}" alt="{{ s.nombre }}" class="service-card-img" loading="lazy">
+                <span class="service-card-tag" data-i18n="services.s{{ s.id }}.badge">{{ s.badge|default:"Desarrollo Web &amp; Software" }}</span>
+              </a>
 
               <div class="service-card-body">
                 <div class="service-card-top-meta">
                   <h3 class="service-card-name">
-                    <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}">{{ s.nombre }}</a>
+                    <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}" data-i18n="services.s{{ s.id }}.nombre">{{ s.nombre }}</a>
                   </h3>
                   {% if s.precio %}
                     <div class="service-card-price">
@@ -637,31 +615,31 @@
                     </div>
                   {% else %}
                     <div class="service-card-price">
-                      <span class="price-val" style="font-size: 15px;">A Medida</span>
+                      <span class="price-val" style="font-size: 15px;" data-i18n="services.custom_price">A Medida</span>
                     </div>
                   {% endif %}
                 </div>
 
                 {% if s.titulo %}
-                  <p class="service-card-subtitle">{{ s.titulo }}</p>
+                  <p class="service-card-subtitle" data-i18n="services.s{{ s.id }}.titulo">{{ s.titulo }}</p>
                 {% endif %}
 
                 {% if s.bonus %}
                   <div class="service-card-bonus-banner">
-                    <span class="bonus-badge-label"><i class="fas fa-gift"></i> BONUS</span>
-                    <span class="bonus-badge-text">{{ s.bonus }}</span>
+                    <span class="bonus-badge-label">BONUS</span>
+                    <span class="bonus-badge-text" data-i18n="services.s{{ s.id }}.bonus">{{ s.bonus }}</span>
                   </div>
                 {% endif %}
 
-                <p class="service-card-desc">{{ s.descripcion|truncatewords:26 }}</p>
+                <p class="service-card-desc" data-i18n="services.s{{ s.id }}.descripcion">{{ s.descripcion }}</p>
                 {% if s.caracteristicas %}
                   <div class="service-card-features">
                     <span class="features-label" data-i18n="services.features_label">Incluye:</span>
                     <ul class="features-list">
                       {% for c in s.caracteristicas %}
                         <li>
-                          <i class="fas fa-check-circle feature-check-icon"></i>
-                          <span>{{ c }}</span>
+                          <span class="feature-check-dot" aria-hidden="true"></span>
+                          <span data-i18n="services.s{{ s.id }}.feat{{ forloop.counter }}">{{ c }}</span>
                         </li>
                       {% endfor %}
                     </ul>
@@ -671,10 +649,8 @@
                 <div class="service-card-actions">
                   <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}" class="btn-service-detail">
                     <span data-i18n="services.details_btn">Ver detalles</span>
-                    <i class="fas fa-arrow-right"></i>
                   </a>
                   <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20el%20servicio%20de%20{{ s.nombre|urlencode }}" target="_blank" rel="noopener noreferrer" class="btn-service-whatsapp" title="Consultar por WhatsApp">
-                    <i class="fab fa-whatsapp"></i>
                     <span data-i18n="services.wa_btn">Consultar</span>
                   </a>
                 </div>
@@ -682,12 +658,11 @@
             </article>
           {% endfor %}
         {% else %}
-          <!-- Fallback Cards si aún no se han cargado más servicios en la BD -->
           <article class="service-card-editorial">
-            <div class="service-card-header-gradient">
+            <a href="#contact" class="service-card-media-wrap">
+              <img src="{% static 'img/servicio-landing.png' %}" alt="Landing Page de Alta Conversión" class="service-card-img" loading="lazy">
               <span class="service-card-tag">Desarrollo Web</span>
-              <div class="service-icon-mark"><i class="fas fa-laptop-code"></i></div>
-            </div>
+            </a>
             <div class="service-card-body">
               <div class="service-card-top-meta">
                 <h3 class="service-card-name">Landing Page de Alta Conversión</h3>
@@ -702,75 +677,79 @@
               <div class="service-card-features">
                 <span class="features-label">Incluye:</span>
                 <ul class="features-list">
-                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Diseño responsive 100% adaptado a móviles</span></li>
-                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Formulario de contacto e integración directa a WhatsApp</span></li>
-                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Optimización para buscadores (SEO) y analítica</span></li>
-                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Carga ultrarrápida y hosting optimizado</span></li>
+                  <li><span class="feature-check-dot" aria-hidden="true"></span><span>Diseño responsive 100% adaptado a móviles</span></li>
+                  <li><span class="feature-check-dot" aria-hidden="true"></span><span>Formulario de contacto e integración directa a WhatsApp</span></li>
+                  <li><span class="feature-check-dot" aria-hidden="true"></span><span>Optimización para buscadores (SEO) y analítica</span></li>
+                  <li><span class="feature-check-dot" aria-hidden="true"></span><span>Carga ultrarrápida y hosting optimizado</span></li>
                 </ul>
               </div>
               <div class="service-card-actions">
-                <a href="#contact" class="btn-service-detail"><span>Iniciar proyecto</span><i class="fas fa-arrow-right"></i></a>
-                <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20una%20Landing%20Page" target="_blank" class="btn-service-whatsapp"><i class="fab fa-whatsapp"></i><span>Consultar</span></a>
+                <a href="#contact" class="btn-service-detail"><span>Iniciar proyecto</span></a>
+                <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20una%20Landing%20Page" target="_blank" class="btn-service-whatsapp"><span>Consultar</span></a>
               </div>
             </div>
           </article>
 
           <article class="service-card-editorial">
-            <div class="service-card-header-gradient">
-              <span class="service-card-tag">Software &amp; Plataformas</span>
-              <div class="service-icon-mark"><i class="fas fa-server"></i></div>
-            </div>
+            <a href="#contact" class="service-card-media-wrap">
+              <img src="{% static 'img/servicio-ecommerce.png' %}" alt="E-commerce" class="service-card-img" loading="lazy">
+              <span class="service-card-tag">Tienda Online Completa</span>
+            </a>
             <div class="service-card-body">
               <div class="service-card-top-meta">
-                <h3 class="service-card-name">Plataformas Web &amp; SaaS a Medida</h3>
+                <h3 class="service-card-name">E-commerce</h3>
                 <div class="service-card-price">
-                  <span class="price-prefix">A Medida</span>
+                  <span class="price-prefix">Desde</span>
+                  <span class="price-val">$600</span>
+                  <span class="price-currency">USD</span>
                 </div>
               </div>
-              <p class="service-card-subtitle">Sistemas empresariales y aplicaciones escalables</p>
-              <p class="service-card-desc">Desarrollo backend en Django/Python con bases de datos relacionales, autenticación por roles (RBAC), portales de clientes y paneles operativos completos.</p>
+              <p class="service-card-subtitle">Plataforma de ventas online con pasarela de pagos integrada</p>
+              <p class="service-card-desc">Tu tienda virtual lista para procesar cobros y gestionar pedidos las 24 horas con panel de administración autogestionable.</p>
               <div class="service-card-features">
                 <span class="features-label">Incluye:</span>
                 <ul class="features-list">
-                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Arquitectura modular escalable en Django</span></li>
-                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Gestión de usuarios, permisos y roles seguros</span></li>
-                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>APIs RESTful e integraciones con pasarelas de pago</span></li>
-                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Auditoría de seguridad y despliegue en la nube</span></li>
+                  <li><span class="feature-check-dot" aria-hidden="true"></span><span>Pasarela de pagos personalizada</span></li>
+                  <li><span class="feature-check-dot" aria-hidden="true"></span><span>Sistema de gestión de inventario y pedidos</span></li>
+                  <li><span class="feature-check-dot" aria-hidden="true"></span><span>Panel de administración autogestionable</span></li>
+                  <li><span class="feature-check-dot" aria-hidden="true"></span><span>Filtros avanzados y buscador de productos</span></li>
                 </ul>
               </div>
               <div class="service-card-actions">
-                <a href="#contact" class="btn-service-detail"><span>Iniciar proyecto</span><i class="fas fa-arrow-right"></i></a>
-                <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20una%20Plataforma%20a%20Medida" target="_blank" class="btn-service-whatsapp"><i class="fab fa-whatsapp"></i><span>Consultar</span></a>
+                <a href="#contact" class="btn-service-detail"><span>Iniciar proyecto</span></a>
+                <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20un%20E-commerce" target="_blank" class="btn-service-whatsapp"><span>Consultar</span></a>
               </div>
             </div>
           </article>
 
           <article class="service-card-editorial">
-            <div class="service-card-header-gradient">
-              <span class="service-card-tag">Automatización &amp; IA</span>
-              <div class="service-icon-mark"><i class="fab fa-whatsapp"></i></div>
-            </div>
+            <a href="#contact" class="service-card-media-wrap">
+              <img src="{% static 'img/servicio-invitaciones.png' %}" alt="Invitaciones Digitales" class="service-card-img" loading="lazy">
+              <span class="service-card-tag">Eventos &amp; Celebraciones</span>
+            </a>
             <div class="service-card-body">
               <div class="service-card-top-meta">
-                <h3 class="service-card-name">Automatización WhatsApp &amp; Chatbot IA</h3>
+                <h3 class="service-card-name">Invitaciones Digitales</h3>
                 <div class="service-card-price">
-                  <span class="price-prefix">A Medida</span>
+                  <span class="price-prefix">Desde</span>
+                  <span class="price-val">$150</span>
+                  <span class="price-currency">USD</span>
                 </div>
               </div>
-              <p class="service-card-subtitle">Atención 24/7 y captura automática de clientes</p>
-              <p class="service-card-desc">Conexión oficial con WhatsApp Cloud API y agentes inteligentes para responder consultas, calificar prospectos y generar presupuestos automáticamente.</p>
+              <p class="service-card-subtitle">Invitaciones interactivas memorables para ocasiones especiales</p>
+              <p class="service-card-desc">Experiencia web interactiva para compartir con tus invitados con confirmación de asistencia y ubicación GPS.</p>
               <div class="service-card-features">
                 <span class="features-label">Incluye:</span>
                 <ul class="features-list">
-                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Integración WhatsApp Business Cloud API oficial</span></li>
-                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Asistente inteligente con OpenAI / Gemini</span></li>
-                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Bandeja multicanal y sincronización con CRM</span></li>
-                  <li><i class="fas fa-check-circle feature-check-icon"></i><span>Notificaciones inmediatas a tu equipo comercial</span></li>
+                  <li><span class="feature-check-dot" aria-hidden="true"></span><span>Diseño temático personalizado</span></li>
+                  <li><span class="feature-check-dot" aria-hidden="true"></span><span>Confirmación de asistencia vía WhatsApp</span></li>
+                  <li><span class="feature-check-dot" aria-hidden="true"></span><span>Mapa interactivo con ubicación del evento</span></li>
+                  <li><span class="feature-check-dot" aria-hidden="true"></span><span>Contador regresivo y agenda del día</span></li>
                 </ul>
               </div>
               <div class="service-card-actions">
-                <a href="#contact" class="btn-service-detail"><span>Iniciar proyecto</span><i class="fas fa-arrow-right"></i></a>
-                <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20Automatizar%20WhatsApp" target="_blank" class="btn-service-whatsapp"><i class="fab fa-whatsapp"></i><span>Consultar</span></a>
+                <a href="#contact" class="btn-service-detail"><span>Iniciar proyecto</span></a>
+                <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesan%20las%20Invitaciones%20Digitales" target="_blank" class="btn-service-whatsapp"><span>Consultar</span></a>
               </div>
             </div>
           </article>
@@ -791,10 +770,10 @@
       <div class="saas-hero-header">
         <div class="saas-badge-pill">
           <span class="pulse-dot"></span>
-          <span>SaaS Propietario RauDie</span>
+          <span data-i18n="saas.badge_pill">SaaS Propietario RauDie</span>
         </div>
 
-        <h2 class="section-h2-title saas-title">
+        <h2 class="section-h2-title saas-title" data-i18n="saas.h2_title">
           La plataforma operativa para <span class="accent">escalar</span> tu empresa.
         </h2>
 
@@ -820,8 +799,7 @@
 
         <div class="saas-bento-card">
           <div class="bento-card-head">
-            <span class="bento-icon-box"><i class="fab fa-whatsapp"></i></span>
-            <span class="bento-kpi-pill">&lt; 220ms latencia</span>
+            <span class="bento-kpi-pill" data-i18n="saas.bento1_kpi">&lt; 220ms latencia</span>
           </div>
 
           <h3 class="bento-title" data-i18n="saas.wa_header_title">WhatsApp Cloud API &amp; Bot IA</h3>
@@ -830,9 +808,9 @@
           </p>
 
           <div class="bento-feature-tags">
-            <span>Meta Official API</span>
-            <span>Atención 24/7</span>
-            <span>IA Generativa</span>
+            <span data-i18n="saas.bento1_t1">Meta Official API</span>
+            <span data-i18n="saas.bento1_t2">Atención 24/7</span>
+            <span data-i18n="saas.bento1_t3">IA Generativa</span>
           </div>
         </div>
 
@@ -840,8 +818,7 @@
 
         <div class="saas-bento-card">
           <div class="bento-card-head">
-            <span class="bento-icon-box"><i class="fas fa-chart-line"></i></span>
-            <span class="bento-kpi-pill">+48% conversión</span>
+            <span class="bento-kpi-pill" data-i18n="saas.bento2_kpi">+48% conversión</span>
           </div>
 
           <h3 class="bento-title" data-i18n="saas.crm_header_title">CRM Comercial &amp; Pipeline Visual</h3>
@@ -850,9 +827,9 @@
           </p>
 
           <div class="bento-feature-tags">
-            <span>Pipeline Visual</span>
-            <span>Scoring de Leads</span>
-            <span>Historial Unificado</span>
+            <span data-i18n="saas.bento2_t1">Pipeline Visual</span>
+            <span data-i18n="saas.bento2_t2">Scoring de Leads</span>
+            <span data-i18n="saas.bento2_t3">Historial Unificado</span>
           </div>
         </div>
 
@@ -860,8 +837,7 @@
 
         <div class="saas-bento-card">
           <div class="bento-card-head">
-            <span class="bento-icon-box"><i class="fas fa-file-invoice-dollar"></i></span>
-            <span class="bento-kpi-pill">&lt; 2s generación</span>
+            <span class="bento-kpi-pill" data-i18n="saas.bento3_kpi">&lt; 2s generación</span>
           </div>
 
           <h3 class="bento-title" data-i18n="saas.quote_header_title">Cotizador PDF Instantáneo</h3>
@@ -870,9 +846,9 @@
           </p>
 
           <div class="bento-feature-tags">
-            <span>PDF Vectorial A4</span>
-            <span>Envío Directo WA</span>
-            <span>Control de Precios</span>
+            <span data-i18n="saas.bento3_t1">PDF Vectorial A4</span>
+            <span data-i18n="saas.bento3_t2">Envío Directo WA</span>
+            <span data-i18n="saas.bento3_t3">Control de Precios</span>
           </div>
         </div>
 
@@ -880,8 +856,7 @@
 
         <div class="saas-bento-card">
           <div class="bento-card-head">
-            <span class="bento-icon-box"><i class="fas fa-layer-group"></i></span>
-            <span class="bento-kpi-pill">100% trazabilidad</span>
+            <span class="bento-kpi-pill" data-i18n="saas.bento4_kpi">100% trazabilidad</span>
           </div>
 
           <h3 class="bento-title" data-i18n="saas.sprint_header_title">Gestión de Sprints &amp; Entregas</h3>
@@ -890,9 +865,9 @@
           </p>
 
           <div class="bento-feature-tags">
-            <span>Tablero Kanban</span>
-            <span>Permisos RBAC</span>
-            <span>Visibilidad Total</span>
+            <span data-i18n="saas.bento4_t1">Tablero Kanban</span>
+            <span data-i18n="saas.bento4_t2">Permisos RBAC</span>
+            <span data-i18n="saas.bento4_t3">Visibilidad Total</span>
           </div>
         </div>
       </div>
@@ -901,8 +876,8 @@
 
       <div class="saas-action-bar">
         <a href="https://os.raudie.net" target="_blank" rel="noopener noreferrer" class="btn-saas-cta">
-          <span>Descubre RauDie OS</span>
-          <span class="saas-arrow-circle"><i class="fas fa-arrow-right"></i></span>
+          <span data-i18n="saas.cta_discover">Descubre RauDie OS</span>
+          <span class="saas-arrow-circle">→</span>
         </a>
 
         <span class="saas-tech-badge">Python · Django · PostgreSQL · Redis · Meta API</span>
@@ -1009,7 +984,7 @@
                 <div class="news-card-meta">
                   <span>{{ n.fecha|date:"d M, Y" }}</span>
                   <span class="meta-dot"></span>
-                  <span><i class="far fa-clock" style="margin-right: 4px;"></i>{{ n.tiempo_lectura }}</span>
+                  <span>{{ n.tiempo_lectura }}</span>
                 </div>
 
                 <h3 class="news-card-h3">
@@ -1019,7 +994,6 @@
                 <p class="news-card-desc">{{ n.resumen }}</p>
                 <a href="{% url 'noticia_detalle' n.titulo|slugify|default:n.id %}" class="news-card-cta" style="text-decoration: none;">
                   <span data-i18n="news.read_btn">Leer artículo completo</span>
-                  <i class="fas fa-arrow-right"></i>
                 </a>
               </div>
             </article>
@@ -1034,7 +1008,7 @@
               <div class="news-card-meta">
                 <span>24 Oct, 2026</span>
                 <span class="meta-dot"></span>
-                <span><i class="far fa-clock" style="margin-right: 4px;"></i>5 min de lectura</span>
+                <span>5 min de lectura</span>
               </div>
               <h3 class="news-card-h3">
                 <a href="{% url 'noticias' %}" style="color: inherit; text-decoration: none;">Arquitectura escalable en Django: Buenas prácticas para sistemas empresariales</a>
@@ -1042,7 +1016,6 @@
               <p class="news-card-desc">Un análisis a fondo sobre modularidad, optimización de base de datos y diseño de micro-módulos para plataformas de alta concurrencia.</p>
               <a href="{% url 'noticias' %}" class="news-card-cta" style="text-decoration: none;">
                 <span>Leer artículo completo</span>
-                <i class="fas fa-arrow-right"></i>
               </a>
             </div>
           </article>
@@ -1056,7 +1029,7 @@
               <div class="news-card-meta">
                 <span>18 Oct, 2026</span>
                 <span class="meta-dot"></span>
-                <span><i class="far fa-clock" style="margin-right: 4px;"></i>3 min de lectura</span>
+                <span>3 min de lectura</span>
               </div>
               <h3 class="news-card-h3">
                 <a href="{% url 'noticias' %}" style="color: inherit; text-decoration: none;">Automatizaciones con WhatsApp Cloud API: Cómo multiplicar tus ventas un 300%</a>
@@ -1064,7 +1037,6 @@
               <p class="news-card-desc">Descubre cómo las empresas están transformando su canal de WhatsApp en un motor de ventas automatizado 24/7 sin perder el toque humano.</p>
               <a href="{% url 'noticias' %}" class="news-card-cta" style="text-decoration: none;">
                 <span>Leer artículo completo</span>
-                <i class="fas fa-arrow-right"></i>
               </a>
             </div>
           </article>
@@ -1078,7 +1050,7 @@
               <div class="news-card-meta">
                 <span>10 Oct, 2026</span>
                 <span class="meta-dot"></span>
-                <span><i class="far fa-clock" style="margin-right: 4px;"></i>4 min de lectura</span>
+                <span>4 min de lectura</span>
               </div>
               <h3 class="news-card-h3">
                 <a href="{% url 'noticias' %}" style="color: inherit; text-decoration: none;">Lanzamiento oficial de RauDie OS: La solución SaaS para empresas y agencias</a>
@@ -1086,7 +1058,6 @@
               <p class="news-card-desc">Presentamos RauDie OS, nuestra plataforma unificada que integra CRM inteligente, automatización de WhatsApp, control de proyectos y finanzas.</p>
               <a href="{% url 'noticias' %}" class="news-card-cta" style="text-decoration: none;">
                 <span>Leer artículo completo</span>
-                <i class="fas fa-arrow-right"></i>
               </a>
             </div>
           </article>
@@ -1096,8 +1067,7 @@
       <!-- Ver más noticias CTA -->
       <div class="archive-cta-row" style="text-align: center; margin-top: 52px;">
         <a href="{% url 'noticias' %}" class="btn-more-projects">
-          <span>Ver todas las noticias</span>
-          <i class="fas fa-arrow-right more-arrow-icon"></i>
+          <span data-i18n="news.view_all_btn">Ver todas las noticias</span>
         </a>
       </div>
 </div>
@@ -1130,29 +1100,28 @@
 
           <div class="ct-situations-row">
             <div class="ct-situation-header">
-              <span class="ct-situation-icon"><i class="fas fa-layer-group"></i></span>
               <span class="ct-situation-label" data-i18n="contact.topic_label">¿Qué desafío te gustaría resolver?</span>
             </div>
 
             <div class="ct-pills-cluster">
               <button type="button" class="form-topic-btn active" data-topic="Mi presencia digital no refleja lo que construí">
-                <span>Presencia Digital</span>
+                <span data-i18n="contact.pill_presence">Presencia Digital</span>
               </button>
 
               <button type="button" class="form-topic-btn" data-topic="Vendo bien pero todo pasa por WhatsApp">
-                <span>Ventas por WhatsApp</span>
+                <span data-i18n="contact.pill_wa">Ventas por WhatsApp</span>
               </button>
 
               <button type="button" class="form-topic-btn" data-topic="Mi equipo opera sin procesos claros">
-                <span>Procesos Internos &amp; CRM</span>
+                <span data-i18n="contact.pill_crm">Procesos Internos &amp; CRM</span>
               </button>
 
               <button type="button" class="form-topic-btn" data-topic="Necesito una herramienta a medida">
-                <span>Herramienta a Medida</span>
+                <span data-i18n="contact.pill_custom">Herramienta a Medida</span>
               </button>
 
               <button type="button" class="form-topic-btn" data-topic="RauDie OS (SaaS Demo &amp; Planes)">
-                <span>RauDie OS SaaS</span>
+                <span data-i18n="contact.pill_saas">RauDie OS SaaS</span>
               </button>
             </div>
           </div>
@@ -1167,9 +1136,7 @@
               </label>
 
               <div class="ct-input-wrap">
-                <i class="ct-input-icon fas fa-user"></i>
-
-                <input type="text" id="contactName" name="name" class="ct-input" placeholder="Ej: Lucas Romero · Apex Logística" required>
+                <input type="text" id="contactName" name="name" class="ct-input" data-i18n-placeholder="contact.name_ph" placeholder="Ej: Lucas Romero · Apex Logística" style="padding-left: 16px;" required>
               </div>
             </div>
 
@@ -1180,22 +1147,18 @@
               </label>
 
               <div class="ct-input-wrap">
-                <i class="ct-input-icon fab fa-whatsapp"></i>
-
-                <input type="tel" id="contactPhone" name="phone" class="ct-input" placeholder="+54 9 11 1234-5678" required>
+                <input type="tel" id="contactPhone" name="phone" class="ct-input" data-i18n-placeholder="contact.phone_ph" placeholder="+54 9 11 1234-5678" style="padding-left: 16px;" required>
               </div>
             </div>
 
             <div class="ct-field field-full">
               <label for="contactEmail" class="ct-label">
                 <span data-i18n="contact.email_lbl">Email Corporativo</span>
-                <span class="ct-opt-hint">(Opcional)</span>
+                <span class="ct-opt-hint" data-i18n="contact.opt_hint">(Opcional)</span>
               </label>
 
               <div class="ct-input-wrap">
-                <i class="ct-input-icon fas fa-envelope"></i>
-
-                <input type="email" id="contactEmail" name="email" class="ct-input" placeholder="nombre@empresa.com">
+                <input type="email" id="contactEmail" name="email" class="ct-input" data-i18n-placeholder="contact.email_ph" placeholder="nombre@empresa.com" style="padding-left: 16px;">
               </div>
             </div>
 
@@ -1206,9 +1169,7 @@
               </label>
 
               <div class="ct-input-wrap ct-textarea-wrap">
-                <i class="ct-input-icon fas fa-comment-alt"></i>
-
-                <textarea id="contactMessage" name="message" class="ct-input ct-textarea" placeholder="Describe brevemente qué necesitas resolver o qué cuellos de botella enfrenta tu operación..." required></textarea>
+                <textarea id="contactMessage" name="message" class="ct-input ct-textarea" data-i18n-placeholder="contact.msg_ph" placeholder="Describe brevemente qué necesitas resolver o qué cuellos de botella enfrenta tu operación..." style="padding-left: 16px;" required></textarea>
               </div>
             </div>
           </div>
@@ -1216,12 +1177,10 @@
           <div class="ct-submit-row">
             <button type="submit" class="btn-ct-submit" id="contactSubmitBtn">
               <span data-i18n="contact.btn_send">Enviar Consulta</span>
-              <span class="btn-arrow-circle"><i class="fas fa-arrow-right"></i></span>
+              <span class="btn-arrow-circle">→</span>
             </button>
 
             <a href="https://wa.me/5491172341870" target="_blank" class="ct-wa-direct-pill">
-              <i class="fab fa-whatsapp"></i>
-
               <span data-i18n="contact.wa_direct">O escribir por WhatsApp directo ↗</span>
             </a>
           </div>
@@ -1249,11 +1208,11 @@
                 
                 <div class="modal-main-img-box">
                   {% if p.fotos %}
-                    <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}" id="modalMainImg{{ p.id }}" class="modal-main-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80';">
+                    <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}" id="modalMainImg{{ p.id }}" class="modal-main-img" fetchpriority="low" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80';">
                   {% elif p.imagen %}
-                    <img src="{{ p.imagen.url }}" alt="{{ p.titulo }}" id="modalMainImg{{ p.id }}" class="modal-main-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80';">
+                    <img src="{{ p.imagen.url }}" alt="{{ p.titulo }}" id="modalMainImg{{ p.id }}" class="modal-main-img" fetchpriority="low" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80';">
                   {% else %}
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="{{ p.titulo }}" id="modalMainImg{{ p.id }}" class="modal-main-img">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="{{ p.titulo }}" id="modalMainImg{{ p.id }}" class="modal-main-img" fetchpriority="low">
                   {% endif %}
                 </div>
               </div>
@@ -1262,7 +1221,7 @@
                 <div class="modal-thumbs-row">
                   {% for foto in p.fotos %}
                     <div class="thumb-box {% if forloop.first %}active{% endif %}" data-target="modalMainImg{{ p.id }}" data-src="{{ foto }}">
-                      <img src="{{ foto }}" alt="{{ p.titulo }} vista {{ forloop.counter }}">
+                      <img src="{{ foto }}" alt="{{ p.titulo }} vista {{ forloop.counter }}" fetchpriority="low" loading="lazy">
                     </div>
                   {% endfor %}
                 </div>
@@ -1288,7 +1247,7 @@
                   <ul style="margin: 10px 0 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 5px;">
                     {% for feat in p.caracteristicas|slice:":3" %}
                       <li style="display: flex; align-items: baseline; gap: 7px; font-size: 13px; color: #4B5563;">
-                        <span style="color: var(--vinotinto); font-weight: bold; font-size: 12px;">✓</span>
+                        <span class="feature-check-dot" aria-hidden="true"></span>
                         <span>{{ feat }}</span>
                       </li>
                     {% endfor %}
@@ -1316,7 +1275,6 @@
               <div>
                 <div class="modal-actions-grid">
                   <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20un%20proyecto%20similar%20a%20{{ p.titulo|urlencode }}" target="_blank" rel="noopener noreferrer" class="modal-action-btn modal-btn-whatsapp">
-                    <i class="fab fa-whatsapp"></i>
                     <span>Cotizar por WhatsApp</span>
                   </a>
                   <a href="{% url 'proyecto_detalle' p.titulo|slugify|default:p.id %}" class="modal-action-btn modal-btn-detail">
@@ -1367,7 +1325,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const h = String(now.getHours()).padStart(2, '0');
       const m = String(now.getMinutes()).padStart(2, '0');
       const s = String(now.getSeconds()).padStart(2, '0');
-      heroLiveClock.innerHTML = `<i class="far fa-clock"></i> ${h}:${m}:${s} ART`;
+      heroLiveClock.textContent = `${h}:${m}:${s} ART`;
     }
 
   }
@@ -1397,9 +1355,7 @@ document.addEventListener('DOMContentLoaded', function() {
   overlay?.addEventListener('click', closeDrawer);
   document.querySelectorAll('.drawer-links a').forEach(a => a.addEventListener('click', closeDrawer));
   // =============================================
-
   // INTERACTIVE 3D RIGHT-SIDE CAROUSEL ENGINE
-
   // =============================================
 
   const capSection = document.getElementById('capacidades');
@@ -1430,11 +1386,6 @@ document.addEventListener('DOMContentLoaded', function() {
       capSlides.forEach((slide, i) => {
         const dist = i - currentProgress;
         const absDist = Math.abs(dist);
-        const scale = Math.max(0.86, 1 - absDist * 0.08);
-        const rotY = Math.max(-14, Math.min(14, dist * -8));
-        const rotZ = Math.max(-3, Math.min(3, dist * -1.5));
-        // Fast fade-out to 0 when exiting left so it NEVER bleeds behind left title/indicators
-
         let opacity;
         if (dist < 0) {
           opacity = Math.max(0, 1 - Math.abs(dist) * 2.2);
@@ -1562,7 +1513,6 @@ document.addEventListener('DOMContentLoaded', function() {
       targetProgress = snapTarget;
       requestRender();
       if (window.innerWidth > 960) {
-        const scrollableDist = capSection.offsetHeight - window.innerHeight;
         const targetY = getScrollYForIndex(snapTarget);
         window.scrollTo({ top: targetY, behavior: 'smooth' });
       }
@@ -1627,7 +1577,6 @@ document.addEventListener('DOMContentLoaded', function() {
         targetProgress = idx;
         requestRender();
         if (window.innerWidth > 960) {
-          const scrollableDist = capSection.offsetHeight - window.innerHeight;
           const targetY = getScrollYForIndex(idx);
           window.scrollTo({ top: targetY, behavior: 'smooth' });
         }
@@ -1639,7 +1588,6 @@ document.addEventListener('DOMContentLoaded', function() {
       targetProgress = prevIdx;
       requestRender();
       if (window.innerWidth > 960) {
-        const scrollableDist = capSection.offsetHeight - window.innerHeight;
         const targetY = getScrollYForIndex(prevIdx);
         window.scrollTo({ top: targetY, behavior: 'smooth' });
       }
@@ -1650,7 +1598,6 @@ document.addEventListener('DOMContentLoaded', function() {
       targetProgress = nextIdx;
       requestRender();
       if (window.innerWidth > 960) {
-        const scrollableDist = capSection.offsetHeight - window.innerHeight;
         const targetY = getScrollYForIndex(nextIdx);
         window.scrollTo({ top: targetY, behavior: 'smooth' });
       }
@@ -1677,11 +1624,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const isEnglish = document.documentElement.getAttribute('lang') === 'en';
       if (messageArea) {
         if (isEnglish) {
-          messageArea.value = `Hello RauDie! I'm reaching out regarding: "${topic}".
-Our current situation: `;
+          messageArea.value = `Hello RauDie! I'm reaching out regarding: "${topic}".\nOur current situation: `;
         } else {
-          messageArea.value = `¡Hola RauDie! Me pongo en contacto sobre la situación: "${topic}".
-Nuestra situación actual: `;
+          messageArea.value = `¡Hola RauDie! Me pongo en contacto sobre la situación: "${topic}".\nNuestra situación actual: `;
         }
       }
       if (contactSection) {
@@ -1699,11 +1644,9 @@ Nuestra situación actual: `;
       const isEnglish = document.documentElement.getAttribute('lang') === 'en';
       if (messageArea) {
         if (isEnglish) {
-          messageArea.value = `Hello RauDie! Inquiring regarding: ${topic}.
-Requirements: `;
+          messageArea.value = `Hello RauDie! Inquiring regarding: ${topic}.\nRequirements: `;
         } else {
-          messageArea.value = `¡Hola RauDie! Me pongo en contacto para consultar sobre: ${topic}.
-Requerimiento: `;
+          messageArea.value = `¡Hola RauDie! Me pongo en contacto para consultar sobre: ${topic}.\nRequerimiento: `;
         }
         messageArea.focus();
       }
@@ -1774,7 +1717,7 @@ Requerimiento: `;
         return;
       }
       const originalBtnHTML = submitBtn.innerHTML;
-      submitBtn.innerHTML = `<span>${isEnglish ? 'Sending...' : 'Enviando...'}</span> <i class="fas fa-spinner fa-spin"></i>`;
+      submitBtn.innerHTML = `<span>${isEnglish ? 'Sending...' : 'Enviando...'}</span>`;
       submitBtn.disabled = true;
       try {
         const formData = new FormData();
@@ -1793,26 +1736,14 @@ Requerimiento: `;
       }
       let waText = '';
       if (isEnglish) {
-        waText = `Hello RauDie! I am contacting you from your website.
-Client:
-- Name: ${name}
-- Phone: ${phone}
-- Email: ${email}
-Project Scope:
-${message}`;
+        waText = `Hello RauDie! I am contacting you from your website.\nClient:\n- Name: ${name}\n- Phone: ${phone}\n- Email: ${email}\nProject Scope:\n${message}`;
       } else {
-        waText = `¡Hola RauDie! Me pongo en contacto desde su sitio web.
-Identificación:
-- Nombre: ${name}
-- Teléfono: ${phone}
-- Email: ${email}
-Requerimiento / Situación:
-${message}`;
+        waText = `¡Hola RauDie! Me pongo en contacto desde su sitio web.\nIdentificación:\n- Nombre: ${name}\n- Teléfono: ${phone}\n- Email: ${email}\nRequerimiento / Situación:\n${message}`;
       }
       const targetPhone = "5491172341870";
       const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(waText)}`;
       window.open(whatsappUrl, '_blank');
-      submitBtn.innerHTML = `<span>${isEnglish ? 'Sent!' : '¡Enviado!'}</span> <i class="fas fa-check"></i>`;
+      submitBtn.innerHTML = `<span>${isEnglish ? 'Sent!' : '¡Enviado!'}</span>`;
       submitBtn.style.background = '#10b981';
       setTimeout(() => {
         contactForm.reset();
@@ -1824,5 +1755,4 @@ ${message}`;
   }
 });
 </script>
-
 {% endblock %}

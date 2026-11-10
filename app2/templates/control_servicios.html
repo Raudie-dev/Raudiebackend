@@ -27,8 +27,10 @@
   }
   .service-code-media {
     position: relative;
-    height: 220px;
-    background: #111010;
+    height: 210px;
+    background: #ffffff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,14 +50,13 @@
     position: absolute;
     top: 12px;
     left: 12px;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(27, 23, 23, 0.82);
     color: #ffffff;
     font-size: 11px;
     font-weight: 700;
     padding: 4px 10px;
     border-radius: 999px;
     backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
   }
   .service-code-pill-badge {
     position: absolute;
@@ -67,7 +68,7 @@
     font-weight: 700;
     padding: 4px 10px;
     border-radius: 999px;
-    box-shadow: 0 2px 8px rgba(129, 1, 0, 0.4);
+    box-shadow: 0 2px 8px rgba(129, 1, 0, 0.25);
   }
   .service-code-body {
     padding: 22px;
@@ -147,10 +148,12 @@
     align-items: flex-start;
     gap: 8px;
   }
-  .service-code-features li i {
-    color: #198754;
-    font-size: 13px;
-    margin-top: 3px;
+  .service-code-features li .feature-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #810100;
+    margin-top: 6px;
     flex-shrink: 0;
   }
   .service-code-footer {
@@ -174,27 +177,24 @@
       <div class="d-flex align-items-center gap-2 mb-1">
         <h1 class="h3 mb-0 text-gray-800 fw-bold">Catálogo de Servicios Web</h1>
         <span class="badge bg-secondary-subtle text-secondary border px-2 py-1" style="font-size: 11px;">
-          <i class="fas fa-lock me-1"></i>Gestionado en Código
+          Gestionado en Código
         </span>
       </div>
-      <p class="text-muted mb-0">Servicios oficiales sincronizados con los flyers y la identidad corporativa de RauDie.</p>
+      <p class="text-muted mb-0">Servicios oficiales sincronizados con la identidad corporativa de RauDie.</p>
     </div>
     <div class="col-auto d-flex gap-2">
       <a href="{% url 'index' %}#services" target="_blank" class="btn btn-outline-dark rounded-pill px-3">
-        <i class="fas fa-external-link-alt me-1"></i>Ver en Landing Page
+        Ver en Landing Page
       </a>
     </div>
   </div>
 
   <!-- ── ARCHITECTURE NOTICE BANNER ── -->
   <div class="alert alert-light border border-secondary border-opacity-25 rounded-4 shadow-sm p-3 mb-4 d-flex align-items-center gap-3">
-    <div class="rounded-circle bg-dark text-white p-2 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; flex-shrink: 0;">
-      <i class="fas fa-shield-alt fa-lg"></i>
-    </div>
     <div class="flex-grow-1">
       <h6 class="mb-1 fw-bold text-dark">Modo de Código Protegido (app1/services_data.py)</h6>
       <p class="mb-0 text-muted small">
-        Los servicios comerciales no son modificables desde formularios web para prevenir inconsistencias visuales, fallos de maquetación y desalineación con los flyers oficiales de la marca. Cualquier ajuste se realiza directamente en la definición de código del proyecto.
+        Los servicios comerciales se gestionan en la definición centralizada del proyecto para mantener coherencia visual y editorial.
       </p>
     </div>
   </div>
@@ -204,14 +204,12 @@
     {% for s in servicios %}
       <div class="service-code-card">
         
-        <div class="service-code-media" style="height: 140px; background: linear-gradient(135deg, #1b1717 0%, #2a1012 60%, #4a0d10 100%);">
+        <div class="service-code-media">
+          <img src="{{ s.imagen|default:'/static/img/servicio-landing.png' }}" alt="{{ s.nombre }}" loading="lazy">
           <span class="service-code-id-badge">ID #{{ s.id }}</span>
           {% if s.badge %}
             <span class="service-code-pill-badge">{{ s.badge }}</span>
           {% endif %}
-          <div class="service-code-icon-center text-center">
-            <i class="{{ s.icono|default:'fas fa-layer-group' }} fa-2x text-white" style="opacity: 0.9;"></i>
-          </div>
         </div>
 
         <div class="service-code-body">
@@ -244,7 +242,7 @@
             <ul class="service-code-features">
               {% for c in s.caracteristicas %}
                 <li>
-                  <i class="fas fa-check-circle"></i>
+                  <span class="feature-dot" aria-hidden="true"></span>
                   <span>{{ c }}</span>
                 </li>
               {% endfor %}
@@ -253,7 +251,7 @@
 
           <div class="service-code-footer">
             <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}" target="_blank" class="btn btn-sm btn-dark rounded-pill px-3 w-100 text-center">
-              <i class="fas fa-arrow-up-right-from-square me-1"></i>Ver Detalle del Servicio
+              Ver Detalle del Servicio
             </a>
           </div>
         </div>

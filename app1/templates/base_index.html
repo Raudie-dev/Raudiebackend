@@ -32,64 +32,70 @@
   display: none !important;
 }
 .modal-browser-frame {
-  border-radius: 18px !important;
+  border-radius: 24px !important;
   overflow: hidden !important;
   border: 1px solid rgba(27, 23, 23, 0.08) !important;
-  background: #141212 !important;
-  box-shadow: 0 14px 34px -10px rgba(27, 23, 23, 0.12) !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 20px 50px -12px rgba(27, 23, 23, 0.10) !important;
+  padding: 0 !important;
 }
-.modal-main-img-box,
+.detail-gallery-wrap {
+  max-width: 760px !important;
+  margin: 0 auto 52px !important;
+}
 .detail-main-img-container {
   width: 100% !important;
-  aspect-ratio: 16 / 10 !important;
-  max-height: 520px !important;
-  background: #141212 !important;
+  aspect-ratio: 4 / 3 !important;
+  height: auto !important;
+  max-height: 560px !important;
+  border-radius: 24px !important;
   overflow: hidden !important;
+  background: #FAF8F5 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border-radius: 18px !important;
+}
+.modal-main-img-box {
+  width: 100% !important;
+  aspect-ratio: 4 / 3 !important;
+  height: auto !important;
+  min-height: 300px !important;
+  max-height: 460px !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+  background: #FAF8F5 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 .modal-main-img,
 .detail-main-img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;
-  object-position: center top !important;
+  object-fit: fill !important;
+  object-position: center center !important;
   display: block !important;
+  border-radius: 22px !important;
   transition: transform 0.35s ease, opacity 0.25s ease !important;
 }
-.work-thumb-wrap {
-  width: 100% !important;
-  aspect-ratio: 16 / 10 !important;
-  overflow: hidden !important;
-  border-radius: 16px !important;
-  background: #141212 !important;
-}
-.work-thumb-img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center top !important;
-  display: block !important;
-}
-.modal-thumbs-row,
-.detail-thumbs-strip {
+.detail-thumbs-strip,
+.modal-thumbs-row {
   display: flex !important;
   flex-wrap: wrap !important;
-  gap: 10px !important;
-  margin-top: 12px !important;
+  justify-content: center !important;
+  margin-top: 16px !important;
+  gap: 12px !important;
 }
-.modal-thumbs-row .thumb-box,
-.detail-thumbs-strip .detail-thumb-btn {
-  width: 76px !important;
-  height: 52px !important;
-  border-radius: 10px !important;
+.detail-thumbs-strip .detail-thumb-btn,
+.modal-thumbs-row .thumb-box {
+  width: 78px !important;
+  height: 60px !important;
+  border-radius: 14px !important;
+  border: 2px solid rgba(27, 23, 23, 0.1) !important;
+  background: #FFFFFF !important;
   overflow: hidden !important;
-  border: 2px solid rgba(27, 23, 23, 0.12) !important;
   padding: 0 !important;
   cursor: pointer !important;
-  background: #141212 !important;
   transition: all 0.2s ease !important;
 }
 .modal-thumbs-row .thumb-box.active,
@@ -105,105 +111,6 @@
   object-fit: cover !important;
   display: block !important;
 }
-</style>
-  <style>
-/* ==========================================================================
-   EXACT CARD FRAME FIT FOR PROJECT IMAGES (100% SQUARED TO CARD SIZE)
-   ========================================================================== */
-.work-item-card .work-thumb-wrap {
-  width: 100% !important;
-  height: 235px !important;
-  aspect-ratio: 16 / 10 !important;
-  border-radius: 0 !important;
-  overflow: hidden !important;
-  background: #141212 !important;
-}
-.work-item-card .work-thumb-img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: fill !important;
-  object-position: center center !important;
-  display: block !important;
-}
-.modal-main-img-box,
-.detail-main-img-container {
-  width: 100% !important;
-  aspect-ratio: 16 / 10 !important;
-  height: auto !important;
-  min-height: 280px !important;
-  max-height: 480px !important;
-  border-radius: 18px !important;
-  overflow: hidden !important;
-  background: #141212 !important;
-}
-.modal-main-img,
-.detail-main-img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: fill !important;
-  object-position: center center !important;
-  display: block !important;
-}
-</style>
-  <style>
-/* ==========================================================================
-   BALANCED 4:3 EDITORIAL IMAGE CONTAINERS (LESS RECTANGULAR, SOFT ROUNDED)
-   ========================================================================== */
-.detail-gallery-wrap {
-  max-width: 760px !important;
-  margin: 0 auto 52px !important;
-}
-.modal-browser-frame {
-  border-radius: 24px !important;
-  overflow: hidden !important;
-  border: 1px solid rgba(27, 23, 23, 0.08) !important;
-  background: #FFFFFF !important;
-  box-shadow: 0 20px 50px -12px rgba(27, 23, 23, 0.10) !important;
-  padding: 0 !important;
-}
-.detail-main-img-container {
-  width: 100% !important;
-  aspect-ratio: 4 / 3 !important;
-  height: auto !important;
-  max-height: 560px !important;
-  border-radius: 24px !important;
-  overflow: hidden !important;
-  background: #FAF8F5 !important;
-}
-.modal-main-img-box {
-  width: 100% !important;
-  aspect-ratio: 4 / 3 !important;
-  height: auto !important;
-  min-height: 300px !important;
-  max-height: 460px !important;
-  border-radius: 22px !important;
-  overflow: hidden !important;
-  background: #FAF8F5 !important;
-}
-.modal-main-img,
-.detail-main-img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: fill !important;
-  object-position: center center !important;
-  display: block !important;
-  border-radius: 22px !important;
-}
-.detail-thumbs-strip,
-.modal-thumbs-row {
-  justify-content: center !important;
-  margin-top: 16px !important;
-  gap: 12px !important;
-}
-.detail-thumbs-strip .detail-thumb-btn,
-.modal-thumbs-row .thumb-box {
-  width: 78px !important;
-  height: 60px !important;
-  border-radius: 14px !important;
-  border: 2px solid rgba(27, 23, 23, 0.1) !important;
-  background: #FFFFFF !important;
-  overflow: hidden !important;
-}
 .work-item-card .work-thumb-wrap {
   width: 100% !important;
   height: 255px !important;
@@ -218,6 +125,121 @@
   object-fit: fill !important;
   object-position: center center !important;
   display: block !important;
+}
+
+/* ==========================================================================
+   SERVICES SECTION & DETAIL MEDIA SHOWCASE (CLEAN MOCKUP IMAGES, NO ICONS)
+   ========================================================================== */
+.service-card-media-wrap {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  width: 100% !important;
+  height: 235px !important;
+  aspect-ratio: 4 / 3 !important;
+  background: #FFFFFF !important;
+  border-bottom: 1px solid rgba(27, 23, 23, 0.06) !important;
+  padding: 18px 20px !important;
+  overflow: hidden !important;
+  text-decoration: none !important;
+}
+.service-card-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  display: block !important;
+}
+.service-card-editorial:hover .service-card-img {
+  transform: scale(1.04) !important;
+}
+.service-card-media-wrap .service-card-tag {
+  position: absolute !important;
+  top: 14px !important;
+  left: 14px !important;
+  bottom: auto !important;
+  background: rgba(27, 23, 23, 0.85) !important;
+  color: #FFFFFF !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  padding: 5px 12px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  backdrop-filter: blur(8px) !important;
+}
+.service-split-img-box {
+  width: 100% !important;
+  min-height: 340px !important;
+  max-height: 460px !important;
+  background: #FFFFFF !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  padding: 28px 24px !important;
+}
+.service-split-img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 400px !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transition: transform 0.35s ease !important;
+  display: block !important;
+}
+.feature-check-dot {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #810100 !important;
+  margin-top: 7px !important;
+  flex-shrink: 0 !important;
+  display: inline-block !important;
+}
+.service-card-body {
+  padding: 22px 22px 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+}
+.service-card-desc {
+  flex-grow: 0 !important;
+  margin-bottom: 16px !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+}
+.service-card-features {
+  margin-top: 0 !important;
+  margin-bottom: 18px !important;
+  padding: 14px 16px !important;
+}
+.service-card-actions {
+  margin-top: auto !important;
+  padding-top: 14px !important;
+}
+.service-info-actions {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  gap: 12px !important;
+  margin-bottom: 24px !important;
+}
+.service-info-actions .btn-split-whatsapp,
+.service-info-actions .btn-split-quote {
+  flex: 1 1 0% !important;
+  padding: 14px 18px !important;
+  font-size: 14.5px !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+}
+@media (max-width: 540px) {
+  .service-info-actions {
+    flex-direction: column !important;
+  }
 }
 </style>
   {% block extra_head %}{% endblock %}
@@ -253,10 +275,7 @@
 
         <a href="https://wa.me/5491172341870" target="_blank" class="dock-btn-cta">
           <span data-i18n="nav.talk">Hablemos</span>
-          <i class="fas fa-arrow-right"></i>
         </a>
-
-
 
         <button class="mobile-menu-btn" aria-label="Abrir Menú">
           <span></span>
@@ -292,11 +311,11 @@
       {% if panel_user %}
         <li class="drawer-panel-highlight">
           <a href="{% url 'control_servicios' %}" style="color: #10b981; font-weight: 700;">
-            <i class="fas fa-gauge-high me-2"></i>Panel de Control ({{ panel_user.nombre }}) ⚡
+            Panel de Control ({{ panel_user.nombre }})
           </a>
         </li>
       {% else %}
-        <li><a href="{% url 'login' %}" data-i18n="drawer.login"><i class="fas fa-lock me-2"></i>Acceso al Panel ↗</a></li>
+        <li><a href="{% url 'login' %}" data-i18n="drawer.login">Acceso al Panel ↗</a></li>
       {% endif %}
     </ul>
     <div class="drawer-footer">

@@ -1,0 +1,299 @@
+/* =============================================
+   LOGIN STYLES — RAUDIE BRAND
+   Adaptado al estilo de la página principal:
+   Rojo #c0131e, negro, blanco, Raleway + Poppins
+   ============================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Poppins:wght@300;400;500;600&display=swap");
+
+:root {
+  --primary:        #c0131e;
+  --primary-light:  #e63946;
+  --primary-dark:   #9a0e18;
+  --primary-glow:   rgba(192, 19, 30, 0.18);
+  --primary-ultra:  rgba(192, 19, 30, 0.07);
+
+  --text:           #1a1a1a;
+  --text-muted:     #666666;
+  --border:         #e0e0e0;
+  --bg:             #f8f9fa;
+  --card:           #ffffff;
+  --input-bg:       #f4f5f7;
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.10);
+  --shadow-lg:  0 12px 40px rgba(0,0,0,0.12);
+  --shadow-red: 0 4px 20px rgba(192, 19, 30, 0.25);
+
+  --radius:     10px;
+  --radius-lg:  16px;
+  --radius-xl:  24px;
+  --radius-full:9999px;
+
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { height: 100%; }
+
+body {
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background-color: var(--bg);
+  /* Sutil patrón geométrico como el hero de la web */
+  background-image:
+    radial-gradient(circle at 80% 10%, rgba(192,19,30,0.08) 0%, transparent 45%),
+    radial-gradient(circle at 10% 90%, rgba(192,19,30,0.05) 0%, transparent 40%),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(192,19,30,0.025) 40px,
+      rgba(192,19,30,0.025) 41px
+    );
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ─── Tarjeta principal ─── */
+.login-card {
+  width: 100%;
+  max-width: 480px;
+  background: var(--card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);     }
+}
+
+/* ─── Header con acento rojo ─── */
+.login-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  padding: 2.25rem 2rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-container {
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: 2px solid rgba(255,255,255,0.35);
+  padding: 6px;
+  transition: transform var(--transition);
+}
+
+.logo-img:hover { transform: scale(1.06) rotate(-2deg); }
+
+.role-badge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.35);
+  color: #fff;
+  padding: 0.45rem 1.2rem;
+  border-radius: var(--radius-full);
+  font-family: "Raleway", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  backdrop-filter: blur(4px);
+}
+
+/* ─── Cuerpo del formulario ─── */
+.login-form-wrapper {
+  padding: 2rem 2rem 1.5rem;
+}
+
+/* Alertas */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.alert-danger {
+  background: rgba(192,19,30,0.07);
+  color: var(--primary-dark);
+  border-left: 3px solid var(--primary);
+}
+
+.alert i { font-size: 1rem; margin-top: 2px; }
+
+/* Formulario */
+.login-form { margin-bottom: 0; }
+
+.form-group { margin-bottom: 1.25rem; }
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  font-family: "Poppins", sans-serif;
+}
+
+.input-wrapper {
+  position: relative;
+  transition: transform var(--transition);
+}
+
+.input-wrapper:focus-within { transform: translateY(-2px); }
+
+.input-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 0.9rem;
+  transition: color var(--transition);
+  pointer-events: none;
+}
+
+.input-wrapper:focus-within .input-icon { color: var(--primary); }
+
+.form-control {
+  width: 100%;
+  padding: 0.8rem 2.75rem 0.8rem 2.5rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  font-family: "Poppins", sans-serif;
+  background: var(--input-bg);
+  color: var(--text);
+  transition: all var(--transition);
+}
+
+.form-control::placeholder { color: #b0b0b0; }
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0.2rem;
+  transition: color var(--transition);
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle:hover { color: var(--primary); }
+
+/* Botón de login */
+.btn-login {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: #fff;
+  font-family: "Raleway", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-red);
+}
+
+.btn-login::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.55s ease;
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(192,19,30,0.35);
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+}
+
+.btn-login:hover::after { transform: translateX(100%); }
+
+.btn-login:active { transform: translateY(0); }
+
+/* Footer */
+.login-footer {
+  text-align: center;
+  padding: 1rem 2rem 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 480px) {
+  body { padding: 0.75rem; }
+
+  .login-header { padding: 1.75rem 1.25rem 1.5rem; }
+
+  .logo-img { width: 64px; height: 64px; }
+
+  .login-form-wrapper { padding: 1.5rem 1.25rem 1rem; }
+
+  .role-badge { font-size: 0.9rem; }
+}

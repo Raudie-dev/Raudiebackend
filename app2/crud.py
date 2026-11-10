@@ -61,7 +61,7 @@ def actualizar_servicio(servicio_id, nombre=None, titulo=None, precio=None, desc
     return servicio
 
 # Nuevas funciones: CRUD para Proyecto
-def crear_proyecto(titulo, cliente, fecha, descripcion='', caracteristicas=None, fotos=None, categoria_ids=None, tecnologia_ids=None):
+def crear_proyecto(titulo, cliente, fecha, descripcion='', caracteristicas=None, fotos=None, categoria_ids=None, tecnologia_ids=None, enlace=''):
     if caracteristicas is None:
         caracteristicas = []
     if fotos is None:
@@ -75,6 +75,7 @@ def crear_proyecto(titulo, cliente, fecha, descripcion='', caracteristicas=None,
         titulo=titulo,
         cliente=cliente,
         fecha=fecha,
+        enlace=enlace or '',
         descripcion=descripcion,
         caracteristicas=caracteristicas,
         fotos=fotos
@@ -93,7 +94,7 @@ def obtener_proyectos():
 def eliminar_proyecto(proyecto_id):
     Proyecto.objects.filter(id=proyecto_id).delete()
 
-def actualizar_proyecto(proyecto_id, titulo=None, cliente=None, fecha=None, descripcion=None, caracteristicas=None, fotos=None, categoria_ids=None, tecnologia_ids=None):
+def actualizar_proyecto(proyecto_id, titulo=None, cliente=None, fecha=None, descripcion=None, caracteristicas=None, fotos=None, categoria_ids=None, tecnologia_ids=None, enlace=None):
     proyecto = Proyecto.objects.get(id=proyecto_id)
     if titulo is not None:
         proyecto.titulo = titulo
@@ -101,6 +102,8 @@ def actualizar_proyecto(proyecto_id, titulo=None, cliente=None, fecha=None, desc
         proyecto.cliente = cliente
     if fecha is not None:
         proyecto.fecha = fecha
+    if enlace is not None:
+        proyecto.enlace = enlace
     if descripcion is not None:
         proyecto.descripcion = descripcion
     if caracteristicas is not None:

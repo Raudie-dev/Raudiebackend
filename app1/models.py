@@ -43,6 +43,7 @@ class Proyecto(models.Model):
     titulo = models.CharField(max_length=200)
     cliente = models.CharField(max_length=200, blank=True)
     fecha = models.DateField()
+    enlace = models.URLField(max_length=500, blank=True, default='')
     descripcion = models.TextField(blank=True)
     caracteristicas = models.JSONField(default=list, blank=True)
     fotos = models.JSONField(default=list, blank=True)

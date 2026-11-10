@@ -13,7 +13,7 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
         "slug": "landing-page-basica",
         "nombre": "Landing Page Básica",
         "badge": "Plan Esencial",
-        "icono": "fas fa-laptop-code",
+        "imagen": "/static/img/servicio-landing.png",
         "titulo": "La mejor opción para empezar con presencia sólida",
         "descripcion": (
             "Una Landing Page Básica es un sitio web de una sola sección diseñado estratégicamente "
@@ -38,7 +38,7 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
         "slug": "landing-page-pro",
         "nombre": "Landing Page PRO",
         "badge": "Todo lo del Básico +",
-        "icono": "fas fa-rocket",
+        "imagen": "/static/img/servicio-landing.png",
         "titulo": "Estructura multisección y persuasión orientada a ventas",
         "descripcion": (
             "Diseñada para marcas y empresas que buscan transmitir máxima autoridad y confianza. "
@@ -62,7 +62,7 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
         "slug": "pagina-presentacion-biolink",
         "nombre": "Página de Presentación Bio-link",
         "badge": "Estilo Linktree Pro",
-        "icono": "fas fa-link",
+        "imagen": "/static/img/servicio-biolink.png",
         "titulo": "Tu identidad digital y enlaces en un solo destino inteligente",
         "descripcion": (
             "Centraliza todos tus canales de contacto, redes sociales, servicios y enlaces destacados "
@@ -85,7 +85,7 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
         "slug": "ecommerce",
         "nombre": "E-commerce",
         "badge": "Tienda Online Completa",
-        "icono": "fas fa-shopping-bag",
+        "imagen": "/static/img/servicio-ecommerce.png",
         "titulo": "Plataforma de ventas online con pasarela de pagos integrada",
         "descripcion": (
             "Tu tienda virtual lista para procesar cobros y gestionar pedidos las 24 horas. "
@@ -108,7 +108,7 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
         "slug": "invitaciones-digitales",
         "nombre": "Invitaciones Digitales",
         "badge": "Eventos & Celebraciones",
-        "icono": "fas fa-envelope-open-text",
+        "imagen": "/static/img/servicio-invitaciones.png",
         "titulo": "Invitaciones interactivas memorables para ocasiones especiales",
         "descripcion": (
             "Una experiencia web interactiva para compartir con tus invitados por WhatsApp y redes. "
@@ -131,7 +131,7 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
         "slug": "servicios-personalizados",
         "nombre": "Servicios Personalizados",
         "badge": "A Medida / Custom",
-        "icono": "fas fa-cubes",
+        "imagen": "/static/img/raudie-os-mockup.png",
         "titulo": "Desarrollo de software y soluciones a medida para proyectos exigentes",
         "descripcion": (
             "Diseñamos y desarrollamos soluciones digitales a medida desde cero para satisfacer las "
@@ -143,11 +143,11 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
         "precio_display": "A medida",
         "bonus": "CONSULTORÍA Y ARQUITECTURA TÉCNICA INICIAL INCLUIDA",
         "caracteristicas": [
-            "Levantamiento de requerimientos y consultoría técnica personalizada",
-            "Arquitectura de software escalable, modular y sin ataduras",
-            "Integración de bases de datos, APIs de terceros y pasarelas a medida",
-            "Diseño de interfaz UI/UX exclusivo con enfoque en usabilidad",
-            "Pruebas de calidad (QA), despliegue en la nube y soporte continuo",
+            "Consultoría técnica y levantamiento de requerimientos",
+            "Arquitectura de software escalable y sin ataduras",
+            "Integración de bases de datos, APIs y pasarelas",
+            "Diseño UI/UX exclusivo enfocado en usabilidad",
+            "Pruebas de calidad (QA), despliegue cloud y soporte",
         ],
     },
 ]

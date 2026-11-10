@@ -331,6 +331,14 @@
           <p class="proyecto-card__desc">{{ p.descripcion|truncatechars:110 }}</p>
         {% endif %}
 
+        {% if p.enlace %}
+          <div class="mb-2">
+            <a href="{{ p.enlace }}" target="_blank" rel="noopener noreferrer" class="small fw-bold" style="color: #810100; text-decoration: none;">
+              <i class="fas fa-link me-1"></i>{{ p.enlace|truncatechars:42 }}
+            </a>
+          </div>
+        {% endif %}
+
         <!-- Badges agrupados -->
         <div class="proyecto-card__tags">
           {% if p.categorias.all %}
@@ -359,6 +367,7 @@
           data-titulo="{{ p.titulo|escapejs }}"
           data-cliente="{{ p.cliente|escapejs }}"
           data-fecha="{{ p.fecha|date:'Y-m-d' }}"
+          data-enlace="{{ p.enlace|default:''|escapejs }}"
           data-descripcion="{{ p.descripcion|escapejs }}"
           data-caracteristicas="{% for c in p.caracteristicas %}{% if not forloop.first %},{% endif %}{{ c|escapejs }}{% endfor %}"
           data-categorias="{% for cat in p.categorias.all %}{% if not forloop.first %},{% endif %}{{ cat.id }}{% endfor %}"
@@ -480,6 +489,12 @@
               <div class="col-md-3">
                 <label class="form-label">Fecha <span class="text-danger">*</span></label>
                 <input type="date" name="fecha" id="input_fecha" class="form-control" required>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label"><i class="fas fa-link me-1 text-primary"></i>URL / Enlace del Proyecto <span class="text-muted fw-normal">(Opcional)</span></label>
+                <input type="text" name="enlace" id="input_enlace" class="form-control"
+                       placeholder="Ej: https://miproyecto.com">
               </div>
 
               <!-- GALERÍA MULTI-IMAGEN -->
@@ -728,6 +743,7 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('input_titulo').value          = '';
     document.getElementById('input_cliente').value         = '';
     document.getElementById('input_fecha').value           = '';
+    document.getElementById('input_enlace').value          = '';
     document.getElementById('input_descripcion').value     = '';
     document.getElementById('input_caracteristicas').value = '';
     accumulatedFiles = [];
@@ -771,6 +787,7 @@ document.addEventListener('DOMContentLoaded', function(){
       document.getElementById('input_titulo').value          = btn.dataset.titulo          || '';
       document.getElementById('input_cliente').value         = btn.dataset.cliente         || '';
       document.getElementById('input_fecha').value           = btn.dataset.fecha           || '';
+      document.getElementById('input_enlace').value          = btn.dataset.enlace          || '';
       document.getElementById('input_descripcion').value     = btn.dataset.descripcion     || '';
       document.getElementById('input_caracteristicas').value = btn.dataset.caracteristicas || '';
 

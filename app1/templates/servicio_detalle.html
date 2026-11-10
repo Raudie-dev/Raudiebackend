@@ -14,10 +14,10 @@
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
-        <span>Volver a Servicios</span>
+        <span data-i18n="services.detail_back">Volver a Servicios</span>
       </a>
       <span class="service-split-breadcrumb">
-        <a href="{% url 'index' %}">Inicio</a> / <a href="{% url 'index' %}#services">Servicios</a> / <span class="active">{{ servicio.nombre }}</span>
+        <a href="{% url 'index' %}" data-i18n="nav.home">Inicio</a> / <a href="{% url 'index' %}#services" data-i18n="nav.services">Servicios</a> / <span class="active" data-i18n="services.s{{ servicio.id }}.nombre">{{ servicio.nombre }}</span>
       </span>
     </div>
 
@@ -27,50 +27,24 @@
       <!-- LEFT COLUMN: Image / Media Showcase -->
       <div class="service-split-media-col">
         <div class="service-split-card-frame">
-          <div class="service-split-showcase-box">
-            <div class="service-showcase-icon-disc">
-              <i class="{{ servicio.icono|default:'fas fa-code' }}"></i>
-            </div>
-            <span class="service-showcase-tag">{{ servicio.badge|default:"Servicio Oficial" }}</span>
-            <h2 class="service-showcase-title">{{ servicio.nombre }}</h2>
-            <p class="service-showcase-caption">{{ servicio.titulo }}</p>
-            <div class="service-showcase-specs-list">
-              <div class="spec-row">
-                <i class="fas fa-shield-alt"></i>
-                <span>Garantía de arquitectura modular &amp; escalable</span>
-              </div>
-              <div class="spec-row">
-                <i class="fas fa-bolt"></i>
-                <span>Optimización integral de rendimiento web</span>
-              </div>
-              <div class="spec-row">
-                <i class="fas fa-mobile-alt"></i>
-                <span>Diseño 100% responsive adaptado a móviles</span>
-              </div>
-            </div>
+          <div class="service-split-img-box">
+            <img src="{{ servicio.imagen|default:'/static/img/servicio-landing.png' }}" alt="{{ servicio.nombre }}" class="service-split-img" fetchpriority="high">
           </div>
           <div class="service-split-media-footer">
             <div class="media-badge">
-              <i class="fas fa-code"></i>
-              <span>Código 100% Propietario</span>
+              <span data-i18n="services.detail_prop_code">Código 100% Propietario</span>
             </div>
             <div class="media-badge">
-              <i class="fas fa-shield-alt"></i>
-              <span>Garantía &amp; Soporte</span>
+              <span data-i18n="services.detail_warranty">Garantía &amp; Soporte</span>
             </div>
           </div>
         </div>
 
         <!-- Trust Card Below Image -->
         <div class="service-split-trust-card">
-          <div class="trust-card-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8192A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            </svg>
-          </div>
           <div class="trust-card-text">
-            <h4>Arquitectura Propia &amp; Sin Ataduras</h4>
-            <p>Entregamos tu solución con código modular, optimizado para SEO técnico y sin mensualidades forzadas de constructores.</p>
+            <h4 data-i18n="services.detail_trust_title">Arquitectura Propia &amp; Sin Ataduras</h4>
+            <p data-i18n="services.detail_trust_desc">Entregamos tu solución con código modular, optimizado para SEO técnico y sin mensualidades forzadas de constructores.</p>
           </div>
         </div>
       </div>
@@ -81,61 +55,57 @@
           
           <div class="section-kicker-pill" style="margin-bottom: 14px;">
             <span class="kicker-dot"></span>
-            <span>Desarrollo Web &amp; Software</span>
+            <span data-i18n="services.s{{ servicio.id }}.badge">{{ servicio.badge|default:"Desarrollo Web &amp; Software" }}</span>
           </div>
 
-          <h1 class="service-info-title">{{ servicio.nombre }}</h1>
+          <h1 class="service-info-title" data-i18n="services.s{{ servicio.id }}.nombre">{{ servicio.nombre }}</h1>
 
           {% if servicio.titulo %}
-            <p class="service-info-subtitle">{{ servicio.titulo }}</p>
+            <p class="service-info-subtitle" data-i18n="services.s{{ servicio.id }}.titulo">{{ servicio.titulo }}</p>
           {% endif %}
 
           {% if servicio.precio %}
             <div class="service-info-price-block">
-              <span class="price-lead-label">Inversión estimada:</span>
+              <span class="price-lead-label" data-i18n="services.detail_price_lead">Inversión estimada:</span>
               <div class="price-display-row">
                 <span class="price-big-number">${{ servicio.precio|floatformat:2 }}</span>
                 <span class="price-currency-tag">USD</span>
-                <span class="price-status-tag"><span class="status-dot-green"></span> Disponible</span>
+                <span class="price-status-tag"><span class="status-dot-green"></span> <span data-i18n="services.detail_available">Disponible</span></span>
               </div>
-              <span class="price-caption-note">Inversión transparente • Sin costos recurrentes ocultos</span>
+              <span class="price-caption-note" data-i18n="services.detail_price_note">Inversión transparente • Sin costos recurrentes ocultos</span>
             </div>
           {% else %}
             <div class="service-info-price-block">
-              <span class="price-lead-label">Inversión estimada:</span>
+              <span class="price-lead-label" data-i18n="services.detail_price_lead">Inversión estimada:</span>
               <div class="price-display-row">
-                <span class="price-big-number" style="font-size: 30px;">Cotización a Medida</span>
-                <span class="price-status-tag"><span class="status-dot-green"></span> Proyecto Personalizado</span>
+                <span class="price-big-number" style="font-size: 30px;" data-i18n="services.detail_custom_quote">Cotización a Medida</span>
+                <span class="price-status-tag"><span class="status-dot-green"></span> <span data-i18n="services.detail_custom_project">Proyecto Personalizado</span></span>
               </div>
-              <span class="price-caption-note">Presupuesto adaptado al alcance y requerimientos de tu proyecto</span>
+              <span class="price-caption-note" data-i18n="services.detail_custom_note">Presupuesto adaptado al alcance y requerimientos de tu proyecto</span>
             </div>
           {% endif %}
 
           {% if servicio.bonus %}
             <div class="service-detail-bonus-banner">
-              <span class="bonus-badge-glow-tag"><i class="fas fa-gift"></i> BENEFICIO INCLUIDO</span>
-              <span class="bonus-badge-glow-text">{{ servicio.bonus }}</span>
+              <span class="bonus-badge-glow-tag" data-i18n="services.detail_bonus_tag">BENEFICIO INCLUIDO</span>
+              <span class="bonus-badge-glow-text" data-i18n="services.s{{ servicio.id }}.bonus">{{ servicio.bonus }}</span>
             </div>
           {% endif %}
 
           <div class="service-info-description">
-            <p>{{ servicio.descripcion|linebreaksbr }}</p>
+            <p data-i18n="services.s{{ servicio.id }}.descripcion">{{ servicio.descripcion|linebreaksbr }}</p>
           </div>
 
           {% if servicio.caracteristicas %}
             <div class="service-info-features-wrap">
               <h3 class="features-headline">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B8192A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
-                <span>¿Qué incluye este servicio?</span>
+                <span data-i18n="services.detail_features_headline">¿Qué incluye este servicio?</span>
               </h3>
               <ul class="service-info-features-list">
                 {% for c in servicio.caracteristicas %}
                   <li>
-                    <i class="fas fa-check-circle check-green"></i>
-                    <span>{{ c }}</span>
+                    <span class="feature-check-dot" aria-hidden="true"></span>
+                    <span data-i18n="services.s{{ servicio.id }}.feat{{ forloop.counter }}">{{ c }}</span>
                   </li>
                 {% endfor %}
               </ul>
@@ -145,28 +115,23 @@
           <!-- Action CTA Group -->
           <div class="service-info-actions">
             <a href="https://wa.me/5491172341870?text=¡Hola%20RauDie!%20Me%20interesa%20iniciar%20el%20servicio%20de%20*{{ servicio.nombre|urlencode }}*{% if servicio.precio %}%20(${{ servicio.precio|floatformat:2 }}%20USD){% endif %}." target="_blank" rel="noopener noreferrer" class="btn-split-whatsapp">
-              <i class="fab fa-whatsapp"></i>
-              <span>Solicitar por WhatsApp</span>
+              <span data-i18n="services.detail_btn_wa">Solicitar por WhatsApp</span>
             </a>
 
             <a href="{% url 'index' %}#contact" class="btn-split-quote">
-              <i class="fas fa-file-signature"></i>
-              <span>Pedir Cotización Formal</span>
+              <span data-i18n="services.detail_btn_quote">Pedir Cotización Formal</span>
             </a>
           </div>
 
           <div class="service-info-trust-footer">
             <div class="trust-badge-item">
-              <i class="fas fa-bolt"></i>
-              <span>Entrega 5 a 10 días</span>
+              <span data-i18n="services.detail_trust_days">Entrega 5 a 10 días</span>
             </div>
             <div class="trust-badge-item">
-              <i class="fas fa-file-invoice"></i>
-              <span>Factura disponible</span>
+              <span data-i18n="services.detail_trust_invoice">Factura disponible</span>
             </div>
             <div class="trust-badge-item">
-              <i class="fas fa-comments"></i>
-              <span>Trato directo sin intermediarios</span>
+              <span data-i18n="services.detail_trust_direct">Trato directo sin intermediarios</span>
             </div>
           </div>
 
@@ -181,9 +146,9 @@
       <div class="section-center-header" style="margin-bottom: 32px;">
         <div class="section-kicker-pill">
           <span class="kicker-dot"></span>
-          <span>Catálogo RauDie</span>
+          <span data-i18n="services.detail_catalog_kicker">Catálogo RauDie</span>
         </div>
-        <h2 class="section-h2-title center-h2">
+        <h2 class="section-h2-title center-h2" data-i18n="services.detail_related_title">
           Otros servicios que pueden <span class="accent">interesarte</span>.
         </h2>
       </div>
@@ -191,41 +156,43 @@
       <div class="services-editorial-grid">
         {% for s in otros_servicios %}
           <article class="service-card-editorial">
-            <div class="service-card-header-gradient">
-              <span class="service-card-tag">{{ s.badge|default:"Desarrollo Web &amp; Software" }}</span>
-              <div class="service-icon-mark">
-                <i class="{{ s.icono|default:'fas fa-layer-group' }}"></i>
-              </div>
-            </div>
+            <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}" class="service-card-media-wrap" aria-label="{{ s.nombre }}">
+              <img src="{{ s.imagen|default:'/static/img/servicio-landing.png' }}" alt="{{ s.nombre }}" class="service-card-img" loading="lazy">
+              <span class="service-card-tag" data-i18n="services.s{{ s.id }}.badge">{{ s.badge|default:"Desarrollo Web &amp; Software" }}</span>
+            </a>
 
             <div class="service-card-body">
               <div class="service-card-top-meta">
                 <h3 class="service-card-name">
-                  <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}">{{ s.nombre }}</a>
+                  <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}" data-i18n="services.s{{ s.id }}.nombre">{{ s.nombre }}</a>
                 </h3>
                 {% if s.precio %}
                   <div class="service-card-price">
-                    <span class="price-prefix">Desde</span>
+                    <span class="price-prefix" data-i18n="services.price_from">Desde</span>
                     <span class="price-val">${{ s.precio|floatformat:0 }}</span>
                     <span class="price-currency">USD</span>
+                  </div>
+                {% else %}
+                  <div class="service-card-price">
+                    <span class="price-val" style="font-size: 15px;" data-i18n="services.custom_price">A Medida</span>
                   </div>
                 {% endif %}
               </div>
 
               {% if s.titulo %}
-                <p class="service-card-subtitle">{{ s.titulo }}</p>
+                <p class="service-card-subtitle" data-i18n="services.s{{ s.id }}.titulo">{{ s.titulo }}</p>
               {% endif %}
 
-              <p class="service-card-desc">{{ s.descripcion|truncatewords:20 }}</p>
+              <p class="service-card-desc" data-i18n="services.s{{ s.id }}.descripcion">{{ s.descripcion }}</p>
 
               {% if s.caracteristicas %}
                 <div class="service-card-features">
-                  <span class="features-label">Incluye:</span>
+                  <span class="features-label" data-i18n="services.features_label">Incluye:</span>
                   <ul class="features-list">
                     {% for c in s.caracteristicas|slice:":3" %}
                       <li>
-                        <i class="fas fa-check-circle feature-check-icon"></i>
-                        <span>{{ c }}</span>
+                        <span class="feature-check-dot" aria-hidden="true"></span>
+                        <span data-i18n="services.s{{ s.id }}.feat{{ forloop.counter }}">{{ c }}</span>
                       </li>
                     {% endfor %}
                   </ul>
@@ -234,12 +201,10 @@
 
               <div class="service-card-actions">
                 <a href="{% url 'servicio_detalle' s.nombre|slugify|default:s.id %}" class="btn-service-detail">
-                  <span>Ver detalles</span>
-                  <i class="fas fa-arrow-right"></i>
+                  <span data-i18n="services.details_btn">Ver detalles</span>
                 </a>
                 <a href="https://wa.me/5491172341870?text=Hola,%20me%20interesa%20el%20servicio%20de%20{{ s.nombre|urlencode }}" target="_blank" rel="noopener noreferrer" class="btn-service-whatsapp" title="Consultar por WhatsApp">
-                  <i class="fab fa-whatsapp"></i>
-                  <span>Consultar</span>
+                  <span data-i18n="services.wa_btn">Consultar</span>
                 </a>
               </div>
             </div>
