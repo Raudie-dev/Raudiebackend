@@ -72,7 +72,7 @@ def servicios_detalle(request, servicio_ref):
             return redirect('servicio_detalle', servicio_ref=servicio['slug'])
         try:
             db_serv = Servicios.objects.get(id=int(ref_str))
-            return redirect('servicio_detalle', servicio_ref=db_serv.slug)
+            return redirect('servicio_detalle', servicio_ref=slugify(db_serv.nombre))
         except (Servicios.DoesNotExist, ValueError):
             return redirect('index')
 
@@ -84,7 +84,7 @@ def servicios_detalle(request, servicio_ref):
                 break
     if not servicio:
         for db_s in Servicios.objects.all():
-            if db_s.slug == ref_str:
+            if slugify(db_s.nombre) == ref_str:
                 servicio = db_s
                 break
     if not servicio:
@@ -104,11 +104,11 @@ def proyecto_detalle(request, proyecto_ref):
 
     if ref_str.isdigit():
         proyecto = get_object_or_404(Proyecto, pk=int(ref_str))
-        if proyecto.slug and not proyecto.slug.isdigit():
-            return redirect('proyecto_detalle', proyecto_ref=proyecto.slug)
+        if slugify(proyecto.titulo):
+            return redirect('proyecto_detalle', proyecto_ref=slugify(proyecto.titulo))
     else:
         for p in Proyecto.objects.all().order_by('-fecha', '-id'):
-            if p.slug == ref_str or slugify(p.titulo) == ref_str:
+            if slugify(p.titulo) == ref_str:
                 proyecto = p
                 break
         if not proyecto and ref_str.startswith('proyecto-'):
@@ -151,13 +151,13 @@ def noticia_detalle(request, noticia_ref):
 
     if ref_str.isdigit():
         noticia = get_object_or_404(Noticia, pk=int(ref_str))
-        if noticia.url_slug and not noticia.url_slug.isdigit():
-            return redirect('noticia_detalle', noticia_ref=noticia.url_slug)
+        if (noticia.slug or slugify(noticia.titulo)):
+            return redirect('noticia_detalle', noticia_ref=(noticia.slug or slugify(noticia.titulo)))
     else:
         noticia = Noticia.objects.filter(slug=ref_str).first()
         if not noticia:
             for n in Noticia.objects.all():
-                if n.url_slug == ref_str or slugify(n.titulo) == ref_str:
+                if n.slug == ref_str or slugify(n.titulo) == ref_str:
                     noticia = n
                     break
         if not noticia:
