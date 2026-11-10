@@ -185,6 +185,9 @@ def control_proyectos(request):
         titulo = request.POST.get('titulo', '').strip()
         cliente = request.POST.get('cliente', '').strip()
         fecha = request.POST.get('fecha', '').strip()
+        enlace = request.POST.get('enlace', '').strip()
+        if enlace and not enlace.startswith(('http://', 'https://')):
+            enlace = 'https://' + enlace
         descripcion = request.POST.get('descripcion', '').strip()
         caracteristicas_txt = request.POST.get('caracteristicas', '').strip()
         archivos = request.FILES.getlist('fotos')
@@ -209,7 +212,7 @@ def control_proyectos(request):
                         url = settings.MEDIA_URL + saved_path
                     fotos_urls.append(url)
                 # pasar listas de ids (pueden ser strings) al CRUD
-                crear_proyecto(titulo, cliente, fecha_val, descripcion, caracteristicas, fotos_urls, categoria_ids=categoria_ids, tecnologia_ids=tecnologia_ids)
+                crear_proyecto(titulo, cliente, fecha_val, descripcion, caracteristicas, fotos_urls, categoria_ids=categoria_ids, tecnologia_ids=tecnologia_ids, enlace=enlace)
                 messages.success(request, f'Proyecto creado correctamente con {len(fotos_urls)} imagen(es)')
                 return redirect('control_proyectos')
             except ValueError:
@@ -221,6 +224,9 @@ def control_proyectos(request):
         titulo = request.POST.get('titulo', '').strip()
         cliente = request.POST.get('cliente', '').strip()
         fecha = request.POST.get('fecha', '').strip()
+        enlace = request.POST.get('enlace', '').strip()
+        if enlace and not enlace.startswith(('http://', 'https://')):
+            enlace = 'https://' + enlace
         descripcion = request.POST.get('descripcion', '').strip()
         caracteristicas_txt = request.POST.get('caracteristicas', '').strip()
         archivos = request.FILES.getlist('fotos')
@@ -260,6 +266,7 @@ def control_proyectos(request):
                     titulo=titulo or None,
                     cliente=cliente or None,
                     fecha=fecha_val,
+                    enlace=enlace,
                     descripcion=descripcion or None,
                     caracteristicas=caracteristicas,
                     fotos=fotos_urls,
