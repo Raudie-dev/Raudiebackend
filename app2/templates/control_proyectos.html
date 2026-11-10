@@ -93,12 +93,133 @@
   .proyecto-card__image {
     height: 215px !important;
     background: #1B1717 !important;
+    position: relative !important;
   }
   .proyecto-card__image img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
-    object-position: center !important;
+    object-position: center top !important;
+  }
+
+  /* Mini-thumbs strip on card when project has multiple images */
+  .card-mini-thumbs {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    display: flex;
+    gap: 6px;
+    z-index: 4;
+    background: rgba(20, 18, 18, 0.65);
+    backdrop-filter: blur(6px);
+    padding: 4px 6px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .card-mini-thumb-btn {
+    width: 28px;
+    height: 22px;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    padding: 0;
+    background: #000;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .card-mini-thumb-btn.active,
+  .card-mini-thumb-btn:hover {
+    border-color: #ffffff;
+    transform: scale(1.08);
+  }
+  .card-mini-thumb-btn img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  /* Multi-Image Uploader Studio inside Modal */
+  .multi-photo-uploader {
+    background: #FAF8F5;
+    border: 1.5px dashed rgba(129, 1, 0, 0.28);
+    border-radius: 14px;
+    padding: 16px;
+    transition: all 0.2s ease;
+  }
+  .multi-photo-uploader.dragover {
+    background: #EDEBDD;
+    border-color: #810100;
+  }
+  .multi-photo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .photo-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .photo-thumb-item {
+    position: relative;
+    height: 86px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid rgba(27, 23, 23, 0.12);
+    background: #141212;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  }
+  .photo-thumb-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .photo-thumb-badge {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    background: rgba(20, 18, 18, 0.8);
+    color: #fff;
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 999px;
+  }
+  .photo-thumb-badge.is-cover {
+    background: #810100;
+  }
+  .photo-thumb-remove {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(220, 38, 38, 0.92);
+    color: #fff;
+    border: none;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+  .photo-thumb-remove:hover {
+    background: #b91c1c;
+    transform: scale(1.08);
+  }
+  .extra-file-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
   }
 </style>
 {% endblock %}
@@ -116,7 +237,7 @@
         Proyectos &amp; <span class="serif-italic">Casos de Éxito</span>
       </h1>
       <p class="text-muted mb-0" style="font-size: 0.92rem;">
-        Gestiona las entregas, arquitecturas y casos de estudio publicados en la página principal
+        Gestiona las entregas, galerías multi-imagen y casos de estudio publicados en la página principal
       </p>
     </div>
     <div class="d-flex flex-wrap gap-2">
@@ -163,12 +284,22 @@
     {% for p in proyectos %}
     <div class="proyecto-card">
 
-      <!-- Imagen / Placeholder -->
+      <!-- Imagen / Galería Interactiva -->
       {% if p.fotos and p.fotos.0 %}
         <div class="proyecto-card__image">
-          <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}">
+          <img src="{{ p.fotos.0 }}" alt="{{ p.titulo }}" id="cardMainImg_{{ p.id }}">
           {% if p.fotos|length > 1 %}
-            <span class="foto-count"><i class="fas fa-images me-1"></i>{{ p.fotos|length }}</span>
+            <div class="card-mini-thumbs" title="Haz clic para previsualizar las imágenes del proyecto">
+              {% for foto_url in p.fotos %}
+                <button type="button" class="card-mini-thumb-btn {% if forloop.first %}active{% endif %}"
+                        onclick="var mainImg=document.getElementById('cardMainImg_{{ p.id }}'); if(mainImg) mainImg.src='{{ foto_url|escapejs }}'; this.parentElement.querySelectorAll('.card-mini-thumb-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active');">
+                  <img src="{{ foto_url }}" alt="Foto {{ forloop.counter }}">
+                </button>
+              {% endfor %}
+            </div>
+            <span class="foto-count"><i class="fas fa-images me-1"></i>{{ p.fotos|length }} fotos</span>
+          {% else %}
+            <span class="foto-count"><i class="fas fa-image me-1"></i>1 foto</span>
           {% endif %}
         </div>
       {% else %}
@@ -182,7 +313,7 @@
       <div class="proyecto-card__body">
         <div class="proyecto-card__meta">
           <span class="proyecto-card__client">
-            <i class="fas fa-building me-1"></i>{{ p.cliente }}
+            <i class="fas fa-building me-1"></i>{{ p.cliente|default:"RauDie Ecosystem" }}
           </span>
           <span class="proyecto-card__date">
             <i class="fas fa-calendar me-1"></i>{{ p.fecha }}
@@ -222,14 +353,14 @@
           data-id="{{ p.id }}"
           data-titulo="{{ p.titulo|escapejs }}"
           data-cliente="{{ p.cliente|escapejs }}"
-          data-fecha="{{ p.fecha }}"
+          data-fecha="{{ p.fecha|date:'Y-m-d' }}"
           data-descripcion="{{ p.descripcion|escapejs }}"
           data-caracteristicas="{% for c in p.caracteristicas %}{% if not forloop.first %},{% endif %}{{ c|escapejs }}{% endfor %}"
           data-categorias="{% for cat in p.categorias.all %}{% if not forloop.first %},{% endif %}{{ cat.id }}{% endfor %}"
           data-tecnologias="{% for tech in p.tecnologias.all %}{% if not forloop.first %},{% endif %}{{ tech.id }}{% endfor %}"
           data-fotos="{% for url in p.fotos %}{% if not forloop.first %}||{% endif %}{{ url }}{% endfor %}"
         >
-          <i class="fas fa-pen me-1"></i>Editar
+          <i class="fas fa-pen me-1"></i>Editar / Fotos ({{ p.fotos|length }})
         </button>
         <form method="post" style="display:inline; margin-left:auto;"
               onsubmit="return confirm('¿Eliminar proyecto «{{ p.titulo }}»?');">
@@ -309,7 +440,7 @@
   </div>
 </div>
 
-<!-- ── MODAL: CREAR / EDITAR PROYECTO ── -->
+<!-- ── MODAL: CREAR / EDITAR PROYECTO (CON GALERÍA MULTI-IMAGEN ACUMULATIVA) ── -->
 <div class="modal fade" id="modalProyecto" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
     <div class="modal-content">
@@ -320,44 +451,83 @@
       </div>
       <form method="post" enctype="multipart/form-data" id="formProyecto">
         {% csrf_token %}
-        <input type="hidden" name="crear_proyecto"    id="input_crear_proyecto"    value="1">
-        <input type="hidden" name="editar_proyecto"   id="input_editar_proyecto"   value="">
+        <input type="hidden" name="crear_proyecto"     id="input_crear_proyecto"     value="1">
+        <input type="hidden" name="editar_proyecto"    id="input_editar_proyecto"    value="">
         <input type="hidden" name="editar_proyecto_id" id="input_editar_proyecto_id" value="">
+        <input type="hidden" name="gestion_fotos_activa" value="1">
+
         <div class="modal-body">
 
           <!-- Sección: Info básica -->
           <div class="form-section">
             <h6 class="form-section__label"><i class="fas fa-info-circle me-2"></i>Información básica</h6>
             <div class="row g-3">
-              <div class="col-md-6">
+              <div class="col-md-5">
                 <label class="form-label">Título <span class="text-danger">*</span></label>
                 <input type="text" name="titulo" id="input_titulo" class="form-control"
                        placeholder="Ej: Plataforma E-commerce" required>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <label class="form-label">Cliente</label>
                 <input type="text" name="cliente" id="input_cliente" class="form-control"
                        placeholder="Nombre del cliente">
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label class="form-label">Fecha <span class="text-danger">*</span></label>
                 <input type="date" name="fecha" id="input_fecha" class="form-control" required>
               </div>
-              <div class="col-md-8">
-                <label class="form-label">Fotos</label>
-                <input type="file" name="fotos" id="input_fotos" accept="image/*"
-                       class="form-control" multiple>
-                <small class="form-text">Subir nuevas fotos reemplaza las existentes.</small>
+
+              <!-- GALERÍA MULTI-IMAGEN -->
+              <div class="col-12">
+                <label class="form-label d-flex align-items-center justify-content-between">
+                  <span><i class="fas fa-images me-1 text-primary"></i>Galería de Imágenes del Proyecto (Puedes subir varias fotos)</span>
+                  <span class="badge rounded-pill" style="background:#EDEBDD; color:#1B1717;" id="contadorFotosBadge">0 seleccionadas</span>
+                </label>
+
+                <!-- Fotos actuales guardadas (al editar) -->
+                <div id="seccion_fotos_actuales" class="mb-3" style="display:none;">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <small class="fw-bold text-dark"><i class="fas fa-check-circle text-success me-1"></i>Imágenes actuales en el proyecto (haz clic en × si deseas quitar alguna):</small>
+                  </div>
+                  <div id="fotos_actuales" class="photo-gallery-grid"></div>
+                </div>
+
+                <div class="multi-photo-uploader" id="multiPhotoDropzone">
+                  <!-- Input principal oculto sincronizado con DataTransfer acumulativo -->
+                  <input type="file" name="fotos" id="input_fotos" accept="image/*" class="d-none" multiple>
+
+                  <!-- Picker auxiliar para ir sumando de 1 en 1 o de varias en varias sin borrar las anteriores -->
+                  <input type="file" id="picker_aux_fotos" accept="image/*" class="d-none" multiple>
+
+                  <div class="multi-photo-actions">
+                    <button type="button" class="btn btn-sm btn-primary rounded-pill px-3" id="btnSumarImagenes">
+                      <i class="fas fa-plus-circle me-1"></i>Seleccionar / Agregar imágenes
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-info rounded-pill px-3" id="btnAgregarCampoExtra">
+                      <i class="fas fa-file-image me-1"></i>+ Añadir otro campo de imagen
+                    </button>
+                    <small class="text-muted ms-auto">
+                      Puedes elegir varias fotos a la vez o ir agregándolas una por una.
+                    </small>
+                  </div>
+
+                  <!-- Previsualización en vivo de las nuevas fotos acumuladas -->
+                  <div id="nuevas_fotos_preview" class="photo-gallery-grid"></div>
+
+                  <!-- Campos adicionales opcionales por si el usuario prefiere subir archivo por archivo -->
+                  <div id="contenedor_campos_extra" class="mt-2"></div>
+                </div>
               </div>
+
               <div class="col-12">
                 <label class="form-label">Descripción</label>
                 <textarea name="descripcion" id="input_descripcion" class="form-control"
                           rows="3" placeholder="Describe brevemente este proyecto..."></textarea>
               </div>
               <div class="col-12">
-                <label class="form-label">Características</label>
+                <label class="form-label">Características / Entregables</label>
                 <input type="text" name="caracteristicas" id="input_caracteristicas"
-                       class="form-control" placeholder="Ej: responsive, e-commerce, multi-idioma">
+                       class="form-control" placeholder="Ej: Panel administrativo, Pasarela de pagos, Multi-idioma">
                 <small class="form-text">Separadas por coma.</small>
               </div>
             </div>
@@ -368,15 +538,17 @@
             <h6 class="form-section__label"><i class="fas fa-tags me-2"></i>Clasificación</h6>
             <div class="row g-3">
               <div class="col-12">
-                <label class="form-label">Categoría</label>
+                <label class="form-label">Categorías</label>
                 <div class="tag-selector" role="group">
                   {% for cat in categorias %}
-                    <input type="radio" class="btn-check categoria-radio"
-                           name="categoria_id" id="cat_radio_{{ cat.id }}"
-                           autocomplete="off" value="{{ cat.id }}">
-                    <label class="tag-selector__btn" for="cat_radio_{{ cat.id }}">
-                      {{ cat.nombre }}
-                    </label>
+                    <div class="form-check form-check-inline p-0">
+                      <input type="checkbox" class="btn-check categoria-checkbox"
+                             name="categoria_ids" id="cat_chk_{{ cat.id }}"
+                             autocomplete="off" value="{{ cat.id }}">
+                      <label class="tag-selector__btn" for="cat_chk_{{ cat.id }}">
+                        {{ cat.nombre }}
+                      </label>
+                    </div>
                   {% endfor %}
                 </div>
               </div>
@@ -396,17 +568,11 @@
             </div>
           </div>
 
-          <!-- Sección: Fotos actuales -->
-          <div class="form-section mt-4" id="seccion_fotos_actuales" style="display:none;">
-            <h6 class="form-section__label"><i class="fas fa-images me-2"></i>Fotos actuales</h6>
-            <div id="fotos_actuales" class="fotos-preview"></div>
-          </div>
-
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary" id="btnGuardarProyecto">
-            <i class="fas fa-save me-2"></i>Guardar
+          <button type="button" class="btn btn-secondary rounded-pill px-3" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary rounded-pill px-4" id="btnGuardarProyecto">
+            <i class="fas fa-save me-2"></i>Guardar Proyecto
           </button>
         </div>
       </form>
@@ -416,25 +582,162 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-  var modalTitle    = document.getElementById('modalProyectoTitle');
-  var inputCrear    = document.getElementById('input_crear_proyecto');
-  var inputEditar   = document.getElementById('input_editar_proyecto');
-  var inputEditarId = document.getElementById('input_editar_proyecto_id');
+  var modalTitle        = document.getElementById('modalProyectoTitle');
+  var inputCrear        = document.getElementById('input_crear_proyecto');
+  var inputEditar       = document.getElementById('input_editar_proyecto');
+  var inputEditarId     = document.getElementById('input_editar_proyecto_id');
+  var inputFotos        = document.getElementById('input_fotos');
+  var pickerAux         = document.getElementById('picker_aux_fotos');
+  var btnSumar          = document.getElementById('btnSumarImagenes');
+  var btnCampoExtra     = document.getElementById('btnAgregarCampoExtra');
+  var nuevasPreviewDiv  = document.getElementById('nuevas_fotos_preview');
+  var camposExtraDiv    = document.getElementById('contenedor_campos_extra');
+  var fotosActualesDiv  = document.getElementById('fotos_actuales');
+  var seccionActuales   = document.getElementById('seccion_fotos_actuales');
+  var contadorBadge     = document.getElementById('contadorFotosBadge');
+  var dropzone          = document.getElementById('multiPhotoDropzone');
+
+  // Acumulador de archivos nuevos para que seleccionar varias veces sume imágenes en vez de reemplazarlas
+  var accumulatedFiles = [];
+
+  function syncFilesToInput() {
+    var dt = new DataTransfer();
+    accumulatedFiles.forEach(function(file) {
+      dt.items.add(file);
+    });
+    inputFotos.files = dt.files;
+    updateCounterAndPreviews();
+  }
+
+  function updateCounterAndPreviews() {
+    var existingKeptCount = fotosActualesDiv.querySelectorAll('input[name="fotos_existentes"]').length;
+    var extraInputsCount = 0;
+    camposExtraDiv.querySelectorAll('input[type="file"]').forEach(function(inp){
+      if (inp.files && inp.files.length) extraInputsCount += inp.files.length;
+    });
+    var totalCount = existingKeptCount + accumulatedFiles.length + extraInputsCount;
+    contadorBadge.textContent = totalCount + (totalCount === 1 ? ' imagen en total' : ' imágenes en total');
+
+    nuevasPreviewDiv.innerHTML = '';
+    accumulatedFiles.forEach(function(file, idx) {
+      var item = document.createElement('div');
+      item.className = 'photo-thumb-item';
+
+      var img = document.createElement('img');
+      img.alt = file.name;
+      var reader = new FileReader();
+      reader.onload = function(e) { img.src = e.target.result; };
+      reader.readAsDataURL(file);
+
+      var badge = document.createElement('span');
+      var isFirstOverall = (existingKeptCount === 0 && idx === 0);
+      badge.className = 'photo-thumb-badge' + (isFirstOverall ? ' is-cover' : '');
+      badge.textContent = isFirstOverall ? 'Portada' : 'Nueva #' + (idx + 1);
+
+      var removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'photo-thumb-remove';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.title = 'Quitar esta imagen';
+      removeBtn.addEventListener('click', function() {
+        accumulatedFiles.splice(idx, 1);
+        syncFilesToInput();
+      });
+
+      item.appendChild(img);
+      item.appendChild(badge);
+      item.appendChild(removeBtn);
+      nuevasPreviewDiv.appendChild(item);
+    });
+  }
+
+  btnSumar.addEventListener('click', function() {
+    pickerAux.value = '';
+    pickerAux.click();
+  });
+
+  pickerAux.addEventListener('change', function() {
+    if (pickerAux.files && pickerAux.files.length) {
+      Array.from(pickerAux.files).forEach(function(f) {
+        accumulatedFiles.push(f);
+      });
+      syncFilesToInput();
+    }
+  });
+
+  // Soporte Drag & Drop de múltiples imágenes
+  if (dropzone) {
+    ['dragenter', 'dragover'].forEach(function(evtName) {
+      dropzone.addEventListener(evtName, function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(function(evtName) {
+      dropzone.addEventListener(evtName, function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('dragover');
+      });
+    });
+    dropzone.addEventListener('drop', function(e) {
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+        Array.from(e.dataTransfer.files).forEach(function(f) {
+          if (f.type && f.type.startsWith('image/')) {
+            accumulatedFiles.push(f);
+          }
+        });
+        syncFilesToInput();
+      }
+    });
+  }
+
+  // Botón para agregar campos individuales <input type="file" name="fotos">
+  btnCampoExtra.addEventListener('click', function() {
+    var row = document.createElement('div');
+    row.className = 'extra-file-row';
+    var inp = document.createElement('input');
+    inp.type = 'file';
+    inp.name = 'fotos';
+    inp.accept = 'image/*';
+    inp.multiple = true;
+    inp.className = 'form-control form-control-sm';
+    inp.addEventListener('change', updateCounterAndPreviews);
+
+    var delBtn = document.createElement('button');
+    delBtn.type = 'button';
+    delBtn.className = 'btn btn-sm btn-outline-danger rounded-pill px-2';
+    delBtn.innerHTML = '<i class="fas fa-times"></i>';
+    delBtn.addEventListener('click', function() {
+      row.remove();
+      updateCounterAndPreviews();
+    });
+
+    row.appendChild(inp);
+    row.appendChild(delBtn);
+    camposExtraDiv.appendChild(row);
+  });
 
   function clearForm(){
-    document.getElementById('input_titulo').value        = '';
-    document.getElementById('input_cliente').value       = '';
-    document.getElementById('input_fecha').value         = '';
-    document.getElementById('input_descripcion').value   = '';
+    document.getElementById('input_titulo').value          = '';
+    document.getElementById('input_cliente').value         = '';
+    document.getElementById('input_fecha').value           = '';
+    document.getElementById('input_descripcion').value     = '';
     document.getElementById('input_caracteristicas').value = '';
-    document.getElementById('input_fotos').value         = '';
+    accumulatedFiles = [];
+    inputFotos.value = '';
+    pickerAux.value  = '';
+    nuevasPreviewDiv.innerHTML = '';
+    camposExtraDiv.innerHTML   = '';
+    fotosActualesDiv.innerHTML = '';
+    seccionActuales.style.display = 'none';
     inputCrear.value    = '1';
     inputEditar.value   = '';
     inputEditarId.value = '';
-    document.getElementById('fotos_actuales').innerHTML  = '';
-    document.getElementById('seccion_fotos_actuales').style.display = 'none';
-    document.querySelectorAll('.categoria-radio').forEach(r => r.checked = false);
+    document.querySelectorAll('.categoria-checkbox').forEach(r => r.checked = false);
     document.querySelectorAll('.tecnologia-checkbox').forEach(c => c.checked = false);
+    updateCounterAndPreviews();
   }
 
   document.getElementById('btnAgregarProyecto').addEventListener('click', function(){
@@ -450,37 +753,67 @@ document.addEventListener('DOMContentLoaded', function(){
 
   document.querySelectorAll('.btnEditarProyecto').forEach(function(btn){
     btn.addEventListener('click', function(){
+      clearForm();
       modalTitle.innerHTML = '<i class="fas fa-pen me-2"></i>Editar: ' + btn.dataset.titulo;
       inputCrear.value    = '';
       inputEditar.value   = '1';
       inputEditarId.value = btn.dataset.id;
 
-      document.getElementById('input_titulo').value          = btn.dataset.titulo        || '';
-      document.getElementById('input_cliente').value         = btn.dataset.cliente       || '';
-      document.getElementById('input_fecha').value           = btn.dataset.fecha         || '';
-      document.getElementById('input_descripcion').value     = btn.dataset.descripcion   || '';
+      document.getElementById('input_titulo').value          = btn.dataset.titulo          || '';
+      document.getElementById('input_cliente').value         = btn.dataset.cliente         || '';
+      document.getElementById('input_fecha').value           = btn.dataset.fecha           || '';
+      document.getElementById('input_descripcion').value     = btn.dataset.descripcion     || '';
       document.getElementById('input_caracteristicas').value = btn.dataset.caracteristicas || '';
 
       var cats  = (btn.dataset.categorias  || '').split(',').filter(Boolean);
       var techs = (btn.dataset.tecnologias || '').split(',').filter(Boolean);
-      document.querySelectorAll('.categoria-radio').forEach(r  => r.checked = cats.includes(r.value));
+      document.querySelectorAll('.categoria-checkbox').forEach(r => r.checked = cats.includes(r.value));
       document.querySelectorAll('.tecnologia-checkbox').forEach(c => c.checked = techs.includes(c.value));
 
-      var fotosDiv = document.getElementById('fotos_actuales');
-      var seccion  = document.getElementById('seccion_fotos_actuales');
-      fotosDiv.innerHTML = '';
       var fotosRaw = btn.dataset.fotos || '';
-      if(fotosRaw){
-        fotosRaw.split('||').filter(Boolean).forEach(function(u){
+      if (fotosRaw) {
+        var urls = fotosRaw.split('||').filter(Boolean);
+        urls.forEach(function(u, idx){
+          var item = document.createElement('div');
+          item.className = 'photo-thumb-item';
+
+          var hiddenInput = document.createElement('input');
+          hiddenInput.type = 'hidden';
+          hiddenInput.name = 'fotos_existentes';
+          hiddenInput.value = u;
+
           var img = document.createElement('img');
           img.src = u;
-          img.className = 'fotos-preview__img';
-          fotosDiv.appendChild(img);
+          img.alt = 'Foto actual ' + (idx + 1);
+
+          var badge = document.createElement('span');
+          badge.className = 'photo-thumb-badge' + (idx === 0 ? ' is-cover' : '');
+          badge.textContent = idx === 0 ? 'Portada' : 'Foto #' + (idx + 1);
+
+          var removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.className = 'photo-thumb-remove';
+          removeBtn.innerHTML = '&times;';
+          removeBtn.title = 'Eliminar esta foto del proyecto';
+          removeBtn.addEventListener('click', function() {
+            item.remove();
+            if (!fotosActualesDiv.querySelectorAll('.photo-thumb-item').length) {
+              seccionActuales.style.display = 'none';
+            }
+            updateCounterAndPreviews();
+          });
+
+          item.appendChild(hiddenInput);
+          item.appendChild(img);
+          item.appendChild(badge);
+          item.appendChild(removeBtn);
+          fotosActualesDiv.appendChild(item);
         });
-        seccion.style.display = 'block';
+        seccionActuales.style.display = urls.length ? 'block' : 'none';
       } else {
-        seccion.style.display = 'none';
+        seccionActuales.style.display = 'none';
       }
+      updateCounterAndPreviews();
     });
   });
 

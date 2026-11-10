@@ -184,7 +184,7 @@ def control_proyectos(request):
         descripcion = request.POST.get('descripcion', '').strip()
         caracteristicas_txt = request.POST.get('caracteristicas', '').strip()
         archivos = request.FILES.getlist('fotos')
-        categoria_ids = request.POST.getlist('categoria_ids')
+        categoria_ids = request.POST.getlist('categoria_ids') or request.POST.getlist('categoria_id')
         tecnologia_ids = request.POST.getlist('tecnologia_ids')
 
         if not titulo or not fecha:
@@ -196,6 +196,8 @@ def control_proyectos(request):
                 caracteristicas = [c.strip() for c in caracteristicas_txt.split(',') if c.strip()]
                 fotos_urls = []
                 for f in archivos:
+                    if not f:
+                        continue
                     saved_path = save_image_as_webp(f, 'proyectos')
                     try:
                         url = default_storage.url(saved_path)
@@ -204,7 +206,7 @@ def control_proyectos(request):
                     fotos_urls.append(url)
                 # pasar listas de ids (pueden ser strings) al CRUD
                 crear_proyecto(titulo, cliente, fecha_val, descripcion, caracteristicas, fotos_urls, categoria_ids=categoria_ids, tecnologia_ids=tecnologia_ids)
-                messages.success(request, 'Proyecto creado correctamente')
+                messages.success(request, f'Proyecto creado correctamente con {len(fotos_urls)} imagen(es)')
                 return redirect('control_proyectos')
             except ValueError:
                 messages.error(request, 'Fecha inválida, use AAAA-MM-DD')
@@ -217,8 +219,8 @@ def control_proyectos(request):
         fecha = request.POST.get('fecha', '').strip()
         descripcion = request.POST.get('descripcion', '').strip()
         caracteristicas_txt = request.POST.get('caracteristicas', '').strip()
-        archivos = request.FILES.getlist('fotos')  # si se suben, reemplazan fotos
-        categoria_ids = request.POST.getlist('categoria_ids')
+        archivos = request.FILES.getlist('fotos')
+        categoria_ids = request.POST.getlist('categoria_ids') or request.POST.getlist('categoria_id')
         tecnologia_ids = request.POST.getlist('tecnologia_ids')
 
         if not proyecto_id:
@@ -228,18 +230,39 @@ def control_proyectos(request):
             try:
                 fecha_val = datetime.strptime(fecha, '%Y-%m-%d').date() if fecha else None
                 caracteristicas = [c.strip() for c in caracteristicas_txt.split(',') if c.strip()] if caracteristicas_txt != '' else None
-                fotos_urls = None
+                # Conservar fotos existentes que el usuario mantuvo y agregar las nuevas subidas
+                if 'gestion_fotos_activa' in request.POST:
+                    fotos_urls = [u.strip() for u in request.POST.getlist('fotos_existentes') if u.strip()]
+                else:
+                    try:
+                        proy_actual = Proyecto.objects.get(id=proyecto_id)
+                        fotos_urls = list(proy_actual.fotos or [])
+                    except Proyecto.DoesNotExist:
+                        fotos_urls = []
+
                 if archivos:
-                    fotos_urls = []
                     for f in archivos:
+                        if not f:
+                            continue
                         saved_path = save_image_as_webp(f, 'proyectos')
                         try:
                             url = default_storage.url(saved_path)
                         except Exception:
                             url = settings.MEDIA_URL + saved_path
                         fotos_urls.append(url)
-                actualizar_proyecto(proyecto_id, titulo= titulo or None, cliente=cliente or None, fecha=fecha_val, descripcion=descripcion or None, caracteristicas=caracteristicas, fotos=fotos_urls, categoria_ids=categoria_ids if categoria_ids != [] else None, tecnologia_ids=tecnologia_ids if tecnologia_ids != [] else None)
-                messages.success(request, 'Proyecto actualizado correctamente')
+
+                actualizar_proyecto(
+                    proyecto_id,
+                    titulo=titulo or None,
+                    cliente=cliente or None,
+                    fecha=fecha_val,
+                    descripcion=descripcion or None,
+                    caracteristicas=caracteristicas,
+                    fotos=fotos_urls,
+                    categoria_ids=categoria_ids if categoria_ids != [] else None,
+                    tecnologia_ids=tecnologia_ids if tecnologia_ids != [] else None,
+                )
+                messages.success(request, f'Proyecto actualizado ({len(fotos_urls)} imagen(es) en galería)')
                 return redirect('control_proyectos')
             except ValueError:
                 messages.error(request, 'Fecha inválida, use AAAA-MM-DD')
