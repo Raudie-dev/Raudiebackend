@@ -13,7 +13,7 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
         "slug": "landing-page-basica",
         "nombre": "Landing Page Básica",
         "badge": "Plan Esencial",
-        "imagen": "/static/img/servicio-landing.png",
+        "imagen": "/static/img/servicio-landing-basica.png",
         "titulo": "La mejor opción para empezar con presencia sólida",
         "descripcion": (
             "Una Landing Page Básica es un sitio web de una sola sección diseñado estratégicamente "
@@ -21,8 +21,8 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
             "emprendimientos, profesionales independientes o para promocionar un producto o evento "
             "específico con carga ultrarrápida y alta conversión."
         ),
-        "precio": 200.0,
-        "precio_display": "$200 USD",
+        "precio": 250.0,
+        "precio_display": "$250 USD",
         "bonus": "INCLUYE HOSTING Y DOMINIO POR 1 AÑO",
         "caracteristicas": [
             "Diseño de sección de alto impacto",
@@ -39,22 +39,22 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
         "nombre": "Landing Page PRO",
         "badge": "Todo lo del Básico +",
         "imagen": "/static/img/servicio-landing.png",
-        "titulo": "Estructura multisección y persuasión orientada a ventas",
+        "titulo": "Todo lo del plan Básico más panel de control y módulos personalizados",
         "descripcion": (
-            "Diseñada para marcas y empresas que buscan transmitir máxima autoridad y confianza. "
-            "Incorpora una arquitectura multisección completa (sobre nosotros, catálogo o servicios, "
-            "testimonios y preguntas frecuentes), copywriting persuasivo especializado en cerrar clientes, "
-            "animaciones interactivas de vanguardia y posicionamiento SEO reforzado."
+            "Incluye todo lo de la Landing Page Básica, sumando un panel de control autogestionable "
+            "donde puedes hacer cambios a la página, agregar o actualizar servicios e incorporar algún "
+            "módulo personalizado según las necesidades de tu negocio. Diseñada para marcas y empresas "
+            "que buscan autonomía total, estructura multisección y posicionamiento SEO reforzado."
         ),
-        "precio": 350.0,
-        "precio_display": "$350 USD",
+        "precio": 375.0,
+        "precio_display": "$375 USD",
         "bonus": "INCLUYE HOSTING Y DOMINIO POR 1 AÑO",
         "caracteristicas": [
             "Todo lo del plan Básico incluido",
-            "Estructura multisección (sobre nosotros, servicios...)",
-            "Copywriting persuasivo enfocado en ventas",
-            "Optimización SEO para buscadores",
-            "Animaciones y efectos visuales avanzados",
+            "Panel de control para realizar cambios en la página",
+            "Gestión para agregar o actualizar servicios",
+            "Integración de módulo personalizado a medida",
+            "Estructura multisección, SEO y animaciones avanzadas",
         ],
     },
     {
@@ -70,8 +70,8 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
             "Instalada directamente en tu propio dominio para proyectar profesionalismo sin depender "
             "de plataformas de terceros."
         ),
-        "precio": 120.0,
-        "precio_display": "$120 USD",
+        "precio": 100.0,
+        "precio_display": "$100 USD",
         "bonus": "INSTALACIÓN RÁPIDA EN DOMINIO PROPIO",
         "caracteristicas": [
             "Diseño personalizado estilo Linktree",
@@ -92,8 +92,8 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
             "Cuenta con pasarela de pagos personalizada, sistema de administración de catálogo e inventario "
             "autogestionable, filtros avanzados de búsqueda y notificaciones por correo transaccional."
         ),
-        "precio": 600.0,
-        "precio_display": "$600 USD",
+        "precio": 500.0,
+        "precio_display": "$500 USD",
         "bonus": "INCLUYE HOSTING Y DOMINIO POR 1 AÑO (Aplican ciertas condiciones)",
         "caracteristicas": [
             "Pasarela de pagos personalizadas",
@@ -115,8 +115,8 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
             "Incluye confirmación de asistencia en tiempo real, mapas interactivos con ubicación GPS, "
             "cuenta regresiva dinámica, cronograma detallado del evento y formato optimizado para móviles."
         ),
-        "precio": 150.0,
-        "precio_display": "$150 USD",
+        "precio": 200.0,
+        "precio_display": "$200 USD",
         "bonus": "INCLUYE HOSTING Y DOMINIO POR 1 AÑO",
         "caracteristicas": [
             "Diseño temático personalizado",
@@ -131,7 +131,7 @@ SERVICIOS_DATA: List[Dict[str, Any]] = [
         "slug": "servicios-personalizados",
         "nombre": "Servicios Personalizados",
         "badge": "A Medida / Custom",
-        "imagen": "/static/img/raudie-os-mockup.png",
+        "imagen": "/static/img/raudie-os-mockup.png?v=2",
         "titulo": "Desarrollo de software y soluciones a medida para proyectos exigentes",
         "descripcion": (
             "Diseñamos y desarrollamos soluciones digitales a medida desde cero para satisfacer las "
